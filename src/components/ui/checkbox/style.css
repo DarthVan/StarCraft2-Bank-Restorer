@@ -1,0 +1,45 @@
+.Checkbox {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.Checkbox-rect {
+	background: #171247;
+	transition: 0.25s;
+	color: #eee9ff;
+	border: 1px solid #6340e2;
+	margin-left: 5px;
+}
+
+/* .Select-box {
+	background: #171247;
+
+	background-image: linear-gradient(#0c0931, #525fee);
+	transition: 0.25s;
+	background-size: auto 200%;
+	display: block;
+
+	text-shadow: 0 0 5px #d8c9ff;
+	border: 1px solid #6340e2;
+	border-radius: 5px;
+
+	font-family: Consolas;
+	color: #eee9ff;
+	width: 200px;
+	height: 25px;
+	text-align: center;
+	font-size: 14px;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+.Select-box:hover {
+	background-position: bottom;
+	border: 1px solid #eee9ff;
+	box-shadow: 0 0 4px #d8c9ff;
+}
+
+.Select-box:active {
+	background-image: linear-gradient(#07051f, #301685);
+} */

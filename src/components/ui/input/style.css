@@ -1,0 +1,35 @@
+.Input {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.Input-field {
+	background: linear-gradient(#02022077, #5050eeaa);
+	transition: 0.25s;
+	background-size: auto 200%;
+	display: block;
+
+	text-shadow: 0 0 5px #d5d5ff;
+	border: 1px solid #5050ee;
+	/* border-radius: 4px; */
+
+	font-family: Consolas;
+	font-size: 14px;
+	color: #eee9ff;
+
+	width: 120px;
+	/* height: 24px; */
+	margin-left: 5px;
+	padding: 2px 5px;
+}
+
+.Input-field:hover {
+	background-position: bottom;
+	border: 1px solid #eeeeff;
+	box-shadow: 0 0 4px #d5d5ff;
+}
+
+.Input-field:active {
+	background: linear-gradient(#01012077, #202090aa);
+}

@@ -1,0 +1,7 @@
+.Slideshow {
+	background-image: url('./assets/pics/bg1.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+}
