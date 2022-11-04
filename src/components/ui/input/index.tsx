@@ -79,11 +79,12 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 	}, []);
 
 	return (
-		<div ref={ref} className='Input' style={props.style} data-tooltip={props.tip}>
+		<div ref={ref} className='Input' data-tooltip={props.tip}>
 			{props.label ? <Label for={id}>{props.label}</Label> : null}
 			<input
 				className='Input-field'
 				id={id}
+				style={props.style}
 				/* type={props.type}
 				min={props.min}
 				max={props.max}

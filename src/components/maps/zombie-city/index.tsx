@@ -67,7 +67,7 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onFileDrop: useCallback((value: string): void => {
 			bank.parse(value);
-			if (bank.sections.size != 1 && bank.sections.get('23EGWEG234AG4') == null)
+			if (bank.sections.size != 1 || bank.sections.get('23EGWEG234AG4') == null)
 				throw new Error('wrong bank file!');
 			starcode.reset();
 			starcode.currentCode = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
@@ -76,17 +76,6 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onDownloadClick: useCallback((): void => {
 			console.log('download bank file:', xmlBank);
-			// C:\Users\Sticks\Documents\StarCraft II\Accounts\107769061\2-S2-2-2410462\Banks\2-S2-1-3564862 //Zerg
-			// C:\Users\Sith\Documents\StarCraft II\Accounts\107769061\2-S2-2-1270647\Banks\2-S2-1-3564862\RunlingRun004.SC2Bank
-			//const bank: Bank = new Bank('RunlingRun004', "2-S2-1-3564862", "2-S2-2-2410462");
-
-			/* const bank: Bank = new Bank('RunlingRun004', "2-S2-1-3564862", "2-S2-2-1270647"); //sith
-			bank.openFile('test.xml', (): void => {
-				bank.sort();
-				bank.updateSignature();
-				console.log("result:\n", bank.getAsString());
-			}); */
-
 			const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
 			filesaver.saveAs(blob, bankName + '.SC2Bank');
 		}, [xmlBank]), // зависит от хмля банка

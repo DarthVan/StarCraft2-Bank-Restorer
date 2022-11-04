@@ -1,6 +1,6 @@
 /* Generated with TypeScript React snippets */
 
-import React, { FC, useMemo } from 'react';
+import React, { CSSProperties, FC, useMemo } from 'react';
 import Label from '../label';
 import './style.css';
 
@@ -11,11 +11,13 @@ import './style.css';
 */
 
 interface Props {
-	onChange: (value: string) => void;
+	onChange: (value: string, index?: number) => void;
 	children: Array<{ value: string, label: string }>;
 	selected: string;
+	style?: CSSProperties;
 	label?: string;
 	placeholder?: string;
+	index?: number;
 }
 
 const Select: FC<Props> = (props: Props): JSX.Element => {
@@ -43,8 +45,9 @@ const Select: FC<Props> = (props: Props): JSX.Element => {
 			<select
 				id={id}
 				className='Select-box'
+				style={props.style}
 				placeholder={props.placeholder}
-				onChange={(e: React.ChangeEvent<HTMLSelectElement>): void => props.onChange(e.target.value)}
+				onChange={(e: React.ChangeEvent<HTMLSelectElement>): void => props.onChange(e.target.value, props.index)}
 			>{options}</select>
 		</div>
 	);

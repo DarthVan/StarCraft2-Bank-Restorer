@@ -1,6 +1,6 @@
 /* Generated with TypeScript React snippets */
 
-import React, { ChangeEvent, CSSProperties, FC, useMemo } from 'react';
+import React, { CSSProperties, FC, useMemo } from 'react';
 import Label from '../label';
 import './style.css';
 
@@ -11,10 +11,11 @@ import './style.css';
 */
 
 interface Props {
-	onChange?: (value: string) => void;
+	onChange: (value: boolean, index?: number) => void;
 	style?: CSSProperties;
 	label?: string;
 	value?: boolean;
+	index?: number;
 }
 
 const Checkbox: FC<Props> = (props: Props): JSX.Element => {
@@ -24,14 +25,15 @@ const Checkbox: FC<Props> = (props: Props): JSX.Element => {
 	}, [props.label]);
 
 	return (
-		<div className='Checkbox' style={props.style}>
+		<div className='Checkbox'>
 			{props.label ? <Label for={id}>{props.label}</Label> : null}
 			<input
 				className='Checkbox-rect'
+				style={props.style}
 				type="checkbox"
 				id={id}
 				checked={props.value}
-				onChange={(e: ChangeEvent<HTMLInputElement>): void => props.onChange(e.target.value)}
+				onChange={e => props.onChange(e.target.checked, props.index)}
 			></input>
 		</div>
 	);

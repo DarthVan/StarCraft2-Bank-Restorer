@@ -35,6 +35,9 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		}, [menuStore]),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
+		}, [menuStore]),
+		onShowCodeChange: useCallback((value: boolean): void => {
+			//menuStore.setSelectedMap(parseInt(value));
 		}, [menuStore])
 	}
 
@@ -64,7 +67,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 
 					<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
 						<Select onChange={callbacks.onMapSelect} label={"Select map:"} selected={menuStore.selectedMap.toString()}>{mapList}</Select>
-						<Checkbox label='Show Code' />
+						<Checkbox label='Show Code' onChange={callbacks.onShowCodeChange} />
 						<Button onClick={(): void => { }}>Clear Cache</Button>
 					</Flex>
 
