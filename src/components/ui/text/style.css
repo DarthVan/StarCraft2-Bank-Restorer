@@ -1,0 +1,7 @@
+.Text {
+	font-family: Consolas;
+	font-size: 16px;
+	color: #DDDDFF;
+	white-space: pre-line;
+	/* text-shadow: 0 0 2px #CCCCFF; */
+}

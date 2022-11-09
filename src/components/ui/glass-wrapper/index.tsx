@@ -13,7 +13,6 @@ interface Props {
 	children: JSX.Element;
 	style?: CSSProperties;
 	border?: boolean;
-
 }
 
 const GlassWrapper: FC<Props> = (props: Props): JSX.Element => {

@@ -12,6 +12,7 @@ import Label from 'src/components/ui/label';
 import Line from 'src/components/ui/line';
 import Select from 'src/components/ui/select';
 import { useStore } from 'src/hooks/use-store';
+import { Modals } from 'src/store/ModalStore';
 
 /** Menu **
 * ...
@@ -24,21 +25,27 @@ interface Props {
 }
 
 const Menu: FC<Props> = observer((props: Props): JSX.Element => {
-	const { menuStore } = useStore();
+	const { mapStore, menuStore, modalStore } = useStore();
 
 	const callbacks = {
 		onPlayerIdChange: useCallback((value: string): void => {
 			menuStore.setPlayerID(value);
-		}, [menuStore]),
+		}, []),
 		onHelpClick: useCallback((): void => {
-			console.log('menu -> help click!');
-		}, [menuStore]),
+			//console.log('menu -> help click!');
+			modalStore.setModal(Modals.HELP);
+		}, []),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
-		}, [menuStore]),
+		}, []),
 		onShowCodeChange: useCallback((value: boolean): void => {
-			//menuStore.setSelectedMap(parseInt(value));
-		}, [menuStore])
+			menuStore.setShowCode(value);
+		}, []),
+		onFullReset: useCallback((): void => {
+			mapStore.reset();
+			menuStore.reset();
+			modalStore.reset();
+		}, [])
 	}
 
 	// шаманим данные для выпадающего списка
@@ -68,7 +75,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 					<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
 						<Select onChange={callbacks.onMapSelect} label={"Select map:"} selected={menuStore.selectedMap.toString()}>{mapList}</Select>
 						<Checkbox label='Show Code' onChange={callbacks.onShowCodeChange} />
-						<Button onClick={(): void => { }}>Clear Cache</Button>
+						<Button onClick={callbacks.onFullReset}>Clear Cache</Button>
 					</Flex>
 
 				</Flex>
