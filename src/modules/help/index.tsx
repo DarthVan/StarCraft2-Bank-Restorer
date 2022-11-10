@@ -44,18 +44,18 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 
 						<Container style={{ flexDirection: 'column', minWidth: '100%' }}>
 							<Text>
-								Hi!<br /><br />Reinstalled Windows? Playing Starcraft2 from another PC? Lost your saves? Then you are welcome!
-								<br />This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).<br /><br />
+								Hi!<br /><br />Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?<br />
+								This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).<br /><br />
 							</Text >
-							<Label>1. What bank can i restore here?</Label>
+							<Label>What bank can i restore here?</Label>
 							<Text>
-								All avaliable maps can be choosed in menu selector. If your map is not there, then u can't :(<br /><br />
+								All available cards can be selected in the menu selector. If your card is not there, then you can't :(<br /><br />
 							</Text>
-							<Label>2. I found my map, how to restore the bank?</Label>
+							<Label>I found my map, how to restore the bank?</Label>
 							<Text>
 								First make sure you have played this map and that the bank file folder exists.
-								<b>Dont forget to make backup of your original bank file</b>
-								<br />Some banks are verified with a signature that requires the player id and map author id to generate.
+								<b>Dont forget to make backup of your original bank file!!11</b><br />
+								Some banks are verified with a signature that requires the player id and map author id to generate.
 								They are in the path to the file:
 							</Text>
 							<img src="./assets/help.png" alt="help.png" width={629} height={191} />
@@ -64,7 +64,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 								<br />Just set other bank's options or drop your bank life to the rect "Drop file here" to read and edit it.
 								<br />And pick 'Download bank' or 'Copy code'.<br /><br />
 							</Text>
-							<Label>3. Found a bug or wanna add new map?</Label>
+							<Label>Found a bug or wanna add new map?</Label>
 							<Text>
 								Post issues or pull requests <a href="https://github.com/DarthVan/StarCraft2-Bank-Restorer" target={'_blank'}>here</a>
 								<br /><br />gg hf!<br /><br />

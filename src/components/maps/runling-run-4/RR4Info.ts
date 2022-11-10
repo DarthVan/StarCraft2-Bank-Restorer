@@ -37,7 +37,7 @@ export class RR4Info extends SCModule {
 			new SCParam(5, 120000, 'Hard games won'),
 
 			new SCParam(12000, 90300000, 'Total saves'),
-			new SCParam(99252, 94000000, 'Total score'),
+			new SCParam(99999, 94000000, 'Total score'),
 			new SCParam(2000, 96000000, 'Total deaths'),
 
 			new SCParam(200, 150000, 'Boss1 kills'),

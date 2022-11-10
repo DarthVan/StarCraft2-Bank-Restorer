@@ -40,14 +40,14 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 	const RR4_KEY: string = 'WalkerKey';
 	const bank: Bank = new Bank(bankName, authorID, menuStore.playerID, '1');
 	const units: RR4Unit[] = [
-		new RR4Unit(1, 75, 200000),
-		new RR4Unit(2, 75, 200000),
-		new RR4Unit(3, 75, 200000),
-		new RR4Unit(4, 75, 200000),
-		new RR4Unit(5, 75, 200000),
-		new RR4Unit(0, 75, 200000),
-		new RR4Unit(0, 75, 200000),
-		new RR4Unit(0, 75, 200000)
+		new RR4Unit(1, 75),
+		new RR4Unit(2, 75),
+		new RR4Unit(3, 75),
+		new RR4Unit(4, 75),
+		new RR4Unit(5, 75),
+		new RR4Unit(0, 75),
+		new RR4Unit(0, 75),
+		new RR4Unit(0, 75)
 	];
 	const slots: RR4Slots = new RR4Slots();
 	const info: RR4Info = new RR4Info(); // stats and settings

@@ -32,7 +32,6 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 			menuStore.setPlayerID(value);
 		}, []),
 		onHelpClick: useCallback((): void => {
-			//console.log('menu -> help click!');
 			modalStore.setModal(Modals.HELP);
 		}, []),
 		onMapSelect: useCallback((value: string): void => {
@@ -66,7 +65,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 						<Label style={{ fontSize: '20px' }}>SC2 Bank Generator</Label>
 						<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
 							<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
-							<Button style={{ width: '50px' }} onClick={callbacks.onHelpClick}>help</Button>
+							<Button style={{ width: '50px' }} onClick={callbacks.onHelpClick}>Help</Button>
 						</Flex>
 					</Flex>
 

@@ -34,11 +34,12 @@ export class ModalStore extends BasicStore {
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
 	protected override init(): void {
-		const firstHelp: boolean = localStorage.getItem("FirstHelp") == 'true' || false;
-		if (!firstHelp) {
-			this.current = Modals.HELP;
-			localStorage.setItem("FirstHelp", 'true');
+		if (localStorage.getItem("FirstHelp") == 'true') {
+			this.current = Modals.NONE;
+			return;
 		}
+		this.current = Modals.HELP;
+		localStorage.setItem("FirstHelp", 'true');
 	}
 
 }
