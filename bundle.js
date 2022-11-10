@@ -1,8 +1,8 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Fri, 04 Nov 2022 23:10:43 UTC
+ * Compiled Thu, 10 Nov 2022 01:41:07 UTC
  */
-(function (React, require$$0, mobx, mobxReactLite, filesaver) {
+(function (React, mobxReactLite, require$$0, mobx, filesaver) {
   'use strict';
 
   var jsxRuntime = {exports: {}};
@@ -100,26 +100,58 @@
       reset() {
           localStorage.removeItem("PlayerID");
           this.playerID = '';
+          localStorage.removeItem("SelectedMap");
           this.selectedMap = 0;
+          localStorage.removeItem("ShowCode");
+          this.showCode = false;
       }
       setPlayerID(value) {
           this.playerID = value;
           localStorage.setItem("PlayerID", value);
       }
       setSelectedMap(value) {
-          console.log('set selected map:', value.toString());
           this.selectedMap = value;
           localStorage.setItem("SelectedMap", value.toString());
+      }
+      setShowCode(value) {
+          this.showCode = value;
+          localStorage.setItem("ShowCode", value ? 'true' : 'false');
       }
       init() {
           this.playerID = localStorage.getItem("PlayerID") || '';
           this.selectedMap = parseInt(localStorage.getItem("SelectedMap")) || 0;
+          this.showCode = localStorage.getItem("ShowCode") == 'true' || false;
+      }
+  }
+
+  var Modals;
+  (function (Modals) {
+      Modals[Modals["NONE"] = 0] = "NONE";
+      Modals[Modals["HELP"] = 1] = "HELP";
+      Modals[Modals["CONFIRM"] = 2] = "CONFIRM";
+  })(Modals || (Modals = {}));
+  class ModalStore extends BasicStore {
+      setModal(id) {
+          this.current = id;
+      }
+      reset() {
+          this.current = 0;
+          localStorage.removeItem("FirstHelp");
+      }
+      init() {
+          if (localStorage.getItem("FirstHelp") == 'true') {
+              this.current = Modals.NONE;
+              return;
+          }
+          this.current = Modals.HELP;
+          localStorage.setItem("FirstHelp", 'true');
       }
   }
 
   const rootStore = {
+      mapStore: new MapStore(),
       menuStore: new MenuStore(),
-      mapStore: new MapStore()
+      modalStore: new ModalStore()
   };
 
   const configureMobX = () => {
@@ -143,6 +175,11 @@
           throw new Error('useStore must be used within a StoreProvider.');
       return store;
   };
+
+  const Button = (props) => {
+      return (jsxRuntime.exports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
+  };
+  var Button$1 = React.memo(Button);
 
   const FlexContainer = (props) => {
       let className = 'Container';
@@ -174,15 +211,31 @@
   };
   var Label$1 = React.memo(Label);
 
+  const Line = (props) => {
+      return (jsxRuntime.exports.jsx("hr", { className: "Line", style: props.style }));
+  };
+  var Line$1 = React.memo(Line);
+
+  const Text = (props) => {
+      return (jsxRuntime.exports.jsx("span", { className: 'Text', style: props.style, children: props.children }));
+  };
+  var Text$1 = React.memo(Text);
+
+  const Help = mobxReactLite.observer((props) => {
+      const { modalStore } = useStore();
+      const callbacks = {
+          onCloseClick: React.useCallback(() => {
+              modalStore.setModal(Modals.NONE);
+          }, [])
+      };
+      return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '650px', maxHeight: '850px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "What is this?\u00BF" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', minWidth: '100%' }, children: [jsxRuntime.exports.jsxs(Text$1, { children: ["Hi!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntime.exports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "What bank can i restore here?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["All available cards can be selected in the menu selector. If your card is not there, then you can't :(", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "I found my map, how to restore the bank?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists.", jsxRuntime.exports.jsx("b", { children: "Dont forget to make backup of your original bank file!!11" }), jsxRuntime.exports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:"] }), jsxRuntime.exports.jsx("img", { src: "./assets/help.png", alt: "help.png", width: 629, height: 191 }), jsxRuntime.exports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntime.exports.jsx("br", {}), "Just set other bank's options or drop your bank life to the rect \"Drop file here\" to read and edit it.", jsxRuntime.exports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntime.exports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "gg hf!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] })] })] }) }) }) }));
+  });
+  var Help$1 = React.memo(Help);
+
   const Info = () => {
       return (jsxRuntime.exports.jsx(GlassWrapper$1, { children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntime.exports.jsx(Flex, { style: { justifyContent: 'center', alignItems: 'center', padding: '20px', minWidth: 'max-content' }, children: jsxRuntime.exports.jsx(Label$1, { children: "Powered by React 18" }) }) }) }));
   };
   var Info$1 = React.memo(Info);
-
-  const Button = (props) => {
-      return (jsxRuntime.exports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
-  };
-  var Button$1 = React.memo(Button);
 
   const DropZone = (props) => {
       const [isDragActive, setIsDragActive] = React.useState(false);
@@ -299,11 +352,6 @@
       return (jsxRuntime.exports.jsxs("div", { ref: ref, className: 'Input', "data-tooltip": props.tip, children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Input-field', id: id, style: props.style, placeholder: props.placeholder, pattern: props.pattern, value: value, onChange: (e) => onChange(e) })] }));
   };
   var Input$1 = React.memo(Input);
-
-  const Line = (props) => {
-      return (jsxRuntime.exports.jsx("hr", { className: "Line", style: props.style }));
-  };
-  var Line$1 = React.memo(Line);
 
   const Editor = mobxReactLite.observer((props) => {
       const callbacks = {
@@ -989,7 +1037,7 @@
               new SCParam(55, 110000, 'Hard games'),
               new SCParam(5, 120000, 'Hard games won'),
               new SCParam(12000, 90300000, 'Total saves'),
-              new SCParam(99252, 94000000, 'Total score'),
+              new SCParam(99999, 94000000, 'Total score'),
               new SCParam(2000, 96000000, 'Total deaths'),
               new SCParam(200, 150000, 'Boss1 kills'),
               new SCParam(100, 160000, 'Boss2 kills'),
@@ -1051,10 +1099,10 @@
   }
 
   class RR4Unit extends SCModule {
-      constructor(type, level = 75, exp = 1234567) {
+      constructor(type, level = 75) {
           super();
           this._queue[0].update(type);
-          this._queue[1].update(exp);
+          this._queue[1].update(this._exps.get(level));
           this._queue[7].update(level);
           this._queue[8].update(level * 4);
       }
@@ -1083,21 +1131,32 @@
           return sum;
       }
       setLevel(value) {
+          this._queue[1].update(this._exps.get(value));
           this._queue[7].update(value);
           this._queue[8].update(value * 4);
       }
       init() {
           super.init();
+          this._exps = new Map([
+              [1, 0], [2, 2], [3, 6], [4, 13], [5, 24], [6, 40], [7, 62], [8, 92], [9, 131], [10, 180],
+              [11, 240], [12, 312], [13, 397], [14, 498], [15, 612], [16, 742], [17, 889], [18, 1054], [19, 1238], [20, 1442],
+              [21, 1667], [22, 1914], [23, 2184], [24, 2478], [25, 2797], [26, 3142], [27, 3514], [28, 3914], [29, 4343], [30, 4802],
+              [31, 5292], [32, 5814], [33, 6369], [34, 6958], [35, 7582], [36, 8242], [37, 8939], [38, 9674], [39, 10448], [40, 11262],
+              [41, 12117], [42, 13014], [43, 13954], [44, 14938], [45, 15969], [46, 17042], [47, 18164], [48, 19334], [49, 20553], [50, 21820],
+              [51, 23140], [52, 24512], [53, 25937], [54, 27416], [55, 28950], [56, 30540], [57, 32187], [58, 33892], [59, 35656], [60, 37480],
+              [61, 39365], [62, 41312], [63, 43322], [64, 45396], [65, 47535], [66, 49739], [67, 52009], [68, 54346], [69, 56751], [70, 59225],
+              [71, 61769], [72, 64384], [73, 67072], [74, 69834], [75, 72671]
+          ]);
           this._queue = [
               new SCParam(2, 300000, 'Unit Type'),
-              new SCParam(200000, 8100000, 'Exp'),
+              new SCParam(this._exps.get(75), 8100000, 'Exp'),
               new SCParam(0, 320000, 'Regen'),
               new SCParam(0, 330000, 'Energy'),
               new SCParam(0, 340000, 'Speed'),
               new SCParam(0, 350000, 'Skill 1'),
               new SCParam(0, 360000, 'Skill 2'),
               new SCParam(75, 370000, 'Level'),
-              new SCParam(300, 380000, 'Free Points')
+              new SCParam(75 * 4, 380000, 'Free Points')
           ];
       }
   }
@@ -1110,14 +1169,14 @@
       const RR4_KEY = 'WalkerKey';
       const bank = new Bank(bankName, authorID, menuStore.playerID, '1');
       const units = [
-          new RR4Unit(1, 75, 200000),
-          new RR4Unit(2, 75, 200000),
-          new RR4Unit(3, 75, 200000),
-          new RR4Unit(4, 75, 200000),
-          new RR4Unit(5, 75, 200000),
-          new RR4Unit(0, 75, 200000),
-          new RR4Unit(0, 75, 200000),
-          new RR4Unit(0, 75, 200000)
+          new RR4Unit(1, 75),
+          new RR4Unit(2, 75),
+          new RR4Unit(3, 75),
+          new RR4Unit(4, 75),
+          new RR4Unit(5, 75),
+          new RR4Unit(0, 75),
+          new RR4Unit(0, 75),
+          new RR4Unit(0, 75)
       ];
       const slots = new RR4Slots();
       const info = new RR4Info();
@@ -1272,7 +1331,6 @@
               mapStore.setMapData(mapTitle, makeSaveObject());
           }, []),
           onSettingChange: React.useCallback((value, index) => {
-              console.log('new value:', value);
               if (index < 20)
                   info.queue[index].update(parseInt(value));
               else
@@ -1415,19 +1473,25 @@
   ]);
 
   const Menu = mobxReactLite.observer((props) => {
-      const { menuStore } = useStore();
+      const { mapStore, menuStore, modalStore } = useStore();
       const callbacks = {
           onPlayerIdChange: React.useCallback((value) => {
               menuStore.setPlayerID(value);
-          }, [menuStore]),
+          }, []),
           onHelpClick: React.useCallback(() => {
-              console.log('menu -> help click!');
-          }, [menuStore]),
+              modalStore.setModal(Modals.HELP);
+          }, []),
           onMapSelect: React.useCallback((value) => {
               menuStore.setSelectedMap(parseInt(value));
-          }, [menuStore]),
+          }, []),
           onShowCodeChange: React.useCallback((value) => {
-          }, [menuStore])
+              menuStore.setShowCode(value);
+          }, []),
+          onFullReset: React.useCallback(() => {
+              mapStore.reset();
+              menuStore.reset();
+              modalStore.reset();
+          }, [])
       };
       const mapList = React.useMemo(() => {
           const result = [];
@@ -1436,7 +1500,7 @@
           });
           return result;
       }, [menuStore.selectedMap]);
-      return (jsxRuntime.exports.jsx(GlassWrapper$1, { children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "SC2 Bank Generator" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Input$1, { label: "Player id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onPlayerIdChange, tip: "Player ID from bank's path", value: menuStore.playerID }), jsxRuntime.exports.jsx(Button$1, { style: { width: '50px' }, onClick: callbacks.onHelpClick, children: "help" })] })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Select$1, { onChange: callbacks.onMapSelect, label: "Select map:", selected: menuStore.selectedMap.toString(), children: mapList }), jsxRuntime.exports.jsx(Checkbox$1, { label: 'Show Code', onChange: callbacks.onShowCodeChange }), jsxRuntime.exports.jsx(Button$1, { onClick: () => { }, children: "Clear Cache" })] })] }) }) }));
+      return (jsxRuntime.exports.jsx(GlassWrapper$1, { children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "SC2 Bank Generator" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Input$1, { label: "Player id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onPlayerIdChange, tip: "Player ID from bank's path", value: menuStore.playerID }), jsxRuntime.exports.jsx(Button$1, { style: { width: '50px' }, onClick: callbacks.onHelpClick, children: "Help" })] })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Select$1, { onChange: callbacks.onMapSelect, label: "Select map:", selected: menuStore.selectedMap.toString(), children: mapList }), jsxRuntime.exports.jsx(Checkbox$1, { label: 'Show Code', onChange: callbacks.onShowCodeChange }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onFullReset, children: "Clear Cache" })] })] }) }) }));
   });
   var Menu$1 = React.memo(Menu);
 
@@ -1454,10 +1518,11 @@
   });
   var Workspace$1 = React.memo(Workspace);
 
-  const App = () => {
-      return (jsxRuntime.exports.jsx(Slideshow$1, { type: 'random', children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {})] }) }) }));
-  };
+  const App = mobxReactLite.observer(() => {
+      const { modalStore } = useStore();
+      return (jsxRuntime.exports.jsxs(Slideshow$1, { type: 'random', children: [jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {})] }), modalStore.current == Modals.HELP && jsxRuntime.exports.jsx(Help$1, {})] }));
+  });
   const root = createRoot(document.getElementById('root'));
-  root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(App, {}) }));
+  root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsx(App, {}) }) }));
 
-})(React, ReactDOM, mobx, mobxReactLite, saveAs);
+})(React, mobxReactLite, ReactDOM, mobx, saveAs);

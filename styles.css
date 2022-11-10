@@ -62,6 +62,36 @@ body {
 	background-position: center;
 	background-attachment: fixed;
 }
+.Button {
+	background: linear-gradient(#02022077, #5050eeaa);
+	transition: 0.25s;
+	background-size: auto 200%;
+	display: block;
+
+	font-family: Consolas;
+	color: #eee9ff;
+
+	text-shadow: 0 0 5px #d5d5ff;
+	border: 1px solid #5050ee;
+	border-radius: 5px;
+
+	width: 120px;
+	height: 23px;
+	text-align: center;
+	font-size: 14px;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.Button:hover {
+	background-position: bottom;
+	border: 1px solid #eeeeff;
+	box-shadow: 0 0 4px #d5d5ff;
+}
+
+.Button:active {
+	background: linear-gradient(#01012077, #202090aa);
+}
 .Container {
 	display: flex;
 	background: inherit;
@@ -119,9 +149,11 @@ body {
 }
 .GlassWrapper {
 	position: relative;
-	background: inherit;
 	overflow: hidden;
 	flex-shrink: 0;
+	background-color: rgba(0, 0, 20, 0.6);
+	-webkit-backdrop-filter: blur(12px);
+	backdrop-filter: blur(12px);
 }
 
 .GlassWrapperBordered {
@@ -130,20 +162,6 @@ body {
 	width: min-content;
 	height: min-content;
 	flex-shrink: 1;
-}
-
-.GlassWrapper:before {
-	position: absolute;
-	background: inherit;
-	content: '';
-
-	left: -10px;
-	top: -10px;
-	width: calc(100% + 20px);
-	height: calc(100% + 20px);
-
-	box-shadow: inset 0 0 0 50vh rgba(0, 0, 20, 0.5);
-	filter: blur(10px);
 }
 
 .GlassWrapper-content {
@@ -170,35 +188,20 @@ body {
 	text-shadow: 0 0 5px #CCCCFF;
 	white-space: nowrap;
 }
-.Button {
-	background: linear-gradient(#02022077, #5050eeaa);
-	transition: 0.25s;
-	background-size: auto 200%;
-	display: block;
-
+.Line {
+	border: none;
+	background: #ffffff40;
+	width: 100%;
+	height: 1px;
+	min-height: 1px;
+	margin: 10px 0;
+}
+.Text {
 	font-family: Consolas;
-	color: #eee9ff;
-
-	text-shadow: 0 0 5px #d5d5ff;
-	border: 1px solid #5050ee;
-	border-radius: 5px;
-
-	width: 120px;
-	height: 23px;
-	text-align: center;
-	font-size: 14px;
-	white-space: nowrap;
-	cursor: pointer;
-}
-
-.Button:hover {
-	background-position: bottom;
-	border: 1px solid #eeeeff;
-	box-shadow: 0 0 4px #d5d5ff;
-}
-
-.Button:active {
-	background: linear-gradient(#01012077, #202090aa);
+	font-size: 16px;
+	color: #DDDDFF;
+	white-space: pre-line;
+	/* text-shadow: 0 0 2px #CCCCFF; */
 }
 .DropZone {
 	width: 120px;
@@ -266,14 +269,6 @@ body {
 
 .Input-field:active {
 	background: linear-gradient(#01012077, #202090aa);
-}
-.Line {
-	border: none;
-	background: #ffffff40;
-	width: 100%;
-	height: 1px;
-	min-height: 1px;
-	margin: 10px 0;
 }
 .Checkbox {
 	display: flex;
