@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Thu, 10 Nov 2022 01:41:07 UTC
+ * Compiled Thu, 10 Nov 2022 02:10:58 UTC
  */
 (function (React, mobxReactLite, require$$0, mobx, filesaver) {
   'use strict';
@@ -1520,9 +1520,9 @@
 
   const App = mobxReactLite.observer(() => {
       const { modalStore } = useStore();
-      return (jsxRuntime.exports.jsxs(Slideshow$1, { type: 'random', children: [jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {})] }), modalStore.current == Modals.HELP && jsxRuntime.exports.jsx(Help$1, {})] }));
+      return (jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntime.exports.jsx(Help$1, {})] }));
   });
   const root = createRoot(document.getElementById('root'));
-  root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsx(App, {}) }) }));
+  root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(Slideshow$1, { type: 'random', children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsx(App, {}) }) }) }));
 
 })(React, mobxReactLite, ReactDOM, mobx, saveAs);
