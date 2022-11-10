@@ -14,22 +14,22 @@ const App: FC = observer((): JSX.Element => {
 	const { modalStore } = useStore();
 
 	return (
-		<Slideshow type='random'>
-			<div className="App">
-				<Menu />
-				<Workspace />
-				<Info />
-			</div>
+		<div className="App">
+			<Menu />
+			<Workspace />
+			<Info />
 			{modalStore.current == Modals.HELP && <Help />}
-		</Slideshow>
+		</div>
 	);
 });
 
 const root: Root = createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
-		<StoreProvider>
-			<App />
-		</StoreProvider >
+		<Slideshow type='random'>
+			<StoreProvider>
+				<App />
+			</StoreProvider >
+		</Slideshow >
 	</React.StrictMode >
 );
