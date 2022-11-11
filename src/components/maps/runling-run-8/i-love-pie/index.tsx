@@ -6,7 +6,6 @@ import React, { FC, useCallback, useMemo, useState } from 'react';
 import Checkbox from 'src/components/ui/checkbox';
 import Container from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
-import Label from 'src/components/ui/label';
 import Select from 'src/components/ui/select';
 import { Bank } from 'src/core/bank/bank';
 import { BankKey } from 'src/core/bank/bank-key';
@@ -16,11 +15,12 @@ import { SCParam } from 'src/core/scarcode/sc-param';
 import starcode from 'src/core/scarcode/starcode';
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
-import { mapProps, Maps } from '../Maps';
-import { RR4Camera } from './RR4Camera';
-import { RR4Info } from './RR4Info';
-import { RR4Slots } from './RR4Slots';
-import { RR4Unit } from './RR4Unit';
+import { mapProps, Maps } from '../../Maps';
+import { RR8Camera } from './RR8Camera';
+import { RR8Info } from './RR8Info';
+import { RR8Set2 } from "./RR8Set2";
+import { RR8Slots } from './RR8Slots';
+import { RR8Unit } from './RR8Unit';
 
 /** RunlingRun4Form **
 * ...
@@ -32,34 +32,38 @@ interface Props {
 	bankName?: string;
 }
 
-const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
+const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 	const { menuStore, mapStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
-	const [authorID, setAuthorID] = useState(mapProps.get(Maps.RUNLING_RUN_4).authorID);
-	const mapTitle: string = mapProps.get(Maps.RUNLING_RUN_4).title;
-	const RR4_KEY: string = 'WalkerKey';
+	const [authorID, setAuthorID] = useState(mapProps.get(Maps.RUNLING_RUN_8).authorID);
+	const mapTitle: string = mapProps.get(Maps.RUNLING_RUN_8).title;
+	const RR8_KEY: string = 'Ks8N10dj6L3M';
 	const bank: Bank = new Bank(bankName, authorID, menuStore.playerID, '1');
-	const units: RR4Unit[] = [
-		new RR4Unit(1, 75),
-		new RR4Unit(2, 75),
-		new RR4Unit(3, 75),
-		new RR4Unit(4, 75),
-		new RR4Unit(5, 75),
-		new RR4Unit(0, 75),
-		new RR4Unit(0, 75),
-		new RR4Unit(0, 75)
+	const units: RR8Unit[] = [
+		new RR8Unit(1, 100),
+		new RR8Unit(2, 100),
+		new RR8Unit(3, 100),
+		new RR8Unit(4, 100),
+		new RR8Unit(5, 100),
+		new RR8Unit(6, 100),
+		new RR8Unit(7, 100),
+		new RR8Unit(8, 100)
 	];
-	const slots: RR4Slots = new RR4Slots();
-	const info: RR4Info = new RR4Info(); // stats and settings
-	const camera: RR4Camera = new RR4Camera(); // checksums
-	const prefix: number = parseInt(menuStore.playerID.split('-')[3]); // 2410462;
+	const prefix: number = parseInt(menuStore.playerID.split('-')[3]);
+	const set2: RR8Set2 = new RR8Set2(prefix)
+	const slots: RR8Slots = new RR8Slots();
+	const info: RR8Info = new RR8Info(); // stats and settings
+	const camera: RR8Camera = new RR8Camera(); // checksums
 	const unitSelectorData: { value: string, label: string }[] = [
 		{ value: '0', label: 'Empty' },
 		{ value: '1', label: 'Ling' },
 		{ value: '2', label: 'Bane' },
 		{ value: '3', label: 'Hydra' },
 		{ value: '4', label: 'Ultra' },
-		{ value: '5', label: 'Roach' }
+		{ value: '5', label: 'Roach' },
+		{ value: '6', label: 'Impaler' },
+		{ value: '7', label: 'Infested' },
+		{ value: '8', label: 'Drone' },
 	];
 
 	// read from store (localStorage)
@@ -68,8 +72,9 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 			units: { _current: number, _max: number, _description: string }[][],
 			slots: { _current: number, _max: number, _description: string }[],
 			info: { _current: number, _max: number, _description: string }[],
-			camera: { _current: number, _max: number, _description: string }[]
-		} = mapStore.list[mapTitle];
+			camera: { _current: number, _max: number, _description: string }[],
+			set2: { _current: number, _max: number, _description: string }[]
+		} = mapStore.list[mapTitle]?.ilovepie;
 		if (!storeParams)
 			return;
 
@@ -95,25 +100,30 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 			camera.queue[i].update(param._current);
 		});
 
-		console.log('update data from store');
-	}, [mapStore, units, slots, info, camera]);
+		// 5. set2: // itited at start
+		/* storeParams.set2.forEach((param: { _current: number, _max: number, _description: string }, i: number): void => {
+			camera.queue[i].update(param._current);
+		}); */
+
+		//console.log('update data from store');
+	}, [mapStore, units, slots, info, camera, set2]);
 
 	// generate xml bank
 	const xmlBank: string = useMemo((): string => {
 		const section = { unit: 'unit', account: 'account' };
-		const key = { info: 'info', camera: 'camera' }; // key.info uses in both sections
+		const key = { info: 'info', camera: 'camera', set2: 'set2' }; // key.info uses in both sections
 
 		// 1. unit section:
 		if (!bank.sections.has(section.unit))
 			bank.sections.set(section.unit, new BankMap(section.unit));
 		let unitSum: number = 0;
 		const bsu: BankMap<BankKey> = bank.sections.get(section.unit); // shortcut
-		units.forEach((unit: RR4Unit, index: number): void => {
+		units.forEach((unit: RR8Unit, index: number): void => {
 			const k: string = '0' + (index + 1);
 			if (unit.queue[0].current > 0) { // if unit type != 'empty'
 				if (!bsu.has(k))
 					bsu.set(k, new BankKey(k, BankKeyType.STRING, ''));
-				bsu.get(k).update(unit.write(starcode, RR4_KEY));
+				bsu.get(k).update(unit.write(starcode, RR8_KEY));
 				unitSum += unit.getSum();
 				slots.setSlot(index, true);
 			} else {
@@ -124,7 +134,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		});
 		if (!bsu.has(key.info))
 			bsu.set(key.info, new BankKey(key.info, BankKeyType.STRING, ''));
-		bsu.get(key.info).update(slots.write(starcode, RR4_KEY))
+		bsu.get(key.info).update(slots.write(starcode, RR8_KEY))
 
 		// 2. account section:
 		if (!bank.sections.has(section.account))
@@ -132,26 +142,31 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		const bsa: BankMap<BankKey> = bank.sections.get(section.account); // shortcut
 		if (!bsa.has(key.info))
 			bsa.set(key.info, new BankKey(key.info, BankKeyType.STRING, ''));
-		bsa.get(key.info).update(info.write(starcode, RR4_KEY));
+		bsa.get(key.info).update(info.write(starcode, RR8_KEY));
 		if (!bsa.has(key.camera))
 			bsa.set(key.camera, new BankKey(key.camera, BankKeyType.STRING, ''));
 		camera.queue[0].update(info.getSum()); // stats chesckum
 		camera.queue[1].update(unitSum + prefix); // units checksum + playerID part
-		bsa.get(key.camera).update(camera.write(starcode, RR4_KEY));
+		bsa.get(key.camera).update(camera.write(starcode, RR8_KEY));
+		if (!bsa.has(key.set2))
+			bsa.set(key.set2, new BankKey(key.set2, BankKeyType.STRING, ''));
+		set2.queue[0].update(prefix);
+		bsa.get(key.set2).update(set2.write(starcode, RR8_KEY));
 
 		// 3. sort and signature
 		bank.sort();
 		bank.updateSignature();
-		console.log("bank const updated:", bank.signature);
+		//console.log("bank const updated:", bank.signature);
 		return bank.getAsString();
 	}, [units, slots, info, camera]);
 
 	const makeSaveObject: () => {} = (): {} => {
 		const unitsArray: {}[][] = [[], [], [], [], [], [], [], []];
-		units.forEach((unit: RR4Unit, index: number): void => {
+		units.forEach((unit: RR8Unit, index: number): void => {
 			unitsArray[index] = unit.queue;
 		});
-		return { units: unitsArray, slots: slots.queue, info: info.queue, camera: camera.queue };
+		const prestige: {} = mapStore.list[mapTitle]?.prestige;
+		return { ilovepie: { units: unitsArray, slots: slots.queue, info: info.queue, camera: camera.queue, set2: set2.queue }, prestige };
 	};
 
 	const callbacks = {
@@ -163,7 +178,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onFileDrop: useCallback((value: string): void => {
 			const section = { unit: 'unit', account: 'account' };
-			const key = { info: 'info', camera: 'camera' }; // key.info uses in both sections
+			const key = { info: 'info', camera: 'camera', set2: 'set2' }; // key.info uses in both sections
 
 			// 1. validate
 			bank.parse(value);
@@ -177,19 +192,21 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 				const k: string = '0' + (i + 1);
 				if (bsu.has(k)) {
 					starcode.currentCode = bsu.get(k).value;
-					units[i].read(starcode, RR4_KEY);
+					units[i].read(starcode, RR8_KEY);
 				} else
 					units[i].queue[0].update(0); // type = 0 = empty slot
 			}
 			starcode.currentCode = bsu.get(key.info).value;
-			slots.read(starcode, RR4_KEY);
+			slots.read(starcode, RR8_KEY);
 
 			// 3. account
 			const bsa: BankMap<BankKey> = bank.sections.get(section.account); // shortcut 
 			starcode.currentCode = bsa.get(key.info).value;
-			info.read(starcode, RR4_KEY);
+			info.read(starcode, RR8_KEY);
 			starcode.currentCode = bsa.get(key.camera).value;
-			camera.read(starcode, RR4_KEY);
+			camera.read(starcode, RR8_KEY);
+			starcode.currentCode = bsa.get(key.set2).value;
+			set2.read(starcode, RR8_KEY);
 
 			mapStore.setMapData(mapTitle, makeSaveObject());
 		}, []),
@@ -206,14 +223,15 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		onResetClick: useCallback((): void => {
 			setTimeout((): void => {
 				setBankName(props.bankName);
-				setAuthorID(mapProps.get(Maps.RUNLING_RUN_4).authorID);
+				setAuthorID(mapProps.get(Maps.RUNLING_RUN_8).authorID);
 			}, 1); // хак чтоб сделать ререндер чуть позже
-			units.forEach((unit: RR4Unit): void => {
+			units.forEach((unit: RR8Unit): void => {
 				unit.reset();
 			});
 			slots.reset();
 			info.reset();
 			camera.reset();
+			set2.reset();
 			mapStore.setMapData(mapTitle, makeSaveObject());
 		}, []),
 		onUnitTypeChange: useCallback((value: string, index?: number): void => {
@@ -234,7 +252,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 			mapStore.setMapData(mapTitle, makeSaveObject());
 		}, []),
 		onSettingChange: useCallback((value: string | boolean, index?: number): void => {
-			if (index < 20)
+			if (index < 19)
 				info.queue[index].update(parseInt(value as string)); // here are 3 text inputs
 			else
 				info.queue[index].update(value ? 1 : 0);
@@ -255,7 +273,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		>
 			<Container style={{ flexDirection: 'row', padding: '0' }}>
 				<Container style={{ flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }}>
-					{units.map((unit: RR4Unit, index: number): JSX.Element => {
+					{units.map((unit: RR8Unit, index: number): JSX.Element => {
 						return (
 							<Container style={{ flexDirection: 'row', padding: '10px' }}>
 								<Select label={'Unit ' + (index + 1) + ':'}
@@ -267,8 +285,8 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 								<Input label='Level:' index={index} type='number' min='1'
 									style={{ width: '30px' }}
 									onChange={callbacks.onUnitLevelChange}
-									max={'75'}
-									placeholder='Level of unit (1-75)'
+									max={'100'}
+									placeholder='Level of unit (1-100)'
 									value={unit.queue[7].current.toString()}
 								/>
 							</Container>
@@ -277,7 +295,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 				</Container>
 				<Container style={{ flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }} alignInputs={true}>
 					{info.queue.map((param: SCParam, index: number): JSX.Element => {
-						if (index != 12 && index < 17)
+						if (index != 12 && index < 16)
 							return (
 								<Input label={param.description + ':'} index={index} type='number' min='0'
 									style={{ width: '45px' }}
@@ -292,9 +310,9 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 				</Container>
 				<Container style={{ flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }} alignInputs={true}>
 					{info.queue.map((param: SCParam, index: number): JSX.Element => {
-						if (index < 17)
+						if (index < 16)
 							return null;
-						if (index < 20)
+						if (index < 19)
 							return (
 								<Input label={param.description + ':'} index={index} type='number' min='1'
 									style={{ width: '45px' }}
@@ -317,4 +335,4 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 	);
 });
 
-export default React.memo(RunlingRun4Form);
+export default React.memo(RunlingRun8ILovePie);

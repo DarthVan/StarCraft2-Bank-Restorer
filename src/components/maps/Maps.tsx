@@ -2,6 +2,8 @@
 
 import Editor from "src/modules/editor";
 import RunlingRun4 from "./runling-run-4";
+import RunlingRun8ilovePie from "./runling-run-8/i-love-pie";
+import RunlingRun8Prestige from "./runling-run-8/prestige";
 import ZombieCity from "./zombie-city";
 
 /** Maps **
@@ -14,6 +16,7 @@ export enum Maps {
 
 	RUNLING_RUN_4,
 	RUNLING_RUN_8,
+	SWARM_SCPECIAL_FORCES,
 	ZOMBIE_CITY,
 	STAR_CODE_LAB,
 
@@ -30,8 +33,14 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 
 		[Maps.RUNLING_RUN_8, {
 			title: 'Runling Run 8',
-			authorID: '???',
-			forms: [<Editor></Editor>, <Editor></Editor>]
+			authorID: '2-S2-1-5734972',
+			forms: [<RunlingRun8ilovePie bankName='ILovePie' />, <RunlingRun8Prestige bankName='Prestige' />]
+		}],
+
+		[Maps.SWARM_SCPECIAL_FORCES, {
+			title: 'Swarm Special Forces',
+			authorID: '2-S2-1-1066242',
+			forms: [<Editor bankName='SwarmSpecialForces'></Editor>]
 		}],
 
 		[Maps.ZOMBIE_CITY, {

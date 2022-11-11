@@ -9,7 +9,7 @@ import { SCParam } from "src/core/scarcode/sc-param";
 * @Created 2022-10-28
 */
 
-export class ZCModule extends SCModule {
+export class ZcStats extends SCModule {
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 

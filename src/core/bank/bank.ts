@@ -67,7 +67,13 @@ export class Bank {
 			this._sections.set(section.name, section);
 		}
 
-		this._signature = xml.getElementsByTagName('Signature')[0].getAttribute('value');
+		this._signature = null;
+
+		try {
+			this._signature = xml.getElementsByTagName('Signature')[0].getAttribute('value');
+		} catch (error) {
+			this._signature = null;
+		}
 
 		//console.log('banks signature:', this._signature);
 	}
@@ -92,7 +98,9 @@ export class Bank {
 			s += '\t</Section>\n';
 		});
 
-		s += '\t<Signature value="' + this._signature + '"/>\n';
+		if (this._signature)
+			s += '\t<Signature value="' + this._signature + '"/>\n';
+
 		s += '</Bank>';
 
 		return s;
