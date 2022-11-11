@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Thu, 10 Nov 2022 02:10:58 UTC
+ * Compiled Fri, 11 Nov 2022 21:33:45 UTC
  */
 (function (React, mobxReactLite, require$$0, mobx, filesaver) {
   'use strict';
@@ -228,7 +228,7 @@
               modalStore.setModal(Modals.NONE);
           }, [])
       };
-      return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '650px', maxHeight: '850px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "What is this?\u00BF" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', minWidth: '100%' }, children: [jsxRuntime.exports.jsxs(Text$1, { children: ["Hi!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntime.exports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "What bank can i restore here?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["All available cards can be selected in the menu selector. If your card is not there, then you can't :(", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "I found my map, how to restore the bank?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists.", jsxRuntime.exports.jsx("b", { children: "Dont forget to make backup of your original bank file!!11" }), jsxRuntime.exports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:"] }), jsxRuntime.exports.jsx("img", { src: "./assets/help.png", alt: "help.png", width: 629, height: 191 }), jsxRuntime.exports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntime.exports.jsx("br", {}), "Just set other bank's options or drop your bank life to the rect \"Drop file here\" to read and edit it.", jsxRuntime.exports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntime.exports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "gg hf!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] })] })] }) }) }) }));
+      return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '650px', maxHeight: '870px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "What is this?\u00BF" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', minWidth: '100%' }, children: [jsxRuntime.exports.jsxs(Text$1, { children: ["Hi!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntime.exports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntime.exports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntime.exports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:"] }), jsxRuntime.exports.jsx("img", { src: "./assets/help.png", alt: "help.png", width: 629, height: 191 }), jsxRuntime.exports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntime.exports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntime.exports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntime.exports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "gg hf!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] })] })] }) }) }) }));
   });
   var Help$1 = React.memo(Help);
 
@@ -655,7 +655,13 @@
               }
               this._sections.set(section.name, section);
           }
-          this._signature = xml.getElementsByTagName('Signature')[0].getAttribute('value');
+          this._signature = null;
+          try {
+              this._signature = xml.getElementsByTagName('Signature')[0].getAttribute('value');
+          }
+          catch (error) {
+              this._signature = null;
+          }
       }
       sort() {
           this._sections.forEach((section) => {
@@ -674,7 +680,8 @@
               });
               s += '\t</Section>\n';
           });
-          s += '\t<Signature value="' + this._signature + '"/>\n';
+          if (this._signature)
+              s += '\t<Signature value="' + this._signature + '"/>\n';
           s += '</Bank>';
           return s;
       }
@@ -1180,7 +1187,7 @@
       ];
       const slots = new RR4Slots();
       const info = new RR4Info();
-      const camera = new RR4Camera;
+      const camera = new RR4Camera();
       const prefix = parseInt(menuStore.playerID.split('-')[3]);
       const unitSelectorData = [
           { value: '0', label: 'Empty' },
@@ -1342,7 +1349,7 @@
                           return (jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntime.exports.jsx(Select$1, { label: 'Unit ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit.queue[0].current.toString(), children: unitSelectorData }), jsxRuntime.exports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '75', placeholder: 'Level of unit (1-75)', value: unit.queue[7].current.toString() })] }));
                       }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
                           if (index != 12 && index < 17)
-                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '1', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
+                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
                           else
                               return null;
                       }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
@@ -1356,7 +1363,453 @@
   });
   var RunlingRun4 = React.memo(RunlingRun4Form);
 
-  class ZCModule extends SCModule {
+  class RR8Camera extends SCModule {
+      init() {
+          super.init();
+          this._queue = [
+              new SCParam(0, 99000000, 'Sum of all stats'),
+              new SCParam(0, 98000000, 'Sum of all units and account')
+          ];
+      }
+  }
+
+  class RR8Info extends SCModule {
+      getSum() {
+          let sum = 0;
+          for (let i = 0; i < 16; i++)
+              if (i < 10 || i > 12)
+                  sum += this._queue[i].current;
+          return sum;
+      }
+      init() {
+          super.init();
+          this._queue = [
+              new SCParam(500, 90000, 'Normal games'),
+              new SCParam(25, 100000, 'Normal games won'),
+              new SCParam(55, 110000, 'Hard games'),
+              new SCParam(5, 120000, 'Hard games won'),
+              new SCParam(12000, 93000000, 'Total saves'),
+              new SCParam(99999, 94000000, 'Total score'),
+              new SCParam(2000, 96000000, 'Total deaths'),
+              new SCParam(200, 150000, 'Boss1 kills'),
+              new SCParam(100, 160000, 'Boss2 kills'),
+              new SCParam(25, 170000, 'Boss3 kills'),
+              new SCParam(25, 180000, 'Insane games'),
+              new SCParam(2, 190000, 'Insane games won'),
+              new SCParam(1, 200000, 'Not used'),
+              new SCParam(10, 210000, 'Chaos mode games'),
+              new SCParam(1, 220000, 'Chaos mode games won'),
+              new SCParam(25, 230000, 'Prestige'),
+              new SCParam(72, 1000, 'Distance'),
+              new SCParam(90, 1001, 'Rotation'),
+              new SCParam(90, 1002, 'Angle'),
+              new SCParam(1, 1003, 'Camera follow unit'),
+              new SCParam(0, 1004, 'Hide tips'),
+              new SCParam(1, 1005, 'Hud on'),
+              new SCParam(0, 1006, 'Mini map'),
+              new SCParam(0, 1007, 'Energy bar'),
+              new SCParam(0, 1008, 'Exp bar'),
+              new SCParam(0, 1009, 'Menu'),
+              new SCParam(1, 1010, 'WASD'),
+              new SCParam(0, 10, 'Increase distance'),
+              new SCParam(0, 11, 'Decrease distance'),
+              new SCParam(0, 12, 'Rotation right'),
+              new SCParam(0, 13, 'Rotation left'),
+              new SCParam(1, 14, 'Follow runling')
+          ];
+      }
+  }
+
+  class RR8Set2 extends SCModule {
+      constructor(playerPrfxNumber) {
+          super();
+          this._queue[0].update(playerPrfxNumber);
+      }
+      init() {
+          super.init();
+          this._queue = [
+              new SCParam(1, 97000000, 'PlayerID last number'),
+          ];
+      }
+  }
+
+  class RR8Slots extends SCModule {
+      enableAll() {
+          this._queue.forEach((p) => {
+              p.update(1);
+          });
+      }
+      disableAll() {
+          this._queue.forEach((p) => {
+              p.update(0);
+          });
+      }
+      setSlot(index, enabled = true) {
+          this._queue[index].update(enabled ? 1 : 0);
+      }
+      init() {
+          super.init();
+          this._queue = [
+              new SCParam(1, 425, 'Slot 1'),
+              new SCParam(1, 426, 'Slot 2'),
+              new SCParam(1, 427, 'Slot 3'),
+              new SCParam(1, 428, 'Slot 4'),
+              new SCParam(1, 429, 'Slot 5'),
+              new SCParam(1, 430, 'Slot 6'),
+              new SCParam(1, 431, 'Slot 7'),
+              new SCParam(1, 432, 'Slot 8')
+          ];
+      }
+  }
+
+  class RR8Unit extends SCModule {
+      constructor(type, level = 100) {
+          super();
+          this._queue[0].update(type);
+          this._queue[1].update(this._exps[level - 1]);
+          this._queue[7].update(level);
+          this._queue[8].update(level * 4);
+      }
+      checkData() {
+          const q = this._queue;
+          const p = q[2].current + q[3].current + q[4].current + q[8].current + (q[5].current + q[6].current) * 4;
+          if (p < 0 || p > 400)
+              throw new Error('Points out of range (0-300)!');
+          if (q[0].current < 0 || q[0].current > 8)
+              throw new Error('Undefined unit type! Use 0, 1, 2, 3, 4, 5, 6, 7, 8');
+          if (q[7].current < 1 || q[7].current > 100)
+              throw new Error('Unit level out of range (1-100)!');
+          if (q[7].current * 4 != p)
+              throw new Error('level or scores are incorrect!');
+          if (q[2].current > 200 || q[3].current > 200 || q[4].current > 200)
+              throw new Error('Energy, regen, speed: 200 max');
+          if (q[5].current > 20 || q[6].current > 20)
+              throw new Error('Skill: 20 max');
+          return true;
+      }
+      getSum() {
+          let sum = 0;
+          for (let i = 1; i < 9; i++)
+              if (i != 7)
+                  sum += this._queue[i].current;
+          return sum;
+      }
+      setLevel(value) {
+          this._queue[1].update(this._exps[value - 1]);
+          this._queue[7].update(value);
+          this._queue[8].update(value * 4);
+      }
+      init() {
+          super.init();
+          this._exps = [
+              0, 3, 10, 22, 40, 65, 98, 140, 192, 255,
+              330, 418, 520, 637, 770, 920, 1088, 1275, 1482, 1710,
+              1960, 2233, 2530, 2852, 3200, 3575, 3978, 4410, 4872, 5365,
+              5890, 6448, 7040, 7667, 8330, 9030, 9768, 10545, 11362, 12220,
+              13120, 14063, 15095, 16173, 17298, 18471, 19693, 20965, 22288, 23663,
+              25091, 26573, 28110, 29703, 31353, 33061, 34828, 36655, 38543, 40493,
+              42506, 44583, 46725, 48933, 51208, 53551, 55963, 58445, 60998, 63623,
+              66321, 69093, 72016, 75016, 78094, 81251, 84488, 87806, 91206, 94689,
+              98256, 101908, 105646, 109471, 113384, 117386, 121478, 125661, 129936, 134304,
+              138766, 143323, 147976, 152726, 157574, 162521, 167568, 172716, 177966, 183319
+          ];
+          this._queue = [
+              new SCParam(2, 300000, 'Unit Type'),
+              new SCParam(this._exps[99], 8100000, 'Exp'),
+              new SCParam(0, 320000, 'Regen'),
+              new SCParam(0, 330000, 'Energy'),
+              new SCParam(0, 340000, 'Speed'),
+              new SCParam(0, 350000, 'Skill 1'),
+              new SCParam(0, 360000, 'Skill 2'),
+              new SCParam(100, 370000, 'Level'),
+              new SCParam(100 * 4, 380000, 'Free Points')
+          ];
+      }
+  }
+
+  const RunlingRun8ILovePie = mobxReactLite.observer((props) => {
+      const { menuStore, mapStore } = useStore();
+      const [bankName, setBankName] = React.useState(props.bankName);
+      const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.RUNLING_RUN_8).authorID);
+      const mapTitle = mapProps.get(Maps.RUNLING_RUN_8).title;
+      const RR8_KEY = 'Ks8N10dj6L3M';
+      const bank = new Bank(bankName, authorID, menuStore.playerID, '1');
+      const units = [
+          new RR8Unit(1, 100),
+          new RR8Unit(2, 100),
+          new RR8Unit(3, 100),
+          new RR8Unit(4, 100),
+          new RR8Unit(5, 100),
+          new RR8Unit(6, 100),
+          new RR8Unit(7, 100),
+          new RR8Unit(8, 100)
+      ];
+      const prefix = parseInt(menuStore.playerID.split('-')[3]);
+      const set2 = new RR8Set2(prefix);
+      const slots = new RR8Slots();
+      const info = new RR8Info();
+      const camera = new RR8Camera();
+      const unitSelectorData = [
+          { value: '0', label: 'Empty' },
+          { value: '1', label: 'Ling' },
+          { value: '2', label: 'Bane' },
+          { value: '3', label: 'Hydra' },
+          { value: '4', label: 'Ultra' },
+          { value: '5', label: 'Roach' },
+          { value: '6', label: 'Impaler' },
+          { value: '7', label: 'Infested' },
+          { value: '8', label: 'Drone' },
+      ];
+      React.useMemo(() => {
+          const storeParams = mapStore.list[mapTitle]?.ilovepie;
+          if (!storeParams)
+              return;
+          storeParams.units.forEach((unit, i) => {
+              unit.forEach((param, j) => {
+                  units[i].queue[j].update(param._current);
+              });
+          });
+          storeParams.slots.forEach((param, i) => {
+              slots.queue[i].update(param._current);
+          });
+          storeParams.info.forEach((param, i) => {
+              info.queue[i].update(param._current);
+          });
+          storeParams.camera.forEach((param, i) => {
+              camera.queue[i].update(param._current);
+          });
+      }, [mapStore, units, slots, info, camera, set2]);
+      const xmlBank = React.useMemo(() => {
+          const section = { unit: 'unit', account: 'account' };
+          const key = { info: 'info', camera: 'camera', set2: 'set2' };
+          if (!bank.sections.has(section.unit))
+              bank.sections.set(section.unit, new BankMap(section.unit));
+          let unitSum = 0;
+          const bsu = bank.sections.get(section.unit);
+          units.forEach((unit, index) => {
+              const k = '0' + (index + 1);
+              if (unit.queue[0].current > 0) {
+                  if (!bsu.has(k))
+                      bsu.set(k, new BankKey(k, BankKeyType.STRING, ''));
+                  bsu.get(k).update(unit.write(starcode, RR8_KEY));
+                  unitSum += unit.getSum();
+                  slots.setSlot(index, true);
+              }
+              else {
+                  if (bsu.has(k))
+                      bsu.delete(k);
+                  slots.setSlot(index, false);
+              }
+          });
+          if (!bsu.has(key.info))
+              bsu.set(key.info, new BankKey(key.info, BankKeyType.STRING, ''));
+          bsu.get(key.info).update(slots.write(starcode, RR8_KEY));
+          if (!bank.sections.has(section.account))
+              bank.sections.set(section.account, new BankMap(section.account));
+          const bsa = bank.sections.get(section.account);
+          if (!bsa.has(key.info))
+              bsa.set(key.info, new BankKey(key.info, BankKeyType.STRING, ''));
+          bsa.get(key.info).update(info.write(starcode, RR8_KEY));
+          if (!bsa.has(key.camera))
+              bsa.set(key.camera, new BankKey(key.camera, BankKeyType.STRING, ''));
+          camera.queue[0].update(info.getSum());
+          camera.queue[1].update(unitSum + prefix);
+          bsa.get(key.camera).update(camera.write(starcode, RR8_KEY));
+          if (!bsa.has(key.set2))
+              bsa.set(key.set2, new BankKey(key.set2, BankKeyType.STRING, ''));
+          set2.queue[0].update(prefix);
+          bsa.get(key.set2).update(set2.write(starcode, RR8_KEY));
+          bank.sort();
+          bank.updateSignature();
+          return bank.getAsString();
+      }, [units, slots, info, camera]);
+      const makeSaveObject = () => {
+          const unitsArray = [[], [], [], [], [], [], [], []];
+          units.forEach((unit, index) => {
+              unitsArray[index] = unit.queue;
+          });
+          const prestige = mapStore.list[mapTitle]?.prestige;
+          return { ilovepie: { units: unitsArray, slots: slots.queue, info: info.queue, camera: camera.queue, set2: set2.queue }, prestige };
+      };
+      const callbacks = {
+          onBankNameChange: React.useCallback((value) => {
+              setBankName(value);
+          }, []),
+          onAuthorIdChange: React.useCallback((value) => {
+              setAuthorID(value);
+          }, []),
+          onFileDrop: React.useCallback((value) => {
+              const section = { unit: 'unit', account: 'account' };
+              const key = { info: 'info', camera: 'camera', set2: 'set2' };
+              bank.parse(value);
+              if (bank.sections.size != 2 || bank.sections.get('unit') == null || bank.sections.get('account') == null)
+                  throw new Error('wrong bank file!');
+              starcode.reset();
+              const bsu = bank.sections.get(section.unit);
+              for (let i = 0; i < 8; i++) {
+                  const k = '0' + (i + 1);
+                  if (bsu.has(k)) {
+                      starcode.currentCode = bsu.get(k).value;
+                      units[i].read(starcode, RR8_KEY);
+                  }
+                  else
+                      units[i].queue[0].update(0);
+              }
+              starcode.currentCode = bsu.get(key.info).value;
+              slots.read(starcode, RR8_KEY);
+              const bsa = bank.sections.get(section.account);
+              starcode.currentCode = bsa.get(key.info).value;
+              info.read(starcode, RR8_KEY);
+              starcode.currentCode = bsa.get(key.camera).value;
+              camera.read(starcode, RR8_KEY);
+              starcode.currentCode = bsa.get(key.set2).value;
+              set2.read(starcode, RR8_KEY);
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onDownloadClick: React.useCallback(() => {
+              console.log('download bank file:', xmlBank);
+              const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
+              filesaver.saveAs(blob, bankName + '.SC2Bank');
+          }, [xmlBank]),
+          onCopyCodeClick: React.useCallback(() => {
+              window.navigator['clipboard'].writeText(xmlBank).then(() => {
+                  console.log("Copied to clipboard:\n", xmlBank);
+              });
+          }, [xmlBank]),
+          onResetClick: React.useCallback(() => {
+              setTimeout(() => {
+                  setBankName(props.bankName);
+                  setAuthorID(mapProps.get(Maps.RUNLING_RUN_8).authorID);
+              }, 1);
+              units.forEach((unit) => {
+                  unit.reset();
+              });
+              slots.reset();
+              info.reset();
+              camera.reset();
+              set2.reset();
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onUnitTypeChange: React.useCallback((value, index) => {
+              const intValue = parseInt(value);
+              units[index].queue[0].update(intValue);
+              slots.setSlot(index, intValue == 1);
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onUnitLevelChange: React.useCallback((value, index) => {
+              const intValue = parseInt(value);
+              units[index].setLevel(intValue);
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onStatChange: React.useCallback((value, index) => {
+              info.queue[index].update(parseInt(value));
+              camera.queue[0].update(info.getSum());
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onSettingChange: React.useCallback((value, index) => {
+              if (index < 19)
+                  info.queue[index].update(parseInt(value));
+              else
+                  info.queue[index].update(value ? 1 : 0);
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+      };
+      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: units.map((unit, index) => {
+                          return (jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntime.exports.jsx(Select$1, { label: 'Unit ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit.queue[0].current.toString(), children: unitSelectorData }), jsxRuntime.exports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '100', placeholder: 'Level of unit (1-100)', value: unit.queue[7].current.toString() })] }));
+                      }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
+                          if (index != 12 && index < 16)
+                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
+                          else
+                              return null;
+                      }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
+                          if (index < 16)
+                              return null;
+                          if (index < 19)
+                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '1', style: { width: '45px' }, onChange: callbacks.onSettingChange, max: param.max.toString(), value: param.current.toString() }));
+                          else
+                              return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
+                      }) })] }) }));
+  });
+  var RunlingRun8ilovePie = React.memo(RunlingRun8ILovePie);
+
+  const RunLingRun8Prestige = mobxReactLite.observer((props) => {
+      const { mapStore, menuStore } = useStore();
+      const [bankName, setBankName] = React.useState(props.bankName);
+      const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.RUNLING_RUN_8).authorID);
+      const mapTitle = mapProps.get(Maps.RUNLING_RUN_8).title;
+      const bank = new Bank(bankName, authorID, menuStore.playerID, '1');
+      const params = { active: false, hide: false };
+      React.useMemo(() => {
+          const storeParams = mapStore.list[mapTitle]?.prestige;
+          if (!storeParams)
+              return;
+          params.active = storeParams.active;
+          params.hide = storeParams.hide;
+      }, [mapStore, params]);
+      const xmlBank = React.useMemo(() => {
+          const section = 'HUD';
+          const key = { active: 'Active', hide: 'Hide' };
+          if (!bank.sections.has(section))
+              bank.sections.set(section, new BankMap(section));
+          const s = bank.sections.get(section);
+          if (!s.has(key.active))
+              s.set(key.active, new BankKey(key.active, BankKeyType.FLAG, ''));
+          s.get(key.active).update(params.active ? '1' : '0');
+          if (!s.has(key.hide))
+              s.set(key.hide, new BankKey(key.hide, BankKeyType.FLAG, ''));
+          s.get(key.hide).update(params.hide ? '1' : '0');
+          return bank.getAsString();
+      }, [params]);
+      const makeSaveObject = () => {
+          const ilovepie = mapStore.list[mapTitle]?.ilovepie;
+          return { ilovepie, prestige: params };
+      };
+      const callbacks = {
+          onBankNameChange: React.useCallback((value) => {
+              setBankName(value);
+          }, []),
+          onAuthorIdChange: React.useCallback((value) => {
+              setAuthorID(value);
+          }, []),
+          onFileDrop: React.useCallback((value) => {
+              const section = 'HUD';
+              const key = { active: 'Active', hide: 'Hide' };
+              bank.parse(value);
+              if (bank.sections.size != 1 || bank.sections.get(section) == null)
+                  throw new Error('wrong bank file!');
+              params.active = bank.sections.get(section).get(key.active).value == '1';
+              params.hide = bank.sections.get(section).get(key.hide).value == '1';
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onDownloadClick: React.useCallback(() => {
+              console.log('download bank file:', xmlBank);
+              const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
+              filesaver.saveAs(blob, bankName + '.SC2Bank');
+          }, [xmlBank]),
+          onCopyCodeClick: React.useCallback(() => {
+              window.navigator['clipboard'].writeText(xmlBank).then(() => {
+                  console.log("Copied to clipboard:\n", xmlBank);
+              });
+          }, [xmlBank]),
+          onResetClick: React.useCallback(() => {
+              setTimeout(() => {
+                  setBankName(props.bankName);
+                  setAuthorID(mapProps.get(Maps.RUNLING_RUN_8).authorID);
+              }, 1);
+              params.active = false;
+              params.hide = false;
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+          onSettingChange: React.useCallback((value, index) => {
+              index == 0 ? params.active = value : params.hide = value;
+              mapStore.setMapData(mapTitle, makeSaveObject());
+          }, []),
+      };
+      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Text$1, { children: "This bank file is for HUD only" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10' }, children: [jsxRuntime.exports.jsx(Checkbox$1, { label: 'Active' + ':', index: 0, onChange: callbacks.onSettingChange, value: params.active }), jsxRuntime.exports.jsx(Checkbox$1, { label: 'Hide' + ':', index: 1, onChange: callbacks.onSettingChange, value: params.hide })] })] }) }));
+  });
+  var RunlingRun8Prestige = React.memo(RunLingRun8Prestige);
+
+  class ZcStats extends SCModule {
       init() {
           super.init();
           this._queue = [
@@ -1374,17 +1827,17 @@
       const [bankName, setBankName] = React.useState(props.bankName);
       const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.ZOMBIE_CITY).authorID);
       const mapTitle = mapProps.get(Maps.ZOMBIE_CITY).title;
-      const starCodeKey = 'OnFbXRyxYzPuv7of(v5v7[zdvUiDzXO]gVb9FVI9b>M>l}Gt6L';
+      const ZC_KEY = 'OnFbXRyxYzPuv7of(v5v7[zdvUiDzXO]gVb9FVI9b>M>l}Gt6L';
       const bank = new Bank(bankName, authorID, menuStore.playerID, '1');
-      const zcModule = new ZCModule();
+      const zcStats = new ZcStats();
       React.useMemo(() => {
           const storeParams = mapStore.list[mapTitle];
           if (!storeParams)
               return;
           storeParams.forEach((value, i) => {
-              zcModule.queue[i].update(value._current);
+              zcStats.queue[i].update(value._current);
           });
-      }, [mapStore, zcModule]);
+      }, [mapStore, zcStats]);
       const xmlBank = React.useMemo(() => {
           const sID = '23EGWEG234AG4';
           const kID = 'AWEO322AOIGWE3wqogej23';
@@ -1392,11 +1845,10 @@
               bank.sections.set(sID, new BankMap(sID));
           if (!bank.sections.get(sID).has(kID))
               bank.sections.get(sID).set(kID, new BankKey(kID, BankKeyType.STRING, ''));
-          bank.sections.get(sID).get(kID).update(zcModule.write(starcode, starCodeKey));
+          bank.sections.get(sID).get(kID).update(zcStats.write(starcode, ZC_KEY));
           bank.updateSignature();
-          console.log("bank const updated:", bank.signature);
           return bank.getAsString();
-      }, [zcModule]);
+      }, [zcStats]);
       const callbacks = {
           onBankNameChange: React.useCallback((value) => {
               setBankName(value);
@@ -1410,8 +1862,8 @@
                   throw new Error('wrong bank file!');
               starcode.reset();
               starcode.currentCode = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
-              zcModule.read(starcode, starCodeKey);
-              mapStore.setMapData(mapTitle, [...zcModule.queue]);
+              zcStats.read(starcode, ZC_KEY);
+              mapStore.setMapData(mapTitle, [...zcStats.queue]);
           }, []),
           onDownloadClick: React.useCallback(() => {
               console.log('download bank file:', xmlBank);
@@ -1428,15 +1880,15 @@
                   setBankName(props.bankName);
                   setAuthorID(mapProps.get(Maps.ZOMBIE_CITY).authorID);
               }, 1);
-              zcModule.reset();
-              mapStore.setMapData(mapTitle, [...zcModule.queue]);
+              zcStats.reset();
+              mapStore.setMapData(mapTitle, [...zcStats.queue]);
           }, []),
           onFieldChange: React.useCallback((value, index) => {
-              zcModule.queue[index].update(parseInt(value));
-              mapStore.setMapData(mapTitle, [...zcModule.queue]);
+              zcStats.queue[index].update(parseInt(value));
+              mapStore.setMapData(mapTitle, [...zcStats.queue]);
           }, [])
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: zcModule.queue.map((param, index) => {
+      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: zcStats.queue.map((param, index) => {
                   return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', onChange: callbacks.onFieldChange, max: param.max.toString(), value: param.current.toString() }));
               }) }) }));
   });
@@ -1446,8 +1898,9 @@
   (function (Maps) {
       Maps[Maps["RUNLING_RUN_4"] = 0] = "RUNLING_RUN_4";
       Maps[Maps["RUNLING_RUN_8"] = 1] = "RUNLING_RUN_8";
-      Maps[Maps["ZOMBIE_CITY"] = 2] = "ZOMBIE_CITY";
-      Maps[Maps["STAR_CODE_LAB"] = 3] = "STAR_CODE_LAB";
+      Maps[Maps["SWARM_SCPECIAL_FORCES"] = 2] = "SWARM_SCPECIAL_FORCES";
+      Maps[Maps["ZOMBIE_CITY"] = 3] = "ZOMBIE_CITY";
+      Maps[Maps["STAR_CODE_LAB"] = 4] = "STAR_CODE_LAB";
   })(Maps || (Maps = {}));
   const mapProps = new Map([
       [Maps.RUNLING_RUN_4, {
@@ -1457,8 +1910,13 @@
           }],
       [Maps.RUNLING_RUN_8, {
               title: 'Runling Run 8',
-              authorID: '???',
-              forms: [jsxRuntime.exports.jsx(Editor$1, {}), jsxRuntime.exports.jsx(Editor$1, {})]
+              authorID: '2-S2-1-5734972',
+              forms: [jsxRuntime.exports.jsx(RunlingRun8ilovePie, { bankName: 'ILovePie' }), jsxRuntime.exports.jsx(RunlingRun8Prestige, { bankName: 'Prestige' })]
+          }],
+      [Maps.SWARM_SCPECIAL_FORCES, {
+              title: 'Swarm Special Forces',
+              authorID: '2-S2-1-1066242',
+              forms: [jsxRuntime.exports.jsx(Editor$1, { bankName: 'SwarmSpecialForces' })]
           }],
       [Maps.ZOMBIE_CITY, {
               title: 'Zombie City',
