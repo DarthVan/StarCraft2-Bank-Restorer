@@ -4,7 +4,7 @@ Demo version of simple StarCraft2 custom maps bank restorer for people who lost 
 https://darthvan.github.io/StarCraft2-Bank-Restorer/<br/>
 <img src="./img.png" alt="img.png" width="500" />
 
-List of avaliable maps:<br/>
+List of available maps:<br/>
 Runling Run 4,<br/>
 Runling Run 8,<br/>
 Zombie City<br/><br/>
