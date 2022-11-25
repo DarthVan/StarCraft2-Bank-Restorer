@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Fri, 11 Nov 2022 21:33:45 UTC
+ * Compiled Fri, 25 Nov 2022 23:23:51 UTC
  */
 (function (React, mobxReactLite, require$$0, mobx, filesaver) {
   'use strict';
@@ -128,11 +128,13 @@
   (function (Modals) {
       Modals[Modals["NONE"] = 0] = "NONE";
       Modals[Modals["HELP"] = 1] = "HELP";
-      Modals[Modals["CONFIRM"] = 2] = "CONFIRM";
+      Modals[Modals["WARN"] = 2] = "WARN";
+      Modals[Modals["CONFIRM"] = 3] = "CONFIRM";
   })(Modals || (Modals = {}));
   class ModalStore extends BasicStore {
-      setModal(id) {
-          this.current = id;
+      setModal(id, message) {
+          this.current = Modals[id];
+          this.message = message;
       }
       reset() {
           this.current = 0;
@@ -225,7 +227,7 @@
       const { modalStore } = useStore();
       const callbacks = {
           onCloseClick: React.useCallback(() => {
-              modalStore.setModal(Modals.NONE);
+              modalStore.setModal('NONE');
           }, [])
       };
       return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '650px', maxHeight: '870px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "What is this?\u00BF" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', minWidth: '100%' }, children: [jsxRuntime.exports.jsxs(Text$1, { children: ["Hi!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntime.exports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntime.exports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntime.exports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:"] }), jsxRuntime.exports.jsx("img", { src: "./assets/help.png", alt: "help.png", width: 629, height: 191 }), jsxRuntime.exports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntime.exports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntime.exports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntime.exports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "gg hf!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] })] })] }) }) }) }));
@@ -323,7 +325,7 @@
       const onChange = React.useCallback((e) => {
           const value = props.type == 'text' ? e.target.value : checkOnMinMax(e.target.value);
           setValue(value);
-          props.onChange(value, props.index);
+          props.onChange(value, props.index, props.group);
       }, [setValue]);
       const checkOnMinMax = (value) => {
           let intValue = value ? parseInt(value) : 0;
@@ -382,7 +384,7 @@
       const id = React.useMemo(() => {
           return props.label ? props.label + Math.random() * 100000 : null;
       }, [props.label]);
-      return (jsxRuntime.exports.jsxs("div", { className: 'Checkbox', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Checkbox-rect', style: props.style, type: "checkbox", id: id, checked: props.value, onChange: e => props.onChange(e.target.checked, props.index) })] }));
+      return (jsxRuntime.exports.jsxs("div", { className: 'Checkbox', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Checkbox-rect', style: props.style, type: "checkbox", id: id, checked: props.value, onChange: e => props.onChange(e.target.checked, props.index, props.group) })] }));
   };
   var Checkbox$1 = React.memo(Checkbox);
 
@@ -395,7 +397,7 @@
                   return jsxRuntime.exports.jsx("option", { value: item.value, selected: props.selected == item.value, className: "Select-option", children: item.label }, index);
               }) });
       }, [props.children, props.selected]);
-      return (jsxRuntime.exports.jsxs("div", { className: 'Select', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("select", { id: id, className: 'Select-box', style: props.style, placeholder: props.placeholder, onChange: (e) => props.onChange(e.target.value, props.index), children: options })] }));
+      return (jsxRuntime.exports.jsxs("div", { className: 'Select', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("select", { id: id, className: 'Select-box', style: props.style, placeholder: props.placeholder, onChange: (e) => props.onChange(e.target.value, props.index, props.group), children: options })] }));
   };
   var Select$1 = React.memo(Select);
 
@@ -523,25 +525,25 @@
   }
 
   class BankInfo {
-      constructor(name, authorAccount, playerAccount) {
-          this._name = name;
-          this._authorAccount = authorAccount;
-          this._playerAccount = playerAccount;
+      constructor(bankName, authorID, playerID) {
+          this._bankName = bankName;
+          this._authorID = authorID;
+          this._playerID = playerID;
       }
       getAuthorNumber() {
-          return parseInt(this._authorAccount.split('-')[3]);
+          return parseInt(this._authorID.split('-')[3]);
       }
       getPlayerNumber() {
-          return parseInt(this._playerAccount.split('-')[3]);
+          return parseInt(this._playerID.split('-')[3]);
       }
-      get name() {
-          return this._name;
+      get bankName() {
+          return this._bankName;
       }
-      get authorAccount() {
-          return this._authorAccount;
+      get authorID() {
+          return this._authorID;
       }
-      get playerAccount() {
-          return this._playerAccount;
+      get playerID() {
+          return this._playerID;
       }
   }
 
@@ -619,9 +621,9 @@
   }
 
   class Bank {
-      constructor(name, authorAccount, playerAccount, version) {
-          this._info = new BankInfo(name, authorAccount, playerAccount);
-          this._version = version;
+      constructor(bankName, authorID, playerID, version) {
+          this._info = new BankInfo(bankName, authorID, playerID);
+          this._version = version ? version : '1';
           this.init();
       }
       parse(data) {
@@ -663,6 +665,27 @@
               this._signature = null;
           }
       }
+      addSection(name) {
+          if (!this._sections.has(name))
+              this._sections.set(name, new BankMap(name));
+          return this._sections.get(name);
+      }
+      addKey(key, type, value, section) {
+          const s = this.addSection(section);
+          if (!s.has(key))
+              s.set(key, new BankKey(key, BankKeyType[type], value));
+          else
+              s.get(key).update(value);
+          return s.get(key);
+      }
+      removeSection(name) {
+          return this._sections.delete(name);
+      }
+      removeKey(key, section) {
+          if (!this._sections.has(section))
+              return false;
+          return this._sections.get(section).delete(key);
+      }
       sort() {
           this._sections.forEach((section) => {
               this._sections.set(section.name, section.sort(), true);
@@ -687,9 +710,9 @@
       }
       updateSignature() {
           let s = '';
-          s += this._info.authorAccount;
-          s += this._info.playerAccount;
-          s += this._info.name;
+          s += this._info.authorID;
+          s += this._info.playerID;
+          s += this._info.bankName;
           this._sections.forEach((section) => {
               s += section.name;
               section.forEach((key) => {
@@ -734,229 +757,204 @@
   class StarCode {
       constructor() {
           this.ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$%/()=?,.-;:_^#+* @{[]}|~`';
-          this.ZERO_CODE = 48;
-          this.init();
-      }
-      get currentCode() {
-          return this._currentCode;
-      }
-      set currentCode(value) {
-          this._currentCode = value;
+          this.ALENGTH = this.ALPHABET.length;
+          this.AMAP = new Map();
+          for (let i = 0; i < this.ALENGTH; i++)
+              this.AMAP.set(this.ALPHABET.charAt(i), i);
+          this.reset();
+          console.log('starcode initialized.');
       }
       encrypt(s, key) {
-          let result = '';
-          const length = s.length;
-          for (let i = 0; i < length; i++) {
-              const key_index = i % key.length;
-              result += this.shift(s.charAt(i), key.charAt(key_index), true);
-          }
-          return result;
+          const ls = s.length;
+          const lk = key.length;
+          let out = '';
+          for (let i = 0; i < ls; i++)
+              out += this.shift(s.charAt(i), key.charAt(i % lk), true);
+          return out;
       }
       decrypt(s, key) {
-          let result = '';
-          const length = s.length;
-          for (let i = 0; i < length; i++) {
-              const key_index = i % key.length;
-              result += this.shift(s.charAt(i), key.charAt(key_index), false);
-          }
-          return result;
+          const ls = s.length;
+          const lk = key.length;
+          let out = '';
+          for (let i = 0; i < ls; i++)
+              out += this.shift(s.charAt(i), key.charAt(i % lk), false);
+          return out;
       }
       compress(s) {
-          if (s == '')
-              return s;
-          const base = this.ALPHABET.length.toString();
-          let result = '';
+          const n = this.ALENGTH.toString();
+          let out = '';
           while (s != '0') {
-              const remainder = this.modulo(s, base);
-              result = this.ALPHABET.charAt(parseInt(remainder)) + result;
-              s = this.divide(s, base);
+              out = this.chr(parseInt(this.modulo(s, n))) + out;
+              s = this.divide(s, n);
           }
-          return result;
+          return out;
       }
       decompress(s) {
-          const base = this.ALPHABET.length.toString();
-          let power = '1';
-          let result = '0';
-          let i = s.length - 1;
-          while (i >= 0) {
-              const index = this._map.get(s.charAt(i));
-              const digit_value = this.multiply(power, index.toString());
-              result = this.add(result, digit_value);
-              power = this.multiply(power, base);
-              i--;
-          }
-          return result;
+          const n = this.ALENGTH.toString();
+          const sl = s.length;
+          let out = '0';
+          for (let i = 0; i < sl; i++)
+              out = this.add(out, this.multiply(this.power(n, sl - (i + 1)), this.ord(s.charAt(i)).toString()));
+          return out;
       }
       getInt(maxValue) {
-          const value = this.decodenumber(this._currentCode, maxValue + 1);
-          this._currentCode = this.decodestring(this._currentCode, maxValue + 1);
+          const value = parseInt(this.modulo(this.code, (maxValue + 1).toString()));
+          this.code = this.divide(this.code, (maxValue + 1).toString());
           return value;
       }
       setInt(value, maxValue) {
-          if (value <= maxValue)
-              this._currentCode = this.encodenumber(this._currentCode, value, maxValue + 1);
+          if (value > maxValue)
+              throw new Error('STARCODE: value must be less or equal to maxValue!');
+          this.code = this.add(this.multiply(this.code, (maxValue + 1).toString()), value.toString());
       }
-      addHash(s, level) {
-          return this.hash(s, level) + s;
+      addHash(s, n) {
+          return this.hash(s, n) + s;
       }
-      removeHash(s, level) {
-          return s.substring(level, level + s.length);
+      removeHash(s, n) {
+          return s.substring(n);
       }
-      validate(s, level) {
-          return this.hash(s.substring(level, level + s.length), level) == s.substring(0, level);
+      validate(s, level, useTest = false) {
+          const test = useTest ? s.substring(0, level) : null;
+          return this.hash(s.substring(level), level, test) == s.substring(0, level);
       }
       reset() {
-          this._currentCode = '0';
+          this.code = '0';
       }
       compressAndEncrypt(key) {
-          return this._currentCode = this.encrypt(this.compress(this._currentCode), key);
+          return this.code = this.encrypt(this.compress(this.code), key);
       }
       decryptAndDecompress(s, key) {
-          return this._currentCode = this.decompress(this.decrypt(s, key));
-      }
-      init() {
-          this._currentCode = '0';
-          this._map = new Map();
-          const length = this.ALPHABET.length;
-          for (let i = 0; i < length; i++)
-              this._map.set(this.ALPHABET.charAt(i), i);
-      }
-      encodenumber(s, value, maxValue) {
-          return this.add(this.multiply(s, maxValue.toString()), value.toString());
-      }
-      decodenumber(s, max) {
-          return parseInt(this.modulo(s, max.toString()));
-      }
-      decodestring(s, max) {
-          return this.divide(s, max.toString());
+          return this.code = this.decompress(this.decrypt(s, key));
       }
       add(a, b) {
-          let len_a = a.length;
-          let len_b = b.length;
-          if (len_a < len_b) {
-              a = this.fill(a, len_b);
-              len_a = len_b;
-          }
-          else {
-              b = this.fill(b, len_a);
-              len_b = len_a;
-          }
+          b.length > a.length ? a = this.fill(a, b.length) : b = this.fill(b, a.length);
           let carry = 0;
-          let result = this.fillWithSymbol('0', len_a);
-          let i = len_a - 1;
-          while (i >= 0) {
-              const digit_a = a.charCodeAt(i) - this.ZERO_CODE;
-              const digit_b = b.charCodeAt(i) - this.ZERO_CODE;
-              const sum = digit_a + digit_b + carry;
-              const digit_result = sum % 10;
-              carry = Math.floor(sum / 10);
-              result = this.replaceCharAt(result, i, String.fromCharCode(this.ZERO_CODE + digit_result));
-              i--;
+          let out = '';
+          for (let i = a.length - 1; i >= 0; i--) {
+              const c = parseInt(a.charAt(i)) + parseInt(b.charAt(i));
+              out = ((c + carry) % 10).toString() + out;
+              carry = Math.floor((c + carry) / 10);
           }
-          if (carry > 0)
-              result = String.fromCharCode(this.ZERO_CODE + carry) + result;
-          return result;
+          return carry ? carry.toString() + out : out;
+      }
+      subtract(a, b) {
+          b.length > a.length ? a = this.fill(a, b.length) : b = this.fill(b, a.length);
+          let out = '';
+          let carry = 0;
+          for (let i = a.length - 1; i >= 0; i--) {
+              let c = parseInt(a.charAt(i)) - parseInt(b.charAt(i)) - carry;
+              if (c < 0) {
+                  carry = 1;
+                  c += 10;
+              }
+              else
+                  carry = 0;
+              out = c.toString() + out;
+          }
+          return this.cut(out);
       }
       multiply(a, b) {
-          const len_a = a.length;
-          const number_b = parseFloat(b);
-          if (number_b == 0)
+          if (b == '0')
               return '0';
+          const m = parseInt(b);
           let carry = 0;
-          let result = '';
-          let i = len_a - 1;
-          while (i >= 0) {
-              const digit_a = a.charCodeAt(i) - this.ZERO_CODE;
-              const tmp = digit_a * number_b + carry;
-              result = String.fromCharCode(this.ZERO_CODE + (tmp % 10)) + result;
-              carry = Math.floor(tmp / 10);
-              i--;
+          let out = '';
+          for (let i = a.length - 1; i >= 0; i--) {
+              const c = parseInt(a.charAt(i)) * m + carry;
+              out = (c % 10).toString() + out;
+              carry = Math.floor(c / 10);
           }
           if (carry > 0)
-              result = carry.toString() + result;
-          return result;
+              out = carry.toString() + out;
+          return out;
       }
       divide(a, b) {
-          const len_a = a.length;
-          const number_b = parseFloat(b);
-          if (number_b == 0)
-              return '0';
+          const d = parseInt(b);
+          const la = a.length;
           let carry = 0;
-          let result = '';
-          for (let i = 0; i < len_a; i++) {
-              const digit_a = a.charCodeAt(i) - this.ZERO_CODE;
-              const dividend = digit_a + 10 * carry;
-              const quotient = Math.floor(dividend / number_b);
-              result += quotient.toString();
-              carry = dividend % number_b;
+          let out = '';
+          for (let i = 0; i < la; i++) {
+              const c = (parseInt(a.charAt(i))) + carry * 10;
+              out += Math.floor(c / d).toString();
+              carry = c % d;
           }
-          return this.cut(result);
+          return this.cut(out);
       }
       modulo(a, b) {
-          const len_a = a.length;
-          const number_b = parseFloat(b);
-          if (number_b == 0)
-              return '0';
+          const d = parseInt(b);
+          const la = a.length;
           let carry = 0;
-          for (let i = 0; i < len_a; i++) {
-              const digit_a = a.charCodeAt(i) - this.ZERO_CODE;
-              const dividend = digit_a + 10 * carry;
-              carry = dividend % number_b;
-          }
+          for (let i = 0; i < la; i++)
+              carry = (parseInt(a.charAt(i)) + carry * 10) % d;
           return carry.toString();
       }
       cut(s) {
-          let start = 0;
-          while ((start + 1 < s.length) && (s.charAt(start) == '0'))
-              start++;
-          return s.substring(start);
+          const n = s.length - 1;
+          let i = 0;
+          while (i < n && s.charAt(i) == '0')
+              i++;
+          return s.substring(i);
       }
-      power(s, power) {
-          if (power == 0)
+      power(a, pow) {
+          if (pow <= 0)
               return '1';
-          let result = s;
-          while (power > 1) {
-              result = this.multiply(result, s);
-              power--;
+          let out = a;
+          while (pow > 1) {
+              out = this.multiply(out, a);
+              pow--;
           }
-          return result;
+          return out;
       }
-      shift(a, b, forward = true) {
-          const index1 = this._map.get(a);
-          const index2 = this._map.get(b);
-          let result_index;
+      chr(i) {
+          return this.ALPHABET.charAt(i);
+      }
+      ord(i) {
+          return this.AMAP.get(i);
+      }
+      shift(s, k, forward = true) {
           if (forward)
-              result_index = (index1 + index2) % this.ALPHABET.length;
-          else
-              result_index = (index1 - index2 + this.ALPHABET.length) % this.ALPHABET.length;
-          return this.ALPHABET.charAt(result_index);
+              return this.chr((this.ord(s) + this.ord(k)) % this.ALENGTH);
+          const c = this.ord(s) - this.ord(k);
+          if (c < 0)
+              return this.chr((c + this.ALENGTH) % this.ALENGTH);
+          return this.chr(c % this.ALENGTH);
       }
       fill(s, i) {
-          if (s.length >= i)
-              return s;
-          let n = i - s.length;
-          return this.fillWithSymbol('0', n) + s;
-      }
-      fillWithSymbol(s, n) {
-          let result = '';
-          for (let i = 0; i < n; i++)
-              result += s;
-          return result;
-      }
-      replaceCharAt(s, index, value) {
-          const before = s.substring(0, index);
-          const after = s.substring(index + 1);
-          return before + value + after;
-      }
-      hash(s, length) {
-          let i = s.length - 1;
-          let out = '0';
-          while (i >= 0) {
-              const index = this._map.get(s.charAt(i));
-              out = this.add(out, (index * (i + 1)).toString());
+          i -= s.length;
+          let t = '';
+          while (i > 0) {
+              t += '0';
               i--;
           }
-          return this.fill(this.compress(this.modulo(out, Math.pow(this.ALPHABET.length, length).toString())), length);
+          return t + s;
+      }
+      hash(s, v, test) {
+          let out = '0';
+          for (let i = s.length - 1; i >= 0; i--)
+              out = this.add(out, (this.ord(s.charAt(i)) * (i + 1)).toString());
+          if (!test)
+              return this.fill(this.compress(this.modulo(out, this.int(Math.pow(this.ALENGTH, v)).toString())), v);
+          let max = 172319;
+          const nextTest = (origin) => {
+              max++;
+              let pow = Math.pow(this.ALENGTH, v);
+              pow = pow > max ? pow = max : pow;
+              const hash = this.fill(this.compress(this.modulo(out, pow.toString())), v);
+              if (max % 1000 == 0)
+                  console.log('max:', max, '; hash:', hash, '; origin:', origin);
+              if (hash != origin)
+                  setTimeout(test, 5, out, v);
+              else
+                  console.log('max found!:', max, '; hash:', hash, '; origin:', origin);
+          };
+          nextTest(test);
+          return 'test';
+      }
+      int(n) {
+          const sc2FixedMax = 172319;
+          if (n > sc2FixedMax)
+              return sc2FixedMax;
+          return Math.floor(n);
       }
   }
   var starcode = new StarCode();
@@ -979,7 +977,7 @@
           return starCode.compressAndEncrypt(key);
       }
       read(starCode, key) {
-          starCode.decryptAndDecompress(starCode.currentCode, key);
+          starCode.decryptAndDecompress(starCode.code, key);
           let i = this._queue.length - 1;
           while (i >= 0) {
               this._queue[i].update(starCode.getInt(this._queue[i].max));
@@ -1169,7 +1167,7 @@
   }
 
   const RunlingRun4Form = mobxReactLite.observer((props) => {
-      const { menuStore, mapStore } = useStore();
+      const { menuStore, mapStore, modalStore } = useStore();
       const [bankName, setBankName] = React.useState(props.bankName);
       const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.RUNLING_RUN_4).authorID);
       const mapTitle = mapProps.get(Maps.RUNLING_RUN_4).title;
@@ -1216,8 +1214,10 @@
               camera.queue[i].update(param._current);
           });
           console.log('update data from store');
-      }, [mapStore, units, slots, info, camera]);
+      }, [mapStore]);
       const xmlBank = React.useMemo(() => {
+          if (!bank.info.playerID || bank.info.playerID.length < 12)
+              return '';
           const section = { unit: 'unit', account: 'account' };
           const key = { info: 'info', camera: 'camera' };
           if (!bank.sections.has(section.unit))
@@ -1283,27 +1283,35 @@
               for (let i = 0; i < 8; i++) {
                   const k = '0' + (i + 1);
                   if (bsu.has(k)) {
-                      starcode.currentCode = bsu.get(k).value;
+                      starcode.code = bsu.get(k).value;
                       units[i].read(starcode, RR4_KEY);
                   }
                   else
                       units[i].queue[0].update(0);
               }
-              starcode.currentCode = bsu.get(key.info).value;
+              starcode.code = bsu.get(key.info).value;
               slots.read(starcode, RR4_KEY);
               const bsa = bank.sections.get(section.account);
-              starcode.currentCode = bsa.get(key.info).value;
+              starcode.code = bsa.get(key.info).value;
               info.read(starcode, RR4_KEY);
-              starcode.currentCode = bsa.get(key.camera).value;
+              starcode.code = bsa.get(key.camera).value;
               camera.read(starcode, RR4_KEY);
               mapStore.setMapData(mapTitle, makeSaveObject());
           }, []),
           onDownloadClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12) {
+                  modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+                  return;
+              }
               console.log('download bank file:', xmlBank);
               const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
               filesaver.saveAs(blob, bankName + '.SC2Bank');
           }, [xmlBank]),
           onCopyCodeClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12) {
+                  modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+                  return;
+              }
               window.navigator['clipboard'].writeText(xmlBank).then(() => {
                   console.log("Copied to clipboard:\n", xmlBank);
               });
@@ -1528,7 +1536,7 @@
   }
 
   const RunlingRun8ILovePie = mobxReactLite.observer((props) => {
-      const { menuStore, mapStore } = useStore();
+      const { menuStore, mapStore, modalStore } = useStore();
       const [bankName, setBankName] = React.useState(props.bankName);
       const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.RUNLING_RUN_8).authorID);
       const mapTitle = mapProps.get(Maps.RUNLING_RUN_8).title;
@@ -1544,8 +1552,8 @@
           new RR8Unit(7, 100),
           new RR8Unit(8, 100)
       ];
-      const prefix = parseInt(menuStore.playerID.split('-')[3]);
-      const set2 = new RR8Set2(prefix);
+      const playerNumber = parseInt(menuStore.playerID.split('-')[3]);
+      const set2 = new RR8Set2(playerNumber);
       const slots = new RR8Slots();
       const info = new RR8Info();
       const camera = new RR8Camera();
@@ -1580,45 +1588,30 @@
           });
       }, [mapStore, units, slots, info, camera, set2]);
       const xmlBank = React.useMemo(() => {
+          if (!bank.info.playerID || bank.info.playerID.length < 12)
+              return '';
           const section = { unit: 'unit', account: 'account' };
           const key = { info: 'info', camera: 'camera', set2: 'set2' };
-          if (!bank.sections.has(section.unit))
-              bank.sections.set(section.unit, new BankMap(section.unit));
           let unitSum = 0;
-          const bsu = bank.sections.get(section.unit);
           units.forEach((unit, index) => {
               const k = '0' + (index + 1);
               if (unit.queue[0].current > 0) {
-                  if (!bsu.has(k))
-                      bsu.set(k, new BankKey(k, BankKeyType.STRING, ''));
-                  bsu.get(k).update(unit.write(starcode, RR8_KEY));
+                  bank.addKey(k, 'STRING', unit.write(starcode, RR8_KEY), section.unit);
                   unitSum += unit.getSum();
                   slots.setSlot(index, true);
               }
               else {
-                  if (bsu.has(k))
-                      bsu.delete(k);
+                  bank.removeKey(k, section.unit);
                   slots.setSlot(index, false);
               }
           });
-          if (!bsu.has(key.info))
-              bsu.set(key.info, new BankKey(key.info, BankKeyType.STRING, ''));
-          bsu.get(key.info).update(slots.write(starcode, RR8_KEY));
-          if (!bank.sections.has(section.account))
-              bank.sections.set(section.account, new BankMap(section.account));
-          const bsa = bank.sections.get(section.account);
-          if (!bsa.has(key.info))
-              bsa.set(key.info, new BankKey(key.info, BankKeyType.STRING, ''));
-          bsa.get(key.info).update(info.write(starcode, RR8_KEY));
-          if (!bsa.has(key.camera))
-              bsa.set(key.camera, new BankKey(key.camera, BankKeyType.STRING, ''));
+          bank.addKey(key.info, 'STRING', slots.write(starcode, RR8_KEY), section.unit);
+          bank.addKey(key.info, 'STRING', info.write(starcode, RR8_KEY), section.account);
           camera.queue[0].update(info.getSum());
-          camera.queue[1].update(unitSum + prefix);
-          bsa.get(key.camera).update(camera.write(starcode, RR8_KEY));
-          if (!bsa.has(key.set2))
-              bsa.set(key.set2, new BankKey(key.set2, BankKeyType.STRING, ''));
-          set2.queue[0].update(prefix);
-          bsa.get(key.set2).update(set2.write(starcode, RR8_KEY));
+          camera.queue[1].update(unitSum + playerNumber);
+          bank.addKey(key.camera, 'STRING', camera.write(starcode, RR8_KEY), section.account);
+          set2.queue[0].update(playerNumber);
+          bank.addKey(key.set2, 'STRING', set2.write(starcode, RR8_KEY), section.account);
           bank.sort();
           bank.updateSignature();
           return bank.getAsString();
@@ -1649,29 +1642,37 @@
               for (let i = 0; i < 8; i++) {
                   const k = '0' + (i + 1);
                   if (bsu.has(k)) {
-                      starcode.currentCode = bsu.get(k).value;
+                      starcode.code = bsu.get(k).value;
                       units[i].read(starcode, RR8_KEY);
                   }
                   else
                       units[i].queue[0].update(0);
               }
-              starcode.currentCode = bsu.get(key.info).value;
+              starcode.code = bsu.get(key.info).value;
               slots.read(starcode, RR8_KEY);
               const bsa = bank.sections.get(section.account);
-              starcode.currentCode = bsa.get(key.info).value;
+              starcode.code = bsa.get(key.info).value;
               info.read(starcode, RR8_KEY);
-              starcode.currentCode = bsa.get(key.camera).value;
+              starcode.code = bsa.get(key.camera).value;
               camera.read(starcode, RR8_KEY);
-              starcode.currentCode = bsa.get(key.set2).value;
+              starcode.code = bsa.get(key.set2).value;
               set2.read(starcode, RR8_KEY);
               mapStore.setMapData(mapTitle, makeSaveObject());
           }, []),
           onDownloadClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12) {
+                  modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+                  return;
+              }
               console.log('download bank file:', xmlBank);
               const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
               filesaver.saveAs(blob, bankName + '.SC2Bank');
           }, [xmlBank]),
           onCopyCodeClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12) {
+                  modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+                  return;
+              }
               window.navigator['clipboard'].writeText(xmlBank).then(() => {
                   console.log("Copied to clipboard:\n", xmlBank);
               });
@@ -1809,13 +1810,396 @@
   });
   var RunlingRun8Prestige = React.memo(RunLingRun8Prestige);
 
+  const SSFPartElement = (props) => {
+      let title;
+      switch (props.j) {
+          case 0:
+              title = 'Terran';
+              break;
+          case 1:
+              title = 'Protoss';
+              break;
+          case 2:
+              title = 'Mecha';
+              break;
+      }
+      const callbacks = {
+          onFieldChange: React.useCallback((value, index) => {
+              props.onChange(props.i, props.j, index, value);
+          }, [])
+      };
+      return (jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: title + ' part:' }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, children: props.array.map((param, index) => {
+                      if (param.hidden)
+                          return null;
+                      return (jsxRuntime.exports.jsx(Input$1, { label: index == 0 ? 'Solo' : 'Team', index: index, type: 'text', style: { width: '70px' }, onChange: callbacks.onFieldChange, value: param.value.toString() }));
+                  }) })] }));
+  };
+  var SSFPartElement$1 = React.memo(SSFPartElement);
+
+  const SSFDiffElement = (props) => {
+      let title;
+      switch (props.i) {
+          case 0:
+              title = 'Easy';
+              break;
+          case 1:
+              title = 'Normal';
+              break;
+          case 2:
+              title = 'Hard';
+              break;
+          case 3:
+              title = 'Brutal';
+              break;
+          case 4:
+              title = 'Insane';
+              break;
+          case 5:
+              title = 'Hardcore';
+              break;
+      }
+      return (jsxRuntime.exports.jsxs(jsxRuntime.exports.Fragment, { children: [jsxRuntime.exports.jsx(Label$1, { children: title + ' speedruns:' }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }, children: props.array.map((params, index) => {
+                      return (jsxRuntime.exports.jsx(SSFPartElement$1, { onChange: props.onChange, array: params, i: props.i, j: index }));
+                  }) })] }));
+  };
+  var SsfDiff = React.memo(SSFDiffElement);
+
+  class SSFStorage {
+      constructor() {
+          this.reset();
+      }
+      reset() {
+          this.data = '';
+      }
+      addInt(value) {
+          if (value < 0)
+              throw new Error('SSF Storage Error! Value negative.');
+          const sv = value.toString();
+          const sl = sv.length;
+          this.data += sl > 9 ? '9999999999' : sl + sv;
+      }
+      addBool(value) {
+          this.data += value ? '1' : '0';
+      }
+      getInt() {
+          if (this.data == '')
+              throw new Error('SSF Storage Error! Empty data.');
+          let s = this.data.substring(0, 1);
+          const n = parseInt(s);
+          if (n == 0 || n > this.data.length)
+              throw new Error('SSF Storage Error! Wrong length: ' + n + '; use data length: 1-' + this.data.length);
+          s = this.data.substring(1, n + 1);
+          this.data = this.data.substring(n + 1);
+          return parseInt(s);
+      }
+      getBool() {
+          if (this.data == '')
+              throw new Error('SSF Storage Error! Empty data.');
+          const s = this.data.substring(0, 1);
+          if (s != '0' && s != '1')
+              throw new Error('SSF Storage Error! Expected boolean (0 or 1).');
+          this.data = this.data.substring(1);
+          return s == '1' ? true : false;
+      }
+  }
+
+  class SSFData {
+      constructor(playerID, skipGenerating) {
+          this.playerID = playerID;
+          this.init(skipGenerating);
+      }
+      read(bank) {
+          this.reloadStorage(bank, 'lightData');
+          for (let i = 0; i < 6; i++)
+              this.lightData[i].value = this._storage.getInt();
+          this._storage.getInt();
+          if (this._storage.getInt() != this.version)
+              throw new Error('Invaliid version in lightData');
+          this.reloadStorage(bank, 'heavyData');
+          for (let i = 0; i < this._parts; i++)
+              this.heavyData[i].value = this._storage.getInt();
+          for (let i = 0; i < this._bosses; i++)
+              this.heavyData[i + this._parts].value = this._storage.getInt();
+          this.heavyData[this._parts + this._bosses].value = this._storage.getInt();
+          this.heavyData[this._parts + this._bosses + 1].value = this._storage.getBool();
+          this.heavyData[this._parts + this._bosses + 2].value = this._storage.getInt();
+          this._storage.getInt();
+          if (this._storage.getInt() != this.version)
+              throw new Error('Invaliid version in heavyData');
+          this.reloadStorage(bank, 'speedrunsData');
+          for (let i = 0; i < this._difficults; i++)
+              for (let j = 0; j < this._parts; j++) {
+                  let solo = 0;
+                  let team = 0;
+                  for (let k = 0; k < this._players; k++) {
+                      const v = this._storage.getInt();
+                      k < 2 ? solo = Math.max(solo, v) : team = Math.max(team, v);
+                  }
+                  this.speedruns[i][j][0].value = this.n2t(solo);
+                  this.speedruns[i][j][1].value = this.n2t(team);
+              }
+          this._storage.getInt();
+          if (this._storage.getInt() != this.version)
+              throw new Error('Invaliid version in speedrunsData');
+          this._storage.data = bank.sections.get('stats').get('options').value;
+          for (let i = 0; i < 6; i++)
+              if (i > 0 && i < 5)
+                  this.options[i].value = this._storage.getBool();
+              else
+                  this.options[i].value = this._storage.getInt();
+          for (let i = 0; i < 10; i += 2) {
+              this.options[i + 6].value = this._storage.getBool();
+              this.options[i + 7].value = this._storage.getInt();
+          }
+          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+      }
+      storageToSC() {
+          return starcode.encrypt(starcode.addHash(starcode.compress(this._storage.data), this._hashLevel), this._scKey);
+      }
+      save(bank) {
+          bank.addSection('stats');
+          bank.addKey('version', 'FIXED', '2.01', 'stats');
+          this._storage.reset();
+          for (let i = 0; i < 6; i++)
+              this._storage.addInt(this.lightData[i].value);
+          this._storage.addInt(this.r(1, 500));
+          this._storage.addInt(this.version);
+          bank.addKey('lightData', 'STRING', this.storageToSC(), 'stats');
+          this._storage.reset();
+          for (let i = 0; i < 10; i++)
+              if (this.heavyData[i].type == 'number')
+                  this._storage.addInt(this.heavyData[i].value);
+              else
+                  this._storage.addBool(this.heavyData[i].value);
+          this._storage.addInt(this.r(1, 500));
+          this._storage.addInt(this.version);
+          bank.addKey('heavyData', 'STRING', this.storageToSC(), 'stats');
+          this._storage.reset();
+          for (let i = 0; i < this._difficults; i++)
+              for (let j = 0; j < this._parts; j++)
+                  for (let k = 0; k < this._players; k++)
+                      this._storage.addInt(this.t2n(k < 2 ? this.speedruns[i][j][0].value : this.speedruns[i][j][1].value));
+          this._storage.addInt(this.r(1, 500));
+          this._storage.addInt(this.version);
+          bank.addKey('speedrunsData', 'STRING', this.storageToSC(), 'stats');
+          this._storage.reset();
+          for (let i = 0; i < 6; i++)
+              if (i > 0 && i < 5)
+                  this._storage.addBool(this.options[i].value);
+              else
+                  this._storage.addInt(this.options[i].value);
+          for (let i = 0; i < 10; i += 2) {
+              this._storage.addBool(this.options[i + 6].value);
+              this._storage.addInt(this.options[i + 7].value);
+          }
+          bank.addKey('options', 'STRING', this._storage.data, 'stats');
+          bank.sort();
+          bank.updateSignature();
+          return bank.getAsString();
+      }
+      generateDefault(myKillz) {
+          const killz = myKillz ? myKillz : this.r(500000, 9000000);
+          this.lightData = [
+              { type: 'number', value: killz, description: 'Kills' },
+              { type: 'number', value: Math.floor(killz / this.r(180, 220)), description: 'Points' },
+              { type: 'number', value: Math.floor(killz / this.r(3200, 3500)), description: 'Scientists' },
+              { type: 'number', value: Math.floor(killz / this.r(1500, 1800)), description: 'Essences' },
+              { type: 'number', value: Math.floor(killz / this.r(8000, 12000)), description: 'Psi Orbs' },
+              { type: 'number', value: Math.floor(killz / this.r(14000, 16000)), description: 'MoopyHats' }
+          ];
+          this.heavyData = [];
+          for (let i = 0; i < this._parts; i++) {
+              const wins = Math.floor(killz / this.r(1200 * (i + 1), 2000 * (i + 1)));
+              this.heavyData.push({ type: 'number', value: wins, description: 'Wins ' + (i + 1) });
+          }
+          for (let i = 0; i < this._bosses; i++) {
+              const bkillz = Math.floor(killz / this.r(800, 3200));
+              this.heavyData.push({ type: 'number', value: bkillz, description: 'Boss ' + (i + 1) + ' kills', hidden: false });
+          }
+          this.heavyData.push({ type: 'number', value: this.r(10, 50), description: 'Flawless' }, { type: 'boolean', value: true, description: 'Tutorial' }, { type: 'number', value: this.r(0, 10), description: 'ArchivedAcv' });
+          this.speedruns = [];
+          for (let i = 0; i < this._difficults; i++) {
+              this.speedruns.push([]);
+              for (let j = 0; j < this._parts; j++) {
+                  this.speedruns[i].push([]);
+                  for (let k = 0; k < 2; k++) {
+                      this.speedruns[i][j].push({ type: 'string', value: this.n2t(this.r(250, 500) * Math.pow((i + 1), 1.5) / (k + 1)), description: 'time ' });
+                  }
+              }
+          }
+          this.options = [
+              { type: 'number', value: 0, description: 'Hero type' },
+              { type: 'boolean', value: false, description: 'Hero selected' },
+              { type: 'boolean', value: false, description: 'Speedrun details' },
+              { type: 'boolean', value: true, description: 'Hero panel' },
+              { type: 'boolean', value: false, description: 'Hive panel' },
+              { type: 'number', value: 0, description: 'Unit selection' },
+              { type: 'boolean', value: true, description: 'Control group 1b', hidden: true },
+              { type: 'number', value: 1, description: 'Control group 1n', hidden: true },
+              { type: 'boolean', value: true, description: 'Control group 2b', hidden: true },
+              { type: 'number', value: 2, description: 'Control group 2n', hidden: true },
+              { type: 'boolean', value: true, description: 'Control group 3b', hidden: true },
+              { type: 'number', value: 3, description: 'Control group 3n', hidden: true },
+              { type: 'boolean', value: true, description: 'Control group 4b', hidden: true },
+              { type: 'number', value: 3, description: 'Control group 4n', hidden: true },
+              { type: 'boolean', value: true, description: 'Control group 5b', hidden: true },
+              { type: 'number', value: 3, description: 'Control group 5n', hidden: true }
+          ];
+          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+      }
+      get fullData() {
+          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+      }
+      set playerID(value) {
+          this._playerID = value;
+          this._scKey = 'gehkaggen11' + this._playerID;
+      }
+      init(skipGenerating) {
+          this.version = 2011;
+          this.lightData = [];
+          this.heavyData = [];
+          this.speedruns = [];
+          this.options = [];
+          this._storage = new SSFStorage();
+          this._scKey = this._playerID + 'gehkaggen11';
+          this._hashLevel = 4;
+          this._parts = 3;
+          this._bosses = 4;
+          this._difficults = 6;
+          this._players = 6;
+          if (skipGenerating)
+              return;
+          this.generateDefault();
+      }
+      r(min, max) {
+          return Math.round(Math.random() * (max - min)) + min;
+      }
+      t2n(value = '00:10:00') {
+          const a = value.split(':');
+          return parseInt(a[0]) * 3600 + parseInt(a[1]) * 60 + parseInt(a[2]);
+      }
+      n2t(value) {
+          return new Date(1000 * value).toISOString().substring(11, 19);
+      }
+      reloadStorage(bank, key, section = 'stats') {
+          const stats = bank.sections.get(section);
+          let s = starcode.decrypt(stats.get(key).value, this._scKey);
+          if (!starcode.validate(s, this._hashLevel))
+              throw new Error('Invaliid data in ' + section + ' → ' + key + '!');
+          s = starcode.decompress(starcode.removeHash(s, this._hashLevel));
+          this._storage.data = s;
+      }
+  }
+
+  const SwarmSpecialForcesForm = mobxReactLite.observer((props) => {
+      const { menuStore, mapStore, modalStore } = useStore();
+      const [bankName, setBankName] = React.useState(props.bankName);
+      const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.SWARM_SCPECIAL_FORCES).authorID);
+      const mapTitle = mapProps.get(Maps.SWARM_SCPECIAL_FORCES).title;
+      const bank = new Bank(bankName, authorID, menuStore.playerID, '1');
+      const ssfData = new SSFData(menuStore.playerID, true);
+      React.useMemo(() => {
+          const storeParams = mapStore.list[mapTitle];
+          if (!storeParams) {
+              ssfData.generateDefault();
+              return;
+          }
+          ssfData.lightData = storeParams.lightData;
+          ssfData.heavyData = storeParams.heavyData;
+          ssfData.speedruns = storeParams.speedruns;
+          ssfData.options = storeParams.options;
+          console.log('update data from store');
+      }, [mapStore, ssfData]);
+      const callbacks = {
+          onBankNameChange: React.useCallback((value) => {
+              setBankName(value);
+          }, []),
+          onAuthorIdChange: React.useCallback((value) => {
+              setAuthorID(value);
+          }, []),
+          onFileDrop: React.useCallback((value) => {
+              bank.parse(value);
+              if (bank.sections.size != 1 || !bank.sections.has('stats'))
+                  throw new Error('wrong bank file!');
+              mapStore.setMapData(mapTitle, ssfData.read(bank));
+          }, []),
+          onDownloadClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12) {
+                  modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+                  return;
+              }
+              const xml = ssfData.save(bank);
+              console.log('download bank file:', xml);
+              const blob = new Blob([xml], { type: 'application/octet-stream' });
+              filesaver.saveAs(blob, bankName + '.SC2Bank');
+          }, [ssfData]),
+          onCopyCodeClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12) {
+                  modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+                  return;
+              }
+              const xml = ssfData.save(bank);
+              window.navigator['clipboard'].writeText(xml).then(() => {
+                  console.log("Copied to clipboard:\n", xml);
+              });
+          }, [ssfData]),
+          onResetClick: React.useCallback(() => {
+              setTimeout(() => {
+                  setBankName(props.bankName);
+                  setAuthorID(mapProps.get(Maps.SWARM_SCPECIAL_FORCES).authorID);
+              }, 1);
+              mapStore.setMapData(mapTitle, ssfData.generateDefault());
+          }, []),
+          onFieldChange: React.useCallback((value, index, group) => {
+              switch (group) {
+                  case 'lightData':
+                      ssfData.lightData[index].value = parseInt(value);
+                      break;
+                  case 'heavyData':
+                      ssfData.heavyData[index].value = ssfData.heavyData[index].type == 'number' ? parseInt(value) : value;
+                      break;
+                  case 'options':
+                      ssfData.options[index].value = ssfData.options[index].type == 'number' ? parseInt(value) : value;
+                      break;
+              }
+              mapStore.setMapData(mapTitle, ssfData.fullData);
+          }, []),
+          onSpeedrunsChange: React.useCallback((i, j, k, value) => {
+              ssfData.speedruns[i][j][k].value = value;
+              mapStore.setMapData(mapTitle, ssfData.fullData);
+          }, [])
+      };
+      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: "Please note that the map has a votekick system." }), jsxRuntime.exports.jsxs(Text$1, { style: { width: '670px' }, children: ["If other players suspect inconsistencies in your statistics or values like 123456789, you can be kicked from the lobby.", jsxRuntime.exports.jsx("br", {}), "To prevent this, use ", jsxRuntime.exports.jsx("b", { children: "Reset" }), " button to generate random realistic statistics.", jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: "Main settings:" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: ssfData.lightData.map((param, index) => {
+                                                  if (param.hidden)
+                                                      return null;
+                                                  return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, group: 'lightData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
+                                              }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: ssfData.heavyData.map((param, index) => {
+                                                  if (param.hidden)
+                                                      return null;
+                                                  if (param.type == 'number')
+                                                      return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, group: 'heavyData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
+                                                  else
+                                                      return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'heavyData', onChange: callbacks.onFieldChange, value: param.value }));
+                                              }) })] }), jsxRuntime.exports.jsx(Label$1, { children: "Options:" }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: ssfData.options.map((param, index) => {
+                                          if (param.hidden)
+                                              return null;
+                                          if (param.type == 'number')
+                                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, group: 'options', type: 'number', min: '0', style: { width: '30px' }, onChange: callbacks.onFieldChange, max: '999', value: param.value.toString() }));
+                                          else
+                                              return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'options', onChange: callbacks.onFieldChange, value: param.value }));
+                                      }) })] }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, children: ssfData.speedruns.map((params, index) => {
+                                  return (jsxRuntime.exports.jsx(SsfDiff, { onChange: callbacks.onSpeedrunsChange, array: params, i: index }));
+                              }) })] })] }) }));
+  });
+  var SwarmSpecialForces = React.memo(SwarmSpecialForcesForm);
+
   class ZcStats extends SCModule {
       init() {
           super.init();
           this._queue = [
               new SCParam(666, 1000, 'Waves'),
               new SCParam(66666666, 99000000, 'Kills'),
-              new SCParam(666, 100000, 'Deaths'),
+              new SCParam(1, 100000, 'Deaths'),
               new SCParam(666, 50000, 'Games'),
               new SCParam(39960, 1000000, 'Minutes')
           ];
@@ -1861,7 +2245,7 @@
               if (bank.sections.size != 1 || bank.sections.get('23EGWEG234AG4') == null)
                   throw new Error('wrong bank file!');
               starcode.reset();
-              starcode.currentCode = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
+              starcode.code = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
               zcStats.read(starcode, ZC_KEY);
               mapStore.setMapData(mapTitle, [...zcStats.queue]);
           }, []),
@@ -1916,7 +2300,7 @@
       [Maps.SWARM_SCPECIAL_FORCES, {
               title: 'Swarm Special Forces',
               authorID: '2-S2-1-1066242',
-              forms: [jsxRuntime.exports.jsx(Editor$1, { bankName: 'SwarmSpecialForces' })]
+              forms: [jsxRuntime.exports.jsx(SwarmSpecialForces, { bankName: 'SwarmSpecialForces' })]
           }],
       [Maps.ZOMBIE_CITY, {
               title: 'Zombie City',
@@ -1937,7 +2321,7 @@
               menuStore.setPlayerID(value);
           }, []),
           onHelpClick: React.useCallback(() => {
-              modalStore.setModal(Modals.HELP);
+              modalStore.setModal('HELP');
           }, []),
           onMapSelect: React.useCallback((value) => {
               menuStore.setSelectedMap(parseInt(value));
@@ -1962,6 +2346,17 @@
   });
   var Menu$1 = React.memo(Menu);
 
+  const Warn = mobxReactLite.observer((props) => {
+      const { modalStore } = useStore();
+      const callbacks = {
+          onCloseClick: React.useCallback(() => {
+              modalStore.setModal('NONE');
+          }, [])
+      };
+      return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '500px', maxHeight: '200px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "Warning" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', minWidth: '100%', justifyContent: 'center' }, children: jsxRuntime.exports.jsx(Text$1, { style: { textAlign: 'center', marginTop: '-20px' }, children: modalStore.message }) })] }) }) }) }));
+  });
+  var Warn$1 = React.memo(Warn);
+
   const Workspace = mobxReactLite.observer((props) => {
       const { menuStore } = useStore();
       const editors = React.useMemo(() => {
@@ -1978,7 +2373,7 @@
 
   const App = mobxReactLite.observer(() => {
       const { modalStore } = useStore();
-      return (jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntime.exports.jsx(Help$1, {})] }));
+      return (jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntime.exports.jsx(Help$1, {}), modalStore.current == Modals.WARN && jsxRuntime.exports.jsx(Warn$1, {})] }));
   });
   const root = createRoot(document.getElementById('root'));
   root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(Slideshow$1, { type: 'random', children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsx(App, {}) }) }) }));
