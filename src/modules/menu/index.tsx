@@ -12,7 +12,6 @@ import Label from 'src/components/ui/label';
 import Line from 'src/components/ui/line';
 import Select from 'src/components/ui/select';
 import { useStore } from 'src/hooks/use-store';
-import { Modals } from 'src/store/ModalStore';
 
 /** Menu **
 * ...
@@ -32,7 +31,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 			menuStore.setPlayerID(value);
 		}, []),
 		onHelpClick: useCallback((): void => {
-			modalStore.setModal(Modals.HELP);
+			modalStore.setModal('HELP');
 		}, []),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));

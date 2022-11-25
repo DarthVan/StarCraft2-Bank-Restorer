@@ -25,6 +25,7 @@ export class SCModule {
 		this.init();
 	}
 
+	/** Depends on current map's logic (some of them can require hash) */
 	public write(starCode: StarCode, key: string): string {
 		starCode.reset();
 
@@ -41,9 +42,10 @@ export class SCModule {
 		return starCode.compressAndEncrypt(key);
 	}
 
+	/** Depends on current map's logic (some of them can require hash) */
 	public read(starCode: StarCode, key: string): void {
 		//starCode.currentCode = starCode.decompress(starCode.decrypt(starCode.currentCode, key));
-		starCode.decryptAndDecompress(starCode.currentCode, key);
+		starCode.decryptAndDecompress(starCode.code, key);
 
 		let i: number = this._queue.length - 1;
 		while (i >= 0) {

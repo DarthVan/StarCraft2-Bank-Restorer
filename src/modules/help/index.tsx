@@ -9,7 +9,6 @@ import Label from 'src/components/ui/label';
 import Line from 'src/components/ui/line';
 import Text from 'src/components/ui/text';
 import { useStore } from 'src/hooks/use-store';
-import { Modals } from 'src/store/ModalStore';
 
 /** Help **
 * ...
@@ -26,7 +25,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 
 	const callbacks = {
 		onCloseClick: useCallback((): void => {
-			modalStore.setModal(Modals.NONE);
+			modalStore.setModal('NONE');
 		}, [])
 	};
 

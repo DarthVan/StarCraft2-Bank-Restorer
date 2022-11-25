@@ -12,6 +12,7 @@ export enum Modals {
 
 	NONE,
 	HELP,
+	WARN,
 	CONFIRM
 
 }
@@ -19,11 +20,13 @@ export enum Modals {
 export class ModalStore extends BasicStore {
 
 	public current: number;
+	public message: string;
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public setModal(id: Modals): void {
-		this.current = id;
+	public setModal(id: keyof typeof Modals, message?: string): void {
+		this.current = Modals[id];
+		this.message = message;
 	}
 
 	public override reset(): void {

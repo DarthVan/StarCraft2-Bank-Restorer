@@ -70,7 +70,7 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 			if (bank.sections.size != 1 || bank.sections.get('23EGWEG234AG4') == null)
 				throw new Error('wrong bank file!');
 			starcode.reset();
-			starcode.currentCode = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
+			starcode.code = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
 			zcStats.read(starcode, ZC_KEY);
 			mapStore.setMapData(mapTitle, [...zcStats.queue]);
 		}, []),

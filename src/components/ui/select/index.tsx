@@ -11,13 +11,14 @@ import './style.css';
 */
 
 interface Props {
-	onChange: (value: string, index?: number) => void;
+	onChange: (value: string, index?: number, group?: string) => void;
 	children: Array<{ value: string, label: string }>;
 	selected: string;
 	style?: CSSProperties;
 	label?: string;
 	placeholder?: string;
 	index?: number;
+	group?: string;
 }
 
 const Select: FC<Props> = (props: Props): JSX.Element => {
@@ -47,7 +48,7 @@ const Select: FC<Props> = (props: Props): JSX.Element => {
 				className='Select-box'
 				style={props.style}
 				placeholder={props.placeholder}
-				onChange={(e: React.ChangeEvent<HTMLSelectElement>): void => props.onChange(e.target.value, props.index)}
+				onChange={(e: React.ChangeEvent<HTMLSelectElement>): void => props.onChange(e.target.value, props.index, props.group)}
 			>{options}</select>
 		</div>
 	);

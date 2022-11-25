@@ -1,6 +1,6 @@
 /* Generated with TypeScript React snippets */
 
-import React, { FC, useMemo } from 'react';
+import React, { CSSProperties, FC, useMemo } from 'react';
 import './style.css';
 
 /** Label **
@@ -11,7 +11,7 @@ import './style.css';
 
 interface Props {
 	children: string;
-	style?: { fontSize?: string };
+	style?: CSSProperties;
 	for?: string;
 }
 

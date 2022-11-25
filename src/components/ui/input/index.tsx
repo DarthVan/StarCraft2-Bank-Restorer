@@ -11,7 +11,7 @@ import './style.css';
 */
 
 interface Props {
-	onChange: (value: string, index?: number) => void;
+	onChange: (value: string, index?: number, group?: string) => void;
 	type?: 'text' | 'number'
 	value?: string;
 	min?: string;
@@ -22,7 +22,8 @@ interface Props {
 	label?: string;
 	placeholder?: string;
 	tip?: string;
-	index?: number;
+	index?: number; // index for callback identify
+	group?: string; // group for callback identify
 }
 
 const Input: FC<Props> = (props: Props): JSX.Element => {
@@ -46,7 +47,7 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 	const onChange: (e: ChangeEvent<HTMLInputElement>) => void = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
 		const value: string = props.type == 'text' ? e.target.value : checkOnMinMax(e.target.value);
 		setValue(value);
-		props.onChange(value, props.index);
+		props.onChange(value, props.index, props.group);
 	}, [setValue]);
 
 	const checkOnMinMax: (value: string) => string = (value: string): string => {

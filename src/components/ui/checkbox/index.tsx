@@ -11,11 +11,12 @@ import './style.css';
 */
 
 interface Props {
-	onChange: (value: boolean, index?: number) => void;
+	onChange: (value: boolean, index?: number, group?: string) => void;
 	style?: CSSProperties;
 	label?: string;
 	value?: boolean;
 	index?: number;
+	group?: string;
 }
 
 const Checkbox: FC<Props> = (props: Props): JSX.Element => {
@@ -33,7 +34,7 @@ const Checkbox: FC<Props> = (props: Props): JSX.Element => {
 				type="checkbox"
 				id={id}
 				checked={props.value}
-				onChange={e => props.onChange(e.target.checked, props.index)}
+				onChange={e => props.onChange(e.target.checked, props.index, props.group)}
 			></input>
 		</div>
 	);

@@ -14,19 +14,21 @@ import { BankMap } from "./bank-map";
 
 export class Bank {
 
-	private _info: BankInfo;
-	private _sections: BankMap<BankMap<BankKey>>;
 	public _signature: string;
 	public _version: string;
 
-	constructor(name: string, authorAccount: string, playerAccount: string, version?: string) {
-		this._info = new BankInfo(name, authorAccount, playerAccount);
-		this._version = version;
+	private _info: BankInfo;
+	private _sections: BankMap<BankMap<BankKey>>;
+
+	constructor(bankName: string, authorID: string, playerID: string, version?: string) {
+		this._info = new BankInfo(bankName, authorID, playerID);
+		this._version = version ? version : '1';
 		this.init();
 	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
+	/** Parse xml and generate new data */
 	public parse(data: any): void {
 		//console.log('constructor name:', <any>data.constructor.name)
 		//console.log('type of:', typeof data)
@@ -78,6 +80,35 @@ export class Bank {
 		//console.log('banks signature:', this._signature);
 	}
 
+	/** Add section to the bank, if exist, returning it */
+	public addSection(name: string): BankMap<BankKey> {
+		if (!this._sections.has(name))
+			this._sections.set(name, new BankMap(name));
+		return this._sections.get(name);
+	}
+
+	/** Add key to the section, if exist, updating it */
+	public addKey(key: string, type: keyof typeof BankKeyType, value: string, section: string): BankKey {
+		const s: BankMap<BankKey> = this.addSection(section);
+		if (!s.has(key))
+			s.set(key, new BankKey(key, BankKeyType[type], value));
+		else
+			s.get(key).update(value);
+		return s.get(key);
+	}
+
+	public removeSection(name: string): boolean {
+		return this._sections.delete(name);
+	}
+
+	/** Remove key, if exist */
+	public removeKey(key: string, section: string): boolean {
+		if (!this._sections.has(section))
+			return false;
+		return this._sections.get(section).delete(key);
+	}
+
+	/** Sort all bank data */
 	public sort(): void {
 		this._sections.forEach((section: BankMap<BankKey>): void => {
 			this._sections.set(section.name, section.sort(), true);
@@ -85,6 +116,7 @@ export class Bank {
 		this._sections = this._sections.sort();
 	}
 
+	/** Generate xml-string from bank's data */
 	public getAsString(): string {
 		let s: string = '<?xml version="1.0" encoding="utf-8"?>\n<Bank version="' + this._version + '">\n';
 
@@ -106,12 +138,13 @@ export class Bank {
 		return s;
 	}
 
+	/** Update bank's signature */
 	public updateSignature(): string {
 		let s: string = '';
 
-		s += this._info.authorAccount;
-		s += this._info.playerAccount;
-		s += this._info.name;
+		s += this._info.authorID;
+		s += this._info.playerID;
+		s += this._info.bankName;
 
 		this._sections.forEach((section: BankMap<BankKey>): void => {
 			s += section.name;
@@ -139,7 +172,6 @@ export class Bank {
 					onReady();
 			}
 		};
-
 		xmlhttp.open("GET", url, true);
 		xmlhttp.send();
 	}

@@ -19,7 +19,7 @@ export class ZcStats extends SCModule {
 		this._queue = [
 			new SCParam(666, 1000, 'Waves'),
 			new SCParam(66666666, 99000000, 'Kills'),
-			new SCParam(666, 100000, 'Deaths'),
+			new SCParam(1, 100000, 'Deaths'),
 			new SCParam(666, 50000, 'Games'),
 			new SCParam(39960, 1000000, 'Minutes')
 		];

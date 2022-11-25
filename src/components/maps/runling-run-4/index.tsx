@@ -33,7 +33,7 @@ interface Props {
 }
 
 const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
-	const { menuStore, mapStore } = useStore();
+	const { menuStore, mapStore, modalStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
 	const [authorID, setAuthorID] = useState(mapProps.get(Maps.RUNLING_RUN_4).authorID);
 	const mapTitle: string = mapProps.get(Maps.RUNLING_RUN_4).title;
@@ -96,10 +96,13 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		});
 
 		console.log('update data from store');
-	}, [mapStore, units, slots, info, camera]);
+	}, [mapStore]); //, units, slots, info, camera
 
 	// generate xml bank
 	const xmlBank: string = useMemo((): string => {
+		if (!bank.info.playerID || bank.info.playerID.length < 12)
+			return '';
+
 		const section = { unit: 'unit', account: 'account' };
 		const key = { info: 'info', camera: 'camera' }; // key.info uses in both sections
 
@@ -176,29 +179,37 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 			for (let i: number = 0; i < 8; i++) {
 				const k: string = '0' + (i + 1);
 				if (bsu.has(k)) {
-					starcode.currentCode = bsu.get(k).value;
+					starcode.code = bsu.get(k).value;
 					units[i].read(starcode, RR4_KEY);
 				} else
 					units[i].queue[0].update(0); // type = 0 = empty slot
 			}
-			starcode.currentCode = bsu.get(key.info).value;
+			starcode.code = bsu.get(key.info).value;
 			slots.read(starcode, RR4_KEY);
 
 			// 3. account
 			const bsa: BankMap<BankKey> = bank.sections.get(section.account); // shortcut 
-			starcode.currentCode = bsa.get(key.info).value;
+			starcode.code = bsa.get(key.info).value;
 			info.read(starcode, RR4_KEY);
-			starcode.currentCode = bsa.get(key.camera).value;
+			starcode.code = bsa.get(key.camera).value;
 			camera.read(starcode, RR4_KEY);
 
 			mapStore.setMapData(mapTitle, makeSaveObject());
 		}, []),
 		onDownloadClick: useCallback((): void => {
+			if (menuStore.playerID.length < 12) {
+				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+				return;
+			}
 			console.log('download bank file:', xmlBank);
 			const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
 			filesaver.saveAs(blob, bankName + '.SC2Bank');
 		}, [xmlBank]), // зависит от хмля банка
 		onCopyCodeClick: useCallback((): void => {
+			if (menuStore.playerID.length < 12) {
+				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+				return;
+			}
 			window.navigator['clipboard'].writeText(xmlBank).then((): void => {
 				console.log("Copied to clipboard:\n", xmlBank);
 			});

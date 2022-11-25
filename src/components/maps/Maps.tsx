@@ -4,6 +4,7 @@ import Editor from "src/modules/editor";
 import RunlingRun4 from "./runling-run-4";
 import RunlingRun8ilovePie from "./runling-run-8/i-love-pie";
 import RunlingRun8Prestige from "./runling-run-8/prestige";
+import SwarmSpecialForces from "./swarm-special-forces";
 import ZombieCity from "./zombie-city";
 
 /** Maps **
@@ -40,7 +41,7 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 		[Maps.SWARM_SCPECIAL_FORCES, {
 			title: 'Swarm Special Forces',
 			authorID: '2-S2-1-1066242',
-			forms: [<Editor bankName='SwarmSpecialForces'></Editor>]
+			forms: [<SwarmSpecialForces bankName='SwarmSpecialForces' />]
 		}],
 
 		[Maps.ZOMBIE_CITY, {

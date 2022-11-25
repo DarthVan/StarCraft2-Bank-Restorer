@@ -8,35 +8,35 @@
 
 export class BankInfo {
 
-	private _name: string;
-	private _authorAccount: string;
-	private _playerAccount: string;
+	private _bankName: string;
+	private _authorID: string;
+	private _playerID: string;
 
-	constructor(name: string, authorAccount: string, playerAccount: string) {
-		this._name = name;
-		this._authorAccount = authorAccount;
-		this._playerAccount = playerAccount;
+	constructor(bankName: string, authorID: string, playerID: string) {
+		this._bankName = bankName;
+		this._authorID = authorID;
+		this._playerID = playerID;
 	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
 	public getAuthorNumber(): number {
-		return parseInt(this._authorAccount.split('-')[3]);
+		return parseInt(this._authorID.split('-')[3]);
 	}
 
 	public getPlayerNumber(): number {
-		return parseInt(this._playerAccount.split('-')[3]);
+		return parseInt(this._playerID.split('-')[3]);
 	}
 
-	public get name(): string {
-		return this._name;
+	public get bankName(): string {
+		return this._bankName;
 	}
 
-	public get authorAccount(): string {
-		return this._authorAccount;
+	public get authorID(): string {
+		return this._authorID;
 	}
 
-	public get playerAccount(): string {
-		return this._playerAccount;
+	public get playerID(): string {
+		return this._playerID;
 	}
 }

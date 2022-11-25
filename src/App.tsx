@@ -7,6 +7,7 @@ import { StoreProvider, useStore } from './hooks/use-store';
 import Help from './modules/help';
 import Info from './modules/info';
 import Menu from './modules/menu';
+import Warn from './modules/warn';
 import Workspace from './modules/workspace';
 import { Modals } from './store/ModalStore';
 
@@ -19,6 +20,7 @@ const App: FC = observer((): JSX.Element => {
 			<Workspace />
 			<Info />
 			{modalStore.current == Modals.HELP && <Help />}
+			{modalStore.current == Modals.WARN && <Warn />}
 		</div>
 	);
 });
