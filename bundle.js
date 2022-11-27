@@ -1,8 +1,8 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Fri, 25 Nov 2022 23:23:51 UTC
+ * Compiled Sun, 27 Nov 2022 18:18:46 UTC
  */
-(function (React, mobxReactLite, require$$0, mobx, filesaver) {
+(function (React, mobxReactLite, require$$0, mobx, mui, filesaver) {
   'use strict';
 
   var jsxRuntime = {exports: {}};
@@ -364,7 +364,7 @@
               props.onAuthorIdChange?.(value);
           }, []),
           onFilesDrop: React.useCallback((files) => {
-              files[0].text().then((value) => { props.onFileDrop?.(value); });
+              files[0].text().then((value) => { props.onFileDrop?.(files[0].name.split('.')[0], value); });
           }, [props]),
           onDownloadClick: React.useCallback(() => {
               props.onDownload?.();
@@ -379,27 +379,6 @@
       return (jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, style: { minWidth: 'max-content', minHeight: 'max-content' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', width: 'max-content', height: 'max-content', minWidth: 'max-content', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntime.exports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: callbacks.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntime.exports.jsx(Input$1, { label: "Author id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntime.exports.jsx(Drop, { onFilesDrop: callbacks.onFilesDrop })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), props.children, jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onDownloadClick, children: "Download bank" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCopyCodeClick, children: "Copy code" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onResetClick, children: "Reset" })] })] }) }));
   });
   var Editor$1 = React.memo(Editor);
-
-  const Checkbox = (props) => {
-      const id = React.useMemo(() => {
-          return props.label ? props.label + Math.random() * 100000 : null;
-      }, [props.label]);
-      return (jsxRuntime.exports.jsxs("div", { className: 'Checkbox', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Checkbox-rect', style: props.style, type: "checkbox", id: id, checked: props.value, onChange: e => props.onChange(e.target.checked, props.index, props.group) })] }));
-  };
-  var Checkbox$1 = React.memo(Checkbox);
-
-  const Select = (props) => {
-      const id = React.useMemo(() => {
-          return props.label ? props.label + Math.random() * 100000 : null;
-      }, [props.label]);
-      const options = React.useMemo(() => {
-          return jsxRuntime.exports.jsx(jsxRuntime.exports.Fragment, { children: props.children.map((item, index) => {
-                  return jsxRuntime.exports.jsx("option", { value: item.value, selected: props.selected == item.value, className: "Select-option", children: item.label }, index);
-              }) });
-      }, [props.children, props.selected]);
-      return (jsxRuntime.exports.jsxs("div", { className: 'Select', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("select", { id: id, className: 'Select-box', style: props.style, placeholder: props.placeholder, onChange: (e) => props.onChange(e.target.value, props.index, props.group), children: options })] }));
-  };
-  var Select$1 = React.memo(Select);
 
   const POW_2_24 = Math.pow(2, 24);
   const POW_2_32 = Math.pow(2, 32);
@@ -753,6 +732,112 @@
           this._sections = new BankMap("Sections");
       }
   }
+
+  const AnySimple = mobxReactLite.observer((props) => {
+      const { menuStore, mapStore, modalStore } = useStore();
+      const [bankName, setBankName] = React.useState('');
+      const [authorID, setAuthorID] = React.useState('');
+      const [sxml, setSXML] = React.useState('');
+      const mapTitle = mapProps.get(Maps.ANY_SIMPLE).title;
+      const bank = new Bank(bankName, authorID, menuStore.playerID, '1');
+      React.useMemo(() => {
+          const storeParams = mapStore.list[mapTitle];
+          if (!storeParams)
+              return;
+          setBankName(storeParams.bankName);
+          setAuthorID(storeParams.authorID);
+          setSXML(storeParams.xml);
+          console.log('update data from store');
+      }, [mapStore]);
+      const callbacks = {
+          onBankNameChange: React.useCallback((value) => {
+              setBankName(value);
+              mapStore.setMapData(mapTitle, { bankName: value, authorID, xml: sxml });
+          }, [authorID, sxml]),
+          onAuthorIdChange: React.useCallback((value) => {
+              setAuthorID(value);
+              mapStore.setMapData(mapTitle, { bankName, authorID: value, xml: sxml });
+          }, [bankName, sxml]),
+          onFileDrop: React.useCallback((name, value) => {
+              bank.parse(value);
+              bank.sort();
+              const xml = bank.getAsString();
+              setBankName(name);
+              setSXML(xml);
+              mapStore.setMapData(mapTitle, { bankName: name, authorID, xml });
+          }, [bankName, authorID]),
+          onDownloadClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12 || authorID.length < 12 || bankName.length < 1)
+                  modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
+              console.log('download bank file:', sxml);
+              const blob = new Blob([sxml], { type: 'application/octet-stream' });
+              filesaver.saveAs(blob, bankName + '.SC2Bank');
+          }, [bankName, authorID, sxml]),
+          onCopyCodeClick: React.useCallback(() => {
+              if (menuStore.playerID.length < 12 || authorID.length < 12 || bankName.length < 1)
+                  modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
+              window.navigator['clipboard'].writeText(sxml).then(() => {
+                  console.log("Copied to clipboard:\n", sxml);
+              });
+          }, [bankName, authorID, sxml]),
+          onResetClick: React.useCallback(() => {
+              setTimeout(() => {
+                  setBankName('');
+                  setAuthorID('');
+                  setSXML('');
+              }, 1);
+              mapStore.setMapData(mapTitle, null);
+          }, []),
+          onFieldChange: React.useCallback((value) => {
+              setSXML(value);
+              mapStore.setMapData(mapTitle, { bankName, authorID, xml: value });
+          }, [bankName, authorID]),
+          updateSignature: React.useCallback(() => {
+              bank.parse(sxml);
+              bank.sort();
+              bank.updateSignature();
+              const xml = bank.getAsString();
+              setSXML(xml);
+              mapStore.setMapData(mapTitle, { bankName, authorID, xml });
+          }, [bankName, authorID, sxml]),
+      };
+      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: "Simple text editor for any banks, that protected with signature only." }), jsxRuntime.exports.jsx(mui.TextField, { sx: {
+                          width: '900px',
+                          "& .MuiInputBase-root": {
+                              color: '#FFFFFF',
+                              fontFamily: 'Consolas',
+                              fontSize: '12px'
+                          },
+                          "& .MuiFormLabel-root": {
+                              color: '#CCCCFF'
+                          },
+                          "& .MuiFormLabel-root.Mui-focused": {
+                              color: '#FFFF00'
+                          }
+                      }, id: "standard-multiline-flexible", label: "XML Bank Data", multiline: true, minRows: 10, maxRows: 30, value: sxml, onChange: (e) => callbacks.onFieldChange(e.target.value), variant: "standard", InputProps: { disableUnderline: true, spellCheck: 'false' } }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.updateSignature, style: { width: '150px' }, children: "Update Signature" })] }) }));
+  });
+  var AnySimple$1 = React.memo(AnySimple);
+
+  const Checkbox = (props) => {
+      const id = React.useMemo(() => {
+          return props.label ? props.label + Math.random() * 100000 : null;
+      }, [props.label]);
+      return (jsxRuntime.exports.jsxs("div", { className: 'Checkbox', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Checkbox-rect', style: props.style, type: "checkbox", id: id, checked: props.value, onChange: e => props.onChange(e.target.checked, props.index, props.group) })] }));
+  };
+  var Checkbox$1 = React.memo(Checkbox);
+
+  const Select = (props) => {
+      const id = React.useMemo(() => {
+          return props.label ? props.label + Math.random() * 100000 : null;
+      }, [props.label]);
+      const options = React.useMemo(() => {
+          return jsxRuntime.exports.jsx(jsxRuntime.exports.Fragment, { children: props.children.map((item, index) => {
+                  return jsxRuntime.exports.jsx("option", { value: item.value, selected: props.selected == item.value, className: "Select-option", children: item.label }, index);
+              }) });
+      }, [props.children, props.selected]);
+      return (jsxRuntime.exports.jsxs("div", { className: 'Select', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("select", { id: id, className: 'Select-box', style: props.style, placeholder: props.placeholder, onChange: (e) => props.onChange(e.target.value, props.index, props.group), children: options })] }));
+  };
+  var Select$1 = React.memo(Select);
 
   class StarCode {
       constructor() {
@@ -1272,7 +1357,7 @@
           onAuthorIdChange: React.useCallback((value) => {
               setAuthorID(value);
           }, []),
-          onFileDrop: React.useCallback((value) => {
+          onFileDrop: React.useCallback((name, value) => {
               const section = { unit: 'unit', account: 'account' };
               const key = { info: 'info', camera: 'camera' };
               bank.parse(value);
@@ -1631,7 +1716,7 @@
           onAuthorIdChange: React.useCallback((value) => {
               setAuthorID(value);
           }, []),
-          onFileDrop: React.useCallback((value) => {
+          onFileDrop: React.useCallback((name, value) => {
               const section = { unit: 'unit', account: 'account' };
               const key = { info: 'info', camera: 'camera', set2: 'set2' };
               bank.parse(value);
@@ -1772,7 +1857,7 @@
           onAuthorIdChange: React.useCallback((value) => {
               setAuthorID(value);
           }, []),
-          onFileDrop: React.useCallback((value) => {
+          onFileDrop: React.useCallback((name, value) => {
               const section = 'HUD';
               const key = { active: 'Active', hide: 'Hide' };
               bank.parse(value);
@@ -2117,7 +2202,7 @@
           onAuthorIdChange: React.useCallback((value) => {
               setAuthorID(value);
           }, []),
-          onFileDrop: React.useCallback((value) => {
+          onFileDrop: React.useCallback((name, value) => {
               bank.parse(value);
               if (bank.sections.size != 1 || !bank.sections.has('stats'))
                   throw new Error('wrong bank file!');
@@ -2240,7 +2325,7 @@
           onAuthorIdChange: React.useCallback((value) => {
               setAuthorID(value);
           }, []),
-          onFileDrop: React.useCallback((value) => {
+          onFileDrop: React.useCallback((name, value) => {
               bank.parse(value);
               if (bank.sections.size != 1 || bank.sections.get('23EGWEG234AG4') == null)
                   throw new Error('wrong bank file!');
@@ -2280,13 +2365,19 @@
 
   var Maps;
   (function (Maps) {
-      Maps[Maps["RUNLING_RUN_4"] = 0] = "RUNLING_RUN_4";
-      Maps[Maps["RUNLING_RUN_8"] = 1] = "RUNLING_RUN_8";
-      Maps[Maps["SWARM_SCPECIAL_FORCES"] = 2] = "SWARM_SCPECIAL_FORCES";
-      Maps[Maps["ZOMBIE_CITY"] = 3] = "ZOMBIE_CITY";
-      Maps[Maps["STAR_CODE_LAB"] = 4] = "STAR_CODE_LAB";
+      Maps[Maps["ANY_SIMPLE"] = 0] = "ANY_SIMPLE";
+      Maps[Maps["RUNLING_RUN_4"] = 1] = "RUNLING_RUN_4";
+      Maps[Maps["RUNLING_RUN_8"] = 2] = "RUNLING_RUN_8";
+      Maps[Maps["SWARM_SCPECIAL_FORCES"] = 3] = "SWARM_SCPECIAL_FORCES";
+      Maps[Maps["ZOMBIE_CITY"] = 4] = "ZOMBIE_CITY";
+      Maps[Maps["STAR_CODE_LAB"] = 5] = "STAR_CODE_LAB";
   })(Maps || (Maps = {}));
   const mapProps = new Map([
+      [Maps.ANY_SIMPLE, {
+              title: 'Any Simple',
+              authorID: '',
+              forms: [jsxRuntime.exports.jsx(AnySimple$1, {})]
+          }],
       [Maps.RUNLING_RUN_4, {
               title: 'Runling Run 4',
               authorID: '2-S2-1-3564862',
@@ -2378,4 +2469,4 @@
   const root = createRoot(document.getElementById('root'));
   root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(Slideshow$1, { type: 'random', children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsx(App, {}) }) }) }));
 
-})(React, mobxReactLite, ReactDOM, mobx, saveAs);
+})(React, mobxReactLite, ReactDOM, mobx, MaterialUI, saveAs);
