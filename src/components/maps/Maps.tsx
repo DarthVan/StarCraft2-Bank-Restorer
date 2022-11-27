@@ -1,6 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import Editor from "src/modules/editor";
+import AnySimple from "./any-simple";
 import RunlingRun4 from "./runling-run-4";
 import RunlingRun8ilovePie from "./runling-run-8/i-love-pie";
 import RunlingRun8Prestige from "./runling-run-8/prestige";
@@ -15,6 +16,7 @@ import ZombieCity from "./zombie-city";
 
 export enum Maps {
 
+	ANY_SIMPLE,
 	RUNLING_RUN_4,
 	RUNLING_RUN_8,
 	SWARM_SCPECIAL_FORCES,
@@ -25,6 +27,12 @@ export enum Maps {
 
 export const mapProps: Map<number, { title: string, authorID: string, forms: JSX.Element[] }> =
 	new Map<number, { title: string, authorID: string, forms: JSX.Element[] }>([
+
+		[Maps.ANY_SIMPLE, {
+			title: 'Any Simple',
+			authorID: '',
+			forms: [<AnySimple />]
+		}],
 
 		[Maps.RUNLING_RUN_4, {
 			title: 'Runling Run 4',

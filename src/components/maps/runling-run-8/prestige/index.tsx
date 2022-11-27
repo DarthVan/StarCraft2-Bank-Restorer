@@ -78,7 +78,7 @@ const RunLingRun8Prestige: FC<Props> = observer((props: Props): JSX.Element => {
 		onAuthorIdChange: useCallback((value: string): void => {
 			setAuthorID(value);
 		}, []),
-		onFileDrop: useCallback((value: string): void => {
+		onFileDrop: useCallback((name: string, value: string): void => {
 			const section = 'HUD';
 			const key = { active: 'Active', hide: 'Hide' };
 

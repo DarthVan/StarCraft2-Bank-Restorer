@@ -19,7 +19,7 @@ interface Props {
 	bankName?: string;
 	authorID?: string;
 	children?: JSX.Element;
-	onFileDrop?: (value: string) => void;
+	onFileDrop?: (name: string, value: string) => void;
 	onBankNameChange?: (value: string) => void;
 	onAuthorIdChange?: (value: string) => void;
 	onDownload?: () => void;
@@ -36,7 +36,7 @@ const Editor: FC<Props> = observer((props: Props): JSX.Element => {
 			props.onAuthorIdChange?.(value);
 		}, []),
 		onFilesDrop: useCallback((files: File[]): void => {
-			files[0].text().then((value: string): void => { props.onFileDrop?.(value); });
+			files[0].text().then((value: string): void => { props.onFileDrop?.(files[0].name.split('.')[0], value); });
 		}, [props]),
 		onDownloadClick: useCallback((): void => {
 			props.onDownload?.();
