@@ -12,15 +12,12 @@
 
 	text-shadow: 0 0 5px #d5d5ff;
 	border: 1px solid #5050ee;
-	/* border-radius: 4px; */
 
 	font-family: Consolas;
 	font-size: 14px;
 	color: #eee9ff;
 
 	width: 120px;
-	/* height: 24px; */
-	margin-left: 5px;
 	padding: 2px 5px;
 }
 

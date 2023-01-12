@@ -120,21 +120,34 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 			onReset={callbacks.onResetClick}
 		>
 			<Container style={{ flexDirection: 'column' }}>
-				<Label>Simple text editor for any banks, that protected with signature only.</Label>
+				<Label>Simple text editor for any banks, that protected with signature only. Drop file to edit it.</Label>
 				<mui.TextField
 					sx={{
 						width: '900px',
 						"& .MuiInputBase-root": {
-							color: '#FFFFFF',
+							color: '#CCCCFF',
 							fontFamily: 'Consolas',
 							fontSize: '12px'
 						},
 						"& .MuiFormLabel-root": {
-							color: '#CCCCFF'
+							color: '#7777FF',
+							fontFamily: 'Consolas'
 						},
 						"& .MuiFormLabel-root.Mui-focused": {
-							color: '#FFFF00'
-						}
+							color: '#CCCCFF',
+							fontFamily: 'Consolas'
+						},
+						/* '& .MuiOutlinedInput-root': {
+							'& fieldset': {
+								borderColor: '#ffffff40',
+							},
+							'&:hover fieldset': {
+								borderColor: '#ffffff40',
+							},
+							'&.Mui-focused fieldset': {
+								borderColor: '#ffffffcc',
+							},
+						} */
 					}}
 					id="standard-multiline-flexible"
 					label="XML Bank Data"

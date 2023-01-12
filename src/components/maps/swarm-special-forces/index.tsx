@@ -7,11 +7,13 @@ import Checkbox from "src/components/ui/checkbox";
 import Container from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
 import Label from "src/components/ui/label";
+import Line from "src/components/ui/line";
 import Text from "src/components/ui/text";
 import { Bank } from "src/core/bank/bank";
 import { useStore } from "src/hooks/use-store";
 import Editor from 'src/modules/editor';
 import { mapProps, Maps } from "../Maps";
+import SsfSixBoolsItem from "./ssf-6b";
 import SsfDiff from "./ssf-diff";
 import { SSFData } from "./SSFData";
 import { SSFParam } from "./SSFParam";
@@ -39,7 +41,8 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			lightData: SSFParam[],
 			heavyData: SSFParam[],
 			speedruns: SSFParam[][][],
-			options: SSFParam[]
+			options: SSFParam[],
+			bools: any[],
 		} = mapStore.list[mapTitle];
 
 		if (!storeParams) {
@@ -51,6 +54,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 		ssfData.heavyData = storeParams.heavyData;
 		ssfData.speedruns = storeParams.speedruns;
 		ssfData.options = storeParams.options;
+		ssfData.bools = storeParams.bools;
 
 		console.log('update data from store');
 	}, [mapStore, ssfData]);
@@ -112,7 +116,12 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 		onSpeedrunsChange: useCallback((i: number, j: number, k: number, value: string): void => {
 			ssfData.speedruns[i][j][k].value = value;
 			mapStore.setMapData(mapTitle, ssfData.fullData);
-		}, [])
+		}, []),
+		onBoolsChange: useCallback((i: number, j: number, value: boolean): void => {
+			ssfData.bools[i].flags[j].value = value;
+			ssfData.recryptAchives();
+			mapStore.setMapData(mapTitle, ssfData.fullData);
+		}, [ssfData.fullData])
 	};
 
 	return (
@@ -127,15 +136,17 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			onReset={callbacks.onResetClick}
 		>
 			<Container style={{ flexDirection: 'column' }}>
+
 				<Label>Please note that the map has a votekick system.</Label>
-				<Text style={{ width: '670px' }}>
-					If other players suspect inconsistencies in your statistics or values like 123456789,
-					you can be kicked from the lobby.<br />
+				<Text style={{ width: '1000px' }}>
+					If other players suspect inconsistencies in your stats or values like 9999999, you can be kicked from the lobby.<br />
 					To prevent this, use <b>Reset</b> button to generate random realistic statistics.<br />
 				</Text>
+
 				<Container style={{ flexDirection: 'row' }}>
 					<Container style={{ flexDirection: 'column' }}>
-						<Label>Main settings:</Label>
+
+						<Label>Main stats:</Label>
 						<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }}>
 							<Container style={{ flexDirection: 'column' }} alignInputs={true}>
 								{ssfData.lightData.map((param: SSFParam, index: number): JSX.Element => {
@@ -174,6 +185,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 								})}
 							</Container>
 						</Container>
+
 						<Label>Options:</Label>
 						<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
 							{ssfData.options.map((param: SSFParam, index: number): JSX.Element => {
@@ -197,15 +209,46 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 									);
 							})}
 						</Container>
+
 					</Container>
+
 					<Container style={{ flexDirection: 'column' }}>
-						{ssfData.speedruns.map((params: SSFParam[][], index: number): JSX.Element => {
-							return (
-								<SsfDiff onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
-							);
-						})}
+						<Label>Speedruns:</Label>
+						<Container style={{ flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }}>
+							<Container style={{ flexDirection: 'column', marginTop: '5px' }}>
+								<Label style={{ marginTop: '45px' }}>Terran:</Label>
+								<Label style={{ marginTop: '45px' }}>Protoss:</Label>
+								<Label style={{ marginTop: '45px' }}>Mecha:</Label>
+							</Container>
+							<Container style={{ flexDirection: 'column', margin: '32px 0 0 20px' }}>
+								<Label>Solo:</Label>
+								<Label>Team:</Label>
+								<Label style={{ marginTop: '20px' }}>Solo:</Label>
+								<Label>Team:</Label>
+								<Label style={{ marginTop: '20px' }}>Solo:</Label>
+								<Label>Team:</Label>
+							</Container>
+							<>
+								{ssfData.speedruns.map((params: SSFParam[][], index: number): JSX.Element => {
+									return (
+										<SsfDiff onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
+									);
+								})}
+							</>
+						</Container>
+
+						<Label>Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):</Label>
+						<Container style={{ flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }}>
+							{ssfData.bools.map((params: { flags: SSFParam[] }, index: number): JSX.Element => {
+								return (
+									<SsfSixBoolsItem onChange={callbacks.onBoolsChange} array={params.flags} i={index} />
+								)
+							})}
+						</Container>
 					</Container>
+
 				</Container>
+
 			</Container>
 		</Editor>
 	);

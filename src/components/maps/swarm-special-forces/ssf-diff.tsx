@@ -3,7 +3,6 @@
 import React, { FC } from 'react';
 import Container from 'src/components/ui/container';
 import Label from 'src/components/ui/label';
-import { MapStore } from 'src/store/MapStore';
 import SSFPartElement from './ssf-part';
 import { SSFParam } from './SSFParam';
 
@@ -30,16 +29,16 @@ const SSFDiffElement: FC<Props> = (props: Props): JSX.Element => {
 		case 5: title = 'Hardcore'; break;
 	}
 	return (
-		<>
-			<Label>{title + ' speedruns:'}</Label>
-			<Container style={{ flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }}>
+		<Container style={{ flexDirection: 'column' }}>
+			<Label>{title + ':'}</Label>
+			<Container style={{ flexDirection: 'column' }}>
 				{props.array.map((params: SSFParam[], index: number): JSX.Element => {
 					return (
 						<SSFPartElement onChange={props.onChange} array={params} i={props.i} j={index} />
 					)
 				})}
 			</Container>
-		</>
+		</Container>
 	);
 }
 

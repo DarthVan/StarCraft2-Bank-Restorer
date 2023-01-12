@@ -61,8 +61,11 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 				<Flex style={{ flexDirection: 'column', padding: '10px' }}>
 
 					<Flex style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Label style={{ fontSize: '20px' }}>SC2 Bank Generator</Label>
-						<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+						<Flex style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<img src='assets/sc2.ico' width='30' height='30' />
+							<Label style={{ fontSize: '20px' }}>Bank Generator</Label>
+						</Flex>
+						<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
 							<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
 							<Button style={{ width: '50px' }} onClick={callbacks.onHelpClick}>Help</Button>
 						</Flex>

@@ -3,8 +3,6 @@
 import React, { FC, useCallback } from 'react';
 import Container from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
-import Label from 'src/components/ui/label';
-import { MapStore } from 'src/store/MapStore';
 import { SSFParam } from './SSFParam';
 
 /** SSFPartElement **
@@ -21,12 +19,12 @@ interface Props {
 }
 
 const SSFPartElement: FC<Props> = (props: Props): JSX.Element => {
-	let title: string;
+	/* let title: string;
 	switch (props.j) {
 		case 0: title = 'Terran'; break;
 		case 1: title = 'Protoss'; break;
 		case 2: title = 'Mecha'; break;
-	}
+	} */
 
 	const callbacks = {
 		onFieldChange: useCallback((value: string, index: number): void => {
@@ -36,13 +34,14 @@ const SSFPartElement: FC<Props> = (props: Props): JSX.Element => {
 
 	return (
 		<Container style={{ flexDirection: 'column' }}>
-			<Label>{title + ' part:'}</Label>
+			{props.j > 0 ? <br /> : null}
 			<Container style={{ flexDirection: 'column' }}>
 				{props.array.map((param: SSFParam, index: number): JSX.Element => {
 					if (param.hidden)
 						return null;
 					return (
-						<Input label={index == 0 ? 'Solo' : 'Team'} index={index} type='text' style={{ width: '70px' }}
+						<Input index={index} type='text' style={{ width: '70px' }}
+							/* label={index == 0 ? 'Solo' : 'Team'} */
 							onChange={callbacks.onFieldChange}
 							value={param.value.toString()}
 						/>

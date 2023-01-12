@@ -5,6 +5,7 @@
 	flex-direction: row;
 	user-select: none;
 	cursor: default;
+	margin-right: 5px;
 }
 
 .Label-start {

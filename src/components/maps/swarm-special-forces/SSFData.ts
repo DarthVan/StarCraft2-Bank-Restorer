@@ -4,6 +4,7 @@ import { Bank } from "src/core/bank/bank";
 import { BankKey } from "src/core/bank/bank-key";
 import { BankMap } from "src/core/bank/bank-map";
 import starcode from "src/core/scarcode/starcode";
+import { n2t, r, t2n } from "src/utils/utils";
 import { SSFParam } from "./SSFParam";
 import { SSFStorage } from "./SSFStorage";
 
@@ -20,6 +21,7 @@ export class SSFData {
 	public heavyData: SSFParam[];
 	public speedruns: SSFParam[][][];
 	public options: SSFParam[];
+	public bools: any[];
 
 	private _storage: SSFStorage;
 	private _playerID: string;
@@ -29,6 +31,8 @@ export class SSFData {
 	private _bosses: number;
 	private _difficults: number;
 	private _players: number;
+
+	private _bossIDs: number[];
 
 	constructor(playerID: string, skipGenerating?: boolean) {
 		this.playerID = playerID;
@@ -69,8 +73,8 @@ export class SSFData {
 					const v: number = this._storage.getInt();
 					k < 2 ? solo = Math.max(solo, v) : team = Math.max(team, v);
 				}
-				this.speedruns[i][j][0].value = this.n2t(solo);
-				this.speedruns[i][j][1].value = this.n2t(team);
+				this.speedruns[i][j][0].value = n2t(solo);
+				this.speedruns[i][j][1].value = n2t(team);
 			}
 		this._storage.getInt(); // unused random value
 		if (this._storage.getInt() != this.version)
@@ -88,7 +92,7 @@ export class SSFData {
 			this.options[i + 7].value = this._storage.getInt();
 		}
 
-		return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+		return this.fullData;
 	}
 
 	private storageToSC(): string {
@@ -103,7 +107,7 @@ export class SSFData {
 		this._storage.reset();
 		for (let i: number = 0; i < 6; i++)
 			this._storage.addInt(this.lightData[i].value as number);
-		this._storage.addInt(this.r(1, 500));
+		this._storage.addInt(r(1, 500));
 		this._storage.addInt(this.version);
 
 		bank.addKey('lightData', 'STRING', this.storageToSC(), 'stats');
@@ -115,7 +119,7 @@ export class SSFData {
 				this._storage.addInt(this.heavyData[i].value as number);
 			else
 				this._storage.addBool(this.heavyData[i].value as boolean);
-		this._storage.addInt(this.r(1, 500));
+		this._storage.addInt(r(1, 500));
 		this._storage.addInt(this.version);
 		bank.addKey('heavyData', 'STRING', this.storageToSC(), 'stats');
 
@@ -124,10 +128,10 @@ export class SSFData {
 		for (let i: number = 0; i < this._difficults; i++)
 			for (let j: number = 0; j < this._parts; j++)
 				for (let k: number = 0; k < this._players; k++)
-					this._storage.addInt(this.t2n(
+					this._storage.addInt(t2n(
 						k < 2 ? this.speedruns[i][j][0].value as string : this.speedruns[i][j][1].value as string
 					));
-		this._storage.addInt(this.r(1, 500));
+		this._storage.addInt(r(1, 500));
 		this._storage.addInt(this.version);
 		bank.addKey('speedrunsData', 'STRING', this.storageToSC(), 'stats');
 
@@ -155,30 +159,30 @@ export class SSFData {
 	public generateDefault(myKillz?: number): {} {
 
 		// 1. light data:
-		const killz: number = myKillz ? myKillz : this.r(500000, 9000000);
+		const killz: number = myKillz ? myKillz : r(500000, 9000000);
 		this.lightData = [
 			{ type: 'number', value: killz, description: 'Kills' },
-			{ type: 'number', value: Math.floor(killz / this.r(180, 220)), description: 'Points' },
-			{ type: 'number', value: Math.floor(killz / this.r(3200, 3500)), description: 'Scientists' },
-			{ type: 'number', value: Math.floor(killz / this.r(1500, 1800)), description: 'Essences' },
-			{ type: 'number', value: Math.floor(killz / this.r(8000, 12000)), description: 'Psi Orbs' },
-			{ type: 'number', value: Math.floor(killz / this.r(14000, 16000)), description: 'MoopyHats' }
+			{ type: 'number', value: Math.floor(killz / r(180, 220)), description: 'Points' },
+			{ type: 'number', value: Math.floor(killz / r(3200, 3500)), description: 'Scientists' },
+			{ type: 'number', value: Math.floor(killz / r(1500, 1800)), description: 'Essences' },
+			{ type: 'number', value: Math.floor(killz / r(8000, 12000)), description: 'Psi Orbs' },
+			{ type: 'number', value: Math.floor(killz / r(14000, 16000)), description: 'MoopyHats' }
 		];
 
 		// 2. heavy data:
 		this.heavyData = [];
 		for (let i: number = 0; i < this._parts; i++) {
-			const wins: number = Math.floor(killz / this.r(1200 * (i + 1), 2000 * (i + 1)));
+			const wins: number = Math.floor(killz / r(1200 * (i + 1), 2000 * (i + 1)));
 			this.heavyData.push({ type: 'number', value: wins, description: 'Wins ' + (i + 1) });
 		}
-		for (let i: number = 0; i < this._bosses; i++) {
-			const bkillz: number = Math.floor(killz / this.r(800, 3200));
-			this.heavyData.push({ type: 'number', value: bkillz, description: 'Boss ' + (i + 1) + ' kills', hidden: false });
-		}
+
+		for (let i: number = 0; i < this._bosses; i++)
+			this.heavyData.push({ type: 'number', value: 0, description: 'Boss ' + (i + 1) + ' crypted', hidden: true });
+
 		this.heavyData.push(
-			{ type: 'number', value: this.r(10, 50), description: 'Flawless' },
+			{ type: 'number', value: 0, description: 'Flawless crypted', hidden: true },
 			{ type: 'boolean', value: true, description: 'Tutorial' },
-			{ type: 'number', value: this.r(0, 10), description: 'ArchivedAcv' }
+			{ type: 'number', value: r(0, 10), description: 'ArchivedAcv' }
 		);
 
 		// 3. speedruns:
@@ -189,7 +193,7 @@ export class SSFData {
 				this.speedruns[i].push([]);
 				for (let k: number = 0; k < 2; k++) {
 					this.speedruns[i][j].push(
-						{ type: 'string', value: this.n2t(this.r(250, 500) * Math.pow((i + 1), 1.5) / (k + 1)), description: 'time ' }
+						{ type: 'string', value: n2t(r(250, 500) * Math.pow((i + 1), 1.5) / (k + 1)), description: 'time ' }
 					);
 				}
 			}
@@ -197,12 +201,12 @@ export class SSFData {
 
 		// 4. options. just for store
 		this.options = [
-			{ type: 'number', value: 0, description: 'Hero type' },
-			{ type: 'boolean', value: false, description: 'Hero selected' },
-			{ type: 'boolean', value: false, description: 'Speedrun details' },
+			{ type: 'number', value: 0, description: 'Hero type', hidden: true },
+			{ type: 'boolean', value: false, description: 'Hero selected', hidden: true },
+			{ type: 'boolean', value: false, description: 'Speedrun details', hidden: true },
 			{ type: 'boolean', value: true, description: 'Hero panel' },
 			{ type: 'boolean', value: false, description: 'Hive panel' },
-			{ type: 'number', value: 0, description: 'Unit selection' },
+			{ type: 'number', value: 0, description: 'Unit selection', hidden: true },
 
 			{ type: 'boolean', value: true, description: 'Control group 1b', hidden: true },
 			{ type: 'number', value: 1, description: 'Control group 1n', hidden: true },
@@ -216,11 +220,40 @@ export class SSFData {
 			{ type: 'number', value: 3, description: 'Control group 5n', hidden: true }
 		];
 
-		return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+		// 5. bools for store only
+		const totalBools: number = this.bools.length
+		for (let i: number = 0; i < totalBools; i++)
+			this.bools[i].flags = this.makeSixBoolsFor(this.bools[i].name);
+
+		return this.fullData;
+	}
+
+	public recryptAchives(): void {
+		const crypto: number[] = [0, 0, 0, 0, 0];
+
+		for (let diff: number = 0; diff < 6; diff++)
+			for (let boss: number = 0; boss < 14; boss++) // boss
+				if (this.bools[boss].flags[diff].value == true)
+					crypto[this.bools[boss].part] ^= 1 << (diff + this._difficults * this.bools[boss].offset);
+
+		for (let diff: number = 0; diff < 6; diff++)
+			for (let part: number = 14; part < 17; part++) // flawless
+				if (this.bools[part].flags[diff].value == true)
+					crypto[4] ^= 1 << (diff + this._difficults * this.bools[part].part);
+
+		// indexes in heavyData: 3,4,5,6,7
+		for (let i: number = 0; i < this._bosses; i++)
+			this.heavyData[i + 3].value = crypto[i] as number; // bosses
+		this.heavyData[7].value = crypto[4] as number; // flawless
+
+		//console.log(crypto);
+		// max values are:
+		// for 1,4,flawless - 262143
+		// for 2,3 - 16777215
 	}
 
 	public get fullData(): {} {
-		return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+		return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options, bools: this.bools };
 	}
 
 	public set playerID(value: string) {
@@ -236,6 +269,25 @@ export class SSFData {
 		this.heavyData = [];
 		this.speedruns = [];
 		this.options = [];
+		this.bools = [
+			{ part: 0, offset: 0, name: 'Flamer' },
+			{ part: 0, offset: 1, name: 'Hammer' },
+			{ part: 0, offset: 2, name: 'Fortress' },
+			{ part: 1, offset: 0, name: 'Madness' },
+			{ part: 1, offset: 1, name: 'Atlantis' },
+			{ part: 1, offset: 2, name: 'Lightning' },
+			{ part: 1, offset: 3, name: 'Thunder' },
+			{ part: 2, offset: 0, name: 'Raynor' },
+			{ part: 2, offset: 1, name: 'Kerrigan' },
+			{ part: 2, offset: 2, name: 'Artanis' },
+			{ part: 2, offset: 3, name: 'Cybermind' },
+			{ part: 3, offset: 0, name: 'Gary' },
+			{ part: 3, offset: 1, name: 'Stetmann' },
+			{ part: 3, offset: 2, name: 'Moopy' },
+			{ part: 0, name: 'FlawlessT' },
+			{ part: 1, name: 'FlawlessP' },
+			{ part: 2, name: 'FlawlessM' }
+		];
 
 		this._storage = new SSFStorage();
 		this._scKey = this._playerID + 'gehkaggen11'; // protection from noobs lmao :)
@@ -253,24 +305,6 @@ export class SSFData {
 
 	//-------------------------------------------------- PRIVATE --------------------------------------------------
 
-	// random value from min...max
-	private r(min: number, max: number): number {
-		return Math.round(Math.random() * (max - min)) + min;
-	}
-
-	// time to number
-	private t2n(value: string = '00:10:00'): number {
-		const a: string[] = value.split(':');
-		return parseInt(a[0]) * 3600 + parseInt(a[1]) * 60 + parseInt(a[2]);
-	}
-
-	// number to time
-	private n2t(value: number): string {
-		return new Date(1000 * value).toISOString().substring(11, 19);
-	}
-
-	// todo: move to utils mb? ↑
-
 	private reloadStorage(bank: Bank, key: string, section: string = 'stats'): void {
 		const stats: BankMap<BankKey> = bank.sections.get(section);
 		let s: string = starcode.decrypt(stats.get(key).value, this._scKey);
@@ -279,4 +313,13 @@ export class SSFData {
 		s = starcode.decompress(starcode.removeHash(s, this._hashLevel));
 		this._storage.data = s;
 	}
+
+	private makeSixBoolsFor(name: string): SSFParam[] {
+		const diffs: string[] = ['Easy', 'Normal', 'Hard', 'Brutal', 'Insane', 'Hardcore'];
+		const array: SSFParam[] = [];
+		for (let i: number = 0; i < 6; i++)
+			array.push({ type: 'boolean', value: Math.random() > 0.5, description: name + ' ' + diffs[i] });
+		return array;
+	}
+
 }
