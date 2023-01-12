@@ -96,7 +96,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 		});
 
 		console.log('update data from store');
-	}, [mapStore]); //, units, slots, info, camera
+	}, [mapStore, units, slots, info, camera]); // todo: в порядок привести, чтоб не перерендерировать все, и в 8м тоже
 
 	// generate xml bank
 	const xmlBank: string = useMemo((): string => {
