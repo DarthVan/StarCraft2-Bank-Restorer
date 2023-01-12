@@ -1,11 +1,15 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Sun, 27 Nov 2022 18:18:46 UTC
+ * Compiled Thu, 12 Jan 2023 13:12:37 UTC
  */
 (function (React, mobxReactLite, require$$0, mobx, mui, filesaver) {
   'use strict';
 
-  var jsxRuntime = {exports: {}};
+  var jsxRuntimeExports = {};
+  var jsxRuntime = {
+    get exports(){ return jsxRuntimeExports; },
+    set exports(v){ jsxRuntimeExports = v; },
+  };
 
   var reactJsxRuntime_production_min = {};
 
@@ -62,7 +66,7 @@
           clearInterval(interval);
       };
       React.useEffect(() => { n = nextBG(n, ref, type); }, []);
-      return (jsxRuntime.exports.jsx("div", { className: 'Slideshow', ref: ref, children: props.children }));
+      return (jsxRuntimeExports.jsx("div", { className: 'Slideshow', ref: ref, children: props.children }));
   };
   var Slideshow$1 = React.memo(Slideshow);
 
@@ -169,7 +173,7 @@
   const storeContext = React.createContext(null);
   const StoreProvider = ({ children }) => {
       const store = mobxReactLite.useLocalObservable(() => rootStore);
-      return jsxRuntime.exports.jsx(storeContext.Provider, { value: store, children: children });
+      return jsxRuntimeExports.jsx(storeContext.Provider, { value: store, children: children });
   };
   const useStore = () => {
       const store = React.useContext(storeContext);
@@ -179,7 +183,7 @@
   };
 
   const Button = (props) => {
-      return (jsxRuntime.exports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
+      return (jsxRuntimeExports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
   };
   var Button$1 = React.memo(Button);
 
@@ -196,12 +200,12 @@
               className += ' WrapContainer';
           className += props.alignInputs ? ' TextFieldsContainer' : '';
       }
-      return (jsxRuntime.exports.jsx("div", { className: className, style: props.style, children: props.children }));
+      return (jsxRuntimeExports.jsx("div", { className: className, style: props.style, children: props.children }));
   };
   var Flex = React.memo(FlexContainer);
 
   const GlassWrapper = (props) => {
-      return (jsxRuntime.exports.jsx("div", { className: 'GlassWrapper' + (props.border ? ' GlassWrapperBordered' : ''), style: props.style, children: jsxRuntime.exports.jsx("div", { className: 'GlassWrapper-content', children: props.children }) }));
+      return (jsxRuntimeExports.jsx("div", { className: 'GlassWrapper' + (props.border ? ' GlassWrapperBordered' : ''), style: props.style, children: jsxRuntimeExports.jsx("div", { className: 'GlassWrapper-content', children: props.children }) }));
   };
   var GlassWrapper$1 = React.memo(GlassWrapper);
 
@@ -209,17 +213,17 @@
       const [first, other] = React.useMemo(() => {
           return [props.children.charAt(0), props.children.substring(1)];
       }, [props.children]);
-      return (jsxRuntime.exports.jsxs("label", { htmlFor: props.for, className: 'Label', children: [jsxRuntime.exports.jsx("span", { className: 'Label-start', style: props.style, children: first }), jsxRuntime.exports.jsx("span", { className: 'Label-other', style: props.style, children: other })] }));
+      return (jsxRuntimeExports.jsxs("label", { htmlFor: props.for, className: 'Label', children: [jsxRuntimeExports.jsx("span", { className: 'Label-start', style: props.style, children: first }), jsxRuntimeExports.jsx("span", { className: 'Label-other', style: props.style, children: other })] }));
   };
   var Label$1 = React.memo(Label);
 
   const Line = (props) => {
-      return (jsxRuntime.exports.jsx("hr", { className: "Line", style: props.style }));
+      return (jsxRuntimeExports.jsx("hr", { className: "Line", style: props.style }));
   };
   var Line$1 = React.memo(Line);
 
   const Text = (props) => {
-      return (jsxRuntime.exports.jsx("span", { className: 'Text', style: props.style, children: props.children }));
+      return (jsxRuntimeExports.jsx("span", { className: 'Text', style: props.style, children: props.children }));
   };
   var Text$1 = React.memo(Text);
 
@@ -230,12 +234,12 @@
               modalStore.setModal('NONE');
           }, [])
       };
-      return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '650px', maxHeight: '870px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "What is this?\u00BF" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', minWidth: '100%' }, children: [jsxRuntime.exports.jsxs(Text$1, { children: ["Hi!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntime.exports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntime.exports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntime.exports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:"] }), jsxRuntime.exports.jsx("img", { src: "./assets/help.png", alt: "help.png", width: 629, height: 191 }), jsxRuntime.exports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntime.exports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntime.exports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntime.exports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntime.exports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {}), "gg hf!", jsxRuntime.exports.jsx("br", {}), jsxRuntime.exports.jsx("br", {})] })] })] }) }) }) }));
+      return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntimeExports.jsx(GlassWrapper$1, { border: true, children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '650px', maxHeight: '870px' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { fontSize: '20px' }, children: "What is this?\u00BF" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', minWidth: '100%' }, children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Hi!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntimeExports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntimeExports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntimeExports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:"] }), jsxRuntimeExports.jsx("img", { src: "./assets/help.png", alt: "help.png", width: 629, height: 191 }), jsxRuntimeExports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntimeExports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntimeExports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntimeExports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "gg hf!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] })] })] }) }) }) }));
   });
   var Help$1 = React.memo(Help);
 
   const Info = () => {
-      return (jsxRuntime.exports.jsx(GlassWrapper$1, { children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntime.exports.jsx(Flex, { style: { justifyContent: 'center', alignItems: 'center', padding: '20px', minWidth: 'max-content' }, children: jsxRuntime.exports.jsx(Label$1, { children: "Powered by React 18" }) }) }) }));
+      return (jsxRuntimeExports.jsx(GlassWrapper$1, { children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntimeExports.jsx(Flex, { style: { justifyContent: 'center', alignItems: 'center', padding: '20px', minWidth: 'max-content' }, children: jsxRuntimeExports.jsx(Label$1, { children: "Powered by React 18" }) }) }) }));
   };
   var Info$1 = React.memo(Info);
 
@@ -305,7 +309,7 @@
               zoneRef?.removeEventListener('drop', callbacks.onDrop);
           };
       }, []);
-      return (jsxRuntime.exports.jsx("div", { className: 'DropZone' + (isDragActive ? ' DropZone-active' : ''), style: props.style, ref: dropZoneRef, children: props.children ? props.children : "Drop file here!" }));
+      return (jsxRuntimeExports.jsx("div", { className: 'DropZone' + (isDragActive ? ' DropZone-active' : ''), style: props.style, ref: dropZoneRef, children: props.children ? props.children : "Drop file here!" }));
   };
   var Drop = React.memo(DropZone);
 
@@ -351,7 +355,7 @@
               input?.removeEventListener("keydown", integerChange);
           };
       }, []);
-      return (jsxRuntime.exports.jsxs("div", { ref: ref, className: 'Input', "data-tooltip": props.tip, children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Input-field', id: id, style: props.style, placeholder: props.placeholder, pattern: props.pattern, value: value, onChange: (e) => onChange(e) })] }));
+      return (jsxRuntimeExports.jsxs("div", { ref: ref, className: 'Input', "data-tooltip": props.tip, children: [props.label ? jsxRuntimeExports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntimeExports.jsx("input", { className: 'Input-field', id: id, style: props.style, placeholder: props.placeholder, pattern: props.pattern, value: value, onChange: (e) => onChange(e) })] }));
   };
   var Input$1 = React.memo(Input);
 
@@ -376,7 +380,7 @@
               props.onReset?.();
           }, [props])
       };
-      return (jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, style: { minWidth: 'max-content', minHeight: 'max-content' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', width: 'max-content', height: 'max-content', minWidth: 'max-content', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntime.exports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: callbacks.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntime.exports.jsx(Input$1, { label: "Author id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntime.exports.jsx(Drop, { onFilesDrop: callbacks.onFilesDrop })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), props.children, jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onDownloadClick, children: "Download bank" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCopyCodeClick, children: "Copy code" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onResetClick, children: "Reset" })] })] }) }));
+      return (jsxRuntimeExports.jsx(GlassWrapper$1, { border: true, style: { minWidth: 'max-content', minHeight: 'max-content' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', width: 'max-content', height: 'max-content', minWidth: 'max-content', minHeight: 'max-content' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntimeExports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: callbacks.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntimeExports.jsx(Input$1, { label: "Author id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntimeExports.jsx(Drop, { onFilesDrop: callbacks.onFilesDrop })] }), jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), props.children, jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onDownloadClick, children: "Download bank" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onCopyCodeClick, children: "Copy code" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onResetClick, children: "Reset" })] })] }) }));
   });
   var Editor$1 = React.memo(Editor);
 
@@ -801,20 +805,22 @@
               mapStore.setMapData(mapTitle, { bankName, authorID, xml });
           }, [bankName, authorID, sxml]),
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: "Simple text editor for any banks, that protected with signature only." }), jsxRuntime.exports.jsx(mui.TextField, { sx: {
+      return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Simple text editor for any banks, that protected with signature only. Drop file to edit it." }), jsxRuntimeExports.jsx(mui.TextField, { sx: {
                           width: '900px',
                           "& .MuiInputBase-root": {
-                              color: '#FFFFFF',
+                              color: '#CCCCFF',
                               fontFamily: 'Consolas',
                               fontSize: '12px'
                           },
                           "& .MuiFormLabel-root": {
-                              color: '#CCCCFF'
+                              color: '#7777FF',
+                              fontFamily: 'Consolas'
                           },
                           "& .MuiFormLabel-root.Mui-focused": {
-                              color: '#FFFF00'
-                          }
-                      }, id: "standard-multiline-flexible", label: "XML Bank Data", multiline: true, minRows: 10, maxRows: 30, value: sxml, onChange: (e) => callbacks.onFieldChange(e.target.value), variant: "standard", InputProps: { disableUnderline: true, spellCheck: 'false' } }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.updateSignature, style: { width: '150px' }, children: "Update Signature" })] }) }));
+                              color: '#CCCCFF',
+                              fontFamily: 'Consolas'
+                          },
+                      }, id: "standard-multiline-flexible", label: "XML Bank Data", multiline: true, minRows: 10, maxRows: 30, value: sxml, onChange: (e) => callbacks.onFieldChange(e.target.value), variant: "standard", InputProps: { disableUnderline: true, spellCheck: 'false' } }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.updateSignature, style: { width: '150px' }, children: "Update Signature" })] }) }));
   });
   var AnySimple$1 = React.memo(AnySimple);
 
@@ -822,7 +828,7 @@
       const id = React.useMemo(() => {
           return props.label ? props.label + Math.random() * 100000 : null;
       }, [props.label]);
-      return (jsxRuntime.exports.jsxs("div", { className: 'Checkbox', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("input", { className: 'Checkbox-rect', style: props.style, type: "checkbox", id: id, checked: props.value, onChange: e => props.onChange(e.target.checked, props.index, props.group) })] }));
+      return (jsxRuntimeExports.jsxs("div", { className: 'Checkbox', children: [props.label ? jsxRuntimeExports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntimeExports.jsx("input", { className: 'Checkbox-rect', style: props.style, type: "checkbox", id: id, checked: props.value, onChange: e => props.onChange(e.target.checked, props.index, props.group) })] }));
   };
   var Checkbox$1 = React.memo(Checkbox);
 
@@ -831,11 +837,11 @@
           return props.label ? props.label + Math.random() * 100000 : null;
       }, [props.label]);
       const options = React.useMemo(() => {
-          return jsxRuntime.exports.jsx(jsxRuntime.exports.Fragment, { children: props.children.map((item, index) => {
-                  return jsxRuntime.exports.jsx("option", { value: item.value, selected: props.selected == item.value, className: "Select-option", children: item.label }, index);
+          return jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: props.children.map((item, index) => {
+                  return jsxRuntimeExports.jsx("option", { value: item.value, selected: props.selected == item.value, className: "Select-option", children: item.label }, index);
               }) });
       }, [props.children, props.selected]);
-      return (jsxRuntime.exports.jsxs("div", { className: 'Select', children: [props.label ? jsxRuntime.exports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntime.exports.jsx("select", { id: id, className: 'Select-box', style: props.style, placeholder: props.placeholder, onChange: (e) => props.onChange(e.target.value, props.index, props.group), children: options })] }));
+      return (jsxRuntimeExports.jsxs("div", { className: 'Select', children: [props.label ? jsxRuntimeExports.jsx(Label$1, { for: id, children: props.label }) : null, jsxRuntimeExports.jsx("select", { id: id, className: 'Select-box', style: props.style, placeholder: props.placeholder, onChange: (e) => props.onChange(e.target.value, props.index, props.group), children: options })] }));
   };
   var Select$1 = React.memo(Select);
 
@@ -1299,7 +1305,7 @@
               camera.queue[i].update(param._current);
           });
           console.log('update data from store');
-      }, [mapStore]);
+      }, [mapStore, units, slots, info, camera]);
       const xmlBank = React.useMemo(() => {
           if (!bank.info.playerID || bank.info.playerID.length < 12)
               return '';
@@ -1438,20 +1444,20 @@
               mapStore.setMapData(mapTitle, makeSaveObject());
           }, []),
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: units.map((unit, index) => {
-                          return (jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntime.exports.jsx(Select$1, { label: 'Unit ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit.queue[0].current.toString(), children: unitSelectorData }), jsxRuntime.exports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '75', placeholder: 'Level of unit (1-75)', value: unit.queue[7].current.toString() })] }));
-                      }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
+      return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: units.map((unit, index) => {
+                          return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntimeExports.jsx(Select$1, { label: 'Unit ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit.queue[0].current.toString(), children: unitSelectorData }), jsxRuntimeExports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '75', placeholder: 'Level of unit (1-75)', value: unit.queue[7].current.toString() })] }));
+                      }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
                           if (index != 12 && index < 17)
-                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
+                              return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
                           else
                               return null;
-                      }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
+                      }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
                           if (index < 17)
                               return null;
                           if (index < 20)
-                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '1', style: { width: '45px' }, onChange: callbacks.onSettingChange, max: param.max.toString(), value: param.current.toString() }));
+                              return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '1', style: { width: '45px' }, onChange: callbacks.onSettingChange, max: param.max.toString(), value: param.current.toString() }));
                           else
-                              return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
+                              return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
                       }) })] }) }));
   });
   var RunlingRun4 = React.memo(RunlingRun4Form);
@@ -1800,20 +1806,20 @@
               mapStore.setMapData(mapTitle, makeSaveObject());
           }, []),
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: units.map((unit, index) => {
-                          return (jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntime.exports.jsx(Select$1, { label: 'Unit ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit.queue[0].current.toString(), children: unitSelectorData }), jsxRuntime.exports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '100', placeholder: 'Level of unit (1-100)', value: unit.queue[7].current.toString() })] }));
-                      }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
+      return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: units.map((unit, index) => {
+                          return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntimeExports.jsx(Select$1, { label: 'Unit ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit.queue[0].current.toString(), children: unitSelectorData }), jsxRuntimeExports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '100', placeholder: 'Level of unit (1-100)', value: unit.queue[7].current.toString() })] }));
+                      }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
                           if (index != 12 && index < 16)
-                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
+                              return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
                           else
                               return null;
-                      }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
+                      }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: info.queue.map((param, index) => {
                           if (index < 16)
                               return null;
                           if (index < 19)
-                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '1', style: { width: '45px' }, onChange: callbacks.onSettingChange, max: param.max.toString(), value: param.current.toString() }));
+                              return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '1', style: { width: '45px' }, onChange: callbacks.onSettingChange, max: param.max.toString(), value: param.current.toString() }));
                           else
-                              return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
+                              return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
                       }) })] }) }));
   });
   var RunlingRun8ilovePie = React.memo(RunlingRun8ILovePie);
@@ -1891,32 +1897,33 @@
               mapStore.setMapData(mapTitle, makeSaveObject());
           }, []),
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Text$1, { children: "This bank file is for HUD only" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10' }, children: [jsxRuntime.exports.jsx(Checkbox$1, { label: 'Active' + ':', index: 0, onChange: callbacks.onSettingChange, value: params.active }), jsxRuntime.exports.jsx(Checkbox$1, { label: 'Hide' + ':', index: 1, onChange: callbacks.onSettingChange, value: params.hide })] })] }) }));
+      return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Text$1, { children: "This bank file is for HUD only" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10' }, children: [jsxRuntimeExports.jsx(Checkbox$1, { label: 'Active' + ':', index: 0, onChange: callbacks.onSettingChange, value: params.active }), jsxRuntimeExports.jsx(Checkbox$1, { label: 'Hide' + ':', index: 1, onChange: callbacks.onSettingChange, value: params.hide })] })] }) }));
   });
   var RunlingRun8Prestige = React.memo(RunLingRun8Prestige);
 
+  const SSFSixBoolsItem = (props) => {
+      const group = props.array[0].description.split(' ')[0];
+      const callbacks = {
+          onChange: React.useCallback((value, index) => {
+              props.onChange(props.i, index, value);
+          }, [])
+      };
+      return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', width: '200px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: group + ':' }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: props.array.map((param, index) => {
+                      return (jsxRuntimeExports.jsx(Checkbox$1, { index: index, onChange: callbacks.onChange, value: param.value, style: { margin: '4px -3px -4px -3px' } }));
+                  }) })] }));
+  };
+  var SsfSixBoolsItem = React.memo(SSFSixBoolsItem);
+
   const SSFPartElement = (props) => {
-      let title;
-      switch (props.j) {
-          case 0:
-              title = 'Terran';
-              break;
-          case 1:
-              title = 'Protoss';
-              break;
-          case 2:
-              title = 'Mecha';
-              break;
-      }
       const callbacks = {
           onFieldChange: React.useCallback((value, index) => {
               props.onChange(props.i, props.j, index, value);
           }, [])
       };
-      return (jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: title + ' part:' }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, children: props.array.map((param, index) => {
+      return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [props.j > 0 ? jsxRuntimeExports.jsx("br", {}) : null, jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, children: props.array.map((param, index) => {
                       if (param.hidden)
                           return null;
-                      return (jsxRuntime.exports.jsx(Input$1, { label: index == 0 ? 'Solo' : 'Team', index: index, type: 'text', style: { width: '70px' }, onChange: callbacks.onFieldChange, value: param.value.toString() }));
+                      return (jsxRuntimeExports.jsx(Input$1, { index: index, type: 'text', style: { width: '70px' }, onChange: callbacks.onFieldChange, value: param.value.toString() }));
                   }) })] }));
   };
   var SSFPartElement$1 = React.memo(SSFPartElement);
@@ -1943,11 +1950,22 @@
               title = 'Hardcore';
               break;
       }
-      return (jsxRuntime.exports.jsxs(jsxRuntime.exports.Fragment, { children: [jsxRuntime.exports.jsx(Label$1, { children: title + ' speedruns:' }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }, children: props.array.map((params, index) => {
-                      return (jsxRuntime.exports.jsx(SSFPartElement$1, { onChange: props.onChange, array: params, i: props.i, j: index }));
+      return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: title + ':' }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, children: props.array.map((params, index) => {
+                      return (jsxRuntimeExports.jsx(SSFPartElement$1, { onChange: props.onChange, array: params, i: props.i, j: index }));
                   }) })] }));
   };
   var SsfDiff = React.memo(SSFDiffElement);
+
+  function r(min, max) {
+      return Math.round(Math.random() * (max - min)) + min;
+  }
+  function t2n(value = '00:10:00') {
+      const a = value.split(':');
+      return parseInt(a[0]) * 3600 + parseInt(a[1]) * 60 + parseInt(a[2]);
+  }
+  function n2t(value) {
+      return new Date(1000 * value).toISOString().substring(11, 19);
+  }
 
   class SSFStorage {
       constructor() {
@@ -2020,8 +2038,8 @@
                       const v = this._storage.getInt();
                       k < 2 ? solo = Math.max(solo, v) : team = Math.max(team, v);
                   }
-                  this.speedruns[i][j][0].value = this.n2t(solo);
-                  this.speedruns[i][j][1].value = this.n2t(team);
+                  this.speedruns[i][j][0].value = n2t(solo);
+                  this.speedruns[i][j][1].value = n2t(team);
               }
           this._storage.getInt();
           if (this._storage.getInt() != this.version)
@@ -2036,7 +2054,7 @@
               this.options[i + 6].value = this._storage.getBool();
               this.options[i + 7].value = this._storage.getInt();
           }
-          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+          return this.fullData;
       }
       storageToSC() {
           return starcode.encrypt(starcode.addHash(starcode.compress(this._storage.data), this._hashLevel), this._scKey);
@@ -2047,7 +2065,7 @@
           this._storage.reset();
           for (let i = 0; i < 6; i++)
               this._storage.addInt(this.lightData[i].value);
-          this._storage.addInt(this.r(1, 500));
+          this._storage.addInt(r(1, 500));
           this._storage.addInt(this.version);
           bank.addKey('lightData', 'STRING', this.storageToSC(), 'stats');
           this._storage.reset();
@@ -2056,15 +2074,15 @@
                   this._storage.addInt(this.heavyData[i].value);
               else
                   this._storage.addBool(this.heavyData[i].value);
-          this._storage.addInt(this.r(1, 500));
+          this._storage.addInt(r(1, 500));
           this._storage.addInt(this.version);
           bank.addKey('heavyData', 'STRING', this.storageToSC(), 'stats');
           this._storage.reset();
           for (let i = 0; i < this._difficults; i++)
               for (let j = 0; j < this._parts; j++)
                   for (let k = 0; k < this._players; k++)
-                      this._storage.addInt(this.t2n(k < 2 ? this.speedruns[i][j][0].value : this.speedruns[i][j][1].value));
-          this._storage.addInt(this.r(1, 500));
+                      this._storage.addInt(t2n(k < 2 ? this.speedruns[i][j][0].value : this.speedruns[i][j][1].value));
+          this._storage.addInt(r(1, 500));
           this._storage.addInt(this.version);
           bank.addKey('speedrunsData', 'STRING', this.storageToSC(), 'stats');
           this._storage.reset();
@@ -2083,42 +2101,40 @@
           return bank.getAsString();
       }
       generateDefault(myKillz) {
-          const killz = myKillz ? myKillz : this.r(500000, 9000000);
+          const killz = myKillz ? myKillz : r(500000, 9000000);
           this.lightData = [
               { type: 'number', value: killz, description: 'Kills' },
-              { type: 'number', value: Math.floor(killz / this.r(180, 220)), description: 'Points' },
-              { type: 'number', value: Math.floor(killz / this.r(3200, 3500)), description: 'Scientists' },
-              { type: 'number', value: Math.floor(killz / this.r(1500, 1800)), description: 'Essences' },
-              { type: 'number', value: Math.floor(killz / this.r(8000, 12000)), description: 'Psi Orbs' },
-              { type: 'number', value: Math.floor(killz / this.r(14000, 16000)), description: 'MoopyHats' }
+              { type: 'number', value: Math.floor(killz / r(180, 220)), description: 'Points' },
+              { type: 'number', value: Math.floor(killz / r(3200, 3500)), description: 'Scientists' },
+              { type: 'number', value: Math.floor(killz / r(1500, 1800)), description: 'Essences' },
+              { type: 'number', value: Math.floor(killz / r(8000, 12000)), description: 'Psi Orbs' },
+              { type: 'number', value: Math.floor(killz / r(14000, 16000)), description: 'MoopyHats' }
           ];
           this.heavyData = [];
           for (let i = 0; i < this._parts; i++) {
-              const wins = Math.floor(killz / this.r(1200 * (i + 1), 2000 * (i + 1)));
+              const wins = Math.floor(killz / r(1200 * (i + 1), 2000 * (i + 1)));
               this.heavyData.push({ type: 'number', value: wins, description: 'Wins ' + (i + 1) });
           }
-          for (let i = 0; i < this._bosses; i++) {
-              const bkillz = Math.floor(killz / this.r(800, 3200));
-              this.heavyData.push({ type: 'number', value: bkillz, description: 'Boss ' + (i + 1) + ' kills', hidden: false });
-          }
-          this.heavyData.push({ type: 'number', value: this.r(10, 50), description: 'Flawless' }, { type: 'boolean', value: true, description: 'Tutorial' }, { type: 'number', value: this.r(0, 10), description: 'ArchivedAcv' });
+          for (let i = 0; i < this._bosses; i++)
+              this.heavyData.push({ type: 'number', value: 0, description: 'Boss ' + (i + 1) + ' crypted', hidden: true });
+          this.heavyData.push({ type: 'number', value: 0, description: 'Flawless crypted', hidden: true }, { type: 'boolean', value: true, description: 'Tutorial' }, { type: 'number', value: r(0, 10), description: 'ArchivedAcv' });
           this.speedruns = [];
           for (let i = 0; i < this._difficults; i++) {
               this.speedruns.push([]);
               for (let j = 0; j < this._parts; j++) {
                   this.speedruns[i].push([]);
                   for (let k = 0; k < 2; k++) {
-                      this.speedruns[i][j].push({ type: 'string', value: this.n2t(this.r(250, 500) * Math.pow((i + 1), 1.5) / (k + 1)), description: 'time ' });
+                      this.speedruns[i][j].push({ type: 'string', value: n2t(r(250, 500) * Math.pow((i + 1), 1.5) / (k + 1)), description: 'time ' });
                   }
               }
           }
           this.options = [
-              { type: 'number', value: 0, description: 'Hero type' },
-              { type: 'boolean', value: false, description: 'Hero selected' },
-              { type: 'boolean', value: false, description: 'Speedrun details' },
+              { type: 'number', value: 0, description: 'Hero type', hidden: true },
+              { type: 'boolean', value: false, description: 'Hero selected', hidden: true },
+              { type: 'boolean', value: false, description: 'Speedrun details', hidden: true },
               { type: 'boolean', value: true, description: 'Hero panel' },
               { type: 'boolean', value: false, description: 'Hive panel' },
-              { type: 'number', value: 0, description: 'Unit selection' },
+              { type: 'number', value: 0, description: 'Unit selection', hidden: true },
               { type: 'boolean', value: true, description: 'Control group 1b', hidden: true },
               { type: 'number', value: 1, description: 'Control group 1n', hidden: true },
               { type: 'boolean', value: true, description: 'Control group 2b', hidden: true },
@@ -2130,10 +2146,27 @@
               { type: 'boolean', value: true, description: 'Control group 5b', hidden: true },
               { type: 'number', value: 3, description: 'Control group 5n', hidden: true }
           ];
-          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+          const totalBools = this.bools.length;
+          for (let i = 0; i < totalBools; i++)
+              this.bools[i].flags = this.makeSixBoolsFor(this.bools[i].name);
+          return this.fullData;
+      }
+      recryptAchives() {
+          const crypto = [0, 0, 0, 0, 0];
+          for (let diff = 0; diff < 6; diff++)
+              for (let boss = 0; boss < 14; boss++)
+                  if (this.bools[boss].flags[diff].value == true)
+                      crypto[this.bools[boss].part] ^= 1 << (diff + this._difficults * this.bools[boss].offset);
+          for (let diff = 0; diff < 6; diff++)
+              for (let part = 14; part < 17; part++)
+                  if (this.bools[part].flags[diff].value == true)
+                      crypto[4] ^= 1 << (diff + this._difficults * this.bools[part].part);
+          for (let i = 0; i < this._bosses; i++)
+              this.heavyData[i + 3].value = crypto[i];
+          this.heavyData[7].value = crypto[4];
       }
       get fullData() {
-          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options };
+          return { lightData: this.lightData, heavyData: this.heavyData, speedruns: this.speedruns, options: this.options, bools: this.bools };
       }
       set playerID(value) {
           this._playerID = value;
@@ -2145,6 +2178,25 @@
           this.heavyData = [];
           this.speedruns = [];
           this.options = [];
+          this.bools = [
+              { part: 0, offset: 0, name: 'Flamer' },
+              { part: 0, offset: 1, name: 'Hammer' },
+              { part: 0, offset: 2, name: 'Fortress' },
+              { part: 1, offset: 0, name: 'Madness' },
+              { part: 1, offset: 1, name: 'Atlantis' },
+              { part: 1, offset: 2, name: 'Lightning' },
+              { part: 1, offset: 3, name: 'Thunder' },
+              { part: 2, offset: 0, name: 'Raynor' },
+              { part: 2, offset: 1, name: 'Kerrigan' },
+              { part: 2, offset: 2, name: 'Artanis' },
+              { part: 2, offset: 3, name: 'Cybermind' },
+              { part: 3, offset: 0, name: 'Gary' },
+              { part: 3, offset: 1, name: 'Stetmann' },
+              { part: 3, offset: 2, name: 'Moopy' },
+              { part: 0, name: 'FlawlessT' },
+              { part: 1, name: 'FlawlessP' },
+              { part: 2, name: 'FlawlessM' }
+          ];
           this._storage = new SSFStorage();
           this._scKey = this._playerID + 'gehkaggen11';
           this._hashLevel = 4;
@@ -2156,16 +2208,6 @@
               return;
           this.generateDefault();
       }
-      r(min, max) {
-          return Math.round(Math.random() * (max - min)) + min;
-      }
-      t2n(value = '00:10:00') {
-          const a = value.split(':');
-          return parseInt(a[0]) * 3600 + parseInt(a[1]) * 60 + parseInt(a[2]);
-      }
-      n2t(value) {
-          return new Date(1000 * value).toISOString().substring(11, 19);
-      }
       reloadStorage(bank, key, section = 'stats') {
           const stats = bank.sections.get(section);
           let s = starcode.decrypt(stats.get(key).value, this._scKey);
@@ -2173,6 +2215,13 @@
               throw new Error('Invaliid data in ' + section + ' → ' + key + '!');
           s = starcode.decompress(starcode.removeHash(s, this._hashLevel));
           this._storage.data = s;
+      }
+      makeSixBoolsFor(name) {
+          const diffs = ['Easy', 'Normal', 'Hard', 'Brutal', 'Insane', 'Hardcore'];
+          const array = [];
+          for (let i = 0; i < 6; i++)
+              array.push({ type: 'boolean', value: Math.random() > 0.5, description: name + ' ' + diffs[i] });
+          return array;
       }
   }
 
@@ -2193,6 +2242,7 @@
           ssfData.heavyData = storeParams.heavyData;
           ssfData.speedruns = storeParams.speedruns;
           ssfData.options = storeParams.options;
+          ssfData.bools = storeParams.bools;
           console.log('update data from store');
       }, [mapStore, ssfData]);
       const callbacks = {
@@ -2252,29 +2302,36 @@
           onSpeedrunsChange: React.useCallback((i, j, k, value) => {
               ssfData.speedruns[i][j][k].value = value;
               mapStore.setMapData(mapTitle, ssfData.fullData);
-          }, [])
+          }, []),
+          onBoolsChange: React.useCallback((i, j, value) => {
+              ssfData.bools[i].flags[j].value = value;
+              ssfData.recryptAchives();
+              mapStore.setMapData(mapTitle, ssfData.fullData);
+          }, [ssfData.fullData])
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: "Please note that the map has a votekick system." }), jsxRuntime.exports.jsxs(Text$1, { style: { width: '670px' }, children: ["If other players suspect inconsistencies in your statistics or values like 123456789, you can be kicked from the lobby.", jsxRuntime.exports.jsx("br", {}), "To prevent this, use ", jsxRuntime.exports.jsx("b", { children: "Reset" }), " button to generate random realistic statistics.", jsxRuntime.exports.jsx("br", {})] }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntime.exports.jsx(Label$1, { children: "Main settings:" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: ssfData.lightData.map((param, index) => {
+      return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Please note that the map has a votekick system." }), jsxRuntimeExports.jsxs(Text$1, { style: { width: '1000px' }, children: ["If other players suspect inconsistencies in your stats or values like 9999999, you can be kicked from the lobby.", jsxRuntimeExports.jsx("br", {}), "To prevent this, use ", jsxRuntimeExports.jsx("b", { children: "Reset" }), " button to generate random realistic statistics.", jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Main stats:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: ssfData.lightData.map((param, index) => {
                                                   if (param.hidden)
                                                       return null;
-                                                  return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, group: 'lightData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
-                                              }) }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: ssfData.heavyData.map((param, index) => {
+                                                  return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, group: 'lightData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
+                                              }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: ssfData.heavyData.map((param, index) => {
                                                   if (param.hidden)
                                                       return null;
                                                   if (param.type == 'number')
-                                                      return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, group: 'heavyData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
+                                                      return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, group: 'heavyData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
                                                   else
-                                                      return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'heavyData', onChange: callbacks.onFieldChange, value: param.value }));
-                                              }) })] }), jsxRuntime.exports.jsx(Label$1, { children: "Options:" }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: ssfData.options.map((param, index) => {
+                                                      return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'heavyData', onChange: callbacks.onFieldChange, value: param.value }));
+                                              }) })] }), jsxRuntimeExports.jsx(Label$1, { children: "Options:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: ssfData.options.map((param, index) => {
                                           if (param.hidden)
                                               return null;
                                           if (param.type == 'number')
-                                              return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, group: 'options', type: 'number', min: '0', style: { width: '30px' }, onChange: callbacks.onFieldChange, max: '999', value: param.value.toString() }));
+                                              return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, group: 'options', type: 'number', min: '0', style: { width: '30px' }, onChange: callbacks.onFieldChange, max: '999', value: param.value.toString() }));
                                           else
-                                              return (jsxRuntime.exports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'options', onChange: callbacks.onFieldChange, value: param.value }));
-                                      }) })] }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, children: ssfData.speedruns.map((params, index) => {
-                                  return (jsxRuntime.exports.jsx(SsfDiff, { onChange: callbacks.onSpeedrunsChange, array: params, i: index }));
-                              }) })] })] }) }));
+                                              return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'options', onChange: callbacks.onFieldChange, value: param.value }));
+                                      }) })] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Speedruns:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', marginTop: '5px' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Terran:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Protoss:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Mecha:" })] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', margin: '32px 0 0 20px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '20px' }, children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '20px' }, children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" })] }), jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: ssfData.speedruns.map((params, index) => {
+                                                  return (jsxRuntimeExports.jsx(SsfDiff, { onChange: callbacks.onSpeedrunsChange, array: params, i: index }));
+                                              }) })] }), jsxRuntimeExports.jsx(Label$1, { children: "Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):" }), jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }, children: ssfData.bools.map((params, index) => {
+                                          return (jsxRuntimeExports.jsx(SsfSixBoolsItem, { onChange: callbacks.onBoolsChange, array: params.flags, i: index }));
+                                      }) })] })] })] }) }));
   });
   var SwarmSpecialForces = React.memo(SwarmSpecialForcesForm);
 
@@ -2357,8 +2414,8 @@
               mapStore.setMapData(mapTitle, [...zcStats.queue]);
           }, [])
       };
-      return (jsxRuntime.exports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: zcStats.queue.map((param, index) => {
-                  return (jsxRuntime.exports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', onChange: callbacks.onFieldChange, max: param.max.toString(), value: param.current.toString() }));
+      return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: zcStats.queue.map((param, index) => {
+                  return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', onChange: callbacks.onFieldChange, max: param.max.toString(), value: param.current.toString() }));
               }) }) }));
   });
   var ZombieCity = React.memo(ZombieCityForm);
@@ -2376,32 +2433,32 @@
       [Maps.ANY_SIMPLE, {
               title: 'Any Simple',
               authorID: '',
-              forms: [jsxRuntime.exports.jsx(AnySimple$1, {})]
+              forms: [jsxRuntimeExports.jsx(AnySimple$1, {})]
           }],
       [Maps.RUNLING_RUN_4, {
               title: 'Runling Run 4',
               authorID: '2-S2-1-3564862',
-              forms: [jsxRuntime.exports.jsx(RunlingRun4, { bankName: 'RunlingRun004' })]
+              forms: [jsxRuntimeExports.jsx(RunlingRun4, { bankName: 'RunlingRun004' })]
           }],
       [Maps.RUNLING_RUN_8, {
               title: 'Runling Run 8',
               authorID: '2-S2-1-5734972',
-              forms: [jsxRuntime.exports.jsx(RunlingRun8ilovePie, { bankName: 'ILovePie' }), jsxRuntime.exports.jsx(RunlingRun8Prestige, { bankName: 'Prestige' })]
+              forms: [jsxRuntimeExports.jsx(RunlingRun8ilovePie, { bankName: 'ILovePie' }), jsxRuntimeExports.jsx(RunlingRun8Prestige, { bankName: 'Prestige' })]
           }],
       [Maps.SWARM_SCPECIAL_FORCES, {
               title: 'Swarm Special Forces',
               authorID: '2-S2-1-1066242',
-              forms: [jsxRuntime.exports.jsx(SwarmSpecialForces, { bankName: 'SwarmSpecialForces' })]
+              forms: [jsxRuntimeExports.jsx(SwarmSpecialForces, { bankName: 'SwarmSpecialForces' })]
           }],
       [Maps.ZOMBIE_CITY, {
               title: 'Zombie City',
               authorID: '2-S2-1-1687296',
-              forms: [jsxRuntime.exports.jsx(ZombieCity, { bankName: 'AMMMAAKDAS39349' })]
+              forms: [jsxRuntimeExports.jsx(ZombieCity, { bankName: 'AMMMAAKDAS39349' })]
           }],
       [Maps.STAR_CODE_LAB, {
               title: 'Star Code Lab (PRO only)',
               authorID: '',
-              forms: [jsxRuntime.exports.jsx(Editor$1, {})]
+              forms: [jsxRuntimeExports.jsx(Editor$1, {})]
           }]
   ]);
 
@@ -2433,7 +2490,7 @@
           });
           return result;
       }, [menuStore.selectedMap]);
-      return (jsxRuntime.exports.jsx(GlassWrapper$1, { children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "SC2 Bank Generator" }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Input$1, { label: "Player id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onPlayerIdChange, tip: "Player ID from bank's path", value: menuStore.playerID }), jsxRuntime.exports.jsx(Button$1, { style: { width: '50px' }, onClick: callbacks.onHelpClick, children: "Help" })] })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntime.exports.jsx(Select$1, { onChange: callbacks.onMapSelect, label: "Select map:", selected: menuStore.selectedMap.toString(), children: mapList }), jsxRuntime.exports.jsx(Checkbox$1, { label: 'Show Code', onChange: callbacks.onShowCodeChange }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onFullReset, children: "Clear Cache" })] })] }) }) }));
+      return (jsxRuntimeExports.jsx(GlassWrapper$1, { children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center' }, children: [jsxRuntimeExports.jsx("img", { src: 'assets/sc2.ico', width: '30', height: '30' }), jsxRuntimeExports.jsx(Label$1, { style: { fontSize: '20px' }, children: "Bank Generator" })] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }, children: [jsxRuntimeExports.jsx(Input$1, { label: "Player id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onPlayerIdChange, tip: "Player ID from bank's path", value: menuStore.playerID }), jsxRuntimeExports.jsx(Button$1, { style: { width: '50px' }, onClick: callbacks.onHelpClick, children: "Help" })] })] }), jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntimeExports.jsx(Select$1, { onChange: callbacks.onMapSelect, label: "Select map:", selected: menuStore.selectedMap.toString(), children: mapList }), jsxRuntimeExports.jsx(Checkbox$1, { label: 'Show Code', onChange: callbacks.onShowCodeChange }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onFullReset, children: "Clear Cache" })] })] }) }) }));
   });
   var Menu$1 = React.memo(Menu);
 
@@ -2444,7 +2501,7 @@
               modalStore.setModal('NONE');
           }, [])
       };
-      return (jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntime.exports.jsx(GlassWrapper$1, { border: true, children: jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '500px', maxHeight: '200px' }, children: jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntime.exports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntime.exports.jsx(Label$1, { style: { fontSize: '20px' }, children: "Warning" }), jsxRuntime.exports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntime.exports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntime.exports.jsx(Flex, { style: { flexDirection: 'column', minWidth: '100%', justifyContent: 'center' }, children: jsxRuntime.exports.jsx(Text$1, { style: { textAlign: 'center', marginTop: '-20px' }, children: modalStore.message }) })] }) }) }) }));
+      return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntimeExports.jsx(GlassWrapper$1, { border: true, children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto', width: 'calc(100vw - 40px)', height: 'calc(100vh - 40px)', maxWidth: '500px', maxHeight: '200px' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', minWidth: '100%', minHeight: 'max-content' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between', height: 'min-content', minWidth: 'max-content' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { fontSize: '20px' }, children: "Warning" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onCloseClick, children: "Close" })] }), jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', minWidth: '100%', justifyContent: 'center' }, children: jsxRuntimeExports.jsx(Text$1, { style: { textAlign: 'center', marginTop: '-20px' }, children: modalStore.message }) })] }) }) }) }));
   });
   var Warn$1 = React.memo(Warn);
 
@@ -2458,15 +2515,15 @@
           });
           return result;
       }, [menuStore.selectedMap]);
-      return (jsxRuntime.exports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntime.exports.jsx(Flex, { style: { flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'space-around' }, children: editors }) }));
+      return (jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'space-around' }, children: editors }) }));
   });
   var Workspace$1 = React.memo(Workspace);
 
   const App = mobxReactLite.observer(() => {
       const { modalStore } = useStore();
-      return (jsxRuntime.exports.jsxs("div", { className: "App", children: [jsxRuntime.exports.jsx(Menu$1, {}), jsxRuntime.exports.jsx(Workspace$1, {}), jsxRuntime.exports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntime.exports.jsx(Help$1, {}), modalStore.current == Modals.WARN && jsxRuntime.exports.jsx(Warn$1, {})] }));
+      return (jsxRuntimeExports.jsxs("div", { className: "App", children: [jsxRuntimeExports.jsx(Menu$1, {}), jsxRuntimeExports.jsx(Workspace$1, {}), jsxRuntimeExports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntimeExports.jsx(Help$1, {}), modalStore.current == Modals.WARN && jsxRuntimeExports.jsx(Warn$1, {})] }));
   });
   const root = createRoot(document.getElementById('root'));
-  root.render(jsxRuntime.exports.jsx(React.StrictMode, { children: jsxRuntime.exports.jsx(Slideshow$1, { type: 'random', children: jsxRuntime.exports.jsx(StoreProvider, { children: jsxRuntime.exports.jsx(App, {}) }) }) }));
+  root.render(jsxRuntimeExports.jsx(React.StrictMode, { children: jsxRuntimeExports.jsx(Slideshow$1, { type: 'random', children: jsxRuntimeExports.jsx(StoreProvider, { children: jsxRuntimeExports.jsx(App, {}) }) }) }));
 
 })(React, mobxReactLite, ReactDOM, mobx, MaterialUI, saveAs);
