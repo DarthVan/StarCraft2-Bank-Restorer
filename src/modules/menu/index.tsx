@@ -30,6 +30,10 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		onPlayerIdChange: useCallback((value: string): void => {
 			menuStore.setPlayerID(value);
 		}, []),
+		onAccountClick: useCallback((): void => {
+			//menuStore.setPlayerID(value);
+			console.log('onAccount click!');
+		}, []),
 		onHelpClick: useCallback((): void => {
 			modalStore.setModal('HELP');
 		}, []),
@@ -67,6 +71,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 						</Flex>
 						<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
 							<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
+							<Button style={{ width: '80px' }} onClick={callbacks.onAccountClick}>Accounts</Button>
 							<Button style={{ width: '50px' }} onClick={callbacks.onHelpClick}>Help</Button>
 						</Flex>
 					</Flex>
