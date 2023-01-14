@@ -4,6 +4,7 @@ import { createRoot, Root } from 'react-dom/client';
 import './App.css';
 import Slideshow from './components/ui/slideshow';
 import { StoreProvider, useStore } from './hooks/use-store';
+import Accounts from './modules/accounts';
 import Help from './modules/help';
 import Info from './modules/info';
 import Menu from './modules/menu';
@@ -21,6 +22,7 @@ const App: FC = observer((): JSX.Element => {
 			<Info />
 			{modalStore.current == Modals.HELP && <Help />}
 			{modalStore.current == Modals.WARN && <Warn />}
+			{modalStore.current == Modals.ACCOUNTS && <Accounts />}
 		</div>
 	);
 });

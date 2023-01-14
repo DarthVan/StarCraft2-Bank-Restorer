@@ -1,6 +1,6 @@
 /* Generated with TypeScript React snippets */
 
-import React, { Children, CSSProperties, FC } from 'react';
+import React, { FC } from 'react';
 import Button from 'src/components/ui/button';
 import Container from 'src/components/ui/container';
 import GlassWrapper from 'src/components/ui/glass-wrapper';

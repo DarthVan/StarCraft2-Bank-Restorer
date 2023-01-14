@@ -31,8 +31,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 			menuStore.setPlayerID(value);
 		}, []),
 		onAccountClick: useCallback((): void => {
-			//menuStore.setPlayerID(value);
-			console.log('onAccount click!');
+			modalStore.setModal('ACCOUNTS');
 		}, []),
 		onHelpClick: useCallback((): void => {
 			modalStore.setModal('HELP');

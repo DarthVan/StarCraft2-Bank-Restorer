@@ -13,7 +13,8 @@ export enum Modals {
 	NONE,
 	HELP,
 	WARN,
-	CONFIRM
+	CONFIRM,
+	ACCOUNTS
 
 }
 
