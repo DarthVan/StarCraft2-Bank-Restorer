@@ -4,16 +4,17 @@ import React, { Context } from 'react';
 import rootStore, { RootStore } from '../store';
 
 // Настройка mobX, добавляем капельку асинхронности, чтоб обрабытвать пачку синхронных измений за 1 раз
-const configureMobX: () => void = (): void => {
+// такое делали до 18 реакта, хз имеет ли смысл теперь, батчинг есть из коробки
+/* const configureMobX: () => void = (): void => {
 	setTimeout((): void => {
 		configure({
 			reactionScheduler: (f: () => void): void => {
-				setTimeout(f, 1);
+				setTimeout(f);
 			},
 		});
-	}, 1);
+	}, 100);
 };
-configureMobX();
+configureMobX(); */
 
 const storeContext: Context<RootStore> = React.createContext<RootStore | null>(null);
 

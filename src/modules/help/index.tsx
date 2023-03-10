@@ -5,7 +5,7 @@ import React, { CSSProperties, FC, useCallback } from 'react';
 import Label from 'src/components/ui/label';
 import Text from 'src/components/ui/text';
 import { useStore } from 'src/hooks/use-store';
-import Popup from '../popup';
+import Popup from '../../components/ui/popup';
 
 /** Help **
 * ...

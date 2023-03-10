@@ -21,6 +21,7 @@ export enum Maps {
 	RUNLING_RUN_8,
 	SWARM_SCPECIAL_FORCES,
 	ZOMBIE_CITY,
+	ZOMBIE_WORLD_UNITY,
 	STAR_CODE_LAB,
 
 }
@@ -29,7 +30,7 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 	new Map<number, { title: string, authorID: string, forms: JSX.Element[] }>([
 
 		[Maps.ANY_SIMPLE, {
-			title: 'Any Simple',
+			title: 'Any Simple Map',
 			authorID: '',
 			forms: [<AnySimple />]
 		}],
@@ -58,10 +59,16 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 			forms: [<ZombieCity bankName='AMMMAAKDAS39349' />]
 		}],
 
-		[Maps.STAR_CODE_LAB, {
+		[Maps.ZOMBIE_WORLD_UNITY, {
+			title: 'Zombie World Unity',
+			authorID: '2-S2-1-xxxxxxx',
+			forms: [<Editor></Editor>]
+		}],
+
+		/* [Maps.STAR_CODE_LAB, {
 			title: 'Star Code Lab (PRO only)',
 			authorID: '',
 			forms: [<Editor></Editor>]
-		}]
+		}] */
 
 	]);

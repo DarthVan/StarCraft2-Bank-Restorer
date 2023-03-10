@@ -1,6 +1,6 @@
 /* Generated with TypeScript React snippets */
 
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import Button from 'src/components/ui/button';
 import Container from 'src/components/ui/container';
 import GlassWrapper from 'src/components/ui/glass-wrapper';
@@ -29,6 +29,18 @@ const Popup: FC<Props> = (props: Props): JSX.Element => {
 	//const minHeight: string = (props.minHeight || 100) + 'px';
 	const maxHeight: string = (props.maxHeight || 200) + 'px';
 
+	const header: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<Container style={{ flexDirection: 'column', padding: '10px', height: 'min-content', minWidth }}>
+				<Container style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+					<Label style={{ fontSize: '20px' }}>{props.label}</Label>
+					<Button onClick={props.onClose} >Close</Button>
+				</Container>
+				<Line style={{ margin: '10px 0 0 0' }} />
+			</Container>
+		);
+	}, []);
+
 	return (
 		<Container style={{ flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }}>
 			<GlassWrapper border={true} >
@@ -44,13 +56,7 @@ const Popup: FC<Props> = (props: Props): JSX.Element => {
 					minHeight: 'max-content'
 				}}>
 
-					<Container style={{ flexDirection: 'column', padding: '10px', height: 'min-content', minWidth }}>
-						<Container style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Label style={{ fontSize: '20px' }}>{props.label}</Label>
-							<Button onClick={props.onClose} >Close</Button>
-						</Container>
-						<Line style={{ margin: '10px 0 0 0' }} />
-					</Container>
+					{header}
 
 					<Container style={{ flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', padding: '0 0 10px 10px', minWidth }}>
 						{props.children}

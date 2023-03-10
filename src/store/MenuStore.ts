@@ -13,7 +13,7 @@ export class MenuStore extends BasicStore {
 
 	public playerID: string;
 	public selectedMap: number;
-	public showCode: boolean;
+	public autoSave: boolean;
 
 	public override reset(): void {
 		localStorage.removeItem("PlayerID");
@@ -22,8 +22,8 @@ export class MenuStore extends BasicStore {
 		localStorage.removeItem("SelectedMap");
 		this.selectedMap = 0;
 
-		localStorage.removeItem("ShowCode");
-		this.showCode = false;
+		localStorage.removeItem("AutoSave");
+		this.autoSave = false;
 	}
 
 	public setPlayerID(value: string): void {
@@ -37,9 +37,9 @@ export class MenuStore extends BasicStore {
 		localStorage.setItem("SelectedMap", value.toString());
 	}
 
-	public setShowCode(value: boolean): void {
-		this.showCode = value;
-		localStorage.setItem("ShowCode", value ? 'true' : 'false');
+	public setAutoSave(value: boolean): void {
+		this.autoSave = value;
+		localStorage.setItem("AutoSave", value ? 'true' : 'false');
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
@@ -49,7 +49,7 @@ export class MenuStore extends BasicStore {
 		this.playerID = localStorage.getItem("PlayerID") || '';
 		this.selectedMap = parseInt(localStorage.getItem("SelectedMap")) || 0;
 
-		this.showCode = localStorage.getItem("ShowCode") == 'true' || false;
+		this.autoSave = localStorage.getItem("AutoSave") == 'true' || false;
 
 	}
 }

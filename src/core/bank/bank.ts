@@ -97,6 +97,12 @@ export class Bank {
 		return s.get(key);
 	}
 
+	public getKey(key: string, section: string): BankKey {
+		if (this._sections.has(section))
+			return this._sections.get(section).get(key);
+		return null;
+	}
+
 	public removeSection(name: string): boolean {
 		return this._sections.delete(name);
 	}

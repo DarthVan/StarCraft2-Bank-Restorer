@@ -1,22 +1,23 @@
 /* Generated with TypeScript React snippets */
 
-import filesaver from "file-saver";
 import { observer } from 'mobx-react-lite';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { flushSync } from "react-dom";
 import Checkbox from "src/components/ui/checkbox";
 import Container from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
 import Label from "src/components/ui/label";
-import Line from "src/components/ui/line";
 import Text from "src/components/ui/text";
 import { Bank } from "src/core/bank/bank";
 import { useStore } from "src/hooks/use-store";
 import Editor from 'src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
 import { mapProps, Maps } from "../Maps";
+import functions from "./functions";
 import SsfSixBoolsItem from "./ssf-6b";
 import SsfDiff from "./ssf-diff";
-import { SSFData } from "./SSFData";
 import { SSFParam } from "./SSFParam";
+import store from "./store";
 
 /** SwarmSpecialForcesForm **
 * ...
@@ -29,35 +30,40 @@ interface Props {
 }
 
 const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element => {
-	const { menuStore, mapStore, modalStore } = useStore();
+	const { accountStore, menuStore, mapStore, modalStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
 	const [authorID, setAuthorID] = useState(mapProps.get(Maps.SWARM_SCPECIAL_FORCES).authorID);
 	const mapTitle: string = mapProps.get(Maps.SWARM_SCPECIAL_FORCES).title;
-	const bank: Bank = new Bank(bankName, authorID, menuStore.playerID, '1');
-	const ssfData: SSFData = new SSFData(menuStore.playerID, true);
 
-	useMemo((): void => {
-		const storeParams: {
-			lightData: SSFParam[],
-			heavyData: SSFParam[],
-			speedruns: SSFParam[][][],
-			options: SSFParam[],
-			bools: any[],
-		} = mapStore.list[mapTitle];
+	const bank: Bank = useMemo((): Bank => {
+		return new Bank(bankName, authorID, menuStore.playerID, '1');
+	}, [accountStore.current, menuStore.playerID, bankName, authorID]);
 
-		if (!storeParams) {
-			ssfData.generateDefault();
-			return;
-		}
+	useEffect((): void => {
+		functions.updateKey(menuStore.playerID);
+	}, [bank]);
 
-		ssfData.lightData = storeParams.lightData;
-		ssfData.heavyData = storeParams.heavyData;
-		ssfData.speedruns = storeParams.speedruns;
-		ssfData.options = storeParams.options;
-		ssfData.bools = storeParams.bools;
+	useEffect((): void => {
+		const fields: any = mapStore.list[accountStore.current]?.[mapTitle];
+		flushSync((): void => store.setFields());
+		if (fields)
+			setTimeout((): void => store.setFields(fields));
+		else
+			setTimeout((): void => {
+				store.reset();
+				store.setFields(functions.generateDefault());
+			});
+	}, [accountStore.current]);
 
-		console.log('update data from store');
-	}, [mapStore, ssfData]);
+	const save: () => void = (): void => {
+		mapStore.setMapData(accountStore.current, mapTitle, {
+			light: store.light,
+			heavy: store.heavy,
+			speed: store.speed,
+			options: store.options,
+			bools: store.bools
+		});
+	};
 
 	const callbacks = {
 		onBankNameChange: useCallback((value: string): void => {
@@ -67,62 +73,203 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			setAuthorID(value);
 		}, []),
 		onFileDrop: useCallback((name: string, value: string): void => {
-			bank.parse(value);
-			if (bank.sections.size != 1 || !bank.sections.has('stats'))
-				throw new Error('wrong bank file!');
-			mapStore.setMapData(mapTitle, ssfData.read(bank));
+			const fields: {
+				light?: SSFParam[],
+				heavy?: SSFParam[],
+				speed?: SSFParam[][][],
+				options?: SSFParam[],
+				bools?: any[]
+			} = functions.parse(bank, value);
+			if (!fields)
+				return;
+			flushSync((): void => store.setFields()); // unmutate
+			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
 			if (menuStore.playerID.length < 12) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
-			const xml: string = ssfData.save(bank);
-			console.log('download bank file:', xml);
-			const blob = new Blob([xml], { type: 'application/octet-stream' });
-			filesaver.saveAs(blob, bankName + '.SC2Bank');
-		}, [ssfData]), // зависит от хмля банка
+			functions.recryptAchives();
+			downloadTextAsFile(functions.generateXML(bank), bankName + '.SC2Bank', true);
+			if (!menuStore.autoSave)
+				save();
+		}, [bank]),
 		onCopyCodeClick: useCallback((): void => {
 			if (menuStore.playerID.length < 12) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
-			const xml: string = ssfData.save(bank);
-			window.navigator['clipboard'].writeText(xml).then((): void => {
-				console.log("Copied to clipboard:\n", xml);
-			});
-		}, [ssfData]), // зависит от хмля банка
+			functions.recryptAchives();
+			copyTextToClipboard(functions.generateXML(bank), true);
+			if (!menuStore.autoSave)
+				save();
+		}, [bank]),
 		onResetClick: useCallback((): void => {
-			setTimeout((): void => {
-				setBankName(props.bankName);
-				setAuthorID(mapProps.get(Maps.SWARM_SCPECIAL_FORCES).authorID);
-			}, 1); // хак чтоб сделать ререндер чуть позже
-			mapStore.setMapData(mapTitle, ssfData.generateDefault());
+			setBankName(props.bankName);
+			setAuthorID(mapProps.get(Maps.SWARM_SCPECIAL_FORCES).authorID);
+			flushSync((): void => store.reset());
+			store.setFields(functions.generateDefault());
 		}, []),
 		onFieldChange: useCallback((value: string | boolean, index?: number, group?: string): void => {
 			switch (group) {
 				case 'lightData':
-					ssfData.lightData[index].value = parseInt(value as string);
+					store.updateAt('light', index, parseInt(value as string), true);
 					break;
 				case 'heavyData':
-					ssfData.heavyData[index].value = ssfData.heavyData[index].type == 'number' ? parseInt(value as string) : value as boolean;
+					store.updateAt('heavy', index, store.heavy[index].type == 'number' ? parseInt(value as string) : value as boolean, true);
 					break;
 				case 'options':
-					ssfData.options[index].value = ssfData.options[index].type == 'number' ? parseInt(value as string) : value as boolean;
+					store.updateAt('options', index, store.heavy[index].type == 'number' ? parseInt(value as string) : value as boolean, true);
 					break;
 			}
-			mapStore.setMapData(mapTitle, ssfData.fullData);
+			if (menuStore.autoSave)
+				save();
 		}, []),
 		onSpeedrunsChange: useCallback((i: number, j: number, k: number, value: string): void => {
-			ssfData.speedruns[i][j][k].value = value;
-			mapStore.setMapData(mapTitle, ssfData.fullData);
+			store.updateAt('speed', { i, j, k }, value, true);
+			if (menuStore.autoSave)
+				save();
 		}, []),
 		onBoolsChange: useCallback((i: number, j: number, value: boolean): void => {
-			ssfData.bools[i].flags[j].value = value;
-			ssfData.recryptAchives();
-			mapStore.setMapData(mapTitle, ssfData.fullData);
-		}, [ssfData.fullData])
+			store.updateAt('bools', { i, j }, value, true);
+			if (menuStore.autoSave)
+				save();
+		}, [])
 	};
+
+	const info: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<>
+				<Label>Please note that the map has a votekick system.</Label>
+				<Text style={{ width: '1000px' }}>
+					If other players suspect inconsistencies in your stats or values like 9999999, you can be kicked from the lobby.<br />
+					To prevent this, use <b>Reset</b> button to generate random realistic statistics.<br />
+				</Text>
+			</>
+		);
+	}, []);
+
+	const main: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<>
+				<Label>Main stats:</Label>
+				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }}>
+					<Container style={{ flexDirection: 'column' }} alignInputs={true}>
+						{store.light.map((param: SSFParam, index: number): JSX.Element => {
+							if (param.hidden)
+								return null;
+							return (
+								<Input label={param.description + ':'} index={index} group='lightData' type='number' min='0'
+									style={{ width: '75px' }}
+									onChange={callbacks.onFieldChange}
+									max={'999999999'}
+									value={param.value.toString()}
+								/>
+							);
+						})}
+					</Container>
+					<Container style={{ flexDirection: 'column' }} alignInputs={true}>
+						{store.heavy.map((param: SSFParam, index: number): JSX.Element => {
+							if (param.hidden)
+								return null;
+							if (param.type == 'number')
+								return (
+									<Input label={param.description + ':'} index={index} group='heavyData' type='number' min='0'
+										style={{ width: '75px' }}
+										onChange={callbacks.onFieldChange}
+										max={'999999999'}
+										value={param.value.toString()}
+									/>
+								);
+							else
+								return (
+									<Checkbox label={param.description + ':'} index={index} group='heavyData'
+										onChange={callbacks.onFieldChange}
+										value={param.value as boolean}
+									/>
+								);
+						})}
+					</Container>
+				</Container>
+			</>
+		);
+	}, [store.light, store.heavy]);
+
+	const options: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<>
+				<Label>Options:</Label>
+				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
+					{store.options.map((param: SSFParam, index: number): JSX.Element => {
+						if (param.hidden)
+							return null;
+						if (param.type == 'number')
+							return (
+								<Input label={param.description + ':'} index={index} group='options' type='number' min='0'
+									style={{ width: '30px' }}
+									onChange={callbacks.onFieldChange}
+									max={'999'}
+									value={param.value.toString()}
+								/>
+							);
+						else
+							return (
+								<Checkbox label={param.description + ':'} index={index} group='options'
+									onChange={callbacks.onFieldChange}
+									value={param.value as boolean}
+								/>
+							);
+					})}
+				</Container>
+			</>
+		);
+	}, [store.options]);
+
+	const speedruns: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<>
+				<Label>Speedruns:</Label>
+				<Container style={{ flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }}>
+					<Container style={{ flexDirection: 'column', marginTop: '5px' }}>
+						<Label style={{ marginTop: '45px' }}>Terran:</Label>
+						<Label style={{ marginTop: '45px' }}>Protoss:</Label>
+						<Label style={{ marginTop: '45px' }}>Mecha:</Label>
+					</Container>
+					<Container style={{ flexDirection: 'column', margin: '32px 0 0 20px' }}>
+						<Label>Solo:</Label>
+						<Label>Team:</Label>
+						<Label style={{ marginTop: '20px' }}>Solo:</Label>
+						<Label>Team:</Label>
+						<Label style={{ marginTop: '20px' }}>Solo:</Label>
+						<Label>Team:</Label>
+					</Container>
+					<>
+						{store.speed.map((params: SSFParam[][], index: number): JSX.Element => {
+							return (
+								<SsfDiff onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
+							);
+						})}
+					</>
+				</Container>
+			</>
+		);
+	}, [store.speed]);
+
+	const bools: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<>
+				<Label>Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):</Label>
+				<Container style={{ flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }}>
+					{store.bools.map((params: { flags: SSFParam[] }, index: number): JSX.Element => {
+						return (
+							params.flags?.length ? <SsfSixBoolsItem onChange={callbacks.onBoolsChange} array={params.flags} i={index} /> : null
+						)
+					})}
+				</Container>
+			</>
+		);
+	}, [store.bools]);
 
 	return (
 		<Editor
@@ -136,119 +283,17 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			onReset={callbacks.onResetClick}
 		>
 			<Container style={{ flexDirection: 'column' }}>
-
-				<Label>Please note that the map has a votekick system.</Label>
-				<Text style={{ width: '1000px' }}>
-					If other players suspect inconsistencies in your stats or values like 9999999, you can be kicked from the lobby.<br />
-					To prevent this, use <b>Reset</b> button to generate random realistic statistics.<br />
-				</Text>
-
+				{info}
 				<Container style={{ flexDirection: 'row' }}>
 					<Container style={{ flexDirection: 'column' }}>
-
-						<Label>Main stats:</Label>
-						<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }}>
-							<Container style={{ flexDirection: 'column' }} alignInputs={true}>
-								{ssfData.lightData.map((param: SSFParam, index: number): JSX.Element => {
-									if (param.hidden)
-										return null;
-									return (
-										<Input label={param.description + ':'} index={index} group='lightData' type='number' min='0'
-											style={{ width: '75px' }}
-											onChange={callbacks.onFieldChange}
-											max={'999999999'}
-											value={param.value.toString()}
-										/>
-									);
-								})}
-							</Container>
-							<Container style={{ flexDirection: 'column' }} alignInputs={true}>
-								{ssfData.heavyData.map((param: SSFParam, index: number): JSX.Element => {
-									if (param.hidden)
-										return null;
-									if (param.type == 'number')
-										return (
-											<Input label={param.description + ':'} index={index} group='heavyData' type='number' min='0'
-												style={{ width: '75px' }}
-												onChange={callbacks.onFieldChange}
-												max={'999999999'}
-												value={param.value.toString()}
-											/>
-										);
-									else
-										return (
-											<Checkbox label={param.description + ':'} index={index} group='heavyData'
-												onChange={callbacks.onFieldChange}
-												value={param.value as boolean}
-											/>
-										);
-								})}
-							</Container>
-						</Container>
-
-						<Label>Options:</Label>
-						<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
-							{ssfData.options.map((param: SSFParam, index: number): JSX.Element => {
-								if (param.hidden)
-									return null;
-								if (param.type == 'number')
-									return (
-										<Input label={param.description + ':'} index={index} group='options' type='number' min='0'
-											style={{ width: '30px' }}
-											onChange={callbacks.onFieldChange}
-											max={'999'}
-											value={param.value.toString()}
-										/>
-									);
-								else
-									return (
-										<Checkbox label={param.description + ':'} index={index} group='options'
-											onChange={callbacks.onFieldChange}
-											value={param.value as boolean}
-										/>
-									);
-							})}
-						</Container>
-
+						{main}
+						{options}
 					</Container>
-
 					<Container style={{ flexDirection: 'column' }}>
-						<Label>Speedruns:</Label>
-						<Container style={{ flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }}>
-							<Container style={{ flexDirection: 'column', marginTop: '5px' }}>
-								<Label style={{ marginTop: '45px' }}>Terran:</Label>
-								<Label style={{ marginTop: '45px' }}>Protoss:</Label>
-								<Label style={{ marginTop: '45px' }}>Mecha:</Label>
-							</Container>
-							<Container style={{ flexDirection: 'column', margin: '32px 0 0 20px' }}>
-								<Label>Solo:</Label>
-								<Label>Team:</Label>
-								<Label style={{ marginTop: '20px' }}>Solo:</Label>
-								<Label>Team:</Label>
-								<Label style={{ marginTop: '20px' }}>Solo:</Label>
-								<Label>Team:</Label>
-							</Container>
-							<>
-								{ssfData.speedruns.map((params: SSFParam[][], index: number): JSX.Element => {
-									return (
-										<SsfDiff onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
-									);
-								})}
-							</>
-						</Container>
-
-						<Label>Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):</Label>
-						<Container style={{ flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }}>
-							{ssfData.bools.map((params: { flags: SSFParam[] }, index: number): JSX.Element => {
-								return (
-									<SsfSixBoolsItem onChange={callbacks.onBoolsChange} array={params.flags} i={index} />
-								)
-							})}
-						</Container>
+						{speedruns}
+						{bools}
 					</Container>
-
 				</Container>
-
 			</Container>
 		</Editor>
 	);

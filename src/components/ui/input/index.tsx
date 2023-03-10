@@ -28,11 +28,8 @@ interface Props {
 
 const Input: FC<Props> = (props: Props): JSX.Element => {
 	const ref = useRef<null | HTMLDivElement>(null);
-
-	if (!props.type)
-		props.type = 'text';
-	else
-		props.pattern = props.pattern ? props.pattern : '^[-\d]\d*$';
+	const type: string = props.type ? props.type : 'text';
+	const pattern: string = props.pattern ? props.pattern : '^[-\d]\d*$';
 
 	// todo: generate unique id via utils?
 	const id: string = useMemo((): string => {
@@ -45,12 +42,12 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 	}, [props.value]);
 
 	const onChange: (e: ChangeEvent<HTMLInputElement>) => void = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-		const value: string = props.type == 'text' ? e.target.value : checkOnMinMax(e.target.value);
+		const value: string = type == 'text' ? e.target.value : checkOnRange(e.target.value);
 		setValue(value);
 		props.onChange(value, props.index, props.group);
-	}, [setValue]);
+	}, []);
 
-	const checkOnMinMax: (value: string) => string = (value: string): string => {
+	const checkOnRange: (value: string) => string = (value: string): string => {
 		let intValue: number = value ? parseInt(value) : 0;
 		const minInt: number = props.min ? parseInt(props.min) : 0;
 		const maxInt: number = props.max ? parseInt(props.max) : 999999999;
@@ -71,7 +68,7 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 
 	useEffect((): (() => void) => {
 		const input: HTMLDivElement = ref?.current;
-		if (props.type == 'number')
+		if (type == 'number')
 			input.addEventListener("keydown", integerChange);
 
 		return (): void => {
@@ -86,14 +83,14 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 				className='Input-field'
 				id={id}
 				style={props.style}
-				/* type={props.type}
+				/* type={type}
 				min={props.min}
 				max={props.max}
 				step={props.step} */
 				placeholder={props.placeholder}
-				pattern={props.pattern}
+				pattern={pattern}
 				value={value}
-				onChange={(e: ChangeEvent<HTMLInputElement>): void => onChange(e)}>
+				onChange={onChange}>
 			</input>
 		</div>
 	);

@@ -1,7 +1,7 @@
 /* Generated with TypeScript React snippets */
 
 import { observer } from 'mobx-react-lite';
-import React, { FC, useCallback, useMemo } from "react";
+import React, { CSSProperties, FC, useCallback, useMemo } from "react";
 import { mapProps } from 'src/components/maps/Maps';
 import Button from 'src/components/ui/button';
 import Checkbox from 'src/components/ui/checkbox';
@@ -12,6 +12,7 @@ import Label from 'src/components/ui/label';
 import Line from 'src/components/ui/line';
 import Select from 'src/components/ui/select';
 import { useStore } from 'src/hooks/use-store';
+import AudioLoop from '../audio';
 
 /** Menu **
 * ...
@@ -19,12 +20,10 @@ import { useStore } from 'src/hooks/use-store';
 * @Created 2022-09-19
 */
 
-interface Props {
-
-}
+interface Props { }
 
 const Menu: FC<Props> = observer((props: Props): JSX.Element => {
-	const { mapStore, menuStore, modalStore } = useStore();
+	const { accountStore, mapStore, menuStore, modalStore } = useStore();
 
 	const callbacks = {
 		onPlayerIdChange: useCallback((value: string): void => {
@@ -39,13 +38,18 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
 		}, []),
-		onShowCodeChange: useCallback((value: boolean): void => {
-			menuStore.setShowCode(value);
+		onAutoSaveChange: useCallback((value: boolean): void => {
+			menuStore.setAutoSave(value);
 		}, []),
 		onFullReset: useCallback((): void => {
-			mapStore.reset();
-			menuStore.reset();
-			modalStore.reset();
+			modalStore.setModal('CONFIRM', 'Are you sure you want to delete all accounts and saved banks from here?', [
+				(): void => {
+					accountStore.reset();
+					mapStore.reset();
+					menuStore.reset();
+					modalStore.reset();
+				}
+			]);
 		}, [])
 	}
 
@@ -58,31 +62,59 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		return result;
 	}, [menuStore.selectedMap]);
 
+	const [btnAccountsStyle, btnHelpStyle] = useMemo((): CSSProperties[] => {
+		return [
+			{ width: '80px' },
+			{ width: '50px' }
+		];
+	}, []);
+
+	const logo: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<Flex style={{ flexDirection: 'row', alignItems: 'center' }}>
+				<img src='assets/sc2.ico' width='30' height='30' />
+				<Label style={{ fontSize: '20px' }}>Bank Generator</Label>
+			</Flex>
+		);
+	}, []);
+
+	const top: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<Flex style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+				{logo}
+				<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+					<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
+					<Button style={btnAccountsStyle} onClick={callbacks.onAccountClick}>Accounts</Button>
+					<Button style={btnHelpStyle} onClick={callbacks.onHelpClick}>Help</Button>
+					<AudioLoop />
+				</Flex>
+			</Flex>
+		);
+	}, [menuStore.playerID]);
+
+	const line: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<Line style={{ margin: '10px 0 0 0' }} />
+		);
+	}, []);
+
+	const bottom: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+				<Select onChange={callbacks.onMapSelect} label={"Select map:"} selected={menuStore.selectedMap.toString()}>{mapList}</Select>
+				<Checkbox label='Auto Save' onChange={callbacks.onAutoSaveChange} value={menuStore.autoSave} />
+				<Button onClick={callbacks.onFullReset}>Clear Cache</Button>
+			</Flex>
+		);
+	}, [menuStore.selectedMap, menuStore.autoSave]);
+
 	return (
 		<GlassWrapper>
 			<Flex style={{ overflow: 'auto' }}>
 				<Flex style={{ flexDirection: 'column', padding: '10px' }}>
-
-					<Flex style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Flex style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<img src='assets/sc2.ico' width='30' height='30' />
-							<Label style={{ fontSize: '20px' }}>Bank Generator</Label>
-						</Flex>
-						<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-							<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
-							<Button style={{ width: '80px' }} onClick={callbacks.onAccountClick}>Accounts</Button>
-							<Button style={{ width: '50px' }} onClick={callbacks.onHelpClick}>Help</Button>
-						</Flex>
-					</Flex>
-
-					<Line style={{ margin: '10px 0 0 0' }} />
-
-					<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-						<Select onChange={callbacks.onMapSelect} label={"Select map:"} selected={menuStore.selectedMap.toString()}>{mapList}</Select>
-						<Checkbox label='Show Code' onChange={callbacks.onShowCodeChange} />
-						<Button onClick={callbacks.onFullReset}>Clear Cache</Button>
-					</Flex>
-
+					{top}
+					{line}
+					{bottom}
 				</Flex>
 			</Flex>
 		</GlassWrapper>

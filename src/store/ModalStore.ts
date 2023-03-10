@@ -22,12 +22,18 @@ export class ModalStore extends BasicStore {
 
 	public current: number;
 	public message: string;
+	public actions: (() => void)[];
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public setModal(id: keyof typeof Modals, message?: string): void {
+	public setModal(id: keyof typeof Modals, message?: string, actions?: (() => void)[]): void {
 		this.current = Modals[id];
 		this.message = message;
+		if (id == "NONE") {
+			this.actions = []; // на всякий случай сразу потрем их
+			return;
+		}
+		this.actions = actions;
 	}
 
 	public override reset(): void {

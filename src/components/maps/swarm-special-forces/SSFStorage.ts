@@ -8,11 +8,7 @@
 
 export class SSFStorage {
 
-	public data: string;
-
-	constructor() {
-		this.reset();
-	}
+	public data: string = '';
 
 	public reset(): void {
 		this.data = '';
@@ -58,3 +54,5 @@ export class SSFStorage {
 	}
 
 }
+
+export default new SSFStorage();

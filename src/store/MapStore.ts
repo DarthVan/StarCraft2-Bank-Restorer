@@ -10,24 +10,31 @@ import { BasicStore } from "./BasicStore";
 
 export class MapStore extends BasicStore {
 
-	list: any;
+	public list: any;
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
 	public override reset(): void {
 		this.list = {};
+		localStorage.removeItem("MapsData");
 	}
 
-	public setMapData(id: string, data: {}): void {
-		this.list[id] = data;
+	public setMapData(accountID: string, mapID: string, data: {}): void {
+		this.list[accountID] = { ...this.list[accountID], [mapID]: data };
 		localStorage.setItem("MapsData", JSON.stringify(this.list));
 	}
 
-	public clearMapData(id: string): void {
-		if (!this.list[id])
-			return;
-		this.list[id] = null;
-		delete (this.list[id]);
+	public clearMapData(accountID: string, mapID?: string): void {
+		if (mapID) {
+			if (!this.list[accountID]?.[mapID])
+				return;
+			this.list[accountID][mapID] = null;
+			delete (this.list[accountID][mapID]);
+		} else { // удаляем все банки учетки
+			this.list[accountID] = null;
+			delete (this.list[accountID]);
+		}
+		localStorage.setItem("MapsData", JSON.stringify(this.list));
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------

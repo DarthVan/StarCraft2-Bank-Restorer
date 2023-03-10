@@ -1,20 +1,18 @@
 /* Generated with TypeScript React snippets */
 
-import filesaver from "file-saver";
 import { observer } from 'mobx-react-lite';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { flushSync } from "react-dom";
 import Flex from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
 import { Bank } from 'src/core/bank/bank';
-import { BankKey } from 'src/core/bank/bank-key';
-import { BankKeyType } from 'src/core/bank/bank-key-type';
-import { BankMap } from 'src/core/bank/bank-map';
 import { SCParam } from 'src/core/scarcode/sc-param';
-import starcode from 'src/core/scarcode/starcode';
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
 import { mapProps, Maps } from '../Maps';
-import { ZcStats } from './ZcStats';
+import functions from "./functions";
+import store from "./store";
 
 /** ZombieCityForm **
 * ...
@@ -27,36 +25,26 @@ interface Props {
 }
 
 const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
-	const { menuStore, mapStore } = useStore();
+	const { accountStore, menuStore, mapStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
 	const [authorID, setAuthorID] = useState(mapProps.get(Maps.ZOMBIE_CITY).authorID);
 	const mapTitle: string = mapProps.get(Maps.ZOMBIE_CITY).title;
-	const ZC_KEY: string = 'OnFbXRyxYzPuv7of(v5v7[zdvUiDzXO]gVb9FVI9b>M>l}Gt6L';
-	const bank: Bank = new Bank(bankName, authorID, menuStore.playerID, '1');
-	const zcStats: ZcStats = new ZcStats();
 
-	useMemo((): void => {
-		const storeParams: Array<{ _current: number, _max: number, _description: string }> = mapStore.list[mapTitle];
-		if (!storeParams)
-			return;
-		storeParams.forEach((value: { _current: number, _max: number, _description: string }, i: number): void => {
-			zcStats.queue[i].update(value._current);
-		});
-	}, [mapStore, zcStats]);
+	const bank: Bank = useMemo((): Bank => {
+		return new Bank(bankName, authorID, menuStore.playerID, '1');
+	}, [accountStore.current, menuStore.playerID, bankName, authorID]);
 
-	const xmlBank: string = useMemo((): string => {
-		const sID: string = '23EGWEG234AG4';
-		const kID: string = 'AWEO322AOIGWE3wqogej23';
-		if (!bank.sections.has(sID))
-			bank.sections.set(sID, new BankMap(sID));
-		if (!bank.sections.get(sID).has(kID))
-			bank.sections.get(sID).set(kID,
-				new BankKey(kID, BankKeyType.STRING, ''));
-		bank.sections.get(sID).get(kID).update(zcStats.write(starcode, ZC_KEY));
-		bank.updateSignature();
-		//console.log("bank const updated:", bank.signature);
-		return bank.getAsString();
-	}, [zcStats]);
+	const save: () => void = (): void => { // а вот надо ли стор для этого хз...
+		mapStore.setMapData(accountStore.current, mapTitle, store.queue);
+	};
+
+	useEffect((): void => {
+		const fields: any = mapStore.list[accountStore.current]?.[mapTitle];
+		if (fields)
+			store.fromLocalStorage(fields);
+		else
+			setTimeout(callbacks.onResetClick);
+	}, [accountStore.current]);
 
 	const callbacks = {
 		onBankNameChange: useCallback((value: string): void => {
@@ -66,37 +54,51 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 			setAuthorID(value);
 		}, []),
 		onFileDrop: useCallback((name: string, value: string): void => {
-			bank.parse(value);
-			if (bank.sections.size != 1 || bank.sections.get('23EGWEG234AG4') == null)
-				throw new Error('wrong bank file!');
-			starcode.reset();
-			starcode.code = bank.sections.get('23EGWEG234AG4').get('AWEO322AOIGWE3wqogej23').value;
-			zcStats.read(starcode, ZC_KEY);
-			mapStore.setMapData(mapTitle, [...zcStats.queue]);
+			const fields: SCParam[] = functions.parse(bank, value);
+			if (!fields)
+				return;
+			flushSync((): void => store.setFields()); // unmutate
+			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			console.log('download bank file:', xmlBank);
-			const blob = new Blob([xmlBank], { type: 'application/octet-stream' });
-			filesaver.saveAs(blob, bankName + '.SC2Bank');
-		}, [xmlBank]), // зависит от хмля банка
+			downloadTextAsFile(functions.generateXML(bank), bankName + '.SC2Bank', true);
+			if (!menuStore.autoSave)
+				save();
+		}, [bank]),
 		onCopyCodeClick: useCallback((): void => {
-			window.navigator['clipboard'].writeText(xmlBank).then((): void => {
-				console.log("Copied to clipboard:\n", xmlBank);
-			});
-		}, [xmlBank]), // зависит от хмля банка
+			copyTextToClipboard(functions.generateXML(bank), true);
+			if (!menuStore.autoSave)
+				save();
+		}, [bank]),
 		onResetClick: useCallback((): void => {
-			setTimeout((): void => {
-				setBankName(props.bankName);
-				setAuthorID(mapProps.get(Maps.ZOMBIE_CITY).authorID);
-			}, 1); // хак чтоб сделать ререндер чуть позже
-			zcStats.reset();
-			mapStore.setMapData(mapTitle, [...zcStats.queue]);
+			setBankName(props.bankName);
+			setAuthorID(mapProps.get(Maps.ZOMBIE_CITY).authorID);
+			flushSync((): void => store.setFields());
+			store.reset();
 		}, []),
-		onFieldChange: useCallback((value: string, index?: number): void => {
-			zcStats.queue[index].update(parseInt(value));
-			mapStore.setMapData(mapTitle, [...zcStats.queue]);
+		onFieldChange: useCallback((value: string, index: number): void => {
+			store.updateAt(index, parseInt(value), true); // мутация включена!
+			if (menuStore.autoSave)
+				save();
 		}, [])
 	}
+
+	// Форму обновляем только если ее данные изменились
+	const form: JSX.Element = useMemo((): JSX.Element => {
+		return (
+			<Flex style={{ flexDirection: 'column' }} alignInputs={true}>
+				{store.queue.map((param: SCParam, index: number): any => {
+					return (
+						<Input label={param.description + ':'} index={index} type='number' min='0'
+							onChange={callbacks.onFieldChange}
+							max={param.max.toString()}
+							value={param.current.toString()}
+						/>
+					);
+				})}
+			</Flex>
+		);
+	}, [store.queue]);
 
 	return (
 		<Editor
@@ -109,19 +111,9 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 			onCopy={callbacks.onCopyCodeClick}
 			onReset={callbacks.onResetClick}
 		>
-			<Flex style={{ flexDirection: 'column' }} alignInputs={true}>
-				{zcStats.queue.map((param: SCParam, index: number): any => {
-					return (
-						<Input label={param.description + ':'} index={index} type='number' min='0'
-							onChange={callbacks.onFieldChange}
-							max={param.max.toString()}
-							value={param.current.toString()}
-						/>
-					);
-				})}
-			</Flex>
+			{form}
 		</Editor>
 	);
-})
+});
 
 export default React.memo(ZombieCityForm);

@@ -3,13 +3,14 @@
 import mui from '@mui/material';
 import filesaver from "file-saver";
 import { observer } from "mobx-react-lite";
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import Button from 'src/components/ui/button';
 import Container from "src/components/ui/container";
 import Label from 'src/components/ui/label';
 import { Bank } from "src/core/bank/bank";
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from 'src/utils/utils';
 import { mapProps, Maps } from '../Maps';
 
 /** AnySimple **
@@ -23,102 +24,81 @@ interface Props {
 }
 
 const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
-	const { menuStore, mapStore, modalStore } = useStore();
+	const { accountStore, menuStore, mapStore, modalStore } = useStore();
 	const [bankName, setBankName] = useState('');
 	const [authorID, setAuthorID] = useState('');
 	const [sxml, setSXML] = useState('');
 	const mapTitle: string = mapProps.get(Maps.ANY_SIMPLE).title;
-	const bank: Bank = new Bank(bankName, authorID, menuStore.playerID, '1');
 
-	useMemo((): void => {
-		const storeParams: {
-			bankName: string,
-			authorID: string,
-			xml: string
-		} = mapStore.list[mapTitle];
+	const bank: Bank = useMemo((): Bank => {
+		return new Bank(bankName, authorID, menuStore.playerID, '1');
+	}, [accountStore.current, menuStore.playerID, bankName, authorID]);
 
-		if (!storeParams)
+	useEffect((): void => {
+		const storeParams: { bankName: string, authorID: string, xml: string } = mapStore.list[accountStore.current]?.[mapTitle];
+		if (!storeParams) {
+			callbacks.onResetClick();
 			return;
-
+		}
 		setBankName(storeParams.bankName);
 		setAuthorID(storeParams.authorID);
 		setSXML(storeParams.xml);
+	}, [accountStore.current]);
 
-		console.log('update data from store');
-	}, [mapStore]);
+	const save: () => void = (): void => {
+		mapStore.setMapData(accountStore.current, mapTitle, { bankName, authorID, xml: sxml });
+	};
+
+	useEffect((): void => {
+		if (menuStore.autoSave)
+			save();
+	}, [bankName, authorID, sxml]);
 
 	const callbacks = {
 		onBankNameChange: useCallback((value: string): void => {
 			setBankName(value);
-			mapStore.setMapData(mapTitle, { bankName: value, authorID, xml: sxml });
-		}, [authorID, sxml]),
+		}, []),
 		onAuthorIdChange: useCallback((value: string): void => {
 			setAuthorID(value);
-			mapStore.setMapData(mapTitle, { bankName, authorID: value, xml: sxml });
-		}, [bankName, sxml]),
+		}, []),
 		onFileDrop: useCallback((name: string, value: string): void => {
 			bank.parse(value);
 			bank.sort();
-			const xml: string = bank.getAsString();
 			setBankName(name);
-			setSXML(xml);
-			mapStore.setMapData(mapTitle, { bankName: name, authorID, xml });
-		}, [bankName, authorID]),
-
+			setSXML(bank.getAsString());
+		}, []),
 		onDownloadClick: useCallback((): void => {
 			if (menuStore.playerID.length < 12 || authorID.length < 12 || bankName.length < 1)
 				modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
-
-			console.log('download bank file:', sxml);
-			const blob = new Blob([sxml], { type: 'application/octet-stream' });
-			filesaver.saveAs(blob, bankName + '.SC2Bank');
-		}, [bankName, authorID, sxml]),
-
+			downloadTextAsFile(sxml, bankName + '.SC2Bank', true)
+			if (!menuStore.autoSave)
+				save();
+		}, [bank, sxml]),
 		onCopyCodeClick: useCallback((): void => {
 			if (menuStore.playerID.length < 12 || authorID.length < 12 || bankName.length < 1)
 				modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
-
-			window.navigator['clipboard'].writeText(sxml).then((): void => {
-				console.log("Copied to clipboard:\n", sxml);
-			});
-		}, [bankName, authorID, sxml]),
+			copyTextToClipboard(sxml, true);
+			if (!menuStore.autoSave)
+				save();
+		}, [bank, sxml]),
 		onResetClick: useCallback((): void => {
-			setTimeout((): void => {
-				setBankName('');
-				setAuthorID('');
-				setSXML('');
-			}, 1);
-			mapStore.setMapData(mapTitle, null);
+			setBankName('');
+			setAuthorID('');
+			setSXML('');
 		}, []),
 		onFieldChange: useCallback((value: string): void => {
-			//bank.parse(value);
-			//bank.sort();
-			//bank.updateSignature();
-			//const xml: string = bank.getAsString();
 			setSXML(value);
-			mapStore.setMapData(mapTitle, { bankName, authorID, xml: value });
-		}, [bankName, authorID]),
+		}, []),
 		updateSignature: useCallback((): void => {
 			bank.parse(sxml);
 			bank.sort();
 			bank.updateSignature();
-			const xml: string = bank.getAsString();
-			setSXML(xml);
-			mapStore.setMapData(mapTitle, { bankName, authorID, xml });
-		}, [bankName, authorID, sxml]),
+			setSXML(bank.getAsString());
+		}, [bank, sxml]),
 	};
 
-	return (
-		<Editor
-			bankName={bankName}
-			authorID={authorID}
-			onBankNameChange={callbacks.onBankNameChange}
-			onAuthorIdChange={callbacks.onAuthorIdChange}
-			onFileDrop={callbacks.onFileDrop}
-			onDownload={callbacks.onDownloadClick}
-			onCopy={callbacks.onCopyCodeClick}
-			onReset={callbacks.onResetClick}
-		>
+	const form: JSX.Element = useMemo((): JSX.Element => {
+		return (
 			<Container style={{ flexDirection: 'column' }}>
 				<Label>Simple text editor for any banks, that protected with signature only. Drop file to edit it.</Label>
 				<mui.TextField
@@ -136,18 +116,7 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 						"& .MuiFormLabel-root.Mui-focused": {
 							color: '#CCCCFF',
 							fontFamily: 'Consolas'
-						},
-						/* '& .MuiOutlinedInput-root': {
-							'& fieldset': {
-								borderColor: '#ffffff40',
-							},
-							'&:hover fieldset': {
-								borderColor: '#ffffff40',
-							},
-							'&.Mui-focused fieldset': {
-								borderColor: '#ffffffcc',
-							},
-						} */
+						}
 					}}
 					id="standard-multiline-flexible"
 					label="XML Bank Data"
@@ -162,6 +131,21 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 				</mui.TextField>
 				<Button onClick={callbacks.updateSignature} style={{ width: '150px' }}>Update Signature</Button>
 			</Container>
+		);
+	}, [bank, sxml]);
+
+	return (
+		<Editor
+			bankName={bankName}
+			authorID={authorID}
+			onBankNameChange={callbacks.onBankNameChange}
+			onAuthorIdChange={callbacks.onAuthorIdChange}
+			onFileDrop={callbacks.onFileDrop}
+			onDownload={callbacks.onDownloadClick}
+			onCopy={callbacks.onCopyCodeClick}
+			onReset={callbacks.onResetClick}
+		>
+			{form}
 		</Editor>
 	);
 })
