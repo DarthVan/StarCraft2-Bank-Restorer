@@ -14,7 +14,8 @@ export enum Modals {
 	HELP,
 	WARN,
 	CONFIRM,
-	ACCOUNTS
+	ACCOUNTS,
+	UPDATES
 
 }
 
@@ -23,17 +24,20 @@ export class ModalStore extends BasicStore {
 	public current: number;
 	public message: string;
 	public actions: (() => void)[];
+	public data: any;
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public setModal(id: keyof typeof Modals, message?: string, actions?: (() => void)[]): void {
+	public setModal(id: keyof typeof Modals, message?: string, actions?: (() => void)[], data?: any): void {
 		this.current = Modals[id];
 		this.message = message;
 		if (id == "NONE") {
 			this.actions = []; // на всякий случай сразу потрем их
+			this.data = null;
 			return;
 		}
 		this.actions = actions;
+		this.data = data;
 	}
 
 	public override reset(): void {

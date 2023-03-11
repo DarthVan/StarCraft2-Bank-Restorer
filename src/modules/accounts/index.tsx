@@ -51,7 +51,7 @@ const Accounts: FC<Props> = observer((props: Props): JSX.Element => {
 		return (
 			<>
 				<Text style={{ textAlign: 'center', marginTop: '10px' }}>
-					If you have more accounts, you can add them here for quick swithcing. <br /><br />
+					If you have more accounts, you can add them here for quick switching. <br /><br />
 				</Text >
 				<Button style={{ width: '200px', alignSelf: 'center', marginBottom: '20px' }} onClick={callbacks.onAddNewAccount}>Add new account</Button>
 			</>

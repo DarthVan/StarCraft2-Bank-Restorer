@@ -11,6 +11,7 @@ import Confirm from './modules/confirm';
 import Help from './modules/help';
 import Info from './modules/info';
 import Menu from './modules/menu';
+import Updates from './modules/updates';
 import Warn from './modules/warn';
 import Workspace from './modules/workspace';
 import { Modals } from './store/ModalStore';
@@ -33,6 +34,7 @@ const App: FC = observer((): JSX.Element => {
 			{modalStore.current == Modals.WARN && <Warn />}
 			{modalStore.current == Modals.ACCOUNTS && <Accounts />}
 			{modalStore.current == Modals.CONFIRM && <Confirm />}
+			{modalStore.current == Modals.UPDATES && <Updates />}
 		</div>
 	);
 });
