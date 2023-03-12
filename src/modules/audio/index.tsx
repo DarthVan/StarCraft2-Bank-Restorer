@@ -55,7 +55,7 @@ const AudioLoop: FC<Props> = (props: Props): JSX.Element => {
 			audio.pause();
 			ReactGA.event({
 				category: "system",
-				action: "sounds off",
+				action: "SoundOff",
 				/* label: "your label", // optional
 				value: 99, // optional, must be a number
 				nonInteraction: true, // optional, true/false

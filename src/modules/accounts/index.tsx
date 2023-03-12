@@ -28,7 +28,7 @@ const Accounts: FC<Props> = observer((props: Props): JSX.Element => {
 			accountStore.add('Nick Name');
 			ReactGA.event({
 				category: "accounts",
-				action: "added new account",
+				action: "NewAccount",
 				value: accountStore.list.length,
 			});
 		}, []),

@@ -40,7 +40,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 			menuStore.setSelectedMap(parseInt(value));
 			ReactGA.event({
 				category: "maps",
-				action: "selected map",
+				action: "SelectMap",
 				label: value, // optional
 				/* value: 99, // optional, must be a number
 				nonInteraction: true, // optional, true/false
