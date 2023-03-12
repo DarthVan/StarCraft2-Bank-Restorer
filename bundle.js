@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Sun, 12 Mar 2023 15:53:12 UTC
+ * Compiled Sun, 12 Mar 2023 16:09:30 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -3524,8 +3524,9 @@
 	    const { modalStore } = useStore();
 	    ReactGA.initialize("G-F9Y8FZ0KFE", {
 	        gtagOptions: {
-	            cookie_flags: 'max-age=7200;secure=true;samesite=none;domain=https://darthvan.github.io/StarCraft2-Bank-Restorer/'
-	        }
+	            cookie_flags: 'max-age=7200;Secure=true;SameSite=none'
+	        },
+	        gaOptions: { cookieDomain: 'none' }
 	    });
 	    return (jsxRuntimeExports.jsxs("div", { className: "App", children: [jsxRuntimeExports.jsx(Menu$1, {}), jsxRuntimeExports.jsx(Workspace$1, {}), jsxRuntimeExports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntimeExports.jsx(Help$1, {}), modalStore.current == Modals.WARN && jsxRuntimeExports.jsx(Warn$1, {}), modalStore.current == Modals.ACCOUNTS && jsxRuntimeExports.jsx(Accounts$1, {}), modalStore.current == Modals.CONFIRM && jsxRuntimeExports.jsx(Confirm$1, {}), modalStore.current == Modals.UPDATES && jsxRuntimeExports.jsx(Updates$1, {})] }));
 	});
