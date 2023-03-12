@@ -26,7 +26,12 @@ import { Modals } from './store/ModalStore';
 const App: FC = observer((): JSX.Element => {
 	const { modalStore } = useStore();
 
-	ReactGA.initialize("G-F9Y8FZ0KFE");
+	ReactGA.initialize("G-F9Y8FZ0KFE", {
+		gtagOptions: {
+			cookie_flags: 'max-age=7200;Secure=true;SameSite=none'
+		},
+		gaOptions: { cookieDomain: 'none' }
+	});
 
 	return (
 		<div className="App">

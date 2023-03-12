@@ -69,10 +69,10 @@ export class AccountStore extends BasicStore {
 
 	protected override init(): void {
 		const json: any = JSON.parse(localStorage.getItem("AccountData"));
-		this.list = json.list;
+		this.list = json?.list;
 		if (!this.list || !this.list.length)
 			this.reset();
-		this.current = json.selected;
+		this.current = json?.selected;
 		if (!this.current)
 			this.setSelected(this.list[0].id);
 	}
