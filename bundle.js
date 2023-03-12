@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Sun, 12 Mar 2023 13:16:51 UTC
+ * Compiled Sun, 12 Mar 2023 13:51:20 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -692,10 +692,10 @@
 	    }
 	    init() {
 	        const json = JSON.parse(localStorage.getItem("AccountData"));
-	        this.list = json.list;
+	        this.list = json?.list;
 	        if (!this.list || !this.list.length)
 	            this.reset();
-	        this.current = json.selected;
+	        this.current = json?.selected;
 	        if (!this.current)
 	            this.setSelected(this.list[0].id);
 	    }
