@@ -1,0 +1,12 @@
+{
+	"updates": [
+		{
+			"version": "1.01",
+			"description": "fixes, optimizations, sounds, account switcher"
+		},
+		{
+			"version": "1.00",
+			"description": "first release"
+		}
+	]
+}

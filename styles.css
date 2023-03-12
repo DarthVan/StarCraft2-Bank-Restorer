@@ -92,6 +92,13 @@ body {
 .Button:active {
 	background: linear-gradient(#01012077, #202090aa);
 }
+.Text {
+	font-family: Consolas;
+	font-size: 16px;
+	color: #DDDDFF;
+	white-space: pre-line;
+	/* text-shadow: 0 0 2px #CCCCFF; */
+}
 .Container {
 	display: flex;
 	background: inherit;
@@ -197,12 +204,37 @@ body {
 	min-height: 1px;
 	margin: 10px 0;
 }
-.Text {
+.Input {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.Input-field {
+	background: linear-gradient(#02022077, #5050eeaa);
+	transition: 0.25s;
+	background-size: auto 200%;
+	display: block;
+
+	text-shadow: 0 0 5px #d5d5ff;
+	border: 1px solid #5050ee;
+
 	font-family: Consolas;
-	font-size: 16px;
-	color: #DDDDFF;
-	white-space: pre-line;
-	/* text-shadow: 0 0 2px #CCCCFF; */
+	font-size: 14px;
+	color: #eee9ff;
+
+	width: 120px;
+	padding: 2px 5px;
+}
+
+.Input-field:hover {
+	background-position: bottom;
+	border: 1px solid #eeeeff;
+	box-shadow: 0 0 4px #d5d5ff;
+}
+
+.Input-field:active {
+	background: linear-gradient(#01012077, #202090aa);
 }
 .DropZone {
 	width: 120px;
@@ -235,38 +267,6 @@ body {
 	border: 1px solid #ffffffcc;
 	box-shadow: 0 0 4px #d5d5ff;
 	background-color: #AAAAFF20;
-}
-.Input {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-
-.Input-field {
-	background: linear-gradient(#02022077, #5050eeaa);
-	transition: 0.25s;
-	background-size: auto 200%;
-	display: block;
-
-	text-shadow: 0 0 5px #d5d5ff;
-	border: 1px solid #5050ee;
-
-	font-family: Consolas;
-	font-size: 14px;
-	color: #eee9ff;
-
-	width: 120px;
-	padding: 2px 5px;
-}
-
-.Input-field:hover {
-	background-position: bottom;
-	border: 1px solid #eeeeff;
-	box-shadow: 0 0 4px #d5d5ff;
-}
-
-.Input-field:active {
-	background: linear-gradient(#01012077, #202090aa);
 }
 .Checkbox {
 	display: flex;
