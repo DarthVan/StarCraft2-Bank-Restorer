@@ -50,7 +50,8 @@ const Info: FC<Props> = observer((): JSX.Element => {
 	}
 
 	useEffect((): () => void => {
-		const interval: number = setInterval((): void => loadUpdatesList(), 60000);
+		loadUpdatesList(); // first auto check
+		const interval: number = setInterval((): void => loadUpdatesList(), 600000); // 10 mins
 		return (): void => clearInterval(interval);
 	}, []);
 

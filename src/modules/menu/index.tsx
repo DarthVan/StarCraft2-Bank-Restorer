@@ -2,6 +2,7 @@
 
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback, useMemo } from "react";
+import ReactGA from "react-ga4";
 import { mapProps } from 'src/components/maps/Maps';
 import Button from 'src/components/ui/button';
 import Checkbox from 'src/components/ui/checkbox';
@@ -37,6 +38,14 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
+			ReactGA.event({
+				category: "maps",
+				action: "selected map",
+				label: value, // optional
+				/* value: 99, // optional, must be a number
+				nonInteraction: true, // optional, true/false
+				transport: "xhr", // optional, beacon/xhr/image */
+			});
 		}, []),
 		onAutoSaveChange: useCallback((value: boolean): void => {
 			menuStore.setAutoSave(value);

@@ -3,6 +3,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
 import { createRoot, Root } from 'react-dom/client';
+import ReactGA from "react-ga4";
 import './App.css';
 import Slideshow from './components/ui/slideshow';
 import { StoreProvider, useStore } from './hooks/use-store';
@@ -24,6 +25,8 @@ import { Modals } from './store/ModalStore';
 
 const App: FC = observer((): JSX.Element => {
 	const { modalStore } = useStore();
+
+	ReactGA.initialize("G-F9Y8FZ0KFE");
 
 	return (
 		<div className="App">

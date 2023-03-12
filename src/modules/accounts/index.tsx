@@ -2,6 +2,7 @@
 
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useMemo } from 'react';
+import ReactGA from "react-ga4";
 import Button from 'src/components/ui/button';
 import Text from 'src/components/ui/text';
 import { useStore } from 'src/hooks/use-store';
@@ -25,6 +26,11 @@ const Accounts: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onAddNewAccount: useCallback((): void => {
 			accountStore.add('Nick Name');
+			ReactGA.event({
+				category: "accounts",
+				action: "added new account",
+				value: accountStore.list.length,
+			});
 		}, []),
 		onRemoveAccount: useCallback((id: string): void => {
 			mapStore.clearMapData(id);
