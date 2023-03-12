@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Sun, 12 Mar 2023 16:09:30 UTC
+ * Compiled Sun, 12 Mar 2023 17:05:16 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -973,7 +973,7 @@
 	            accountStore.add('Nick Name');
 	            ReactGA.event({
 	                category: "accounts",
-	                action: "added new account",
+	                action: "NewAccount",
 	                value: accountStore.list.length,
 	            });
 	        }, []),
@@ -3409,7 +3409,7 @@
 	            audio.pause();
 	            ReactGA.event({
 	                category: "system",
-	                action: "sounds off",
+	                action: "SoundOff",
 	            });
 	        }, [])
 	    };
@@ -3436,7 +3436,7 @@
 	            menuStore.setSelectedMap(parseInt(value));
 	            ReactGA.event({
 	                category: "maps",
-	                action: "selected map",
+	                action: "SelectMap",
 	                label: value,
 	            });
 	        }, []),
