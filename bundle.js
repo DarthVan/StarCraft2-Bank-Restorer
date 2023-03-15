@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Sun, 12 Mar 2023 17:05:16 UTC
+ * Compiled Wed, 15 Mar 2023 19:53:48 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -587,28 +587,6 @@
 
 	var ReactGA = /*@__PURE__*/getDefaultExportFromCjs(dist);
 
-	const Slideshow = (props) => {
-	    const ref = React.useRef(null);
-	    let { type } = props;
-	    if (!type)
-	        type = 'random';
-	    let n = 0;
-	    const nextBG = (n, ref, type) => {
-	        n = type == 'random' ? Math.floor(Math.random() * 8) + 1 : n > 8 ? 1 : n + 1;
-	        ref.current.style.backgroundImage = "url('./assets/pics/bg" + n + ".jpg')";
-	        return n;
-	    };
-	    const interval = setInterval(() => {
-	        n = nextBG(n, ref, type);
-	    }, 60000);
-	    window.onbeforeunload = () => {
-	        clearInterval(interval);
-	    };
-	    React.useEffect(() => { n = nextBG(n, ref, type); }, []);
-	    return (jsxRuntimeExports.jsx("div", { className: 'Slideshow', ref: ref, children: props.children }));
-	};
-	var Slideshow$1 = React.memo(Slideshow);
-
 	function r(min, max) {
 	    return Math.round(Math.random() * (max - min)) + min;
 	}
@@ -634,6 +612,36 @@
 	    if (log)
 	        console.log('download bank file:', data);
 	}
+	function rgaEvent(category, action, label, value) {
+	    ReactGA.event({
+	        category,
+	        action,
+	        label,
+	        value,
+	    });
+	}
+
+	const Slideshow = (props) => {
+	    const ref = React.useRef(null);
+	    let { type } = props;
+	    if (!type)
+	        type = 'random';
+	    let n = 0;
+	    const nextBG = (n, ref, type) => {
+	        n = type == 'random' ? r(1, 3) : n > 3 ? 1 : n + 1;
+	        ref.current.style.backgroundImage = "url('./assets/pics/bg" + n + ".jpg')";
+	        return n;
+	    };
+	    const interval = setInterval(() => {
+	        n = nextBG(n, ref, type);
+	    }, 120000);
+	    window.onbeforeunload = () => {
+	        clearInterval(interval);
+	    };
+	    React.useEffect(() => { n = nextBG(n, ref, type); }, []);
+	    return (jsxRuntimeExports.jsx("div", { className: 'Slideshow', ref: ref, children: props.children }));
+	};
+	var Slideshow$1 = React.memo(Slideshow);
 
 	class BasicStore {
 	    constructor() {
@@ -971,22 +979,20 @@
 	        }, []),
 	        onAddNewAccount: React.useCallback(() => {
 	            accountStore.add('Nick Name');
-	            ReactGA.event({
-	                category: "accounts",
-	                action: "NewAccount",
-	                value: accountStore.list.length,
-	            });
+	            rgaEvent("Accounts", "Added new account", '', accountStore.list.length);
 	        }, []),
 	        onRemoveAccount: React.useCallback((id) => {
 	            mapStore.clearMapData(id);
 	            accountStore.remove(id);
 	            menuStore.setPlayerID(accountStore.currentAccount.playerID);
+	            rgaEvent("Accounts", "Remove account");
 	        }, []),
 	        onAccountSelect: React.useCallback((id, playerID) => {
 	            if (accountStore.current == id)
 	                return;
 	            accountStore.setSelected(id);
 	            menuStore.setPlayerID(playerID);
+	            rgaEvent("Accounts", "Select account", playerID);
 	        }, []),
 	        onNameChange: React.useCallback((id, name) => {
 	            accountStore.change(id, { name });
@@ -1038,7 +1044,7 @@
 
 	const Info = mobxReactLite.observer(() => {
 	    const { modalStore } = useStore();
-	    const version = '1.01';
+	    const version = '1.02';
 	    const loadUpdatesList = (forceShow) => {
 	        console.log('Checking updates...');
 	        fetch('./updates.json' + '?' + Date.now(), { cache: 'no-cache' })
@@ -1066,98 +1072,12 @@
 	    const callbacks = {
 	        onVersionClick: React.useCallback(() => {
 	            loadUpdatesList(true);
+	            rgaEvent("Info", "Version");
 	        }, [])
 	    };
 	    return (jsxRuntimeExports.jsx(GlassWrapper$1, { children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px', minWidth: 'max-content' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Powered by React 18" }), jsxRuntimeExports.jsx("div", { onClick: callbacks.onVersionClick, style: { cursor: 'pointer' }, children: jsxRuntimeExports.jsxs(Text$1, { style: { textDecoration: 'underline', fontSize: '12px' }, children: ["Version ", version] }) })] }) }) }));
 	});
 	var Info$1 = React.memo(Info);
-
-	const DropZone = (props) => {
-	    const [isDragActive, setIsDragActive] = React.useState(false);
-	    const dropZoneRef = React.useRef(null);
-	    const mapFileListToArray = (files) => {
-	        const array = [];
-	        for (let i = 0; i < files.length; i++)
-	            array.push(files.item(i));
-	        return array;
-	    };
-	    const callbacks = {
-	        onDragStart: React.useCallback((e) => {
-	            e.preventDefault();
-	            e.stopPropagation();
-	            e.dataTransfer.clearData();
-	            e.dataTransfer.setData('text/plain', e.target.dataset.item);
-	        }, []),
-	        onDragEnter: React.useCallback((e) => {
-	            e.preventDefault();
-	            e.stopPropagation();
-	            props.onDragEnter?.();
-	            if (e.dataTransfer.items && e.dataTransfer.items.length > 0)
-	                setIsDragActive(true);
-	        }, [props.onDragEnter]),
-	        onDragLeave: React.useCallback((e) => {
-	            e.preventDefault();
-	            e.stopPropagation();
-	            props.onDragLeave?.();
-	            setIsDragActive(false);
-	        }, [props.onDragLeave]),
-	        onDragOver: React.useCallback((e) => {
-	            e.preventDefault();
-	            e.stopPropagation();
-	            props.onDragOver?.();
-	            if (!isDragActive)
-	                setIsDragActive(true);
-	        }, [isDragActive, props.onDragOver]),
-	        onDrop: React.useCallback((e) => {
-	            e.preventDefault();
-	            e.stopPropagation();
-	            setIsDragActive(false);
-	            props.onDrop?.();
-	            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-	                props.onFilesDrop?.(mapFileListToArray(e.dataTransfer.files));
-	            }
-	        }, [props.onDrop, props.onFilesDrop])
-	    };
-	    React.useEffect(() => {
-	        props.onDragStateChange?.(isDragActive);
-	    }, [isDragActive]);
-	    React.useEffect(() => {
-	        const zoneRef = dropZoneRef?.current;
-	        if (zoneRef) {
-	            zoneRef.addEventListener('dragstart', callbacks.onDragStart);
-	            zoneRef.addEventListener('dragenter', callbacks.onDragEnter);
-	            zoneRef.addEventListener('dragleave', callbacks.onDragLeave);
-	            zoneRef.addEventListener('dragover', callbacks.onDragOver);
-	            zoneRef.addEventListener('drop', callbacks.onDrop);
-	        }
-	        return () => {
-	            zoneRef?.removeEventListener('dragstart', callbacks.onDragStart);
-	            zoneRef?.removeEventListener('dragenter', callbacks.onDragEnter);
-	            zoneRef?.removeEventListener('dragleave', callbacks.onDragLeave);
-	            zoneRef?.removeEventListener('dragover', callbacks.onDragOver);
-	            zoneRef?.removeEventListener('drop', callbacks.onDrop);
-	        };
-	    }, []);
-	    return (jsxRuntimeExports.jsx("div", { className: 'DropZone' + (isDragActive ? ' DropZone-active' : ''), style: props.style, ref: dropZoneRef, children: props.children ? props.children : "Drop file here!" }));
-	};
-	var Drop = React.memo(DropZone);
-
-	const Editor = (props) => {
-	    const onFilesDrop = React.useCallback((files) => {
-	        files[0].text().then((value) => props.onFileDrop?.(files[0].name.split('.')[0], value));
-	    }, []);
-	    const header = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntimeExports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: props.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntimeExports.jsx(Input$1, { label: "Author id:", placeholder: "X-SX-X-XXXXXXX", onChange: props.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntimeExports.jsx(Drop, { onFilesDrop: onFilesDrop })] }));
-	    }, [props.bankName, props.authorID]);
-	    const line = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }));
-	    }, []);
-	    const buttons = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntimeExports.jsx(Button$1, { onClick: props.onDownload, children: "Download bank" }), jsxRuntimeExports.jsx(Button$1, { onClick: props.onCopy, children: "Copy code" }), jsxRuntimeExports.jsx(Button$1, { onClick: props.onReset, children: "Reset" })] }));
-	    }, [props.onDownload, props.onCopy]);
-	    return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', width: 'max-content', height: 'max-content', minWidth: 'max-content', minHeight: 'max-content' }, children: [header, line, props.children, line, buttons] }));
-	};
-	var Editor$1 = React.memo(Editor);
 
 	const POW_2_24 = Math.pow(2, 24);
 	const POW_2_32 = Math.pow(2, 32);
@@ -1430,6 +1350,14 @@
 	    }
 	    addKey(key, type, value, section) {
 	        const s = this.addSection(section);
+	        switch (typeof value) {
+	            case 'boolean':
+	                value = value ? '1' : '0';
+	                break;
+	            case 'number':
+	                value = value.toString();
+	                break;
+	        }
 	        if (!s.has(key))
 	            s.set(key, new BankKey(key, BankKeyType[type], value));
 	        else
@@ -1517,6 +1445,108 @@
 	    }
 	}
 
+	const DropZone = (props) => {
+	    const [isDragActive, setIsDragActive] = React.useState(false);
+	    const dropZoneRef = React.useRef(null);
+	    const mapFileListToArray = (files) => {
+	        const array = [];
+	        for (let i = 0; i < files.length; i++)
+	            array.push(files.item(i));
+	        return array;
+	    };
+	    const callbacks = {
+	        onDragStart: React.useCallback((e) => {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            e.dataTransfer.clearData();
+	            e.dataTransfer.setData('text/plain', e.target.dataset.item);
+	        }, []),
+	        onDragEnter: React.useCallback((e) => {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            props.onDragEnter?.();
+	            if (e.dataTransfer.items && e.dataTransfer.items.length > 0)
+	                setIsDragActive(true);
+	        }, [props.onDragEnter]),
+	        onDragLeave: React.useCallback((e) => {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            props.onDragLeave?.();
+	            setIsDragActive(false);
+	        }, [props.onDragLeave]),
+	        onDragOver: React.useCallback((e) => {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            props.onDragOver?.();
+	            if (!isDragActive)
+	                setIsDragActive(true);
+	        }, [isDragActive, props.onDragOver]),
+	        onDrop: React.useCallback((e) => {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            setIsDragActive(false);
+	            props.onDrop?.();
+	            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+	                props.onFilesDrop?.(mapFileListToArray(e.dataTransfer.files));
+	            }
+	        }, [props.onDrop, props.onFilesDrop])
+	    };
+	    React.useEffect(() => {
+	        props.onDragStateChange?.(isDragActive);
+	    }, [isDragActive]);
+	    React.useEffect(() => {
+	        const zoneRef = dropZoneRef?.current;
+	        if (zoneRef) {
+	            zoneRef.addEventListener('dragstart', callbacks.onDragStart);
+	            zoneRef.addEventListener('dragenter', callbacks.onDragEnter);
+	            zoneRef.addEventListener('dragleave', callbacks.onDragLeave);
+	            zoneRef.addEventListener('dragover', callbacks.onDragOver);
+	            zoneRef.addEventListener('drop', callbacks.onDrop);
+	        }
+	        return () => {
+	            zoneRef?.removeEventListener('dragstart', callbacks.onDragStart);
+	            zoneRef?.removeEventListener('dragenter', callbacks.onDragEnter);
+	            zoneRef?.removeEventListener('dragleave', callbacks.onDragLeave);
+	            zoneRef?.removeEventListener('dragover', callbacks.onDragOver);
+	            zoneRef?.removeEventListener('drop', callbacks.onDrop);
+	        };
+	    }, []);
+	    return (jsxRuntimeExports.jsx("div", { className: 'DropZone' + (isDragActive ? ' DropZone-active' : ''), style: props.style, ref: dropZoneRef, children: props.children ? props.children : "Drop file here!" }));
+	};
+	var Drop = React.memo(DropZone);
+
+	const Editor = (props) => {
+	    const callbacks = {
+	        onFilesDrop: React.useCallback((files) => {
+	            files[0].text().then((value) => props.onFileDrop?.(files[0].name.split('.')[0], value));
+	            rgaEvent("Editor", "Drop file");
+	        }, []),
+	        onDownload: React.useCallback(() => {
+	            props.onDownload();
+	            rgaEvent("Editor", "Download bank");
+	        }, []),
+	        onCopy: React.useCallback(() => {
+	            props.onCopy();
+	            rgaEvent("Editor", "Copy code");
+	        }, []),
+	        onReset: React.useCallback(() => {
+	            props.onReset();
+	            rgaEvent("Editor", "Reset");
+	        }, []),
+	    };
+	    const header = React.useMemo(() => {
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntimeExports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: props.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntimeExports.jsx(Input$1, { label: "Author id:", placeholder: "X-SX-X-XXXXXXX", onChange: props.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntimeExports.jsx(Drop, { onFilesDrop: callbacks.onFilesDrop })] }));
+	    }, [props.bankName, props.authorID]);
+	    const line = React.useMemo(() => {
+	        return (jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }));
+	    }, []);
+	    const buttons = React.useMemo(() => {
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onDownload, children: "Download bank" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onCopy, children: "Copy code" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onReset, children: "Reset" })] }));
+	    }, [props.onDownload, props.onCopy]);
+	    return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', width: 'max-content', height: 'max-content', minWidth: 'max-content', minHeight: 'max-content' }, children: [header, line, props.children, line, buttons] }));
+	};
+	var Editor$1 = React.memo(Editor);
+
 	const AnySimple = mobxReactLite.observer((props) => {
 	    const { accountStore, menuStore, mapStore, modalStore } = useStore();
 	    const [bankName, setBankName] = React.useState('');
@@ -1557,14 +1587,14 @@
 	            setSXML(bank.getAsString());
 	        }, []),
 	        onDownloadClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12 || authorID.length < 12 || bankName.length < 1)
+	            if (!menuStore.playerID.includes('-S2-') || !authorID.includes('-S2-') || bankName.length < 1)
 	                modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
 	            downloadTextAsFile(sxml, bankName + '.SC2Bank', true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank, sxml]),
 	        onCopyCodeClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12 || authorID.length < 12 || bankName.length < 1)
+	            if (!menuStore.playerID.includes('-S2-') || !authorID.includes('-S2-') || bankName.length < 1)
 	                modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
 	            copyTextToClipboard(sxml, true);
 	            if (!menuStore.autoSave)
@@ -1899,7 +1929,7 @@
 	    }
 	}
 
-	let Store$4 = class Store extends BasicStore {
+	let Store$5 = class Store extends BasicStore {
 	    setFields(fields) {
 	        this.info = fields?.info ? [...fields.info] : [];
 	        this.units = fields?.units ? [...fields.units] : [];
@@ -2083,21 +2113,21 @@
 	        return true;
 	    }
 	};
-	var store$4 = new Store$4();
+	var store$5 = new Store$5();
 
-	let Functions$4 = class Functions {
+	let Functions$5 = class Functions {
 	    constructor() {
 	        this.STARCODE_KEY = 'WalkerKey';
 	    }
 	    generateXML(bank) {
-	        store$4.updateChecksums(bank.info.getPlayerNumber(), true);
-	        store$4.units.forEach((queue, index) => {
+	        store$5.updateChecksums(bank.info.getPlayerNumber(), true);
+	        store$5.units.forEach((queue, index) => {
 	            if (queue[0].current > 0)
 	                bank.addKey('0' + (index + 1), 'STRING', sc.write(queue, this.STARCODE_KEY), 'unit');
 	        });
-	        bank.addKey('info', 'STRING', sc.write(store$4.slots, this.STARCODE_KEY), 'unit');
-	        bank.addKey('info', 'STRING', sc.write(store$4.info, this.STARCODE_KEY), 'account');
-	        bank.addKey('camera', 'STRING', sc.write(store$4.camera, this.STARCODE_KEY), 'account');
+	        bank.addKey('info', 'STRING', sc.write(store$5.slots, this.STARCODE_KEY), 'unit');
+	        bank.addKey('info', 'STRING', sc.write(store$5.info, this.STARCODE_KEY), 'account');
+	        bank.addKey('camera', 'STRING', sc.write(store$5.camera, this.STARCODE_KEY), 'account');
 	        bank.sort();
 	        bank.updateSignature();
 	        return bank.getAsString();
@@ -2110,7 +2140,7 @@
 	        }
 	        const units = [];
 	        for (let i = 0; i < 8; i++)
-	            units.push([...store$4.units[i]]);
+	            units.push([...store$5.units[i]]);
 	        for (let i = 0; i < 8; i++) {
 	            const code = bank.getKey('0' + (i + 1), 'unit')?.value;
 	            if (code)
@@ -2118,12 +2148,12 @@
 	            else
 	                units[i][0].update(0);
 	        }
-	        const info = [...store$4.info];
+	        const info = [...store$5.info];
 	        sc.read(bank.getKey('info', 'account').value, info, this.STARCODE_KEY);
 	        return { info, units };
 	    }
 	};
-	var functions$4 = new Functions$4();
+	var functions$5 = new Functions$5();
 
 	const RunlingRun4Form = mobxReactLite.observer((props) => {
 	    const { accountStore, menuStore, mapStore, modalStore } = useStore();
@@ -2146,12 +2176,12 @@
 	    React.useEffect(() => {
 	        const fields = mapStore.list[accountStore.current]?.[mapTitle];
 	        if (fields)
-	            store$4.fromLocalStorage(fields);
+	            store$5.fromLocalStorage(fields);
 	        else
 	            setTimeout(callbacks.onResetClick);
 	    }, [accountStore.current]);
 	    const save = () => {
-	        mapStore.setMapData(accountStore.current, mapTitle, { units: store$4.units, info: store$4.info });
+	        mapStore.setMapData(accountStore.current, mapTitle, { units: store$5.units, info: store$5.info });
 	    };
 	    const callbacks = {
 	        onBankNameChange: React.useCallback((value) => {
@@ -2161,69 +2191,69 @@
 	            setAuthorID(value);
 	        }, []),
 	        onFileDrop: React.useCallback((name, value) => {
-	            const fields = functions$4.parse(bank, value);
+	            const fields = functions$5.parse(bank, value);
 	            if (!fields)
 	                return;
-	            require$$0.flushSync(() => store$4.setFields());
-	            store$4.setFields(fields);
+	            require$$0.flushSync(() => store$5.setFields());
+	            store$5.setFields(fields);
 	        }, []),
 	        onDownloadClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12) {
+	            if (!menuStore.playerID.includes('-S2-')) {
 	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 	                return;
 	            }
-	            downloadTextAsFile(functions$4.generateXML(bank), bankName + '.SC2Bank', true);
+	            downloadTextAsFile(functions$5.generateXML(bank), bankName + '.SC2Bank', true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onCopyCodeClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12) {
+	            if (!menuStore.playerID.includes('-S2-')) {
 	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 	                return;
 	            }
-	            copyTextToClipboard(functions$4.generateXML(bank), true);
+	            copyTextToClipboard(functions$5.generateXML(bank), true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onResetClick: React.useCallback(() => {
 	            setBankName(props.bankName);
 	            setAuthorID(mapProps.get(Maps.RUNLING_RUN_4).authorID);
-	            require$$0.flushSync(() => store$4.setFields());
-	            store$4.reset();
+	            require$$0.flushSync(() => store$5.setFields());
+	            store$5.reset();
 	        }, []),
 	        onUnitTypeChange: React.useCallback((value, index) => {
-	            store$4.setUnit(index, { type: parseInt(value) }, true);
+	            store$5.setUnit(index, { type: parseInt(value) }, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onUnitLevelChange: React.useCallback((value, index) => {
-	            store$4.setUnit(index, { level: parseInt(value) }, true);
+	            store$5.setUnit(index, { level: parseInt(value) }, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onStatChange: React.useCallback((value, index) => {
-	            store$4.updateAt('info', index, parseInt(value), true);
+	            store$5.updateAt('info', index, parseInt(value), true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onSettingChange: React.useCallback((value, index) => {
-	            store$4.updateAt('info', index, index < 20 ? parseInt(value) : (value ? 1 : 0), true);
+	            store$5.updateAt('info', index, index < 20 ? parseInt(value) : (value ? 1 : 0), true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	    };
 	    const units = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: store$4.units.map((unit, index) => {
+	        return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: store$5.units.map((unit, index) => {
 	                return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntimeExports.jsx(Select$1, { label: 'Slot ' + (index + 1) + ':', index: index, style: { width: '90px' }, onChange: callbacks.onUnitTypeChange, selected: unit[0].current.toString(), children: unitSelectorData }), jsxRuntimeExports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: { width: '30px' }, onChange: callbacks.onUnitLevelChange, max: '75', tip: 'Level of unit (1-75)', value: unit[7].current.toString() })] }));
 	            }) }));
-	    }, [store$4.units]);
+	    }, [store$5.units]);
 	    const stats = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$4.info.map((param, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$5.info.map((param, index) => {
 	                        if (index != 12 && index < 17)
 	                            return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '45px' }, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
 	                        else
 	                            return null;
-	                    }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$4.info.map((param, index) => {
+	                    }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$5.info.map((param, index) => {
 	                        if (index < 17)
 	                            return null;
 	                        if (index < 20)
@@ -2231,15 +2261,15 @@
 	                        else
 	                            return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
 	                    }) })] }));
-	    }, [store$4.info]);
+	    }, [store$5.info]);
 	    const form = React.useMemo(() => {
 	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [units, stats] }));
-	    }, [store$4.units, store$4.info]);
+	    }, [store$5.units, store$5.info]);
 	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: form }));
 	});
 	var RunlingRun4 = React.memo(RunlingRun4Form);
 
-	let Store$3 = class Store extends BasicStore {
+	let Store$4 = class Store extends BasicStore {
 	    setFields(fields) {
 	        this.info = fields?.info ? [...fields.info] : [];
 	        this.units = fields?.units ? [...fields.units] : [];
@@ -2430,22 +2460,22 @@
 	        return true;
 	    }
 	};
-	var store$3 = new Store$3();
+	var store$4 = new Store$4();
 
-	let Functions$3 = class Functions {
+	let Functions$4 = class Functions {
 	    constructor() {
 	        this.STARCODE_KEY = 'Ks8N10dj6L3M';
 	    }
 	    generateXML(bank) {
-	        store$3.updateChecksums(bank.info.getPlayerNumber(), true);
-	        store$3.units.forEach((queue, index) => {
+	        store$4.updateChecksums(bank.info.getPlayerNumber(), true);
+	        store$4.units.forEach((queue, index) => {
 	            if (queue[0].current > 0)
 	                bank.addKey('0' + (index + 1), 'STRING', sc.write(queue, this.STARCODE_KEY), 'unit');
 	        });
-	        bank.addKey('info', 'STRING', sc.write(store$3.slots, this.STARCODE_KEY), 'unit');
-	        bank.addKey('info', 'STRING', sc.write(store$3.info, this.STARCODE_KEY), 'account');
-	        bank.addKey('camera', 'STRING', sc.write(store$3.camera, this.STARCODE_KEY), 'account');
-	        bank.addKey('set2', 'STRING', sc.write(store$3.set2, this.STARCODE_KEY), 'account');
+	        bank.addKey('info', 'STRING', sc.write(store$4.slots, this.STARCODE_KEY), 'unit');
+	        bank.addKey('info', 'STRING', sc.write(store$4.info, this.STARCODE_KEY), 'account');
+	        bank.addKey('camera', 'STRING', sc.write(store$4.camera, this.STARCODE_KEY), 'account');
+	        bank.addKey('set2', 'STRING', sc.write(store$4.set2, this.STARCODE_KEY), 'account');
 	        bank.sort();
 	        bank.updateSignature();
 	        return bank.getAsString();
@@ -2458,7 +2488,7 @@
 	        }
 	        const units = [];
 	        for (let i = 0; i < 8; i++)
-	            units.push([...store$3.units[i]]);
+	            units.push([...store$4.units[i]]);
 	        for (let i = 0; i < 8; i++) {
 	            const code = bank.getKey('0' + (i + 1), 'unit')?.value;
 	            if (code)
@@ -2466,12 +2496,12 @@
 	            else
 	                units[i][0].update(0);
 	        }
-	        const info = [...store$3.info];
+	        const info = [...store$4.info];
 	        sc.read(bank.getKey('info', 'account').value, info, this.STARCODE_KEY);
 	        return { info, units };
 	    }
 	};
-	var functions$3 = new Functions$3();
+	var functions$4 = new Functions$4();
 
 	const RunlingRun8ILovePie = mobxReactLite.observer((props) => {
 	    const { accountStore, menuStore, mapStore, modalStore } = useStore();
@@ -2497,14 +2527,14 @@
 	    React.useEffect(() => {
 	        const fields = mapStore.list[accountStore.current]?.[mapTitle]?.ilovepie;
 	        if (fields)
-	            store$3.fromLocalStorage(fields);
+	            store$4.fromLocalStorage(fields);
 	        else
 	            setTimeout(callbacks.onResetClick);
 	    }, [accountStore.current]);
 	    const save = () => {
 	        const prestige = mapStore.list[accountStore.current]?.[mapTitle]?.prestige;
 	        mapStore.setMapData(accountStore.current, mapTitle, {
-	            ilovepie: { units: store$3.units, info: store$3.info },
+	            ilovepie: { units: store$4.units, info: store$4.info },
 	            prestige
 	        });
 	    };
@@ -2516,53 +2546,53 @@
 	            setAuthorID(value);
 	        }, []),
 	        onFileDrop: React.useCallback((name, value) => {
-	            const fields = functions$3.parse(bank, value);
+	            const fields = functions$4.parse(bank, value);
 	            if (!fields)
 	                return;
-	            require$$0.flushSync(() => store$3.setFields());
-	            store$3.setFields(fields);
+	            require$$0.flushSync(() => store$4.setFields());
+	            store$4.setFields(fields);
 	        }, []),
 	        onDownloadClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12) {
+	            if (!menuStore.playerID.includes('-S2-')) {
 	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 	                return;
 	            }
-	            downloadTextAsFile(functions$3.generateXML(bank), bankName + '.SC2Bank', true);
+	            downloadTextAsFile(functions$4.generateXML(bank), bankName + '.SC2Bank', true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onCopyCodeClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12) {
+	            if (!menuStore.playerID.includes('-S2-')) {
 	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 	                return;
 	            }
-	            copyTextToClipboard(functions$3.generateXML(bank), true);
+	            copyTextToClipboard(functions$4.generateXML(bank), true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onResetClick: React.useCallback(() => {
 	            setBankName(props.bankName);
 	            setAuthorID(mapProps.get(Maps.RUNLING_RUN_8).authorID);
-	            require$$0.flushSync(() => store$3.setFields());
-	            store$3.reset();
+	            require$$0.flushSync(() => store$4.setFields());
+	            store$4.reset();
 	        }, []),
 	        onUnitTypeChange: React.useCallback((value, index) => {
-	            store$3.setUnit(index, { type: parseInt(value) }, true);
+	            store$4.setUnit(index, { type: parseInt(value) }, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onUnitLevelChange: React.useCallback((value, index) => {
-	            store$3.setUnit(index, { level: parseInt(value) }, true);
+	            store$4.setUnit(index, { level: parseInt(value) }, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onStatChange: React.useCallback((value, index) => {
-	            store$3.updateAt('info', index, parseInt(value), true);
+	            store$4.updateAt('info', index, parseInt(value), true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onSettingChange: React.useCallback((value, index) => {
-	            store$3.updateAt('info', index, index < 19 ? parseInt(value) : (value ? 1 : 0), true);
+	            store$4.updateAt('info', index, index < 19 ? parseInt(value) : (value ? 1 : 0), true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
@@ -2576,17 +2606,17 @@
 	        ];
 	    }, []);
 	    const units = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: store$3.units.map((unit, index) => {
+	        return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }, children: store$4.units.map((unit, index) => {
 	                return (jsxRuntimeExports.jsxs(Flex, { style: unitsStyle, children: [jsxRuntimeExports.jsx(Select$1, { label: 'Slot ' + (index + 1) + ':', index: index, style: unitTypeStlye, onChange: callbacks.onUnitTypeChange, selected: unit[0].current.toString(), children: unitSelectorData }), jsxRuntimeExports.jsx(Input$1, { label: 'Level:', index: index, type: 'number', min: '1', style: unitLevelStyle, onChange: callbacks.onUnitLevelChange, max: '100', placeholder: 'Level of unit (1-100)', value: unit[7].current.toString() })] }));
 	            }) }));
-	    }, [store$3.units]);
+	    }, [store$4.units]);
 	    const stats = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$3.info.map((param, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$4.info.map((param, index) => {
 	                        if (index != 12 && index < 16)
 	                            return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: statInputStyle, onChange: callbacks.onStatChange, max: param.max.toString(), value: param.current.toString() }));
 	                        else
 	                            return null;
-	                    }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$3.info.map((param, index) => {
+	                    }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', padding: '10px', border: '1px solid #ffffff40' }, alignInputs: true, children: store$4.info.map((param, index) => {
 	                        if (index < 16)
 	                            return null;
 	                        if (index < 19)
@@ -2594,15 +2624,15 @@
 	                        else
 	                            return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onSettingChange, value: param.current == 1 }));
 	                    }) })] }));
-	    }, [store$3.info]);
+	    }, [store$4.info]);
 	    const form = React.useMemo(() => {
 	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '0' }, children: [units, stats] }));
-	    }, [store$3.units, store$3.info]);
+	    }, [store$4.units, store$4.info]);
 	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: form }));
 	});
 	var RunlingRun8ilovePie = React.memo(RunlingRun8ILovePie);
 
-	let Store$2 = class Store extends BasicStore {
+	let Store$3 = class Store extends BasicStore {
 	    setFields(fields) {
 	        this.active = fields?.active ? fields.active : false;
 	        this.hide = fields?.hide ? fields.hide : false;
@@ -2618,12 +2648,12 @@
 	        this.hide = false;
 	    }
 	};
-	var store$2 = new Store$2();
+	var store$3 = new Store$3();
 
-	let Functions$2 = class Functions {
+	let Functions$3 = class Functions {
 	    generateXML(bank) {
-	        bank.addKey('Active', 'STRING', store$2.active ? '1' : '0', 'HUD');
-	        bank.addKey('Hide', 'STRING', store$2.hide ? '1' : '0', 'HUD');
+	        bank.addKey('Active', 'STRING', store$3.active ? '1' : '0', 'HUD');
+	        bank.addKey('Hide', 'STRING', store$3.hide ? '1' : '0', 'HUD');
 	        return bank.getAsString();
 	    }
 	    parse(bank, value) {
@@ -2635,7 +2665,7 @@
 	        return { active, hide };
 	    }
 	};
-	var functions$2 = new Functions$2();
+	var functions$3 = new Functions$3();
 
 	const RunLingRun8Prestige = mobxReactLite.observer((props) => {
 	    const { accountStore, mapStore, menuStore } = useStore();
@@ -2648,7 +2678,7 @@
 	    React.useEffect(() => {
 	        const fields = mapStore.list[accountStore.current]?.[mapTitle]?.prestige;
 	        if (fields)
-	            store$2.setFields(fields);
+	            store$3.setFields(fields);
 	        else
 	            setTimeout(callbacks.onResetClick);
 	    }, [accountStore.current]);
@@ -2656,7 +2686,7 @@
 	        const ilovepie = mapStore.list[accountStore.current]?.[mapTitle]?.ilovepie;
 	        mapStore.setMapData(accountStore.current, mapTitle, {
 	            ilovepie,
-	            prestige: { active: store$2.active, hide: store$2.hide }
+	            prestige: { active: store$3.active, hide: store$3.hide }
 	        });
 	    };
 	    const callbacks = {
@@ -2667,32 +2697,32 @@
 	            setAuthorID(value);
 	        }, []),
 	        onFileDrop: React.useCallback((name, value) => {
-	            store$2.setFields(functions$2.parse(bank, value));
+	            store$3.setFields(functions$3.parse(bank, value));
 	        }, []),
 	        onDownloadClick: React.useCallback(() => {
-	            downloadTextAsFile(functions$2.generateXML(bank), bankName + '.SC2Bank', true);
+	            downloadTextAsFile(functions$3.generateXML(bank), bankName + '.SC2Bank', true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onCopyCodeClick: React.useCallback(() => {
-	            copyTextToClipboard(functions$2.generateXML(bank), true);
+	            copyTextToClipboard(functions$3.generateXML(bank), true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onResetClick: React.useCallback(() => {
 	            setBankName(props.bankName);
 	            setAuthorID(mapProps.get(Maps.RUNLING_RUN_8).authorID);
-	            store$2.reset();
+	            store$3.reset();
 	        }, []),
 	        onSettingChange: React.useCallback((value, index) => {
-	            index == 0 ? store$2.updateAt('active', value) : store$2.updateAt('hide', value);
+	            index == 0 ? store$3.updateAt('active', value) : store$3.updateAt('hide', value);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	    };
 	    const form = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Text$1, { children: "This bank file is for HUD only" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntimeExports.jsx(Checkbox$1, { label: 'Active' + ':', index: 0, onChange: callbacks.onSettingChange, value: store$2.active }), jsxRuntimeExports.jsx(Checkbox$1, { label: 'Hide' + ':', index: 1, onChange: callbacks.onSettingChange, value: store$2.hide })] })] }));
-	    }, [store$2.active, store$2.hide]);
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Text$1, { children: "This bank file is for HUD only" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', padding: '10px' }, children: [jsxRuntimeExports.jsx(Checkbox$1, { label: 'Active' + ':', index: 0, onChange: callbacks.onSettingChange, value: store$3.active }), jsxRuntimeExports.jsx(Checkbox$1, { label: 'Hide' + ':', index: 1, onChange: callbacks.onSettingChange, value: store$3.hide })] })] }));
+	    }, [store$3.active, store$3.hide]);
 	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: form }));
 	});
 	var RunlingRun8Prestige = React.memo(RunLingRun8Prestige);
@@ -2737,7 +2767,7 @@
 	}
 	var storage = new SSFStorage();
 
-	let Store$1 = class Store extends BasicStore {
+	let Store$2 = class Store extends BasicStore {
 	    setFields(fields) {
 	        this.light = fields?.light ? [...fields.light] : [];
 	        this.heavy = fields?.heavy ? [...fields.heavy] : [];
@@ -2804,9 +2834,9 @@
 	        ];
 	    }
 	};
-	var store$1 = new Store$1();
+	var store$2 = new Store$2();
 
-	let Functions$1 = class Functions {
+	let Functions$2 = class Functions {
 	    constructor() {
 	        this.STARCODE_PART = 'gehkaggen11';
 	        this.STARCODE_HASH = 4;
@@ -2858,7 +2888,7 @@
 	            { type: 'boolean', value: true, description: 'Control group 5b', hidden: true },
 	            { type: 'number', value: 3, description: 'Control group 5n', hidden: true }
 	        ];
-	        const bools = [...store$1.bools];
+	        const bools = [...store$2.bools];
 	        const totalBools = bools.length;
 	        for (let i = 0; i < totalBools; i++)
 	            bools[i].flags = this.makeSixBoolsFor(bools[i].name);
@@ -2930,23 +2960,23 @@
 	            { type: 'boolean', value: storage.getBool(), description: 'Control group 5b', hidden: true },
 	            { type: 'number', value: storage.getInt(), description: 'Control group 5n', hidden: true }
 	        ];
-	        return { light, heavy, speed, options, bools: store$1.bools };
+	        return { light, heavy, speed, options, bools: store$2.bools };
 	    }
 	    generateXML(bank) {
 	        bank.addSection('stats');
 	        bank.addKey('version', 'FIXED', '2.01', 'stats');
 	        storage.reset();
 	        for (let i = 0; i < 6; i++)
-	            storage.addInt(store$1.light[i].value);
+	            storage.addInt(store$2.light[i].value);
 	        storage.addInt(r(1, 500));
 	        storage.addInt(this.VERSION);
 	        bank.addKey('lightData', 'STRING', this.storageToSC(), 'stats');
 	        storage.reset();
 	        for (let i = 0; i < 10; i++)
-	            if (store$1.heavy[i].type == 'number')
-	                storage.addInt(store$1.heavy[i].value);
+	            if (store$2.heavy[i].type == 'number')
+	                storage.addInt(store$2.heavy[i].value);
 	            else
-	                storage.addBool(store$1.heavy[i].value);
+	                storage.addBool(store$2.heavy[i].value);
 	        storage.addInt(r(1, 500));
 	        storage.addInt(this.VERSION);
 	        bank.addKey('heavyData', 'STRING', this.storageToSC(), 'stats');
@@ -2954,19 +2984,19 @@
 	        for (let i = 0; i < 6; i++)
 	            for (let j = 0; j < 3; j++)
 	                for (let k = 0; k < 6; k++)
-	                    storage.addInt(t2n(k < 4 ? store$1.speed[i][j][0].value : store$1.speed[i][j][1].value));
+	                    storage.addInt(t2n(k < 4 ? store$2.speed[i][j][0].value : store$2.speed[i][j][1].value));
 	        storage.addInt(r(1, 500));
 	        storage.addInt(this.VERSION);
 	        bank.addKey('speedrunsData', 'STRING', this.storageToSC(), 'stats');
 	        storage.reset();
 	        for (let i = 0; i < 6; i++)
 	            if (i > 0 && i < 5)
-	                storage.addBool(store$1.options[i].value);
+	                storage.addBool(store$2.options[i].value);
 	            else
-	                storage.addInt(store$1.options[i].value);
+	                storage.addInt(store$2.options[i].value);
 	        for (let i = 0; i < 10; i += 2) {
-	            storage.addBool(store$1.options[i + 6].value);
-	            storage.addInt(store$1.options[i + 7].value);
+	            storage.addBool(store$2.options[i + 6].value);
+	            storage.addInt(store$2.options[i + 7].value);
 	        }
 	        bank.addKey('options', 'STRING', storage.data, 'stats');
 	        bank.sort();
@@ -2977,15 +3007,15 @@
 	        const crypto = [0, 0, 0, 0, 0];
 	        for (let diff = 0; diff < 6; diff++)
 	            for (let boss = 0; boss < 14; boss++)
-	                if (store$1.bools[boss].flags[diff].value == true)
-	                    crypto[store$1.bools[boss].part] ^= 1 << (diff + 6 * store$1.bools[boss].offset);
+	                if (store$2.bools[boss].flags[diff].value == true)
+	                    crypto[store$2.bools[boss].part] ^= 1 << (diff + 6 * store$2.bools[boss].offset);
 	        for (let diff = 0; diff < 6; diff++)
 	            for (let part = 14; part < 17; part++)
-	                if (store$1.bools[part].flags[diff].value == true)
-	                    crypto[4] ^= 1 << (diff + 6 * store$1.bools[part].part);
+	                if (store$2.bools[part].flags[diff].value == true)
+	                    crypto[4] ^= 1 << (diff + 6 * store$2.bools[part].part);
 	        for (let i = 0; i < 4; i++)
-	            store$1.updateAt('heavy', i + 3, crypto[i], true);
-	        store$1.updateAt('heavy', 7, crypto[4], true);
+	            store$2.updateAt('heavy', i + 3, crypto[i], true);
+	        store$2.updateAt('heavy', 7, crypto[4], true);
 	    }
 	    updateKey(playerID) {
 	        this._scKey = playerID + this.STARCODE_PART;
@@ -3008,7 +3038,7 @@
 	        return array;
 	    }
 	};
-	var functions$1 = new Functions$1();
+	var functions$2 = new Functions$2();
 
 	const SSFSixBoolsItem = (props) => {
 	    const group = props.array[0].description.split(' ')[0];
@@ -3074,26 +3104,26 @@
 	        return new Bank(bankName, authorID, menuStore.playerID, '1');
 	    }, [accountStore.current, menuStore.playerID, bankName, authorID]);
 	    React.useEffect(() => {
-	        functions$1.updateKey(menuStore.playerID);
+	        functions$2.updateKey(menuStore.playerID);
 	    }, [bank]);
 	    React.useEffect(() => {
 	        const fields = mapStore.list[accountStore.current]?.[mapTitle];
-	        require$$0.flushSync(() => store$1.setFields());
+	        require$$0.flushSync(() => store$2.setFields());
 	        if (fields)
-	            setTimeout(() => store$1.setFields(fields));
+	            setTimeout(() => store$2.setFields(fields));
 	        else
 	            setTimeout(() => {
-	                store$1.reset();
-	                store$1.setFields(functions$1.generateDefault());
+	                store$2.reset();
+	                store$2.setFields(functions$2.generateDefault());
 	            });
 	    }, [accountStore.current]);
 	    const save = () => {
 	        mapStore.setMapData(accountStore.current, mapTitle, {
-	            light: store$1.light,
-	            heavy: store$1.heavy,
-	            speed: store$1.speed,
-	            options: store$1.options,
-	            bools: store$1.bools
+	            light: store$2.light,
+	            heavy: store$2.heavy,
+	            speed: store$2.speed,
+	            options: store$2.options,
+	            bools: store$2.bools
 	        });
 	    };
 	    const callbacks = {
@@ -3104,60 +3134,60 @@
 	            setAuthorID(value);
 	        }, []),
 	        onFileDrop: React.useCallback((name, value) => {
-	            const fields = functions$1.parse(bank, value);
+	            const fields = functions$2.parse(bank, value);
 	            if (!fields)
 	                return;
-	            require$$0.flushSync(() => store$1.setFields());
-	            store$1.setFields(fields);
+	            require$$0.flushSync(() => store$2.setFields());
+	            store$2.setFields(fields);
 	        }, []),
 	        onDownloadClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12) {
+	            if (!menuStore.playerID.includes('-S2-')) {
 	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 	                return;
 	            }
-	            functions$1.recryptAchives();
-	            downloadTextAsFile(functions$1.generateXML(bank), bankName + '.SC2Bank', true);
+	            functions$2.recryptAchives();
+	            downloadTextAsFile(functions$2.generateXML(bank), bankName + '.SC2Bank', true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onCopyCodeClick: React.useCallback(() => {
-	            if (menuStore.playerID.length < 12) {
+	            if (!menuStore.playerID.includes('-S2-')) {
 	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 	                return;
 	            }
-	            functions$1.recryptAchives();
-	            copyTextToClipboard(functions$1.generateXML(bank), true);
+	            functions$2.recryptAchives();
+	            copyTextToClipboard(functions$2.generateXML(bank), true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onResetClick: React.useCallback(() => {
 	            setBankName(props.bankName);
 	            setAuthorID(mapProps.get(Maps.SWARM_SCPECIAL_FORCES).authorID);
-	            require$$0.flushSync(() => store$1.reset());
-	            store$1.setFields(functions$1.generateDefault());
+	            require$$0.flushSync(() => store$2.reset());
+	            store$2.setFields(functions$2.generateDefault());
 	        }, []),
 	        onFieldChange: React.useCallback((value, index, group) => {
 	            switch (group) {
 	                case 'lightData':
-	                    store$1.updateAt('light', index, parseInt(value), true);
+	                    store$2.updateAt('light', index, parseInt(value), true);
 	                    break;
 	                case 'heavyData':
-	                    store$1.updateAt('heavy', index, store$1.heavy[index].type == 'number' ? parseInt(value) : value, true);
+	                    store$2.updateAt('heavy', index, store$2.heavy[index].type == 'number' ? parseInt(value) : value, true);
 	                    break;
 	                case 'options':
-	                    store$1.updateAt('options', index, store$1.heavy[index].type == 'number' ? parseInt(value) : value, true);
+	                    store$2.updateAt('options', index, store$2.heavy[index].type == 'number' ? parseInt(value) : value, true);
 	                    break;
 	            }
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onSpeedrunsChange: React.useCallback((i, j, k, value) => {
-	            store$1.updateAt('speed', { i, j, k }, value, true);
+	            store$2.updateAt('speed', { i, j, k }, value, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, []),
 	        onBoolsChange: React.useCallback((i, j, value) => {
-	            store$1.updateAt('bools', { i, j }, value, true);
+	            store$2.updateAt('bools', { i, j }, value, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, [])
@@ -3166,11 +3196,11 @@
 	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Please note that the map has a votekick system." }), jsxRuntimeExports.jsxs(Text$1, { style: { width: '1000px' }, children: ["If other players suspect inconsistencies in your stats or values like 9999999, you can be kicked from the lobby.", jsxRuntimeExports.jsx("br", {}), "To prevent this, use ", jsxRuntimeExports.jsx("b", { children: "Reset" }), " button to generate random realistic statistics.", jsxRuntimeExports.jsx("br", {})] })] }));
 	    }, []);
 	    const main = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Main stats:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: store$1.light.map((param, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Main stats:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: store$2.light.map((param, index) => {
 	                                if (param.hidden)
 	                                    return null;
 	                                return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, group: 'lightData', type: 'number', min: '0', style: { width: '75px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
-	                            }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: store$1.heavy.map((param, index) => {
+	                            }) }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: store$2.heavy.map((param, index) => {
 	                                if (param.hidden)
 	                                    return null;
 	                                if (param.type == 'number')
@@ -3178,9 +3208,9 @@
 	                                else
 	                                    return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'heavyData', onChange: callbacks.onFieldChange, value: param.value }));
 	                            }) })] })] }));
-	    }, [store$1.light, store$1.heavy]);
+	    }, [store$2.light, store$2.heavy]);
 	    const options = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Options:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store$1.options.map((param, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Options:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store$2.options.map((param, index) => {
 	                        if (param.hidden)
 	                            return null;
 	                        if (param.type == 'number')
@@ -3188,22 +3218,22 @@
 	                        else
 	                            return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, group: 'options', onChange: callbacks.onFieldChange, value: param.value }));
 	                    }) })] }));
-	    }, [store$1.options]);
+	    }, [store$2.options]);
 	    const speedruns = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Speedruns:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', marginTop: '5px' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Terran:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Protoss:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Mecha:" })] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', margin: '32px 0 0 20px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '20px' }, children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '20px' }, children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" })] }), jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: store$1.speed.map((params, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Speedruns:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', marginTop: '5px' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Terran:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Protoss:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '45px' }, children: "Mecha:" })] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', margin: '32px 0 0 20px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '20px' }, children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" }), jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '20px' }, children: "Solo:" }), jsxRuntimeExports.jsx(Label$1, { children: "Team:" })] }), jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: store$2.speed.map((params, index) => {
 	                                return (jsxRuntimeExports.jsx(SsfDiff, { onChange: callbacks.onSpeedrunsChange, array: params, i: index }));
 	                            }) })] })] }));
-	    }, [store$1.speed]);
+	    }, [store$2.speed]);
 	    const bools = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):" }), jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }, children: store$1.bools.map((params, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):" }), jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }, children: store$2.bools.map((params, index) => {
 	                        return (params.flags?.length ? jsxRuntimeExports.jsx(SsfSixBoolsItem, { onChange: callbacks.onBoolsChange, array: params.flags, i: index }) : null);
 	                    }) })] }));
-	    }, [store$1.bools]);
+	    }, [store$2.bools]);
 	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [info, jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [main, options] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [speedruns, bools] })] })] }) }));
 	});
 	var SwarmSpecialForces = React.memo(SwarmSpecialForcesForm);
 
-	class Store extends BasicStore {
+	let Store$1 = class Store extends BasicStore {
 	    setFields(queue) {
 	        this.queue = queue ? [...queue] : [];
 	    }
@@ -3237,17 +3267,17 @@
 	            new SCParam(39960, 1000000, 'Minutes')
 	        ];
 	    }
-	}
-	var store = new Store();
+	};
+	var store$1 = new Store$1();
 
-	class Functions {
+	let Functions$1 = class Functions {
 	    constructor() {
 	        this.STARCODE_KEY = 'OnFbXRyxYzPuv7of(v5v7[zdvUiDzXO]gVb9FVI9b>M>l}Gt6L';
 	        this.SECTION = '23EGWEG234AG4';
 	        this.KEY = 'AWEO322AOIGWE3wqogej23';
 	    }
 	    generateXML(bank) {
-	        bank.addKey(this.KEY, 'STRING', sc.write(store.queue, this.STARCODE_KEY), this.SECTION);
+	        bank.addKey(this.KEY, 'STRING', sc.write(store$1.queue, this.STARCODE_KEY), this.SECTION);
 	        bank.updateSignature();
 	        return bank.getAsString();
 	    }
@@ -3258,12 +3288,12 @@
 	            return null;
 	        }
 	        const code = bank.sections.get(this.SECTION).get(this.KEY).value;
-	        const queue = [...store.queue];
+	        const queue = [...store$1.queue];
 	        sc.read(code, queue, this.STARCODE_KEY);
 	        return queue;
 	    }
-	}
-	var functions = new Functions();
+	};
+	var functions$1 = new Functions$1();
 
 	const ZombieCityForm = mobxReactLite.observer((props) => {
 	    const { accountStore, menuStore, mapStore } = useStore();
@@ -3274,12 +3304,233 @@
 	        return new Bank(bankName, authorID, menuStore.playerID, '1');
 	    }, [accountStore.current, menuStore.playerID, bankName, authorID]);
 	    const save = () => {
-	        mapStore.setMapData(accountStore.current, mapTitle, store.queue);
+	        mapStore.setMapData(accountStore.current, mapTitle, store$1.queue);
 	    };
 	    React.useEffect(() => {
 	        const fields = mapStore.list[accountStore.current]?.[mapTitle];
 	        if (fields)
-	            store.fromLocalStorage(fields);
+	            store$1.fromLocalStorage(fields);
+	        else
+	            setTimeout(callbacks.onResetClick);
+	    }, [accountStore.current]);
+	    const callbacks = {
+	        onBankNameChange: React.useCallback((value) => {
+	            setBankName(value);
+	        }, []),
+	        onAuthorIdChange: React.useCallback((value) => {
+	            setAuthorID(value);
+	        }, []),
+	        onFileDrop: React.useCallback((name, value) => {
+	            const fields = functions$1.parse(bank, value);
+	            if (!fields)
+	                return;
+	            require$$0.flushSync(() => store$1.setFields());
+	            store$1.setFields(fields);
+	        }, []),
+	        onDownloadClick: React.useCallback(() => {
+	            downloadTextAsFile(functions$1.generateXML(bank), bankName + '.SC2Bank', true);
+	            if (!menuStore.autoSave)
+	                save();
+	        }, [bank]),
+	        onCopyCodeClick: React.useCallback(() => {
+	            copyTextToClipboard(functions$1.generateXML(bank), true);
+	            if (!menuStore.autoSave)
+	                save();
+	        }, [bank]),
+	        onResetClick: React.useCallback(() => {
+	            setBankName(props.bankName);
+	            setAuthorID(mapProps.get(Maps.ZOMBIE_CITY).authorID);
+	            require$$0.flushSync(() => store$1.setFields());
+	            store$1.reset();
+	        }, []),
+	        onFieldChange: React.useCallback((value, index) => {
+	            store$1.updateAt(index, parseInt(value), true);
+	            if (menuStore.autoSave)
+	                save();
+	        }, [])
+	    };
+	    const form = React.useMemo(() => {
+	        return (jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: store$1.queue.map((param, index) => {
+	                return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', onChange: callbacks.onFieldChange, max: param.max.toString(), value: param.current.toString() }));
+	            }) }));
+	    }, [store$1.queue]);
+	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: form }));
+	});
+	var ZombieCity = React.memo(ZombieCityForm);
+
+	class Store extends BasicStore {
+	    setFields(fields) {
+	        this.params = fields ? [...fields] : [];
+	    }
+	    updateAt(index, value, mutation) {
+	        if (mutation) {
+	            this.params[index].value = value;
+	            return;
+	        }
+	        const p = [...this.params];
+	        p[index].value = value;
+	        this.params = p;
+	    }
+	    reset() {
+	        this.init();
+	    }
+	    init() {
+	        this.params = [
+	            { type: "number", value: 16999, description: 'Waves' },
+	            { type: "number", value: 45000, description: 'Talent points' },
+	            { type: "boolean", value: true, description: 'Fill all talents' },
+	            { type: "boolean", value: true, description: 'Get all challenges' },
+	            { type: "boolean", value: true, description: 'Upgrade all units' },
+	            { type: "number", value: 5000000, description: 'Assassin' },
+	            { type: "number", value: 5000000, description: 'Builder' },
+	            { type: "number", value: 5000000, description: 'Singletarget' },
+	            { type: "number", value: 5000000, description: 'Specialist' },
+	            { type: "number", value: 5000000, description: 'Splash' },
+	            { type: "number", value: 5000000, description: 'Support' },
+	            { type: "number", value: 5000000, description: 'Tank' },
+	        ];
+	    }
+	}
+	var store = new Store();
+
+	class Functions {
+	    generateXML(bank) {
+	        bank.addKey("wave", 'INT', store.params[0].value, "number");
+	        bank.addKey("assassinkills", 'INT', store.params[5].value, "jjj");
+	        bank.addKey("assassinkills", 'INT', store.params[5].value, "jj");
+	        bank.addKey("builderkills", 'INT', store.params[6].value, "jjj");
+	        bank.addKey("builderkills", 'INT', store.params[6].value, "jj");
+	        bank.addKey("singletargetkills", 'INT', store.params[7].value, "jjj");
+	        bank.addKey("singletargetkills", 'INT', store.params[7].value, "jj");
+	        bank.addKey("specialistkills", 'INT', store.params[8].value, "jjj");
+	        bank.addKey("specialistkills", 'INT', store.params[8].value, "jj");
+	        bank.addKey("splashkills", 'INT', store.params[9].value, "jjj");
+	        bank.addKey("splashkills", 'INT', store.params[9].value, "jj");
+	        bank.addKey("supportkills", 'INT', store.params[10].value, "jjj");
+	        bank.addKey("supportkills", 'INT', store.params[10].value, "jj");
+	        bank.addKey("tankkills", 'INT', store.params[11].value, "jjj");
+	        bank.addKey("tankkills", 'INT', store.params[11].value, "jj");
+	        if (store.params[4].value) {
+	            const unstaged = 0;
+	            bank.addKey("adeptstage", 'INT', 4, "j");
+	            bank.addKey("archonstage", 'INT', 9, "j");
+	            bank.addKey("dtstage", 'INT', unstaged, "j");
+	            bank.addKey("dynomito", 'INT', 9, "j");
+	            bank.addKey("elecstage", 'INT', unstaged, "j");
+	            bank.addKey("goliathstage", 'INT', 10, "j");
+	            bank.addKey("highstage", 'INT', unstaged, "j");
+	            bank.addKey("hotshotstage", 'INT', 3, "j");
+	            bank.addKey("hybridstage", 'INT', 9, "j");
+	            bank.addKey("immostage", 'INT', unstaged, "j");
+	            bank.addKey("marinestage", 'INT', 9, "j");
+	            bank.addKey("medicstage", 'INT', 9, "j");
+	            bank.addKey("paragon", 'INT', unstaged, "j");
+	            bank.addKey("paragond", 'INT', unstaged, "j");
+	            bank.addKey("metalmans", 'INT', 9, "j");
+	            bank.addKey("reaperstage", 'INT', 9, "j");
+	            bank.addKey("scvstage", 'INT', 9, "j");
+	            bank.addKey("siegestage", 'INT', unstaged, "j");
+	            bank.addKey("sniperstage", 'INT', 9, "j");
+	            bank.addKey("specstage", 'INT', unstaged, "j");
+	            bank.addKey("stalkerstage", 'INT', 9, "j");
+	            bank.addKey("tempstage", 'INT', unstaged, "j");
+	            bank.addKey("thorstage", 'INT', unstaged, "j");
+	            bank.addKey("vultures", 'INT', 9, "j");
+	            bank.addKey("KillReducerForBounty", 'FLAG', true, "j");
+	            bank.addKey("unlockhero", 'FLAG', true, "j");
+	            bank.addKey("UnlockHydralisk2", 'FLAG', true, "j");
+	        }
+	        else
+	            bank.removeSection('j');
+	        if (store.params[3].value) {
+	            const challenges = 100;
+	            bank.addKey("GCLInfantry", 'INT', challenges, "Challenges");
+	            bank.addKey("GCLTeamGame", 'INT', challenges, "Challenges");
+	            bank.addKey("GCLConstructor", 'INT', challenges, "Challenges");
+	            bank.addKey("GCLShieldProblems", 'INT', challenges, "Challenges");
+	            bank.addKey("GCLNext2Ded", 'INT', challenges, "Challenges");
+	            bank.addKey("GCLWarpSpeed", 'INT', challenges, "Challenges");
+	            bank.addKey("GCLTorture", 'INT', challenges, "Challenges");
+	            bank.addKey("CLEvasive", 'FLAG', true, "Challenges");
+	        }
+	        else
+	            bank.removeSection('Challenges');
+	        const points = store.params[1].value;
+	        bank.addKey("PlayerID", 'INT', points * 5, "PlayerIDNumber");
+	        if (store.params[2].value) {
+	            this.setTPKey("DamagePoints", 100, points, bank);
+	            this.setTPKey("MoveSpeedPoints", 10, points, bank);
+	            this.setTPKey("LifePoints", 100, points, bank);
+	            this.setTPKey("LifeRegenPoints", 100, points, bank);
+	            this.setTPKey("LifeArmorBonusPoints", 10, points, bank);
+	            this.setTPKey("LifeArmorMultiplyPoints", 10, points, bank);
+	            this.setTPKey("ShieldPoints", 100, points, bank);
+	            this.setTPKey("ShieldRegenerationPoints", 100, points, bank);
+	            this.setTPKey("ShieldArmorBonusPoints", 10, points, bank);
+	            this.setTPKey("ShieldArmorMultiplyPoints", 10, points, bank);
+	            this.setTPKey("EnergyPoints", 10, points, bank);
+	            this.setTPKey("EnergyRegenPoints", 10, points, bank);
+	            this.setTPKey("CooldownPoints", 25, points, bank);
+	            this.setTPKey("BuildPoints", 25, points, bank);
+	            this.setTPKey("DamageReductionPoints", 10, points, bank);
+	            this.setTPKey("MineralStartPoints", 5000, points, bank);
+	            this.setTPKey("VespeneStartPoints", 500, points, bank);
+	            this.setTPKey("RespawnSpeedPoints", 20, points, bank);
+	            this.setTPKey("ExpPoints", 100, points, bank);
+	            this.setTPKey("MasteryPoints", 100, points, bank);
+	            const plays = 10;
+	            bank.addKey("Plays", 'INT', plays * (505 - (16 + points)), "TP");
+	        }
+	        else
+	            bank.removeSection('TP');
+	        bank.addKey("InfoNumber", 'INT', points * (9999 - (16 + points)), "PlayerIDNumber");
+	        bank.sort();
+	        bank.updateSignature();
+	        return bank.getAsString();
+	    }
+	    parse(bank, value) {
+	        bank.parse(value);
+	        if (bank.sections.size < 4 || bank.sections.get("jjj") == null || bank.sections.get("jj") == null
+	            || bank.sections.get("TP") == null || bank.sections.get("PlayerIDNumber") == null) {
+	            console.error('Wrong bank file!');
+	            return null;
+	        }
+	        return [
+	            { type: "number", value: parseInt(bank.getKey("wave", "number").value), description: 'Waves' },
+	            { type: "number", value: parseInt(bank.getKey("PlayerID", "PlayerIDNumber").value) / 5, description: 'Talent points' },
+	            { type: "boolean", value: store.params[2].value, description: 'Fill all talents' },
+	            { type: "boolean", value: store.params[3].value, description: 'Get all challanges' },
+	            { type: "boolean", value: store.params[4].value, description: 'Upgrade all units' },
+	            { type: "number", value: parseInt(bank.getKey("assassinkills", "jjj").value), description: 'Assassin kills' },
+	            { type: "number", value: parseInt(bank.getKey("builderkills", "jjj").value), description: 'Builder kills' },
+	            { type: "number", value: parseInt(bank.getKey("singletargetkills", "jjj").value), description: 'Singletarget kills' },
+	            { type: "number", value: parseInt(bank.getKey("specialistkills", "jjj").value), description: 'Specialist kills' },
+	            { type: "number", value: parseInt(bank.getKey("splashkills", "jjj").value), description: 'Splash kills' },
+	            { type: "number", value: parseInt(bank.getKey("supportkills", "jjj").value), description: 'Support kills' },
+	            { type: "number", value: parseInt(bank.getKey("tankkills", "jjj").value), description: 'Tank kills' },
+	        ];
+	    }
+	    setTPKey(key, value, points, bank) {
+	        bank.addKey(key, 'INT', value * (999 - (16 + points)), "TP");
+	    }
+	}
+	var functions = new Functions();
+
+	const ZWUForm = mobxReactLite.observer((props) => {
+	    const { accountStore, menuStore, mapStore, modalStore } = useStore();
+	    const [bankName, setBankName] = React.useState(props.bankName);
+	    const [authorID, setAuthorID] = React.useState(mapProps.get(Maps.ZOMBIE_WORLD_UNITY).authorID);
+	    const mapTitle = mapProps.get(Maps.ZOMBIE_WORLD_UNITY).title;
+	    const bank = React.useMemo(() => {
+	        return new Bank(bankName, authorID, menuStore.playerID, '1');
+	    }, [accountStore.current, menuStore.playerID, bankName, authorID]);
+	    const save = () => {
+	        mapStore.setMapData(accountStore.current, mapTitle, store.params);
+	    };
+	    React.useEffect(() => {
+	        const fields = mapStore.list[accountStore.current]?.[mapTitle];
+	        if (fields)
+	            store.setFields(fields);
 	        else
 	            setTimeout(callbacks.onResetClick);
 	    }, [accountStore.current]);
@@ -3298,35 +3549,62 @@
 	            store.setFields(fields);
 	        }, []),
 	        onDownloadClick: React.useCallback(() => {
+	            if (!menuStore.playerID.includes('-S2-')) {
+	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+	                return;
+	            }
 	            downloadTextAsFile(functions.generateXML(bank), bankName + '.SC2Bank', true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onCopyCodeClick: React.useCallback(() => {
+	            if (!menuStore.playerID.includes('-S2-')) {
+	                modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+	                return;
+	            }
 	            copyTextToClipboard(functions.generateXML(bank), true);
 	            if (!menuStore.autoSave)
 	                save();
 	        }, [bank]),
 	        onResetClick: React.useCallback(() => {
 	            setBankName(props.bankName);
-	            setAuthorID(mapProps.get(Maps.ZOMBIE_CITY).authorID);
+	            setAuthorID(mapProps.get(Maps.ZOMBIE_WORLD_UNITY).authorID);
 	            require$$0.flushSync(() => store.setFields());
 	            store.reset();
 	        }, []),
 	        onFieldChange: React.useCallback((value, index) => {
-	            store.updateAt(index, parseInt(value), true);
+	            store.updateAt(index, store.params[index].type == 'number' ? parseInt(value) : value, true);
 	            if (menuStore.autoSave)
 	                save();
 	        }, [])
 	    };
 	    const form = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column' }, alignInputs: true, children: store.queue.map((param, index) => {
-	                return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', onChange: callbacks.onFieldChange, max: param.max.toString(), value: param.current.toString() }));
-	            }) }));
-	    }, [store.queue]);
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Stats:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store.params.map((param, index) => {
+	                                if (param.hidden)
+	                                    return null;
+	                                if (index < 2)
+	                                    return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '40px' }, onChange: callbacks.onFieldChange, max: index == 0 ? '16999' : '45000', value: param.value.toString() }));
+	                                else
+	                                    return null;
+	                            }) }), jsxRuntimeExports.jsx(Label$1, { style: { paddingTop: '24px' }, children: "Options:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store.params.map((param, index) => {
+	                                if (param.hidden)
+	                                    return null;
+	                                if (index > 1 && index < 5)
+	                                    return (jsxRuntimeExports.jsx(Checkbox$1, { label: param.description + ':', index: index, onChange: callbacks.onFieldChange, value: param.value }));
+	                                else
+	                                    return null;
+	                            }) })] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Kills:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store.params.map((param, index) => {
+	                                if (param.hidden)
+	                                    return null;
+	                                if (index > 4)
+	                                    return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '66px' }, onChange: callbacks.onFieldChange, max: '99999999', value: param.value.toString() }));
+	                                else
+	                                    return null;
+	                            }) })] })] }));
+	    }, [store.params]);
 	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: form }));
 	});
-	var ZombieCity = React.memo(ZombieCityForm);
+	var ZombieWorldUnity = React.memo(ZWUForm);
 
 	var Maps;
 	(function (Maps) {
@@ -3366,8 +3644,8 @@
 	        }],
 	    [Maps.ZOMBIE_WORLD_UNITY, {
 	            title: 'Zombie World Unity',
-	            authorID: '2-S2-1-xxxxxxx',
-	            forms: [jsxRuntimeExports.jsx(Editor$1, {})]
+	            authorID: '2-S2-1-7593740',
+	            forms: [jsxRuntimeExports.jsx(ZombieWorldUnity, { bankName: 'zombieworldu' })]
 	        }],
 	]);
 
@@ -3403,14 +3681,12 @@
 	        onPlay: React.useCallback(() => {
 	            setPlaying(true);
 	            audio.play();
+	            rgaEvent("Audio", "Sound ON");
 	        }, []),
 	        onPause: React.useCallback(() => {
 	            setPlaying(false);
 	            audio.pause();
-	            ReactGA.event({
-	                category: "system",
-	                action: "SoundOff",
-	            });
+	            rgaEvent("Audio", "Sound OFF");
 	        }, [])
 	    };
 	    return (jsxRuntimeExports.jsx(Flex, { style: { width: '30px', height: '23px', padding: '0' }, children: playing ?
@@ -3431,17 +3707,15 @@
 	        }, []),
 	        onHelpClick: React.useCallback(() => {
 	            modalStore.setModal('HELP');
+	            rgaEvent("Menu", "Help");
 	        }, []),
 	        onMapSelect: React.useCallback((value) => {
 	            menuStore.setSelectedMap(parseInt(value));
-	            ReactGA.event({
-	                category: "maps",
-	                action: "SelectMap",
-	                label: value,
-	            });
+	            rgaEvent("Menu", "Select Map", value);
 	        }, []),
 	        onAutoSaveChange: React.useCallback((value) => {
 	            menuStore.setAutoSave(value);
+	            rgaEvent("Menu", "Autosave Changed");
 	        }, []),
 	        onFullReset: React.useCallback(() => {
 	            modalStore.setModal('CONFIRM', 'Are you sure you want to delete all accounts and saved banks from here?', [
@@ -3452,6 +3726,7 @@
 	                    modalStore.reset();
 	                }
 	            ]);
+	            rgaEvent("Menu", "Full Reset");
 	        }, [])
 	    };
 	    const mapList = React.useMemo(() => {
