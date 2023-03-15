@@ -1,12 +1,12 @@
 /* Generated with TypeScript snippets */
 
-/** SSFParam **
+/** MParam **
 * ...
 * @Author Star Noob
-* @Created 2022-11-14
+* @Created 2023-03-15
 */
 
-export type SSFParam = {
+export type MParam = {
 
 	type: 'number' | 'boolean' | 'string';
 	value: number | boolean | string;

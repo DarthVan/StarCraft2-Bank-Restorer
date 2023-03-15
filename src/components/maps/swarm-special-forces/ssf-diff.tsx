@@ -3,8 +3,8 @@
 import React, { FC } from 'react';
 import Container from 'src/components/ui/container';
 import Label from 'src/components/ui/label';
+import { MParam } from '../MParam';
 import SSFPartElement from './ssf-part';
-import { SSFParam } from './SSFParam';
 
 /** SSFDiffElement **
 * ...
@@ -14,7 +14,7 @@ import { SSFParam } from './SSFParam';
 
 interface Props {
 	onChange: (i: number, j: number, k: number, value: string) => void;
-	array: SSFParam[][];
+	array: MParam[][];
 	i: number;
 }
 
@@ -32,7 +32,7 @@ const SSFDiffElement: FC<Props> = (props: Props): JSX.Element => {
 		<Container style={{ flexDirection: 'column' }}>
 			<Label>{title + ':'}</Label>
 			<Container style={{ flexDirection: 'column' }}>
-				{props.array.map((params: SSFParam[], index: number): JSX.Element => {
+				{props.array.map((params: MParam[], index: number): JSX.Element => {
 					return (
 						<SSFPartElement onChange={props.onChange} array={params} i={props.i} j={index} />
 					)

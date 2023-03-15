@@ -1,4 +1,5 @@
 import filesaver from "file-saver";
+import ReactGA from "react-ga4";
 
 /** random value from min...max */
 export function r(min: number, max: number): number {
@@ -39,4 +40,15 @@ export function downloadTextAsFile(data: string, fileName: string, log?: boolean
 	filesaver.saveAs(blob, fileName);
 	if (log)
 		console.log('download bank file:', data);
+}
+
+export function rgaEvent(category: string, action: string, label?: string, value?: number): void {
+	ReactGA.event({
+		category,
+		action,
+		label, // optional
+		value, // optional, must be a number
+		/* nonInteraction: true, // optional, true/false
+		transport: "xhr", // optional, beacon/xhr/image */
+	});
 }

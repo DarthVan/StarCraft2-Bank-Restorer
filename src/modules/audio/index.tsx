@@ -1,10 +1,9 @@
 /* Generated with TypeScript React snippets */
 
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import ReactGA from "react-ga4";
 import Button from 'src/components/ui/button';
 import Container from 'src/components/ui/container';
-import { r } from "src/utils/utils";
+import { r, rgaEvent } from "src/utils/utils";
 
 /** AudioLoop **
 * ...
@@ -49,18 +48,12 @@ const AudioLoop: FC<Props> = (props: Props): JSX.Element => {
 		onPlay: useCallback((): void => {
 			setPlaying(true);
 			audio.play();
+			rgaEvent("Audio", "Sound ON");
 		}, []),
 		onPause: useCallback((): void => {
 			setPlaying(false);
 			audio.pause();
-			ReactGA.event({
-				category: "system",
-				action: "SoundOff",
-				/* label: "your label", // optional
-				value: 99, // optional, must be a number
-				nonInteraction: true, // optional, true/false
-				transport: "xhr", // optional, beacon/xhr/image */
-			});
+			rgaEvent("Audio", "Sound OFF");
 		}, [])
 	};
 

@@ -82,7 +82,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (menuStore.playerID.length < 12) {
+			if (!menuStore.playerID.includes('-S2-')) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
@@ -91,7 +91,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 				save();
 		}, [bank]), // зависит от хмля банка
 		onCopyCodeClick: useCallback((): void => {
-			if (menuStore.playerID.length < 12) {
+			if (!menuStore.playerID.includes('-S2-')) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}

@@ -88,8 +88,13 @@ export class Bank {
 	}
 
 	/** Add key to the section, if exist, updating it */
-	public addKey(key: string, type: keyof typeof BankKeyType, value: string, section: string): BankKey {
+	public addKey(key: string, type: keyof typeof BankKeyType, value: string | number | boolean, section: string): BankKey {
 		const s: BankMap<BankKey> = this.addSection(section);
+		switch (typeof value) {
+			case 'boolean': value = value ? '1' : '0'; break;
+			case 'number': value = value.toString(); break;
+			case 'string': break;
+		}
 		if (!s.has(key))
 			s.set(key, new BankKey(key, BankKeyType[type], value));
 		else

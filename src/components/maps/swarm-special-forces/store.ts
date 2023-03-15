@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import { BasicStore } from "src/store/BasicStore";
-import { SSFParam } from "./SSFParam";
+import { MParam } from "../MParam";
 
 /** Store **
 * ...
@@ -11,15 +11,15 @@ import { SSFParam } from "./SSFParam";
 
 class Store extends BasicStore {
 
-	public light: SSFParam[];
-	public heavy: SSFParam[];
-	public speed: SSFParam[][][];
-	public options: SSFParam[];
+	public light: MParam[];
+	public heavy: MParam[];
+	public speed: MParam[][][];
+	public options: MParam[];
 	public bools: any[];
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public setFields(fields?: { light?: SSFParam[], heavy?: SSFParam[], speed?: SSFParam[][][], options?: SSFParam[], bools?: any[] }): void {
+	public setFields(fields?: { light?: MParam[], heavy?: MParam[], speed?: MParam[][][], options?: MParam[], bools?: any[] }): void {
 		this.light = fields?.light ? [...fields.light] : [];
 		this.heavy = fields?.heavy ? [...fields.heavy] : [];
 		this.speed = fields?.speed ? [...fields.speed] : [];
@@ -39,7 +39,7 @@ class Store extends BasicStore {
 				this[field][index].value = value;
 				return;
 			}
-			const p: SSFParam[] = [...this[field]];
+			const p: MParam[] = [...this[field]];
 			p[index].value = value;
 			this[field] = p;
 			return;
@@ -49,7 +49,7 @@ class Store extends BasicStore {
 				this.speed[index.i][index.j][index.k].value = value; // type = none
 				return;
 			}
-			const p: SSFParam[][][] = [...this.speed];
+			const p: MParam[][][] = [...this.speed];
 			p[index.i][index.j][index.k].value = value;
 			this[field] = p;
 		}

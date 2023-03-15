@@ -3,7 +3,7 @@
 import React, { FC, useCallback } from 'react';
 import Container from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
-import { SSFParam } from './SSFParam';
+import { MParam } from '../MParam';
 
 /** SSFPartElement **
 * ...
@@ -13,7 +13,7 @@ import { SSFParam } from './SSFParam';
 
 interface Props {
 	onChange: (i: number, j: number, k: number, value: string) => void;
-	array: SSFParam[];
+	array: MParam[];
 	i: number;
 	j: number;
 }
@@ -36,7 +36,7 @@ const SSFPartElement: FC<Props> = (props: Props): JSX.Element => {
 		<Container style={{ flexDirection: 'column' }}>
 			{props.j > 0 ? <br /> : null}
 			<Container style={{ flexDirection: 'column' }}>
-				{props.array.map((param: SSFParam, index: number): JSX.Element => {
+				{props.array.map((param: MParam, index: number): JSX.Element => {
 					if (param.hidden)
 						return null;
 					return (

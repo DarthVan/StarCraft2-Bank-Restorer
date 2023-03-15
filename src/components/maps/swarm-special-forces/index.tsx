@@ -13,10 +13,11 @@ import { useStore } from "src/hooks/use-store";
 import Editor from 'src/modules/editor';
 import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
 import { mapProps, Maps } from "../Maps";
+import { MParam } from "../MParam";
 import functions from "./functions";
 import SsfSixBoolsItem from "./ssf-6b";
 import SsfDiff from "./ssf-diff";
-import { SSFParam } from "./SSFParam";
+
 import store from "./store";
 
 /** SwarmSpecialForcesForm **
@@ -74,10 +75,10 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 		}, []),
 		onFileDrop: useCallback((name: string, value: string): void => {
 			const fields: {
-				light?: SSFParam[],
-				heavy?: SSFParam[],
-				speed?: SSFParam[][][],
-				options?: SSFParam[],
+				light?: MParam[],
+				heavy?: MParam[],
+				speed?: MParam[][][],
+				options?: MParam[],
 				bools?: any[]
 			} = functions.parse(bank, value);
 			if (!fields)
@@ -86,7 +87,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (menuStore.playerID.length < 12) {
+			if (!menuStore.playerID.includes('-S2-')) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
@@ -96,7 +97,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 				save();
 		}, [bank]),
 		onCopyCodeClick: useCallback((): void => {
-			if (menuStore.playerID.length < 12) {
+			if (!menuStore.playerID.includes('-S2-')) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
@@ -156,7 +157,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 				<Label>Main stats:</Label>
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }}>
 					<Container style={{ flexDirection: 'column' }} alignInputs={true}>
-						{store.light.map((param: SSFParam, index: number): JSX.Element => {
+						{store.light.map((param: MParam, index: number): JSX.Element => {
 							if (param.hidden)
 								return null;
 							return (
@@ -170,7 +171,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 						})}
 					</Container>
 					<Container style={{ flexDirection: 'column' }} alignInputs={true}>
-						{store.heavy.map((param: SSFParam, index: number): JSX.Element => {
+						{store.heavy.map((param: MParam, index: number): JSX.Element => {
 							if (param.hidden)
 								return null;
 							if (param.type == 'number')
@@ -201,7 +202,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			<>
 				<Label>Options:</Label>
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
-					{store.options.map((param: SSFParam, index: number): JSX.Element => {
+					{store.options.map((param: MParam, index: number): JSX.Element => {
 						if (param.hidden)
 							return null;
 						if (param.type == 'number')
@@ -245,7 +246,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 						<Label>Team:</Label>
 					</Container>
 					<>
-						{store.speed.map((params: SSFParam[][], index: number): JSX.Element => {
+						{store.speed.map((params: MParam[][], index: number): JSX.Element => {
 							return (
 								<SsfDiff onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
 							);
@@ -261,7 +262,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			<>
 				<Label>Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):</Label>
 				<Container style={{ flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }}>
-					{store.bools.map((params: { flags: SSFParam[] }, index: number): JSX.Element => {
+					{store.bools.map((params: { flags: MParam[] }, index: number): JSX.Element => {
 						return (
 							params.flags?.length ? <SsfSixBoolsItem onChange={callbacks.onBoolsChange} array={params.flags} i={index} /> : null
 						)

@@ -7,6 +7,7 @@ import RunlingRun8ilovePie from "./runling-run-8/i-love-pie";
 import RunlingRun8Prestige from "./runling-run-8/prestige";
 import SwarmSpecialForces from "./swarm-special-forces";
 import ZombieCity from "./zombie-city";
+import ZombieWorldUnity from "./zombie-world-unity";
 
 /** Maps **
 * ...
@@ -61,8 +62,8 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 
 		[Maps.ZOMBIE_WORLD_UNITY, {
 			title: 'Zombie World Unity',
-			authorID: '2-S2-1-xxxxxxx',
-			forms: [<Editor></Editor>]
+			authorID: '2-S2-1-7593740',
+			forms: [<ZombieWorldUnity bankName='zombieworldu'></ZombieWorldUnity>]
 		}],
 
 		/* [Maps.STAR_CODE_LAB, {

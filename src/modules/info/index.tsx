@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect } from 'react';
 import Text from 'src/components/ui/text';
 import { useStore } from 'src/hooks/use-store';
+import { rgaEvent } from 'src/utils/utils';
 import Flex from '../../components/ui/container';
 import GlassWrapper from '../../components/ui/glass-wrapper';
 import Label from '../../components/ui/label';
@@ -20,7 +21,7 @@ interface Props {
 
 const Info: FC<Props> = observer((): JSX.Element => {
 	const { modalStore } = useStore();
-	const version: string = '1.01'; // todo: store this here?
+	const version: string = '1.02'; // todo: store this here?
 
 	const loadUpdatesList: (forceShow?: boolean) => void = (forceShow?: boolean): void => {
 		console.log('Checking updates...');
@@ -58,6 +59,7 @@ const Info: FC<Props> = observer((): JSX.Element => {
 	const callbacks = {
 		onVersionClick: useCallback((): void => {
 			loadUpdatesList(true);
+			rgaEvent("Info", "Version");
 		}, [])
 	};
 

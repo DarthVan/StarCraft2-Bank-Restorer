@@ -2,7 +2,6 @@
 
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback, useMemo } from "react";
-import ReactGA from "react-ga4";
 import { mapProps } from 'src/components/maps/Maps';
 import Button from 'src/components/ui/button';
 import Checkbox from 'src/components/ui/checkbox';
@@ -13,6 +12,7 @@ import Label from 'src/components/ui/label';
 import Line from 'src/components/ui/line';
 import Select from 'src/components/ui/select';
 import { useStore } from 'src/hooks/use-store';
+import { rgaEvent } from 'src/utils/utils';
 import AudioLoop from '../audio';
 
 /** Menu **
@@ -35,20 +35,15 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onHelpClick: useCallback((): void => {
 			modalStore.setModal('HELP');
+			rgaEvent("Menu", "Help");
 		}, []),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
-			ReactGA.event({
-				category: "maps",
-				action: "SelectMap",
-				label: value, // optional
-				/* value: 99, // optional, must be a number
-				nonInteraction: true, // optional, true/false
-				transport: "xhr", // optional, beacon/xhr/image */
-			});
+			rgaEvent("Menu", "Select Map", value);
 		}, []),
 		onAutoSaveChange: useCallback((value: boolean): void => {
 			menuStore.setAutoSave(value);
+			rgaEvent("Menu", "Autosave Changed");
 		}, []),
 		onFullReset: useCallback((): void => {
 			modalStore.setModal('CONFIRM', 'Are you sure you want to delete all accounts and saved banks from here?', [
@@ -59,6 +54,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 					modalStore.reset();
 				}
 			]);
+			rgaEvent("Menu", "Full Reset");
 		}, [])
 	}
 

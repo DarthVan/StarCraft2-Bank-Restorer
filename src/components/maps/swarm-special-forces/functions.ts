@@ -3,7 +3,7 @@
 import { Bank } from "src/core/bank/bank";
 import starcode from "src/core/scarcode/starcode";
 import { n2t, r, t2n } from "src/utils/utils";
-import { SSFParam } from "./SSFParam";
+import { MParam } from "../MParam";
 import storage from "./SSFStorage";
 import store from "./store";
 
@@ -26,15 +26,15 @@ class Functions {
 
 	// realistic random combination
 	public generateDefault(myKillz?: number): {
-		light?: SSFParam[],
-		heavy?: SSFParam[],
-		speed?: SSFParam[][][],
-		options?: SSFParam[],
+		light?: MParam[],
+		heavy?: MParam[],
+		speed?: MParam[][][],
+		options?: MParam[],
 		bools?: any[]
 	} {
 		// 1. light data:
 		const killz: number = myKillz ? myKillz : r(500000, 9000000);
-		const light: SSFParam[] = [
+		const light: MParam[] = [
 			{ type: 'number', value: killz, description: 'Kills' },
 			{ type: 'number', value: Math.floor(killz / r(180, 220)), description: 'Points' },
 			{ type: 'number', value: Math.floor(killz / r(3200, 3500)), description: 'Scientists' },
@@ -44,7 +44,7 @@ class Functions {
 		];
 
 		// 2. heavy data:
-		const heavy: SSFParam[] = [];
+		const heavy: MParam[] = [];
 		for (let i: number = 0; i < 3; i++) { // 3 parts
 			const wins: number = Math.floor(killz / r(1200 * (i + 1), 2000 * (i + 1)));
 			heavy.push({ type: 'number', value: wins, description: 'Wins ' + (i + 1) });
@@ -60,7 +60,7 @@ class Functions {
 		);
 
 		// 3. speedruns:
-		const speed: SSFParam[][][] = [];
+		const speed: MParam[][][] = [];
 		for (let i: number = 0; i < 6; i++) { // 6 difficults
 			speed.push([]);
 			for (let j: number = 0; j < 3; j++) { // 3 parts
@@ -74,7 +74,7 @@ class Functions {
 		}
 
 		// 4. options. just for store
-		const options: SSFParam[] = [
+		const options: MParam[] = [
 			{ type: 'number', value: 0, description: 'Hero type', hidden: true },
 			{ type: 'boolean', value: false, description: 'Hero selected', hidden: true },
 			{ type: 'boolean', value: false, description: 'Speedrun details', hidden: true },
@@ -104,10 +104,10 @@ class Functions {
 	}
 
 	public parse(bank: Bank, value: string): {
-		light?: SSFParam[],
-		heavy?: SSFParam[],
-		speed?: SSFParam[][][],
-		options?: SSFParam[],
+		light?: MParam[],
+		heavy?: MParam[],
+		speed?: MParam[][][],
+		options?: MParam[],
 		bools?: any[]
 	} {
 		bank.parse(value);
@@ -117,7 +117,7 @@ class Functions {
 		}
 
 		this.reloadStorage(bank, 'lightData');
-		const light: SSFParam[] = [
+		const light: MParam[] = [
 			{ type: 'number', value: storage.getInt(), description: 'Kills' },
 			{ type: 'number', value: storage.getInt(), description: 'Points' },
 			{ type: 'number', value: storage.getInt(), description: 'Scientists' },
@@ -131,7 +131,7 @@ class Functions {
 
 		// 2. heavyData:
 		this.reloadStorage(bank, 'heavyData');
-		const heavy: SSFParam[] = [];
+		const heavy: MParam[] = [];
 		for (let i: number = 0; i < 3; i++) // 3 parts
 			heavy.push({ type: 'number', value: storage.getInt(), description: 'Wins ' + (i + 1) });
 		for (let i: number = 0; i < 4; i++) // 4 bosses fields
@@ -147,7 +147,7 @@ class Functions {
 
 		// 3. Speedruns:
 		this.reloadStorage(bank, 'speedrunsData');
-		const speed: SSFParam[][][] = [];
+		const speed: MParam[][][] = [];
 		for (let i: number = 0; i < 6; i++) { // 6 difficults
 			speed.push([]);
 			for (let j: number = 0; j < 3; j++) { // 3 parts
@@ -169,7 +169,7 @@ class Functions {
 
 		// 4. options:
 		storage.data = bank.getKey('options', 'stats').value;
-		const options: SSFParam[] = [
+		const options: MParam[] = [
 			{ type: 'number', value: storage.getInt(), description: 'Hero type', hidden: true },
 			{ type: 'boolean', value: storage.getBool(), description: 'Hero selected', hidden: true },
 			{ type: 'boolean', value: storage.getBool(), description: 'Speedrun details', hidden: true },
@@ -288,9 +288,9 @@ class Functions {
 		storage.data = s;
 	}
 
-	private makeSixBoolsFor(name: string): SSFParam[] {
+	private makeSixBoolsFor(name: string): MParam[] {
 		const diffs: string[] = ['Easy', 'Normal', 'Hard', 'Brutal', 'Insane', 'Hardcore'];
-		const array: SSFParam[] = [];
+		const array: MParam[] = [];
 		for (let i: number = 0; i < 6; i++)
 			array.push({ type: 'boolean', value: Math.random() > 0.5, description: name + ' ' + diffs[i] });
 		return array;
