@@ -3,7 +3,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import ReactGA from "react-ga4";
+
 import './App.css';
 import Slideshow from './components/ui/slideshow';
 import { StoreProvider, useStore } from './hooks/use-store';
@@ -16,6 +16,7 @@ import Updates from './modules/updates';
 import Warn from './modules/warn';
 import Workspace from './modules/workspace';
 import { Modals } from './store/ModalStore';
+import { gaInit } from './utils/ga4';
 
 /** App **
 * ...
@@ -26,12 +27,7 @@ import { Modals } from './store/ModalStore';
 const App: FC = observer((): JSX.Element => {
 	const { modalStore } = useStore();
 
-	ReactGA.initialize("G-F9Y8FZ0KFE", {
-		gtagOptions: {
-			cookie_flags: 'max-age=7200;Secure=true;SameSite=none'
-		},
-		gaOptions: { cookieDomain: 'none' }
-	});
+	gaInit();
 
 	return (
 		<div className="App">

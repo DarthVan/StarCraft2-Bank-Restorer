@@ -12,7 +12,7 @@ import Label from 'src/components/ui/label';
 import Line from 'src/components/ui/line';
 import Select from 'src/components/ui/select';
 import { useStore } from 'src/hooks/use-store';
-import { rgaEvent } from 'src/utils/utils';
+import { gaEvent } from 'src/utils/ga4';
 import AudioLoop from '../audio';
 
 /** Menu **
@@ -35,15 +35,15 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onHelpClick: useCallback((): void => {
 			modalStore.setModal('HELP');
-			rgaEvent("Menu", "Help");
+			gaEvent("Menu", "Help");
 		}, []),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
-			rgaEvent("Menu", "Select Map", value);
+			gaEvent("Menu", "Select Map", mapProps.get(parseInt(value)).title);
 		}, []),
 		onAutoSaveChange: useCallback((value: boolean): void => {
 			menuStore.setAutoSave(value);
-			rgaEvent("Menu", "Autosave Changed");
+			gaEvent("Menu", "Autosave Changed");
 		}, []),
 		onFullReset: useCallback((): void => {
 			modalStore.setModal('CONFIRM', 'Are you sure you want to delete all accounts and saved banks from here?', [
@@ -54,7 +54,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 					modalStore.reset();
 				}
 			]);
-			rgaEvent("Menu", "Full Reset");
+			gaEvent("Menu", "Full Reset");
 		}, [])
 	}
 
@@ -88,7 +88,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 			<Flex style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 				{logo}
 				<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-					<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
+					<Input label="Player id:" placeholder="X-S2-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
 					<Button style={btnAccountsStyle} onClick={callbacks.onAccountClick}>Accounts</Button>
 					<Button style={btnHelpStyle} onClick={callbacks.onHelpClick}>Help</Button>
 					<AudioLoop />

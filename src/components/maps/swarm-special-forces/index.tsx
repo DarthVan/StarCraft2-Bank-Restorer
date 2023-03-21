@@ -12,8 +12,8 @@ import { Bank } from "src/core/bank/bank";
 import { useStore } from "src/hooks/use-store";
 import Editor from 'src/modules/editor';
 import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
-import { mapProps, Maps } from "../Maps";
 import { MParam } from "../MParam";
+import { Maps, mapProps } from "../Maps";
 import functions from "./functions";
 import SsfSixBoolsItem from "./ssf-6b";
 import SsfDiff from "./ssf-diff";
@@ -200,7 +200,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 	const options: JSX.Element = useMemo((): JSX.Element => {
 		return (
 			<>
-				<Label>Options:</Label>
+				<Label style={{ marginTop: '15px' }}>Options:</Label>
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
 					{store.options.map((param: MParam, index: number): JSX.Element => {
 						if (param.hidden)

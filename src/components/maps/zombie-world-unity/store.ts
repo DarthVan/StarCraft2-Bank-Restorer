@@ -45,13 +45,13 @@ class Store extends BasicStore {
 			{ type: "boolean", value: true, description: 'Get all challenges' },
 			{ type: "boolean", value: true, description: 'Upgrade all units' },
 
-			{ type: "number", value: 5000000, description: 'Assassin' },
-			{ type: "number", value: 5000000, description: 'Builder' },
-			{ type: "number", value: 5000000, description: 'Singletarget' },
-			{ type: "number", value: 5000000, description: 'Specialist' },
-			{ type: "number", value: 5000000, description: 'Splash' },
-			{ type: "number", value: 5000000, description: 'Support' },
-			{ type: "number", value: 5000000, description: 'Tank' },
+			{ type: "number", value: 999000000, description: 'Assassin' },
+			{ type: "number", value: 999000000, description: 'Builder' },
+			{ type: "number", value: 999000000, description: 'Singletarget' },
+			{ type: "number", value: 999000000, description: 'Specialist' },
+			{ type: "number", value: 999000000, description: 'Splash' },
+			{ type: "number", value: 999000000, description: 'Support' },
+			{ type: "number", value: 999000000, description: 'Tank' },
 		];
 	}
 

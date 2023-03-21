@@ -1,6 +1,7 @@
 /* Generated with TypeScript React snippets */
 
 import React, { FC, useEffect, useRef } from 'react';
+import { CHANGE_BG_DELAY, TOTAL_BG_PICTURES } from 'src/Globals';
 import { r } from 'src/utils/utils';
 import './style.css';
 
@@ -23,20 +24,18 @@ const Slideshow: FC<Props> = (props: Props): JSX.Element => {
 
 	let n: number = 0;
 	const nextBG: (n: number, ref: any, type: string) => number = (n: number, ref: any, type: string): number => {
-		n = type == 'random' ? r(1, 3) : n > 3 ? 1 : n + 1;
+		n = type == 'random' ? r(1, TOTAL_BG_PICTURES) : n > TOTAL_BG_PICTURES ? 1 : n + 1;
 		ref.current.style.backgroundImage = "url('./assets/pics/bg" + n + ".jpg')";
 		return n;
 	};
 
-	const interval: number = setInterval((): void => {
+	useEffect((): () => void => {
 		n = nextBG(n, ref, type);
-	}, 120000);
-
-	window.onbeforeunload = (): void => {
-		clearInterval(interval);
-	}
-
-	useEffect((): void => { n = nextBG(n, ref, type) }, []);
+		const interval: number = window.setInterval((): void => {
+			n = nextBG(n, ref, type);
+		}, CHANGE_BG_DELAY); // 10 mins
+		return (): void => window.clearInterval(interval);
+	}, []);
 
 	return (
 		<div className='Slideshow' ref={ref}>

@@ -3,7 +3,8 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import Button from 'src/components/ui/button';
 import Container from 'src/components/ui/container';
-import { r, rgaEvent } from "src/utils/utils";
+import { gaEvent } from 'src/utils/ga4';
+import { r } from "src/utils/utils";
 
 /** AudioLoop **
 * ...
@@ -16,6 +17,7 @@ interface Props { }
 const AudioLoop: FC<Props> = (props: Props): JSX.Element => {
 	const [playing, setPlaying] = useState(true);
 	const audio: HTMLAudioElement = new Audio();
+	audio.autoplay = true;
 
 	const playNext: () => void = (function (): () => void {
 		const soundPath: string = 'assets/sound/';
@@ -48,12 +50,12 @@ const AudioLoop: FC<Props> = (props: Props): JSX.Element => {
 		onPlay: useCallback((): void => {
 			setPlaying(true);
 			audio.play();
-			rgaEvent("Audio", "Sound ON");
+			gaEvent("Audio", "Sound ON");
 		}, []),
 		onPause: useCallback((): void => {
 			setPlaying(false);
 			audio.pause();
-			rgaEvent("Audio", "Sound OFF");
+			gaEvent("Audio", "Sound OFF");
 		}, [])
 	};
 

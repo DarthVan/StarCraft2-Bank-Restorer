@@ -1,12 +1,15 @@
 /* Generated with TypeScript React snippets */
 
+import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useMemo } from 'react';
+import { mapProps } from 'src/components/maps/Maps';
 import Button from 'src/components/ui/button';
 import Flex from 'src/components/ui/container';
 import Drop from 'src/components/ui/drop';
 import Input from 'src/components/ui/input';
 import Line from 'src/components/ui/line';
-import { rgaEvent } from 'src/utils/utils';
+import { useStore } from 'src/hooks/use-store';
+import { gaEvent } from 'src/utils/ga4';
 
 /** Editor **
 * ...
@@ -26,24 +29,29 @@ interface Props {
 	onReset?: () => void;
 }
 
-const Editor: FC<Props> = (props: Props): JSX.Element => {
+const Editor: FC<Props> = observer((props: Props): JSX.Element => {
+	const { menuStore } = useStore();
+
+	const mapTitle: string = useMemo((): string => {
+		return mapProps.get(menuStore.selectedMap).title;
+	}, [menuStore.selectedMap]);
 
 	const callbacks = {
 		onFilesDrop: useCallback((files: File[]): void => {
 			files[0].text().then((value: string): void => props.onFileDrop?.(files[0].name.split('.')[0], value));
-			rgaEvent("Editor", "Drop file");
+			gaEvent("Editor", "Drop file", mapTitle);
 		}, []),
 		onDownload: useCallback((): void => {
 			props.onDownload();
-			rgaEvent("Editor", "Download bank");
+			gaEvent("Editor", "Download bank", mapTitle);
 		}, []),
 		onCopy: useCallback((): void => {
 			props.onCopy();
-			rgaEvent("Editor", "Copy code");
+			gaEvent("Editor", "Copy code", mapTitle);
 		}, []),
 		onReset: useCallback((): void => {
 			props.onReset();
-			rgaEvent("Editor", "Reset");
+			gaEvent("Editor", "Reset", mapTitle);
 		}, []),
 	};
 
@@ -52,7 +60,7 @@ const Editor: FC<Props> = (props: Props): JSX.Element => {
 			<Flex style={{ flexDirection: 'row' }}>
 				<Flex style={{ flexDirection: 'column', width: 'min-content' }} alignInputs={true}>
 					<Input label="BankName:" placeholder="BankFileName" onChange={props.onBankNameChange} tip="Bank filename without *.SC2Bank extension" value={props.bankName} />
-					<Input label="Author id:" placeholder="X-SX-X-XXXXXXX" onChange={props.onAuthorIdChange} tip="Author ID from bank's path" value={props.authorID} />
+					<Input label="Author id:" placeholder="X-S2-X-XXXXXXX" onChange={props.onAuthorIdChange} tip="Author ID from bank's path" value={props.authorID} />
 				</Flex>
 				<Drop onFilesDrop={callbacks.onFilesDrop} />
 			</Flex>
@@ -85,6 +93,6 @@ const Editor: FC<Props> = (props: Props): JSX.Element => {
 		</Flex>
 	);
 
-}
+});
 
 export default React.memo(Editor);

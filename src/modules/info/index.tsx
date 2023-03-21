@@ -2,9 +2,10 @@
 
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect } from 'react';
+import { APP_VERSION, CHECK_UPDATES_DELAY } from 'src/Globals';
 import Text from 'src/components/ui/text';
 import { useStore } from 'src/hooks/use-store';
-import { rgaEvent } from 'src/utils/utils';
+import { gaEvent } from 'src/utils/ga4';
 import Flex from '../../components/ui/container';
 import GlassWrapper from '../../components/ui/glass-wrapper';
 import Label from '../../components/ui/label';
@@ -21,7 +22,6 @@ interface Props {
 
 const Info: FC<Props> = observer((): JSX.Element => {
 	const { modalStore } = useStore();
-	const version: string = '1.02'; // todo: store this here?
 
 	const loadUpdatesList: (forceShow?: boolean) => void = (forceShow?: boolean): void => {
 		console.log('Checking updates...');
@@ -36,7 +36,7 @@ const Info: FC<Props> = observer((): JSX.Element => {
 					return;
 				}
 
-				if (list[0].version != version) {
+				if (list[0].version != APP_VERSION) {
 					modalStore.setModal('UPDATES', 'There is a new update! Refresh your tab.', null, list);
 					return;
 				}
@@ -52,14 +52,14 @@ const Info: FC<Props> = observer((): JSX.Element => {
 
 	useEffect((): () => void => {
 		loadUpdatesList(); // first auto check
-		const interval: number = setInterval((): void => loadUpdatesList(), 600000); // 10 mins
-		return (): void => clearInterval(interval);
+		const interval: number = window.setInterval((): void => loadUpdatesList(), CHECK_UPDATES_DELAY); // 10 mins
+		return (): void => window.clearInterval(interval);
 	}, []);
 
 	const callbacks = {
 		onVersionClick: useCallback((): void => {
 			loadUpdatesList(true);
-			rgaEvent("Info", "Version");
+			gaEvent("Info", "Version", APP_VERSION);
 		}, [])
 	};
 
@@ -69,7 +69,7 @@ const Info: FC<Props> = observer((): JSX.Element => {
 				<Flex style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px', minWidth: 'max-content' }}>
 					<Label>Powered by React 18</Label>
 					<div onClick={callbacks.onVersionClick} style={{ cursor: 'pointer' }}>
-						<Text style={{ textDecoration: 'underline', fontSize: '12px' }}>Version {version}</Text>
+						<Text style={{ textDecoration: 'underline', fontSize: '12px' }}>Version {APP_VERSION}</Text>
 					</div>
 				</Flex>
 			</Flex>

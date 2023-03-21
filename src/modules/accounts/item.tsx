@@ -60,7 +60,7 @@ const AccountItem: FC<Props> = (props: Props): JSX.Element => {
 			<>
 				<img src='assets/noob.png' width='59' height='59' />
 				<Input onChange={(value: string): void => props.onNameChange(props.id, value)} label={'Name:'} placeholder={'Noob'} value={props.name} tip="Any nick name" />
-				<Input onChange={(value: string): void => props.onPlayerIDChange(props.id, value)} label={'Palyer ID:'} tip="Player ID from account path" placeholder={'X-SX-X-XXXXXXX'} value={props.playerID} />
+				<Input onChange={(value: string): void => props.onPlayerIDChange(props.id, value)} label={'Palyer ID:'} tip="Player ID from account path" placeholder={'X-S2-X-XXXXXXX'} value={props.playerID} />
 				<Button onClick={(): void => props.onRemove(props.id)} style={{ width: '100px' }}>Remove</Button>
 			</>
 		);

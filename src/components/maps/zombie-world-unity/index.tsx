@@ -11,8 +11,8 @@ import { Bank } from 'src/core/bank/bank';
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
 import { copyTextToClipboard, downloadTextAsFile } from 'src/utils/utils';
-import { mapProps, Maps } from '../Maps';
 import { MParam } from '../MParam';
+import { Maps, mapProps } from '../Maps';
 import functions from './functions';
 import store from './store';
 
@@ -144,9 +144,9 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 							if (index > 4)
 								return (
 									<Input label={param.description + ':'} index={index} type='number' min='0'
-										style={{ width: '66px' }}
+										style={{ width: '72px' }}
 										onChange={callbacks.onFieldChange}
-										max={'99999999'}
+										max={'999999999'}
 										value={param.value.toString()}
 									/>
 								);
