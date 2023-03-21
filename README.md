@@ -14,8 +14,8 @@ List of available maps:<br/><b>
   Zombie City<br/>
   Zombie World Unity<br/>
  </dd>
-</dl>
+</dl></b>
 
 Features: account manager, saving edited banks in local storage, update checker, 8bit player ♪
 
-<br/></b>More maps will come later.
+<br/>More maps will come later.
