@@ -1,16 +1,20 @@
 {
 	"updates": [
 		{
+			"version": "1.03",
+			"description": "Zombie World Unity: increased max values for killz\nSome design improvements"
+		},
+		{
 			"version": "1.02",
-			"description": "Added Zombie World Unity, some improvements"
+			"description": "Added Zombie World Unity\nSome code improvements"
 		},
 		{
 			"version": "1.01",
-			"description": "fixes, optimizations, sounds, account switcher"
+			"description": "Added Swarm Special Forces\nAdded account switcher\nBank cache improvements\nFixes, optimizations, sounds"
 		},
 		{
 			"version": "1.00",
-			"description": "first release"
+			"description": "First release"
 		}
 	]
 }

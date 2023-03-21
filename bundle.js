@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Wed, 15 Mar 2023 19:53:48 UTC
+ * Compiled Tue, 21 Mar 2023 21:58:22 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -51,6 +51,244 @@
 	  createRoot = m.createRoot;
 	  m.hydrateRoot;
 	}
+
+	const APP_VERSION = '1.03';
+	const CHECK_UPDATES_DELAY = 600000;
+	const TOTAL_BG_PICTURES = 4;
+	const CHANGE_BG_DELAY = 120000;
+
+	function r(min, max) {
+	    return Math.round(Math.random() * (max - min + 1) - 0.5) + min;
+	}
+	function t2n(value = '00:10:00') {
+	    const a = value.split(':');
+	    return parseInt(a[0]) * 3600 + parseInt(a[1]) * 60 + parseInt(a[2]);
+	}
+	function n2t(value) {
+	    return new Date(1000 * value).toISOString().substring(11, 19);
+	}
+	function dateID(removeSymbols = 2) {
+	    return (Date.now() + Math.random()).toString(32).replace('.', '').substring(removeSymbols).toUpperCase();
+	}
+	function copyTextToClipboard(data, log) {
+	    window.navigator['clipboard'].writeText(data).then(() => {
+	        if (log)
+	            console.log('Copied to clipboard:\n', data);
+	    });
+	}
+	function downloadTextAsFile(data, fileName, log) {
+	    const blob = new Blob([data], { type: 'application/octet-stream' });
+	    filesaver.saveAs(blob, fileName);
+	    if (log)
+	        console.log('download bank file:', data);
+	}
+
+	const Slideshow = (props) => {
+	    const ref = React.useRef(null);
+	    let { type } = props;
+	    if (!type)
+	        type = 'random';
+	    let n = 0;
+	    const nextBG = (n, ref, type) => {
+	        n = type == 'random' ? r(1, TOTAL_BG_PICTURES) : n > TOTAL_BG_PICTURES ? 1 : n + 1;
+	        ref.current.style.backgroundImage = "url('./assets/pics/bg" + n + ".jpg')";
+	        return n;
+	    };
+	    React.useEffect(() => {
+	        n = nextBG(n, ref, type);
+	        const interval = window.setInterval(() => {
+	            n = nextBG(n, ref, type);
+	        }, CHANGE_BG_DELAY);
+	        return () => window.clearInterval(interval);
+	    }, []);
+	    return (jsxRuntimeExports.jsx("div", { className: 'Slideshow', ref: ref, children: props.children }));
+	};
+	var Slideshow$1 = React.memo(Slideshow);
+
+	class BasicStore {
+	    constructor() {
+	        this.init();
+	        mobx.makeAutoObservable(this);
+	    }
+	    reset() {
+	    }
+	    init() {
+	    }
+	}
+
+	class AccountStore extends BasicStore {
+	    reset() {
+	        this.list = [{ id: 'DEFAULT', name: 'Noob', playerID: '' }];
+	        this.current = 'DEFAULT';
+	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+	    }
+	    add(name = '', playerID = '') {
+	        const account = { id: dateID(), name, playerID };
+	        this.list = [...this.list, account];
+	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+	        return account;
+	    }
+	    change(id, params) {
+	        for (let i = 0; i < this.list.length; i++) {
+	            const account = this.list[i];
+	            if (account.id == id) {
+	                if (params.name)
+	                    account.name = params.name;
+	                if (params.playerID)
+	                    account.playerID = params.playerID;
+	                break;
+	            }
+	        }
+	        this.list = [...this.list];
+	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+	    }
+	    remove(id) {
+	        if (this.list.length <= 1)
+	            return;
+	        this.list = this.list.filter((account) => account.id != id);
+	        if (this.current == id)
+	            this.current = this.list[0].id;
+	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+	    }
+	    setSelected(value) {
+	        this.current = value;
+	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+	    }
+	    get currentAccount() {
+	        for (let i = 0; i < this.list.length; i++)
+	            if (this.list[i].id == this.current)
+	                return this.list[i];
+	        return null;
+	    }
+	    init() {
+	        const json = JSON.parse(localStorage.getItem("AccountData"));
+	        this.list = json?.list;
+	        if (!this.list || !this.list.length)
+	            this.reset();
+	        this.current = json?.selected;
+	        if (!this.current)
+	            this.setSelected(this.list[0].id);
+	    }
+	}
+
+	class MapStore extends BasicStore {
+	    reset() {
+	        this.list = {};
+	        localStorage.removeItem("MapsData");
+	    }
+	    setMapData(accountID, mapID, data) {
+	        this.list[accountID] = { ...this.list[accountID], [mapID]: data };
+	        localStorage.setItem("MapsData", JSON.stringify(this.list));
+	    }
+	    clearMapData(accountID, mapID) {
+	        if (mapID) {
+	            if (!this.list[accountID]?.[mapID])
+	                return;
+	            this.list[accountID][mapID] = null;
+	            delete (this.list[accountID][mapID]);
+	        }
+	        else {
+	            this.list[accountID] = null;
+	            delete (this.list[accountID]);
+	        }
+	        localStorage.setItem("MapsData", JSON.stringify(this.list));
+	    }
+	    init() {
+	        this.list = JSON.parse(localStorage.getItem("MapsData")) || {};
+	    }
+	}
+
+	class MenuStore extends BasicStore {
+	    reset() {
+	        localStorage.removeItem("PlayerID");
+	        this.playerID = '';
+	        localStorage.removeItem("SelectedMap");
+	        this.selectedMap = 0;
+	        localStorage.removeItem("AutoSave");
+	        this.autoSave = false;
+	    }
+	    setPlayerID(value) {
+	        this.playerID = value;
+	        localStorage.setItem("PlayerID", value);
+	    }
+	    setSelectedMap(value) {
+	        this.selectedMap = value;
+	        localStorage.setItem("SelectedMap", value.toString());
+	    }
+	    setAutoSave(value) {
+	        this.autoSave = value;
+	        localStorage.setItem("AutoSave", value ? 'true' : 'false');
+	    }
+	    init() {
+	        this.playerID = localStorage.getItem("PlayerID") || '';
+	        this.selectedMap = parseInt(localStorage.getItem("SelectedMap")) || 0;
+	        this.autoSave = localStorage.getItem("AutoSave") == 'true' || false;
+	    }
+	}
+
+	var Modals;
+	(function (Modals) {
+	    Modals[Modals["NONE"] = 0] = "NONE";
+	    Modals[Modals["HELP"] = 1] = "HELP";
+	    Modals[Modals["WARN"] = 2] = "WARN";
+	    Modals[Modals["CONFIRM"] = 3] = "CONFIRM";
+	    Modals[Modals["ACCOUNTS"] = 4] = "ACCOUNTS";
+	    Modals[Modals["UPDATES"] = 5] = "UPDATES";
+	})(Modals || (Modals = {}));
+	class ModalStore extends BasicStore {
+	    setModal(id, message, actions, data) {
+	        this.current = Modals[id];
+	        this.message = message;
+	        if (id == "NONE") {
+	            this.actions = [];
+	            this.data = null;
+	            return;
+	        }
+	        this.actions = actions;
+	        this.data = data;
+	    }
+	    reset() {
+	        this.current = 0;
+	        localStorage.removeItem("FirstHelp");
+	    }
+	    init() {
+	        if (localStorage.getItem("FirstHelp") == 'true') {
+	            this.current = Modals.NONE;
+	            return;
+	        }
+	        this.current = Modals.HELP;
+	        localStorage.setItem("FirstHelp", 'true');
+	    }
+	}
+
+	const rootStore = {
+	    accountStore: new AccountStore(),
+	    mapStore: new MapStore(),
+	    menuStore: new MenuStore(),
+	    modalStore: new ModalStore()
+	};
+
+	const storeContext = React.createContext(null);
+	const StoreProvider = ({ children }) => {
+	    const store = mobxReactLite.useLocalObservable(() => rootStore);
+	    return jsxRuntimeExports.jsx(storeContext.Provider, { value: store, children: children });
+	};
+	const useStore = () => {
+	    const store = React.useContext(storeContext);
+	    if (!store)
+	        throw new Error('useStore must be used within a StoreProvider.');
+	    return store;
+	};
+
+	const Button = (props) => {
+	    return (jsxRuntimeExports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
+	};
+	var Button$1 = React.memo(Button);
+
+	const Text = (props) => {
+	    return (jsxRuntimeExports.jsx("span", { className: 'Text', style: props.style, children: props.children }));
+	};
+	var Text$1 = React.memo(Text);
 
 	var dist = {};
 
@@ -587,32 +825,19 @@
 
 	var ReactGA = /*@__PURE__*/getDefaultExportFromCjs(dist);
 
-	function r(min, max) {
-	    return Math.round(Math.random() * (max - min)) + min;
-	}
-	function t2n(value = '00:10:00') {
-	    const a = value.split(':');
-	    return parseInt(a[0]) * 3600 + parseInt(a[1]) * 60 + parseInt(a[2]);
-	}
-	function n2t(value) {
-	    return new Date(1000 * value).toISOString().substring(11, 19);
-	}
-	function dateID(removeSymbols = 2) {
-	    return (Date.now() + Math.random()).toString(32).replace('.', '').substring(removeSymbols).toUpperCase();
-	}
-	function copyTextToClipboard(data, log) {
-	    window.navigator['clipboard'].writeText(data).then(() => {
-	        if (log)
-	            console.log('Copied to clipboard:\n', data);
+	function gaInit(localhost) {
+	    if (location.hostname == '127.0.0.1' && !localhost) {
+	        console.log('Google analytics is disabled on this host');
+	        return;
+	    }
+	    ReactGA.initialize("G-F9Y8FZ0KFE", {
+	        gtagOptions: {
+	            cookie_flags: 'max-age=7200;Secure=true;SameSite=none'
+	        },
+	        gaOptions: { cookieDomain: 'none' }
 	    });
 	}
-	function downloadTextAsFile(data, fileName, log) {
-	    const blob = new Blob([data], { type: 'application/octet-stream' });
-	    filesaver.saveAs(blob, fileName);
-	    if (log)
-	        console.log('download bank file:', data);
-	}
-	function rgaEvent(category, action, label, value) {
+	function gaEvent(category, action, label, value) {
 	    ReactGA.event({
 	        category,
 	        action,
@@ -620,213 +845,6 @@
 	        value,
 	    });
 	}
-
-	const Slideshow = (props) => {
-	    const ref = React.useRef(null);
-	    let { type } = props;
-	    if (!type)
-	        type = 'random';
-	    let n = 0;
-	    const nextBG = (n, ref, type) => {
-	        n = type == 'random' ? r(1, 3) : n > 3 ? 1 : n + 1;
-	        ref.current.style.backgroundImage = "url('./assets/pics/bg" + n + ".jpg')";
-	        return n;
-	    };
-	    const interval = setInterval(() => {
-	        n = nextBG(n, ref, type);
-	    }, 120000);
-	    window.onbeforeunload = () => {
-	        clearInterval(interval);
-	    };
-	    React.useEffect(() => { n = nextBG(n, ref, type); }, []);
-	    return (jsxRuntimeExports.jsx("div", { className: 'Slideshow', ref: ref, children: props.children }));
-	};
-	var Slideshow$1 = React.memo(Slideshow);
-
-	class BasicStore {
-	    constructor() {
-	        this.init();
-	        mobx.makeAutoObservable(this);
-	    }
-	    reset() {
-	    }
-	    init() {
-	    }
-	}
-
-	class AccountStore extends BasicStore {
-	    reset() {
-	        this.list = [{ id: 'DEFAULT', name: 'Noob', playerID: '' }];
-	        this.current = 'DEFAULT';
-	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
-	    }
-	    add(name = '', playerID = '') {
-	        const account = { id: dateID(), name, playerID };
-	        this.list = [...this.list, account];
-	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
-	        return account;
-	    }
-	    change(id, params) {
-	        for (let i = 0; i < this.list.length; i++) {
-	            const account = this.list[i];
-	            if (account.id == id) {
-	                if (params.name)
-	                    account.name = params.name;
-	                if (params.playerID)
-	                    account.playerID = params.playerID;
-	                break;
-	            }
-	        }
-	        this.list = [...this.list];
-	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
-	    }
-	    remove(id) {
-	        if (this.list.length <= 1)
-	            return;
-	        this.list = this.list.filter((account) => account.id != id);
-	        if (this.current == id)
-	            this.current = this.list[0].id;
-	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
-	    }
-	    setSelected(value) {
-	        this.current = value;
-	        localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
-	    }
-	    get currentAccount() {
-	        for (let i = 0; i < this.list.length; i++)
-	            if (this.list[i].id == this.current)
-	                return this.list[i];
-	        return null;
-	    }
-	    init() {
-	        const json = JSON.parse(localStorage.getItem("AccountData"));
-	        this.list = json?.list;
-	        if (!this.list || !this.list.length)
-	            this.reset();
-	        this.current = json?.selected;
-	        if (!this.current)
-	            this.setSelected(this.list[0].id);
-	    }
-	}
-
-	class MapStore extends BasicStore {
-	    reset() {
-	        this.list = {};
-	        localStorage.removeItem("MapsData");
-	    }
-	    setMapData(accountID, mapID, data) {
-	        this.list[accountID] = { ...this.list[accountID], [mapID]: data };
-	        localStorage.setItem("MapsData", JSON.stringify(this.list));
-	    }
-	    clearMapData(accountID, mapID) {
-	        if (mapID) {
-	            if (!this.list[accountID]?.[mapID])
-	                return;
-	            this.list[accountID][mapID] = null;
-	            delete (this.list[accountID][mapID]);
-	        }
-	        else {
-	            this.list[accountID] = null;
-	            delete (this.list[accountID]);
-	        }
-	        localStorage.setItem("MapsData", JSON.stringify(this.list));
-	    }
-	    init() {
-	        this.list = JSON.parse(localStorage.getItem("MapsData")) || {};
-	    }
-	}
-
-	class MenuStore extends BasicStore {
-	    reset() {
-	        localStorage.removeItem("PlayerID");
-	        this.playerID = '';
-	        localStorage.removeItem("SelectedMap");
-	        this.selectedMap = 0;
-	        localStorage.removeItem("AutoSave");
-	        this.autoSave = false;
-	    }
-	    setPlayerID(value) {
-	        this.playerID = value;
-	        localStorage.setItem("PlayerID", value);
-	    }
-	    setSelectedMap(value) {
-	        this.selectedMap = value;
-	        localStorage.setItem("SelectedMap", value.toString());
-	    }
-	    setAutoSave(value) {
-	        this.autoSave = value;
-	        localStorage.setItem("AutoSave", value ? 'true' : 'false');
-	    }
-	    init() {
-	        this.playerID = localStorage.getItem("PlayerID") || '';
-	        this.selectedMap = parseInt(localStorage.getItem("SelectedMap")) || 0;
-	        this.autoSave = localStorage.getItem("AutoSave") == 'true' || false;
-	    }
-	}
-
-	var Modals;
-	(function (Modals) {
-	    Modals[Modals["NONE"] = 0] = "NONE";
-	    Modals[Modals["HELP"] = 1] = "HELP";
-	    Modals[Modals["WARN"] = 2] = "WARN";
-	    Modals[Modals["CONFIRM"] = 3] = "CONFIRM";
-	    Modals[Modals["ACCOUNTS"] = 4] = "ACCOUNTS";
-	    Modals[Modals["UPDATES"] = 5] = "UPDATES";
-	})(Modals || (Modals = {}));
-	class ModalStore extends BasicStore {
-	    setModal(id, message, actions, data) {
-	        this.current = Modals[id];
-	        this.message = message;
-	        if (id == "NONE") {
-	            this.actions = [];
-	            this.data = null;
-	            return;
-	        }
-	        this.actions = actions;
-	        this.data = data;
-	    }
-	    reset() {
-	        this.current = 0;
-	        localStorage.removeItem("FirstHelp");
-	    }
-	    init() {
-	        if (localStorage.getItem("FirstHelp") == 'true') {
-	            this.current = Modals.NONE;
-	            return;
-	        }
-	        this.current = Modals.HELP;
-	        localStorage.setItem("FirstHelp", 'true');
-	    }
-	}
-
-	const rootStore = {
-	    accountStore: new AccountStore(),
-	    mapStore: new MapStore(),
-	    menuStore: new MenuStore(),
-	    modalStore: new ModalStore()
-	};
-
-	const storeContext = React.createContext(null);
-	const StoreProvider = ({ children }) => {
-	    const store = mobxReactLite.useLocalObservable(() => rootStore);
-	    return jsxRuntimeExports.jsx(storeContext.Provider, { value: store, children: children });
-	};
-	const useStore = () => {
-	    const store = React.useContext(storeContext);
-	    if (!store)
-	        throw new Error('useStore must be used within a StoreProvider.');
-	    return store;
-	};
-
-	const Button = (props) => {
-	    return (jsxRuntimeExports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
-	};
-	var Button$1 = React.memo(Button);
-
-	const Text = (props) => {
-	    return (jsxRuntimeExports.jsx("span", { className: 'Text', style: props.style, children: props.children }));
-	};
-	var Text$1 = React.memo(Text);
 
 	const FlexContainer = (props) => {
 	    const className = React.useMemo(() => {
@@ -965,7 +983,7 @@
 	        return style;
 	    };
 	    const elements = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx("img", { src: 'assets/noob.png', width: '59', height: '59' }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onNameChange(props.id, value), label: 'Name:', placeholder: 'Noob', value: props.name, tip: "Any nick name" }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onPlayerIDChange(props.id, value), label: 'Palyer ID:', tip: "Player ID from account path", placeholder: 'X-SX-X-XXXXXXX', value: props.playerID }), jsxRuntimeExports.jsx(Button$1, { onClick: () => props.onRemove(props.id), style: { width: '100px' }, children: "Remove" })] }));
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx("img", { src: 'assets/noob.png', width: '59', height: '59' }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onNameChange(props.id, value), label: 'Name:', placeholder: 'Noob', value: props.name, tip: "Any nick name" }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onPlayerIDChange(props.id, value), label: 'Palyer ID:', tip: "Player ID from account path", placeholder: 'X-S2-X-XXXXXXX', value: props.playerID }), jsxRuntimeExports.jsx(Button$1, { onClick: () => props.onRemove(props.id), style: { width: '100px' }, children: "Remove" })] }));
 	    }, []);
 	    return (jsxRuntimeExports.jsx("div", { onMouseEnter: callbacks.onMouseEnter, onMouseLeave: callbacks.onMouseLeave, onClick: e => props.onSelect(props.id, props.playerID), children: jsxRuntimeExports.jsx(Flex, { style: getStyle(), children: elements }) }));
 	};
@@ -979,20 +997,20 @@
 	        }, []),
 	        onAddNewAccount: React.useCallback(() => {
 	            accountStore.add('Nick Name');
-	            rgaEvent("Accounts", "Added new account", '', accountStore.list.length);
+	            gaEvent("Accounts", "Added new account", '', accountStore.list.length);
 	        }, []),
 	        onRemoveAccount: React.useCallback((id) => {
 	            mapStore.clearMapData(id);
 	            accountStore.remove(id);
 	            menuStore.setPlayerID(accountStore.currentAccount.playerID);
-	            rgaEvent("Accounts", "Remove account");
+	            gaEvent("Accounts", "Remove account");
 	        }, []),
 	        onAccountSelect: React.useCallback((id, playerID) => {
 	            if (accountStore.current == id)
 	                return;
 	            accountStore.setSelected(id);
 	            menuStore.setPlayerID(playerID);
-	            rgaEvent("Accounts", "Select account", playerID);
+	            gaEvent("Accounts", "Select account", playerID);
 	        }, []),
 	        onNameChange: React.useCallback((id, name) => {
 	            accountStore.change(id, { name });
@@ -1044,7 +1062,6 @@
 
 	const Info = mobxReactLite.observer(() => {
 	    const { modalStore } = useStore();
-	    const version = '1.02';
 	    const loadUpdatesList = (forceShow) => {
 	        console.log('Checking updates...');
 	        fetch('./updates.json' + '?' + Date.now(), { cache: 'no-cache' })
@@ -1055,7 +1072,7 @@
 	                console.error('Info: updates list is null or empty');
 	                return;
 	            }
-	            if (list[0].version != version) {
+	            if (list[0].version != APP_VERSION) {
 	                modalStore.setModal('UPDATES', 'There is a new update! Refresh your tab.', null, list);
 	                return;
 	            }
@@ -1066,16 +1083,16 @@
 	    };
 	    React.useEffect(() => {
 	        loadUpdatesList();
-	        const interval = setInterval(() => loadUpdatesList(), 600000);
-	        return () => clearInterval(interval);
+	        const interval = window.setInterval(() => loadUpdatesList(), CHECK_UPDATES_DELAY);
+	        return () => window.clearInterval(interval);
 	    }, []);
 	    const callbacks = {
 	        onVersionClick: React.useCallback(() => {
 	            loadUpdatesList(true);
-	            rgaEvent("Info", "Version");
+	            gaEvent("Info", "Version", APP_VERSION);
 	        }, [])
 	    };
-	    return (jsxRuntimeExports.jsx(GlassWrapper$1, { children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px', minWidth: 'max-content' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Powered by React 18" }), jsxRuntimeExports.jsx("div", { onClick: callbacks.onVersionClick, style: { cursor: 'pointer' }, children: jsxRuntimeExports.jsxs(Text$1, { style: { textDecoration: 'underline', fontSize: '12px' }, children: ["Version ", version] }) })] }) }) }));
+	    return (jsxRuntimeExports.jsx(GlassWrapper$1, { children: jsxRuntimeExports.jsx(Flex, { style: { overflow: 'auto' }, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px', minWidth: 'max-content' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Powered by React 18" }), jsxRuntimeExports.jsx("div", { onClick: callbacks.onVersionClick, style: { cursor: 'pointer' }, children: jsxRuntimeExports.jsxs(Text$1, { style: { textDecoration: 'underline', fontSize: '12px' }, children: ["Version ", APP_VERSION] }) })] }) }) }));
 	});
 	var Info$1 = React.memo(Info);
 
@@ -1515,27 +1532,31 @@
 	};
 	var Drop = React.memo(DropZone);
 
-	const Editor = (props) => {
+	const Editor = mobxReactLite.observer((props) => {
+	    const { menuStore } = useStore();
+	    const mapTitle = React.useMemo(() => {
+	        return mapProps.get(menuStore.selectedMap).title;
+	    }, [menuStore.selectedMap]);
 	    const callbacks = {
 	        onFilesDrop: React.useCallback((files) => {
 	            files[0].text().then((value) => props.onFileDrop?.(files[0].name.split('.')[0], value));
-	            rgaEvent("Editor", "Drop file");
+	            gaEvent("Editor", "Drop file", mapTitle);
 	        }, []),
 	        onDownload: React.useCallback(() => {
 	            props.onDownload();
-	            rgaEvent("Editor", "Download bank");
+	            gaEvent("Editor", "Download bank", mapTitle);
 	        }, []),
 	        onCopy: React.useCallback(() => {
 	            props.onCopy();
-	            rgaEvent("Editor", "Copy code");
+	            gaEvent("Editor", "Copy code", mapTitle);
 	        }, []),
 	        onReset: React.useCallback(() => {
 	            props.onReset();
-	            rgaEvent("Editor", "Reset");
+	            gaEvent("Editor", "Reset", mapTitle);
 	        }, []),
 	    };
 	    const header = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntimeExports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: props.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntimeExports.jsx(Input$1, { label: "Author id:", placeholder: "X-SX-X-XXXXXXX", onChange: props.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntimeExports.jsx(Drop, { onFilesDrop: callbacks.onFilesDrop })] }));
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', width: 'min-content' }, alignInputs: true, children: [jsxRuntimeExports.jsx(Input$1, { label: "BankName:", placeholder: "BankFileName", onChange: props.onBankNameChange, tip: "Bank filename without *.SC2Bank extension", value: props.bankName }), jsxRuntimeExports.jsx(Input$1, { label: "Author id:", placeholder: "X-S2-X-XXXXXXX", onChange: props.onAuthorIdChange, tip: "Author ID from bank's path", value: props.authorID })] }), jsxRuntimeExports.jsx(Drop, { onFilesDrop: callbacks.onFilesDrop })] }));
 	    }, [props.bankName, props.authorID]);
 	    const line = React.useMemo(() => {
 	        return (jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }));
@@ -1544,7 +1565,7 @@
 	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onDownload, children: "Download bank" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onCopy, children: "Copy code" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onReset, children: "Reset" })] }));
 	    }, [props.onDownload, props.onCopy]);
 	    return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', width: 'max-content', height: 'max-content', minWidth: 'max-content', minHeight: 'max-content' }, children: [header, line, props.children, line, buttons] }));
-	};
+	});
 	var Editor$1 = React.memo(Editor);
 
 	const AnySimple = mobxReactLite.observer((props) => {
@@ -3210,7 +3231,7 @@
 	                            }) })] })] }));
 	    }, [store$2.light, store$2.heavy]);
 	    const options = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { children: "Options:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store$2.options.map((param, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { style: { marginTop: '15px' }, children: "Options:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }, alignInputs: true, children: store$2.options.map((param, index) => {
 	                        if (param.hidden)
 	                            return null;
 	                        if (param.type == 'number')
@@ -3381,13 +3402,13 @@
 	            { type: "boolean", value: true, description: 'Fill all talents' },
 	            { type: "boolean", value: true, description: 'Get all challenges' },
 	            { type: "boolean", value: true, description: 'Upgrade all units' },
-	            { type: "number", value: 5000000, description: 'Assassin' },
-	            { type: "number", value: 5000000, description: 'Builder' },
-	            { type: "number", value: 5000000, description: 'Singletarget' },
-	            { type: "number", value: 5000000, description: 'Specialist' },
-	            { type: "number", value: 5000000, description: 'Splash' },
-	            { type: "number", value: 5000000, description: 'Support' },
-	            { type: "number", value: 5000000, description: 'Tank' },
+	            { type: "number", value: 999000000, description: 'Assassin' },
+	            { type: "number", value: 999000000, description: 'Builder' },
+	            { type: "number", value: 999000000, description: 'Singletarget' },
+	            { type: "number", value: 999000000, description: 'Specialist' },
+	            { type: "number", value: 999000000, description: 'Splash' },
+	            { type: "number", value: 999000000, description: 'Support' },
+	            { type: "number", value: 999000000, description: 'Tank' },
 	        ];
 	    }
 	}
@@ -3597,7 +3618,7 @@
 	                                if (param.hidden)
 	                                    return null;
 	                                if (index > 4)
-	                                    return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '66px' }, onChange: callbacks.onFieldChange, max: '99999999', value: param.value.toString() }));
+	                                    return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '72px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
 	                                else
 	                                    return null;
 	                            }) })] })] }));
@@ -3652,6 +3673,7 @@
 	const AudioLoop = (props) => {
 	    const [playing, setPlaying] = React.useState(true);
 	    const audio = new Audio();
+	    audio.autoplay = true;
 	    const playNext = (function () {
 	        const soundPath = 'assets/sound/';
 	        const playlist = [
@@ -3681,12 +3703,12 @@
 	        onPlay: React.useCallback(() => {
 	            setPlaying(true);
 	            audio.play();
-	            rgaEvent("Audio", "Sound ON");
+	            gaEvent("Audio", "Sound ON");
 	        }, []),
 	        onPause: React.useCallback(() => {
 	            setPlaying(false);
 	            audio.pause();
-	            rgaEvent("Audio", "Sound OFF");
+	            gaEvent("Audio", "Sound OFF");
 	        }, [])
 	    };
 	    return (jsxRuntimeExports.jsx(Flex, { style: { width: '30px', height: '23px', padding: '0' }, children: playing ?
@@ -3707,15 +3729,15 @@
 	        }, []),
 	        onHelpClick: React.useCallback(() => {
 	            modalStore.setModal('HELP');
-	            rgaEvent("Menu", "Help");
+	            gaEvent("Menu", "Help");
 	        }, []),
 	        onMapSelect: React.useCallback((value) => {
 	            menuStore.setSelectedMap(parseInt(value));
-	            rgaEvent("Menu", "Select Map", value);
+	            gaEvent("Menu", "Select Map", mapProps.get(parseInt(value)).title);
 	        }, []),
 	        onAutoSaveChange: React.useCallback((value) => {
 	            menuStore.setAutoSave(value);
-	            rgaEvent("Menu", "Autosave Changed");
+	            gaEvent("Menu", "Autosave Changed");
 	        }, []),
 	        onFullReset: React.useCallback(() => {
 	            modalStore.setModal('CONFIRM', 'Are you sure you want to delete all accounts and saved banks from here?', [
@@ -3726,7 +3748,7 @@
 	                    modalStore.reset();
 	                }
 	            ]);
-	            rgaEvent("Menu", "Full Reset");
+	            gaEvent("Menu", "Full Reset");
 	        }, [])
 	    };
 	    const mapList = React.useMemo(() => {
@@ -3746,7 +3768,7 @@
 	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center' }, children: [jsxRuntimeExports.jsx("img", { src: 'assets/sc2.ico', width: '30', height: '30' }), jsxRuntimeExports.jsx(Label$1, { style: { fontSize: '20px' }, children: "Bank Generator" })] }));
 	    }, []);
 	    const top = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [logo, jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }, children: [jsxRuntimeExports.jsx(Input$1, { label: "Player id:", placeholder: "X-SX-X-XXXXXXX", onChange: callbacks.onPlayerIdChange, tip: "Player ID from bank's path", value: menuStore.playerID }), jsxRuntimeExports.jsx(Button$1, { style: btnAccountsStyle, onClick: callbacks.onAccountClick, children: "Accounts" }), jsxRuntimeExports.jsx(Button$1, { style: btnHelpStyle, onClick: callbacks.onHelpClick, children: "Help" }), jsxRuntimeExports.jsx(AudioLoop$1, {})] })] }));
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [logo, jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }, children: [jsxRuntimeExports.jsx(Input$1, { label: "Player id:", placeholder: "X-S2-X-XXXXXXX", onChange: callbacks.onPlayerIdChange, tip: "Player ID from bank's path", value: menuStore.playerID }), jsxRuntimeExports.jsx(Button$1, { style: btnAccountsStyle, onClick: callbacks.onAccountClick, children: "Accounts" }), jsxRuntimeExports.jsx(Button$1, { style: btnHelpStyle, onClick: callbacks.onHelpClick, children: "Help" }), jsxRuntimeExports.jsx(AudioLoop$1, {})] })] }));
 	    }, [menuStore.playerID]);
 	    const line = React.useMemo(() => {
 	        return (jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } }));
@@ -3797,12 +3819,7 @@
 
 	const App = mobxReactLite.observer(() => {
 	    const { modalStore } = useStore();
-	    ReactGA.initialize("G-F9Y8FZ0KFE", {
-	        gtagOptions: {
-	            cookie_flags: 'max-age=7200;Secure=true;SameSite=none'
-	        },
-	        gaOptions: { cookieDomain: 'none' }
-	    });
+	    gaInit();
 	    return (jsxRuntimeExports.jsxs("div", { className: "App", children: [jsxRuntimeExports.jsx(Menu$1, {}), jsxRuntimeExports.jsx(Workspace$1, {}), jsxRuntimeExports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntimeExports.jsx(Help$1, {}), modalStore.current == Modals.WARN && jsxRuntimeExports.jsx(Warn$1, {}), modalStore.current == Modals.ACCOUNTS && jsxRuntimeExports.jsx(Accounts$1, {}), modalStore.current == Modals.CONFIRM && jsxRuntimeExports.jsx(Confirm$1, {}), modalStore.current == Modals.UPDATES && jsxRuntimeExports.jsx(Updates$1, {})] }));
 	});
 	const root = createRoot(document.getElementById('root'));
