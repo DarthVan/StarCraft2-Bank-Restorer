@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Tue, 21 Mar 2023 21:58:22 UTC
+ * Compiled Wed, 22 Mar 2023 09:15:09 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -3819,7 +3819,9 @@
 
 	const App = mobxReactLite.observer(() => {
 	    const { modalStore } = useStore();
-	    gaInit();
+	    React.useEffect(() => {
+	        gaInit();
+	    }, []);
 	    return (jsxRuntimeExports.jsxs("div", { className: "App", children: [jsxRuntimeExports.jsx(Menu$1, {}), jsxRuntimeExports.jsx(Workspace$1, {}), jsxRuntimeExports.jsx(Info$1, {}), modalStore.current == Modals.HELP && jsxRuntimeExports.jsx(Help$1, {}), modalStore.current == Modals.WARN && jsxRuntimeExports.jsx(Warn$1, {}), modalStore.current == Modals.ACCOUNTS && jsxRuntimeExports.jsx(Accounts$1, {}), modalStore.current == Modals.CONFIRM && jsxRuntimeExports.jsx(Confirm$1, {}), modalStore.current == Modals.UPDATES && jsxRuntimeExports.jsx(Updates$1, {})] }));
 	});
 	const root = createRoot(document.getElementById('root'));
