@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Wed, 22 Mar 2023 09:15:09 UTC
+ * Compiled Thu, 23 Mar 2023 21:01:44 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -3402,13 +3402,13 @@
 	            { type: "boolean", value: true, description: 'Fill all talents' },
 	            { type: "boolean", value: true, description: 'Get all challenges' },
 	            { type: "boolean", value: true, description: 'Upgrade all units' },
-	            { type: "number", value: 999000000, description: 'Assassin' },
-	            { type: "number", value: 999000000, description: 'Builder' },
-	            { type: "number", value: 999000000, description: 'Singletarget' },
-	            { type: "number", value: 999000000, description: 'Specialist' },
-	            { type: "number", value: 999000000, description: 'Splash' },
-	            { type: "number", value: 999000000, description: 'Support' },
-	            { type: "number", value: 999000000, description: 'Tank' },
+	            { type: "number", value: 1500000000, description: 'Assassin' },
+	            { type: "number", value: 1500000000, description: 'Builder' },
+	            { type: "number", value: 1500000000, description: 'Singletarget' },
+	            { type: "number", value: 1500000000, description: 'Specialist' },
+	            { type: "number", value: 1500000000, description: 'Splash' },
+	            { type: "number", value: 1500000000, description: 'Support' },
+	            { type: "number", value: 1500000000, description: 'Tank' },
 	        ];
 	    }
 	}
@@ -3550,8 +3550,10 @@
 	    };
 	    React.useEffect(() => {
 	        const fields = mapStore.list[accountStore.current]?.[mapTitle];
-	        if (fields)
-	            store.setFields(fields);
+	        if (fields) {
+	            require$$0.flushSync(() => store.setFields());
+	            setTimeout(() => store.setFields(fields));
+	        }
 	        else
 	            setTimeout(callbacks.onResetClick);
 	    }, [accountStore.current]);
@@ -3618,7 +3620,7 @@
 	                                if (param.hidden)
 	                                    return null;
 	                                if (index > 4)
-	                                    return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '72px' }, onChange: callbacks.onFieldChange, max: '999999999', value: param.value.toString() }));
+	                                    return (jsxRuntimeExports.jsx(Input$1, { label: param.description + ':', index: index, type: 'number', min: '0', style: { width: '80px' }, onChange: callbacks.onFieldChange, max: '1500000000', value: param.value.toString() }));
 	                                else
 	                                    return null;
 	                            }) })] })] }));
