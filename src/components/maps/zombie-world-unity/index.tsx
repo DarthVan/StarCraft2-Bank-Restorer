@@ -42,9 +42,10 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 
 	useEffect((): void => {
 		const fields: MParam[] = mapStore.list[accountStore.current]?.[mapTitle];
-		if (fields)
-			store.setFields(fields);
-		else
+		if (fields) {
+			flushSync((): void => store.setFields());
+			setTimeout((): void => store.setFields(fields));
+		} else
 			setTimeout(callbacks.onResetClick);
 	}, [accountStore.current]);
 
@@ -144,9 +145,9 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 							if (index > 4)
 								return (
 									<Input label={param.description + ':'} index={index} type='number' min='0'
-										style={{ width: '72px' }}
+										style={{ width: '80px' }}
 										onChange={callbacks.onFieldChange}
-										max={'999999999'}
+										max={'1500000000'}
 										value={param.value.toString()}
 									/>
 								);
