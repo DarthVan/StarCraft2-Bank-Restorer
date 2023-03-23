@@ -1,8 +1,8 @@
 /* Generated with TypeScript React snippets */
 
 import { observer } from 'mobx-react-lite';
-import React, { FC } from 'react';
-import { createRoot, Root } from 'react-dom/client';
+import React, { FC, useEffect } from 'react';
+import { Root, createRoot } from 'react-dom/client';
 
 import './App.css';
 import Slideshow from './components/ui/slideshow';
@@ -27,7 +27,9 @@ import { gaInit } from './utils/ga4';
 const App: FC = observer((): JSX.Element => {
 	const { modalStore } = useStore();
 
-	gaInit();
+	useEffect((): void => {
+		gaInit();
+	}, []);
 
 	return (
 		<div className="App">
