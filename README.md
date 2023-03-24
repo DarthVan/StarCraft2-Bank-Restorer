@@ -1,8 +1,8 @@
 <b>StarCraft2 Bank Restorer</b><br/><br/>
-Demo version of simple StarCraft2 custom maps bank restorer :trollface:<br/>
-For people who lost their save and dont want to grind again :)
+Simple StarCraft2 custom maps bank restorer :trollface:<br/>
+For people who lost their save and dont want to grind again :rocket:
 
-https://darthvan.github.io/StarCraft2-Bank-Restorer/<br/>
+:point_right: https://darthvan.github.io/StarCraft2-Bank-Restorer/ :point_left:<br/>
 <img src="./preview.png" alt="preview.png" width="800" />
 
 List of available maps:<br/><b>
