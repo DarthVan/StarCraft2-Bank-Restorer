@@ -1,5 +1,6 @@
 <b>StarCraft2 Bank Restorer</b><br/><br/>
-Demo version of simple StarCraft2 custom maps bank restorer for people who lost their save and dont want to grind again :)
+Demo version of simple StarCraft2 custom maps bank restorer :trollface:<br/>
+For people who lost their save and dont want to grind again :)
 
 https://darthvan.github.io/StarCraft2-Bank-Restorer/<br/>
 <img src="./preview.png" alt="preview.png" width="800" />
@@ -16,6 +17,6 @@ List of available maps:<br/><b>
  </dd>
 </dl></b>
 
-Features: account switcher, saving edited banks in local storage, updates checker, 8bit player ♪
+:balloon: Features: account switcher, saving edited banks in local storage, updates checker, 8bit player ♪
 
 <br/>More maps will come later.
