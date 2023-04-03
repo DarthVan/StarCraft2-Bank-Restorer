@@ -1,11 +1,13 @@
-<b>StarCraft2 Bank Restorer</b><br/><br/>
-Simple StarCraft2 custom maps bank restorer :trollface:<br/>
-For people who lost their save and dont want to grind again :rocket:
+# StarCraft2 Bank Restorer
 
-:point_right: https://darthvan.github.io/StarCraft2-Bank-Restorer/ :point_left:<br/>
-<img src="./preview.png" alt="preview.png" width="800" />
+##### Simple online StarCraft2 bank editor for people who lost their save from a custom map and dont want to farm again 
 
-List of available maps:<br/><b>
+## Demo :rocket: 
+[StarCraft2 Bank Generator Online](https://darthvan.github.io/StarCraft2-Bank-Restorer/ "https://darthvan.github.io/StarCraft2-Bank-Restorer")
+
+<img src="./preview.png" alt="sc2 bank editor" width="800" />
+
+### List of available maps :video_game: 
 <dl>
  <dd>
   Any Simple - text editor for simple banks, that protected with signature only<br/>
@@ -14,9 +16,18 @@ List of available maps:<br/><b>
   Swarm Special Forces<br/>
   Zombie City<br/>
   Zombie World Unity<br/>
+  ###### More maps will come later.
  </dd>
-</dl></b>
+</dl>
 
-:balloon: Features: account switcher, saving edited banks in local storage, updates checker, 8bit player ♪
 
-<br/>More maps will come later.
+
+### Features :balloon:
+<dl>
+ <dd>
+  Account switcher - let you to switch between your accounts with their cached playerHandles and banks<br/>
+  Saving edited banks in local storage - all your edited bank presets are saving into browser's local cache<br/>
+  Updates checker - when new version released, you will get a notify<br/>
+  8Bit player :musical_score:<br/>
+ </dd>
+</dl>
