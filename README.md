@@ -3,7 +3,7 @@
 ##### Simple online StarCraft2 bank editor for people who lost their save from a custom map and dont want to farm again 
 
 ## Demo :rocket: 
-[StarCraft2 Bank Generator Online](https://darthvan.github.io/StarCraft2-Bank-Restorer/ "https://darthvan.github.io/StarCraft2-Bank-Restorer")
+[Online StarCraft2 Bank Generator](https://darthvan.github.io/StarCraft2-Bank-Restorer/ "https://darthvan.github.io/StarCraft2-Bank-Restorer")
 
 <img src="./preview.png" alt="sc2 bank editor" width="800" />
 
