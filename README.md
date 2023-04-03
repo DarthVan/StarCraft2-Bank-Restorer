@@ -16,11 +16,10 @@
   Swarm Special Forces<br/>
   Zombie City<br/>
   Zombie World Unity<br/>
-  ###### More maps will come later.
  </dd>
 </dl>
 
-
+###### More maps will come later.
 
 ### Features :balloon:
 <dl>
