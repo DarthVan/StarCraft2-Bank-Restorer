@@ -1,6 +1,6 @@
 # StarCraft 2 Bank Restorer
 
-##### Simple online StarCraft 2 bank editor for people who lost their save from a custom map and dont want to farm again 
+Simple online StarCraft 2 bank editor for people who lost their save from a custom map and dont want to farm again 
 
 ## Demo :rocket: 
 [StarCraft 2 Bank Generator Online](https://darthvan.github.io/StarCraft2-Bank-Restorer/ "https://darthvan.github.io/StarCraft2-Bank-Restorer")
@@ -17,11 +17,11 @@
 * Zombie World Liberty
 * Zombie World Unity
 
-###### More maps will come later.
+More maps will come later.
 
 ## Features :balloon:
 
-* Account switcher - let you to switch between your accounts with their cached playerHandles and banks
+* Account switcher - let you to switch between your accounts with their cached playerIDs and banks
 * Saving edited banks in local storage - all your edited bank presets are saving into browser's local cache
 * Updates checker - when new version released, you will get a notify
 * 8Bit player :musical_score:
