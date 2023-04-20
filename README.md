@@ -1,4 +1,4 @@
-# StarCraft2 Bank Restorer
+# StarCraft 2 Bank Restorer
 
 ##### Simple online StarCraft 2 bank editor for people who lost their save from a custom map and dont want to farm again 
 
