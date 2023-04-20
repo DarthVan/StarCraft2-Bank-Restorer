@@ -1,19 +1,23 @@
 {
 	"updates": [
 		{
-			"version": "1.03",
+			"version": "1.04 (20.04.2023)",
+			"description": "Added map - Zombie World Liberty\nFixed player id input field for NA and Asian regions\nPlayer improvements"
+		},
+		{
+			"version": "1.03 (22.03.2023)",
 			"description": "Zombie World Unity: increased max values for killz\nSome design improvements"
 		},
 		{
-			"version": "1.02",
+			"version": "1.02 (15.03.2023)",
 			"description": "Added Zombie World Unity\nSome code improvements"
 		},
 		{
-			"version": "1.01",
+			"version": "1.01 (26.10.2022)",
 			"description": "Added Swarm Special Forces\nAdded account switcher\nBank cache improvements\nFixes, optimizations, sounds"
 		},
 		{
-			"version": "1.00",
+			"version": "1.00 (10.10.2022)",
 			"description": "First release"
 		}
 	]

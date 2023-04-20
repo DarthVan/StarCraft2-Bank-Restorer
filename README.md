@@ -1,9 +1,9 @@
 # StarCraft2 Bank Restorer
 
-##### Simple online StarCraft2 bank editor for people who lost their save from a custom map and dont want to farm again 
+##### Simple online StarCraft 2 bank editor for people who lost their save from a custom map and dont want to farm again 
 
 ## Demo :rocket: 
-[Online StarCraft2 Bank Generator](https://darthvan.github.io/StarCraft2-Bank-Restorer/ "https://darthvan.github.io/StarCraft2-Bank-Restorer")
+[StarCraft 2 Bank Generator Online](https://darthvan.github.io/StarCraft2-Bank-Restorer/ "https://darthvan.github.io/StarCraft2-Bank-Restorer")
 
 <img src="./preview.png" alt="sc2 bank editor" width="800" />
 
@@ -14,6 +14,7 @@
 * Runling Run 8
 * Swarm Special Forces
 * Zombie City
+* Zombie World Liberty
 * Zombie World Unity
 
 ###### More maps will come later.
