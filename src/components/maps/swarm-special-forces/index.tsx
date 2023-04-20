@@ -87,7 +87,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (!menuStore.playerID.includes('-S2-')) {
+			if (menuStore.playerID.split('-').length != 4) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
@@ -97,7 +97,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 				save();
 		}, [bank]),
 		onCopyCodeClick: useCallback((): void => {
-			if (!menuStore.playerID.includes('-S2-')) {
+			if (menuStore.playerID.split('-').length != 4) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}

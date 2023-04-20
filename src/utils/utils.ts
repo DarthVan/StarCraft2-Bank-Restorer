@@ -29,7 +29,7 @@ export function dateID(removeSymbols: number = 2): string {
 export function copyTextToClipboard(data: string, log?: boolean): void {
 	window.navigator['clipboard'].writeText(data).then((): void => {
 		if (log)
-			console.log('Copied to clipboard:\n', data);
+			console.log('Copied to clipboard:\n' + data);
 	});
 }
 
@@ -38,5 +38,5 @@ export function downloadTextAsFile(data: string, fileName: string, log?: boolean
 	const blob = new Blob([data], { type: 'application/octet-stream' });
 	filesaver.saveAs(blob, fileName);
 	if (log)
-		console.log('download bank file:', data);
+		console.log('download bank file:' + data);
 }

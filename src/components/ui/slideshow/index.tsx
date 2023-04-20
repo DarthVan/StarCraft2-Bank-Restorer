@@ -25,7 +25,7 @@ const Slideshow: FC<Props> = (props: Props): JSX.Element => {
 	let n: number = 0;
 	const nextBG: (n: number, ref: any, type: string) => number = (n: number, ref: any, type: string): number => {
 		n = type == 'random' ? r(1, TOTAL_BG_PICTURES) : n > TOTAL_BG_PICTURES ? 1 : n + 1;
-		ref.current.style.backgroundImage = "url('./assets/pics/bg" + n + ".jpg')";
+		ref.current.style.backgroundImage = "url('./assets/images/backgrounds/bg" + n + ".jpg')";
 		return n;
 	};
 

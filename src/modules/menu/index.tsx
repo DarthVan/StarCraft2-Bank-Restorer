@@ -77,7 +77,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 	const logo: JSX.Element = useMemo((): JSX.Element => {
 		return (
 			<Flex style={{ flexDirection: 'row', alignItems: 'center' }}>
-				<img src='assets/sc2.ico' width='30' height='30' />
+				<img src='assets/icons/sc2.ico' width='30' height='30' />
 				<Label style={{ fontSize: '20px' }}>Bank Generator</Label>
 			</Flex>
 		);

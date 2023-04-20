@@ -6,11 +6,11 @@ import { flushSync } from "react-dom";
 import Flex from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
 import { Bank } from 'src/core/bank/bank';
-import { SCParam } from 'src/core/scarcode/sc-param';
+import { SCParam } from 'src/core/starcode/sc-param';
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
 import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
-import { mapProps, Maps } from '../Maps';
+import { Maps, mapProps } from '../Maps';
 import functions from "./functions";
 import store from "./store";
 
@@ -89,8 +89,11 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 			<Flex style={{ flexDirection: 'column' }} alignInputs={true}>
 				{store.queue.map((param: SCParam, index: number): any => {
 					return (
-						<Input label={param.description + ':'} index={index} type='number' min='0'
+						<Input index={index} type='number'
+							style={{ width: '80px' }}
+							label={param.description + ':'}
 							onChange={callbacks.onFieldChange}
+							min='0'
 							max={param.max.toString()}
 							value={param.current.toString()}
 						/>

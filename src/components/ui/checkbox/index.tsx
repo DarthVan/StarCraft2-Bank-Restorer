@@ -17,6 +17,7 @@ interface Props {
 	value?: boolean;
 	index?: number;
 	group?: string;
+	tip?: string;
 }
 
 const Checkbox: FC<Props> = (props: Props): JSX.Element => {
@@ -37,7 +38,7 @@ const Checkbox: FC<Props> = (props: Props): JSX.Element => {
 	}, []);
 
 	return (
-		<div className='Checkbox'>
+		<div className='Checkbox' data-tooltip={props.tip}>
 			{props.label ? <Label for={id}>{props.label}</Label> : null}
 			<input
 				className='Checkbox-rect'

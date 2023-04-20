@@ -17,7 +17,7 @@ interface Props {
 	min?: string;
 	max?: string;
 	step?: string;
-	pattern?: string;
+	//pattern?: string;
 	style?: CSSProperties;
 	label?: string;
 	placeholder?: string;
@@ -29,7 +29,7 @@ interface Props {
 const Input: FC<Props> = (props: Props): JSX.Element => {
 	const ref = useRef<null | HTMLDivElement>(null);
 	const type: string = props.type ? props.type : 'text';
-	const pattern: string = props.pattern ? props.pattern : '^[-\d]\d*$';
+	//const pattern: string = props.pattern ? props.pattern : '^[-\d]\d*$';
 
 	// todo: generate unique id via utils?
 	const id: string = useMemo((): string => {
@@ -45,9 +45,11 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 		const value: string = type == 'text' ? e.target.value : checkOnRange(e.target.value);
 		setValue(value);
 		props.onChange(value, props.index, props.group);
-	}, []);
+	}, [props.min, props.max]); // needs for update 'checkOnRange' method
 
 	const checkOnRange: (value: string) => string = (value: string): string => {
+		if (!value)
+			return props.min ? props.min : '';
 		let intValue: number = value ? parseInt(value) : 0;
 		const minInt: number = props.min ? parseInt(props.min) : 0;
 		const maxInt: number = props.max ? parseInt(props.max) : 999999999;
@@ -58,8 +60,8 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 		return intValue.toString();
 	}
 
-	const intRx: RegExp = /\d/;
-	const integerChange: (e: any) => void = (e: any): void => {
+	const intRx: RegExp = /^-?\d+\.?\d*$/; // /\d$/;
+	const onKeyDown: (e: any) => void = (e: any): void => {
 		//console.log(e.key);
 		if (intRx.test(e.key) || e.key == 'Backspace')
 			return;
@@ -69,10 +71,10 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 	useEffect((): (() => void) => {
 		const input: HTMLDivElement = ref?.current;
 		if (type == 'number')
-			input.addEventListener("keydown", integerChange);
+			input.addEventListener("keydown", onKeyDown);
 
 		return (): void => {
-			input?.removeEventListener("keydown", integerChange);
+			input?.removeEventListener("keydown", onKeyDown);
 		}
 	}, []);
 
@@ -88,7 +90,7 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 				max={props.max}
 				step={props.step} */
 				placeholder={props.placeholder}
-				pattern={pattern}
+				/* pattern={pattern} */
 				value={value}
 				onChange={onChange}>
 			</input>

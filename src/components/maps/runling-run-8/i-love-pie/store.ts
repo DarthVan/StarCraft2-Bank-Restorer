@@ -1,6 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { SCParam } from "src/core/scarcode/sc-param";
+import { SCParam } from "src/core/starcode/sc-param";
 import { BasicStore } from "src/store/BasicStore";
 
 /** Store **

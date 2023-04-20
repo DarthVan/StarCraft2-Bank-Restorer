@@ -1,8 +1,8 @@
 /* Generated with TypeScript snippets */
 
 import { Bank } from "src/core/bank/bank";
-import { SCParam } from "src/core/scarcode/sc-param";
-import sc from 'src/core/scarcode/sc-service';
+import { SCParam } from "src/core/starcode/sc-param";
+import sc from 'src/core/starcode/sc-service';
 import store from "./store";
 
 /** Functions **

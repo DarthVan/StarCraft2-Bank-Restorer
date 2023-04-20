@@ -8,11 +8,11 @@ import Container from 'src/components/ui/container';
 import Input from 'src/components/ui/input';
 import Select from 'src/components/ui/select';
 import { Bank } from 'src/core/bank/bank';
-import { SCParam } from 'src/core/scarcode/sc-param';
+import { SCParam } from 'src/core/starcode/sc-param';
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
 import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
-import { mapProps, Maps } from '../../Maps';
+import { Maps, mapProps } from '../../Maps';
 import functions from "./functions";
 import store from "./store";
 
@@ -82,7 +82,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (!menuStore.playerID.includes('-S2-')) {
+			if (menuStore.playerID.split('-').length != 4) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}
@@ -91,7 +91,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 				save();
 		}, [bank]), // зависит от хмля банка
 		onCopyCodeClick: useCallback((): void => {
-			if (!menuStore.playerID.includes('-S2-')) {
+			if (menuStore.playerID.split('-').length != 4) {
 				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
 				return;
 			}

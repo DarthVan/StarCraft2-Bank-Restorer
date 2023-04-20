@@ -45,7 +45,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 				Some banks are verified with a signature that requires the player id and map author id to generate.
 				They are in the path to the file:<br /><br /><br />
 			</Text>
-			<img src="./assets/help.png" alt="help.png" width={629} height={191} style={{ alignSelf: 'center' }} />
+			<img src="./assets/images/help.png" alt="help.png" width={629} height={191} style={{ alignSelf: 'center' }} />
 			<Text style={{ alignSelf: 'center' }}>Variables for Generator<br /><br /><br /></Text>
 			<Text>
 				Usually the file name and author id are entered automatically, you don't need to change them unless you have to.

@@ -14,6 +14,7 @@ export class MenuStore extends BasicStore {
 	public playerID: string;
 	public selectedMap: number;
 	public autoSave: boolean;
+	public sounds: boolean;
 
 	public override reset(): void {
 		localStorage.removeItem("PlayerID");
@@ -23,7 +24,10 @@ export class MenuStore extends BasicStore {
 		this.selectedMap = 0;
 
 		localStorage.removeItem("AutoSave");
-		this.autoSave = false;
+		this.autoSave = true;
+
+		localStorage.removeItem("Sounds");
+		this.sounds = true;
 	}
 
 	public setPlayerID(value: string): void {
@@ -42,6 +46,11 @@ export class MenuStore extends BasicStore {
 		localStorage.setItem("AutoSave", value ? 'true' : 'false');
 	}
 
+	public setSounds(value: boolean): void {
+		this.sounds = value;
+		localStorage.setItem("Sounds", value ? 'true' : 'false');
+	}
+
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
 	protected override init(): void {
@@ -49,7 +58,9 @@ export class MenuStore extends BasicStore {
 		this.playerID = localStorage.getItem("PlayerID") || '';
 		this.selectedMap = parseInt(localStorage.getItem("SelectedMap")) || 0;
 
-		this.autoSave = localStorage.getItem("AutoSave") == 'true' || false;
+		// Enabled by default
+		this.autoSave = localStorage.getItem("AutoSave") == 'false' ? false : true;
+		this.sounds = localStorage.getItem("Sounds") == 'false' ? false : true;
 
 	}
 }

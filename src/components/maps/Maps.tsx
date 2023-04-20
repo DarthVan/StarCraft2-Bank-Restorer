@@ -1,12 +1,13 @@
 /* Generated with TypeScript snippets */
 
-import Editor from "src/modules/editor";
+import Text from "../ui/text";
 import AnySimple from "./any-simple";
 import RunlingRun4 from "./runling-run-4";
 import RunlingRun8ilovePie from "./runling-run-8/i-love-pie";
 import RunlingRun8Prestige from "./runling-run-8/prestige";
 import SwarmSpecialForces from "./swarm-special-forces";
 import ZombieCity from "./zombie-city";
+import ZombieWorldLiberty from "./zombie-world-liberty";
 import ZombieWorldUnity from "./zombie-world-unity";
 
 /** Maps **
@@ -17,18 +18,25 @@ import ZombieWorldUnity from "./zombie-world-unity";
 
 export enum Maps {
 
+	NONE,
 	ANY_SIMPLE,
 	RUNLING_RUN_4,
 	RUNLING_RUN_8,
 	SWARM_SCPECIAL_FORCES,
 	ZOMBIE_CITY,
+	ZOMBIE_WORLD_LIBERTY,
 	ZOMBIE_WORLD_UNITY,
-	STAR_CODE_LAB,
 
 }
 
 export const mapProps: Map<number, { title: string, authorID: string, forms: JSX.Element[] }> =
 	new Map<number, { title: string, authorID: string, forms: JSX.Element[] }>([
+
+		[Maps.NONE, {
+			title: 'None',
+			authorID: '',
+			forms: [<Text style={{ display: "block", fontSize: '80px', margin: '60px 100px', fontStyle: 'italic', color: '#CCCCFF77' }}>Select map</Text>]
+		}],
 
 		[Maps.ANY_SIMPLE, {
 			title: 'Any Simple Map',
@@ -60,16 +68,16 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 			forms: [<ZombieCity bankName='AMMMAAKDAS39349' />]
 		}],
 
+		[Maps.ZOMBIE_WORLD_LIBERTY, {
+			title: 'Zombie World Liberty',
+			authorID: '2-S2-1-7593740',
+			forms: [<ZombieWorldLiberty bankName='DirectStrike'></ZombieWorldLiberty>]
+		}],
+
 		[Maps.ZOMBIE_WORLD_UNITY, {
 			title: 'Zombie World Unity',
 			authorID: '2-S2-1-7593740',
 			forms: [<ZombieWorldUnity bankName='zombieworldu'></ZombieWorldUnity>]
 		}],
-
-		/* [Maps.STAR_CODE_LAB, {
-			title: 'Star Code Lab (PRO only)',
-			authorID: '',
-			forms: [<Editor></Editor>]
-		}] */
 
 	]);

@@ -11,7 +11,7 @@ import { Bank } from "src/core/bank/bank";
 import { useStore } from 'src/hooks/use-store';
 import Editor from 'src/modules/editor';
 import { copyTextToClipboard, downloadTextAsFile } from 'src/utils/utils';
-import { mapProps, Maps } from '../Maps';
+import { Maps, mapProps } from '../Maps';
 
 /** AnySimple **
 * ...
@@ -68,14 +68,14 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 			setSXML(bank.getAsString());
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (!menuStore.playerID.includes('-S2-') || !authorID.includes('-S2-') || bankName.length < 1)
+			if (menuStore.playerID.split('-').length != 4 || authorID.split('-').length != 4 || bankName.length < 1)
 				modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
 			downloadTextAsFile(sxml, bankName + '.SC2Bank', true)
 			if (!menuStore.autoSave)
 				save();
 		}, [bank, sxml]),
 		onCopyCodeClick: useCallback((): void => {
-			if (!menuStore.playerID.includes('-S2-') || !authorID.includes('-S2-') || bankName.length < 1)
+			if (menuStore.playerID.split('-').length != 4 || authorID.split('-').length != 4 || bankName.length < 1)
 				modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
 			copyTextToClipboard(sxml, true);
 			if (!menuStore.autoSave)

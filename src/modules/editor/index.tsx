@@ -58,7 +58,7 @@ const Editor: FC<Props> = observer((props: Props): JSX.Element => {
 	const header: JSX.Element = useMemo((): JSX.Element => {
 		return (
 			<Flex style={{ flexDirection: 'row' }}>
-				<Flex style={{ flexDirection: 'column', width: 'min-content' }} alignInputs={true}>
+				<Flex style={{ flexDirection: 'column', width: '250px' }} alignInputs={true}>
 					<Input label="BankName:" placeholder="BankFileName" onChange={props.onBankNameChange} tip="Bank filename without *.SC2Bank extension" value={props.bankName} />
 					<Input label="Author id:" placeholder="X-S2-X-XXXXXXX" onChange={props.onAuthorIdChange} tip="Author ID from bank's path" value={props.authorID} />
 				</Flex>

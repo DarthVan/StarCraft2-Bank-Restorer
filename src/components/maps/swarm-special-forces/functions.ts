@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import { Bank } from "src/core/bank/bank";
-import starcode from "src/core/scarcode/starcode";
+import starcode from "src/core/starcode/starcode";
 import { n2t, r, t2n } from "src/utils/utils";
 import { MParam } from "../MParam";
 import storage from "./SSFStorage";
