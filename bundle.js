@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Thu, 20 Apr 2023 08:02:29 UTC
+ * Compiled Fri, 21 Apr 2023 06:54:41 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -3383,6 +3383,8 @@
 	var ZombieCity = React.memo(ZombieCityForm);
 
 	function gsSqrt(value) {
+	    while (value > 1048576)
+	        value -= 1048576;
 	    let a = Math.pow(Math.floor(value * 4096) / 4096, 0.5);
 	    return Math.floor(a * 4096) / 4096;
 	}
@@ -3523,6 +3525,26 @@
 	                speed: 125,
 	                unique: 5,
 	                upgrade: 0
+	            },
+	            {
+	                type: 11,
+	                minerals: 1250,
+	                damage: -5000,
+	                life: 125,
+	                armor: 125,
+	                speed: -1000,
+	                unique: 0,
+	                upgrade: -200
+	            },
+	            {
+	                type: 11,
+	                minerals: 1250,
+	                damage: -5000,
+	                life: 125,
+	                armor: 125,
+	                speed: -1000,
+	                unique: 0,
+	                upgrade: -200
 	            }
 	        ];
 	    }
