@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Fri, 21 Apr 2023 06:54:41 UTC
+ * Compiled Fri, 21 Apr 2023 22:28:27 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -3382,11 +3382,14 @@
 	});
 	var ZombieCity = React.memo(ZombieCityForm);
 
-	function gsSqrt(value) {
-	    while (value > 1048576)
-	        value -= 1048576;
-	    let a = Math.pow(Math.floor(value * 4096) / 4096, 0.5);
-	    return Math.floor(a * 4096) / 4096;
+	function gsSqrt(value, type) {
+	    if (type == 'int') {
+	        return Math.ceil(Math.sqrt(value));
+	    }
+	    else {
+	        value = value % 1048576.2;
+	        return Math.floor(Math.sqrt(value) * 100) / 100;
+	    }
 	}
 	function gsPow(a, b) {
 	    return Math.floor(Math.pow(a, b) * 100) / 100;
@@ -3419,6 +3422,15 @@
 	    }
 	    clearJewels() {
 	        this.jewels = [];
+	    }
+	    selectAllHero() {
+	        const active = this.heroes[1].active;
+	        const heroes = [...this.heroes];
+	        heroes.forEach((hero, index) => {
+	            heroes[index] = { ...hero };
+	            heroes[index].active = !active;
+	        });
+	        this.heroes = [...heroes];
 	    }
 	    updateAt(field, index, value, mutation) {
 	        if (mutation) {
@@ -3460,20 +3472,20 @@
 	    }
 	    init() {
 	        this.stats = [
-	            { type: "number", value: 1000000, description: 'Total Kills' },
+	            { type: "number", value: 1500000000, description: 'Total Kills' },
 	            { type: "number", value: 8, description: 'Best Solo' },
 	            { type: "number", value: 1000, description: 'Jewel Dust' },
 	            { type: "number", value: 300, description: 'Skip Wave At' }
 	        ];
 	        this.heroes = [
-	            { active: true, name: 'Sniper', type: 1, kills: 10000, level: 20, prestige: 16 },
-	            { active: true, name: 'Adept', type: 2, kills: 10000, level: 20, prestige: 16 },
-	            { active: false, name: 'Zeloat', type: 3, kills: 10000, level: 20, prestige: 16 },
-	            { active: false, name: 'Archon', type: 4, kills: 10000, level: 20, prestige: 16 },
-	            { active: false, name: 'Marine', type: 5, kills: 10000, level: 20, prestige: 16 },
-	            { active: false, name: 'Medic', type: 6, kills: 10000, level: 20, prestige: 16 },
-	            { active: false, name: 'Probe', type: 7, kills: 10000, level: 20, prestige: 16 },
-	            { active: false, name: 'Dark Templar', type: 8, kills: 10000, level: 20, prestige: 16 }
+	            { active: true, name: 'Sniper', type: 1, kills: 5000, level: 20, prestige: 16 },
+	            { active: true, name: 'Adept', type: 2, kills: 5000, level: 20, prestige: 16 },
+	            { active: false, name: 'Zeloat', type: 3, kills: 5000, level: 20, prestige: 16 },
+	            { active: false, name: 'Archon', type: 4, kills: 5000, level: 20, prestige: 16 },
+	            { active: false, name: 'Marine', type: 5, kills: 5000, level: 20, prestige: 16 },
+	            { active: false, name: 'Medic', type: 6, kills: 5000, level: 20, prestige: 16 },
+	            { active: false, name: 'Probe', type: 7, kills: 5000, level: 20, prestige: 16 },
+	            { active: false, name: 'Dark Templar', type: 8, kills: 5000, level: 20, prestige: 16 }
 	        ];
 	        this.jewels = [
 	            {
@@ -3560,11 +3572,13 @@
 	        const killz = store$1.stats[0].value;
 	        bank.addKey("Primary", 'INT', killz, "Primary");
 	        const pd_8_11 = parseInt(bank.info.playerID.substring(7, 11));
-	        bank.addKey("Version", 'FIXED', gsDivide(gsSqrt(killz), pd_8_11 + 1), "Version");
-	        const bestSolo = store$1.stats[1].value;
-	        bank.addKey("BS", 'INT', bestSolo, "Primary");
-	        const pd_10_11 = parseInt(bank.info.playerID.substring(9, 11));
-	        bank.addKey("BC", 'FIXED', gsDivide(gsPow(bestSolo, 2), pd_10_11 + 1), "Primary");
+	        bank.addKey("Version", 'FIXED', gsDivide(gsSqrt(killz, 'fixed'), pd_8_11 + 1), "Version");
+	        if (store$1.stats[1].value > 0) {
+	            const bestSolo = store$1.stats[1].value;
+	            bank.addKey("BS", 'INT', bestSolo, "Primary");
+	            const pd_10_11 = parseInt(bank.info.playerID.substring(9, 11));
+	            bank.addKey("BC", 'FIXED', gsDivide(gsPow(bestSolo, 2), pd_10_11 + 1), "Primary");
+	        }
 	        const dust = store$1.stats[2].value;
 	        bank.addKey("Ratio", 'INT', dust * 13, "Settings");
 	        let dustSoulsSum = dust * 10;
@@ -3573,36 +3587,37 @@
 	        let intComb = 0;
 	        const totalHeroes = store$1.heroes.length;
 	        for (let i = 0; i < totalHeroes; i++) {
-	            const index = store$1.heroes[i].type;
-	            if (!store$1.heroes[i].active && i > 0)
+	            const hero = store$1.heroes[i];
+	            if (!hero.active && i > 0)
 	                continue;
+	            const index = hero.type;
 	            bank.addKey("H" + index, 'FLAG', true, "Purchases");
-	            bank.addKey("H" + index + "K", 'INT', store$1.heroes[i].kills, "Primary");
-	            bank.addKey("H" + index + "L", 'INT', store$1.heroes[i].level, "Primary");
-	            bank.addKey("H" + index + "P", 'INT', store$1.heroes[i].prestige, "Primary");
+	            bank.addKey("H" + index + "K", 'INT', hero.kills, "Primary");
+	            bank.addKey("H" + index + "L", 'INT', hero.level, "Primary");
+	            bank.addKey("H" + index + "P", 'INT', hero.prestige, "Primary");
 	            intComb += (index * (index + 1));
-	            combined += store$1.heroes[i].kills;
-	            combined += store$1.heroes[i].level - 1;
-	            combined += store$1.heroes[i].prestige;
+	            combined += hero.kills;
+	            combined += hero.level - 1;
+	            combined += hero.prestige;
 	        }
-	        bank.addKey("Previous", 'FIXED', gsDivide(gsSqrt(combined), pd_8_11 + 2), "Version");
+	        bank.addKey("Previous", 'FIXED', gsDivide(gsSqrt(combined, 'fixed'), pd_8_11 + 2), "Version");
 	        const pd_8_10 = parseInt(bank.info.playerID.substring(7, 10));
-	        bank.addKey("Upcoming", 'FIXED', gsDivide(gsSqrt(intComb), pd_8_10 + 3.25), "Version");
+	        bank.addKey("Upcoming", 'FIXED', gsDivide(gsSqrt(intComb, 'int'), pd_8_10 + 3.25), "Version");
 	        const totalJewels = store$1.jewels.length;
 	        for (let i = 0; i < totalJewels; i++) {
-	            const jew = store$1.jewels[i];
-	            bank.addKey("Soul" + (i + 1), 'INT', jew.type, "SoulType");
-	            bank.addKey("Soul" + (i + 1) + "Stat1", 'FIXED', jew.minerals, "SoulStat");
-	            bank.addKey("Soul" + (i + 1) + "Stat2", 'FIXED', jew.damage, "SoulStat");
-	            bank.addKey("Soul" + (i + 1) + "Stat3", 'FIXED', jew.life, "SoulStat");
-	            bank.addKey("Soul" + (i + 1) + "Stat4", 'FIXED', jew.armor, "SoulStat");
-	            bank.addKey("Soul" + (i + 1) + "Stat5", 'FIXED', jew.speed, "SoulStat");
-	            bank.addKey("Soul" + (i + 1) + "Stat6", 'FIXED', jew.unique, "SoulStat");
-	            bank.addKey("Soul" + (i + 1) + "Stat7", 'FIXED', jew.upgrade, "SoulStat");
-	            dustSoulsSum += jew.minerals + jew.damage + jew.life + jew.armor + jew.speed + jew.unique + jew.upgrade;
+	            const jewel = store$1.jewels[i];
+	            bank.addKey("Soul" + (i + 1), 'INT', jewel.type, "SoulType");
+	            bank.addKey("Soul" + (i + 1) + "Stat1", 'FIXED', jewel.minerals, "SoulStat");
+	            bank.addKey("Soul" + (i + 1) + "Stat2", 'FIXED', jewel.damage, "SoulStat");
+	            bank.addKey("Soul" + (i + 1) + "Stat3", 'FIXED', jewel.life, "SoulStat");
+	            bank.addKey("Soul" + (i + 1) + "Stat4", 'FIXED', jewel.armor, "SoulStat");
+	            bank.addKey("Soul" + (i + 1) + "Stat5", 'FIXED', jewel.speed, "SoulStat");
+	            bank.addKey("Soul" + (i + 1) + "Stat6", 'FIXED', jewel.unique, "SoulStat");
+	            bank.addKey("Soul" + (i + 1) + "Stat7", 'FIXED', jewel.upgrade, "SoulStat");
+	            dustSoulsSum += jewel.minerals + jewel.damage + jewel.life + jewel.armor + jewel.speed + jewel.unique + jewel.upgrade;
 	        }
 	        const pd_9_11 = parseInt(bank.info.playerID.substring(8, 11));
-	        const time = gsDivide(gsSqrt(dustSoulsSum), pd_9_11 + gsSqrt(dustSoulsSum) + 1);
+	        const time = gsDivide(gsSqrt(dustSoulsSum, 'fixed'), pd_9_11 + gsSqrt(dustSoulsSum, 'fixed') + 1);
 	        bank.addKey("Time", 'FIXED', time, "TimePlayed");
 	        bank.sort();
 	        bank.updateSignature();
@@ -3673,6 +3688,7 @@
 	    }
 	    getDifficultTypes() {
 	        return [
+	            { value: '0', label: 'None' },
 	            { value: '1', label: 'Easy' },
 	            { value: '2', label: 'Normal' },
 	            { value: '3', label: 'Hard' },
@@ -3683,25 +3699,6 @@
 	            { value: '8', label: 'Torture' },
 	            { value: '9', label: 'Inferno' }
 	        ];
-	    }
-	    getHeroTypes() {
-	        const array = [
-	            { value: '1', label: 'Sniper' },
-	            { value: '2', label: 'Adept' },
-	            { value: '3', label: 'Zeloat' },
-	            { value: '4', label: 'Archon' },
-	            { value: '5', label: 'Marine' },
-	            { value: '6', label: 'Medic' },
-	            { value: '7', label: 'Probe' },
-	            { value: '8', label: 'Dark Templar' },
-	            { value: '9', label: '?' }
-	        ];
-	        const length = store$1.heroes.length;
-	        for (let i = 0; i < length; i++)
-	            array.filter((current) => {
-	                return store$1.heroes[i].type.toString() == current.value ? true : false;
-	            });
-	        return array;
 	    }
 	};
 	var functions$1 = new Functions$1();
@@ -3786,9 +3783,13 @@
 	                save();
 	        }, []),
 	        onHeroChange: React.useCallback((value, i, key) => {
-	            store$1.updateAt('heroes', { i, key }, key == 'active' ? value : parseInt(value), true);
+	            const mutation = key == 'active' ? false : true;
+	            store$1.updateAt('heroes', { i, key }, key == 'active' ? value : parseInt(value), mutation);
 	            if (menuStore.autoSave)
 	                save();
+	        }, []),
+	        onAllHeroSelect: React.useCallback(() => {
+	            store$1.selectAllHero();
 	        }, []),
 	        onJewelAdd: React.useCallback(() => {
 	            store$1.addJewel();
@@ -3819,16 +3820,16 @@
 	                    }) })] }));
 	    }, [store$1.stats]);
 	    const heroes = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Label$1, { style: { paddingTop: '24px' }, children: "Heroes:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }, children: store$1.heroes.map((hero, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center', paddingTop: '24px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Heroes:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onAllHeroSelect, children: "Select all" }) })] }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }, children: store$1.heroes.map((hero, index) => {
 	                        return jsxRuntimeExports.jsx(Hero, { hero: hero, onChange: callbacks.onHeroChange, index: index });
 	                    }) })] }));
 	    }, [store$1.heroes]);
 	    const Jewels = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { paddingTop: '5px' }, children: "Jewels:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' } }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onJewelAdd, children: "Add" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onJewelsClear, children: "Clear" })] }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '600px', height: '508px', overflowY: 'auto' }, children: store$1.jewels.map((jewel, index) => {
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { paddingTop: '5px' }, children: "Jewels:" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: [jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onJewelAdd, children: "Add" }), jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onJewelsClear, children: "Clear" })] })] }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '600px', height: '508px', overflowY: 'auto' }, children: store$1.jewels.map((jewel, index) => {
 	                        return jsxRuntimeExports.jsx(Jewel, { jewel: jewel, index: index, onChange: callbacks.onJewelChange, onRemove: callbacks.onJewelRemove });
 	                    }) })] }));
 	    }, [store$1.jewels]);
-	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Note: avoid to use big values in killz, bestSolo, and e.t.c.", jsxRuntimeExports.jsx("br", {}), "The map works bad with them and can reset even legit stats."] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [stats, heroes] }), Jewels] })] }) }));
+	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Note: avoid to set Inferno for BestSolo, it can be bugged.", jsxRuntimeExports.jsx("br", {}), "Also try different combinations if your stats reset."] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [stats, heroes] }), Jewels] })] }) }));
 	});
 	var ZombieWorldLiberty = React.memo(ZWLForm);
 
