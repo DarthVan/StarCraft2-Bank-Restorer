@@ -97,9 +97,13 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 				save();
 		}, []),
 		onHeroChange: useCallback((value: string | boolean, i: number, key: any): void => {
-			store.updateAt('heroes', { i, key }, key == 'active' ? value as boolean : parseInt(value as string), true);
+			const mutation: boolean = key == 'active' ? false : true;
+			store.updateAt('heroes', { i, key }, key == 'active' ? value as boolean : parseInt(value as string), mutation);
 			if (menuStore.autoSave)
 				save();
+		}, []),
+		onAllHeroSelect: useCallback((): void => {
+			store.selectAllHero();
 		}, []),
 		onJewelAdd: useCallback((): void => {
 			store.addJewel();
@@ -153,7 +157,13 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 	const heroes: JSX.Element = useMemo((): JSX.Element => {
 		return (
 			<>
-				<Label style={{ paddingTop: '24px' }}>Heroes:</Label>
+				<Container style={{ flexDirection: 'row', alignItems: 'center', paddingTop: '20px' }}>
+					<Label>Heroes:</Label>
+					<Container style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+						<Button onClick={callbacks.onAllHeroSelect}>Select all</Button>
+					</Container>
+				</Container>
+
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }}>
 					{store.heroes.map((hero, index: number): JSX.Element => {
 						return <Hero hero={hero} onChange={callbacks.onHeroChange} index={index} />
@@ -169,9 +179,10 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 
 				<Container style={{ flexDirection: 'row', alignItems: 'center' }}>
 					<Label style={{ paddingTop: '5px' }}>Jewels:</Label>
-					<Container style={{ flexDirection: 'row', justifyContent: 'flex-end' }}></Container>
-					<Button onClick={callbacks.onJewelAdd}>Add</Button>
-					<Button onClick={callbacks.onJewelsClear}>Clear</Button>
+					<Container style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+						<Button onClick={callbacks.onJewelAdd}>Add</Button>
+						<Button onClick={callbacks.onJewelsClear}>Clear</Button>
+					</Container>
 				</Container>
 
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '600px', height: '508px', overflowY: 'auto' }}>
@@ -196,7 +207,7 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 			onReset={callbacks.onResetClick}
 		>
 			<>
-				<Text>Note: avoid to use big values in killz, bestSolo, and e.t.c.<br />The map works bad with them and can reset even legit stats.</Text>
+				<Text>Note: The map is still in beta. Some combinations can be bugged!</Text>
 				<Container style={{ flexDirection: 'row' }}>
 					<Container style={{ flexDirection: 'column' }}>
 						{stats}

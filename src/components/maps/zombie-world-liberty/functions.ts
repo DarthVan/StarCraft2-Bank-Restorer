@@ -2,7 +2,7 @@
 
 import { Bank } from "src/core/bank/bank";
 import { BankKey } from "src/core/bank/bank-key";
-import { gsDivide, gsPow, gsSqrt } from "src/core/galaxy/math";
+import { sc2_div, sc2_fstr, sc2_pow, sc2_sqrt } from "src/core/sc2/core";
 import { MParam } from "../MParam";
 import store from "./store";
 
@@ -22,21 +22,20 @@ class Functions {
 		bank.removeSection("SoulStat");
 		bank.removeSection("SoulType");
 
-		// Purchases
-		// bank.addKey("HeroRank" + lp_hero, 'INT', heroRank, "Purchases");
-
 		// 1. stats:
 		const killz: number = store.stats[0].value as number;
 		bank.addKey("Primary", 'INT', killz, "Primary");
 
 		const pd_8_11: number = parseInt(bank.info.playerID.substring(7, 11));
-		bank.addKey("Version", 'FIXED', gsDivide(gsSqrt(killz), pd_8_11 + 1), "Version");
+		bank.addKey("Version", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(killz), pd_8_11 + 1)), "Version");
 
-		const bestSolo: number = store.stats[1].value as number;
-		bank.addKey("BS", 'INT', bestSolo, "Primary");
+		if (store.stats[1].value as number > 0) {
+			const bestSolo: number = store.stats[1].value as number;
+			bank.addKey("BS", 'INT', bestSolo, "Primary");
 
-		const pd_10_11: number = parseInt(bank.info.playerID.substring(9, 11));
-		bank.addKey("BC", 'FIXED', gsDivide(gsPow(bestSolo, 2), pd_10_11 + 1), "Primary");
+			const pd_10_11: number = parseInt(bank.info.playerID.substring(9, 11));
+			bank.addKey("BC", 'FIXED', sc2_fstr(sc2_div(sc2_pow(bestSolo, 2), pd_10_11 + 1)), "Primary");
+		}
 
 		const dust: number = store.stats[2].value as number;
 		bank.addKey("Ratio", 'INT', dust * 13, "Settings");
@@ -44,163 +43,55 @@ class Functions {
 
 		bank.addKey("skipwavethreshold", 'INT', store.stats[3].value, "Settings");
 
-
 		// 2. heroes:
 		let combined: number = 0;
 		let intComb: number = 0;
 		const totalHeroes: number = store.heroes.length; // 9 max
 		for (let i: number = 0; i < totalHeroes; i++) {
-			const index: number = store.heroes[i].type; // 1,2,3...8
-
-			if (!store.heroes[i].active && i > 0)
+			const hero = store.heroes[i];
+			if (!hero.active && i > 0)
 				continue;
+
+			const index: number = hero.type; // 1,2,3...8
 
 			bank.addKey("H" + index, 'FLAG', true, "Purchases");
 
-			bank.addKey("H" + index + "K", 'INT', store.heroes[i].kills, "Primary");
-			bank.addKey("H" + index + "L", 'INT', store.heroes[i].level, "Primary");
-			bank.addKey("H" + index + "P", 'INT', store.heroes[i].prestige, "Primary");
+			bank.addKey("H" + index + "K", 'INT', hero.kills, "Primary");
+			bank.addKey("H" + index + "L", 'INT', hero.level, "Primary");
+			bank.addKey("H" + index + "P", 'INT', hero.prestige, "Primary");
 
-			intComb += (index * (index + 1)); // ?
-			combined += store.heroes[i].kills;
-			combined += store.heroes[i].level - 1;
-			combined += store.heroes[i].prestige;
+			intComb += (index * (index + 1));
+			combined += hero.kills;
+			combined += hero.level - 1;
+			combined += hero.prestige;
 		}
-		//bank.addKey("H0K", 'INT', 0, "Primary");
 
-		bank.addKey("Previous", 'FIXED', gsDivide(gsSqrt(combined), pd_8_11 + 2), "Version");
+		bank.addKey("Previous", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(combined), pd_8_11 + 2)), "Version");
 
 		const pd_8_10: number = parseInt(bank.info.playerID.substring(7, 10));
-		bank.addKey("Upcoming", 'FIXED', gsDivide(gsSqrt(intComb), pd_8_10 + 3.25), "Version");
-
+		bank.addKey("Upcoming", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(intComb), pd_8_10 + 3.25)), "Version");
 
 		// 3. jewels
 		const totalJewels: number = store.jewels.length; // 100 max
 		for (let i: number = 0; i < totalJewels; i++) {
-			const jew = store.jewels[i];
+			const jewel = store.jewels[i];
 
-			bank.addKey("Soul" + (i + 1), 'INT', jew.type, "SoulType"); // 1 - 12
+			bank.addKey("Soul" + (i + 1), 'INT', jewel.type, "SoulType"); // 1 - 12
 
-			bank.addKey("Soul" + (i + 1) + "Stat1", 'FIXED', jew.minerals, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat2", 'FIXED', jew.damage, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat3", 'FIXED', jew.life, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat4", 'FIXED', jew.armor, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat5", 'FIXED', jew.speed, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat6", 'FIXED', jew.unique, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat7", 'FIXED', jew.upgrade, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat1", 'FIXED', jewel.minerals, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat2", 'FIXED', jewel.damage, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat3", 'FIXED', jewel.life, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat4", 'FIXED', jewel.armor, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat5", 'FIXED', jewel.speed, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat6", 'FIXED', jewel.unique, "SoulStat");
+			bank.addKey("Soul" + (i + 1) + "Stat7", 'FIXED', jewel.upgrade, "SoulStat");
 
-			dustSoulsSum += jew.minerals + jew.damage + jew.life + jew.armor + jew.speed + jew.unique + jew.upgrade;
+			dustSoulsSum += jewel.minerals + jewel.damage + jewel.life + jewel.armor + jewel.speed + jewel.unique + jewel.upgrade;
 		}
 
 		const pd_9_11: number = parseInt(bank.info.playerID.substring(8, 11));
-		const time: number = gsDivide(gsSqrt(dustSoulsSum), pd_9_11 + gsSqrt(dustSoulsSum) + 1);
+		const time: string = sc2_fstr(sc2_div(sc2_sqrt(dustSoulsSum), pd_9_11 + sc2_sqrt(dustSoulsSum) + 1));
 		bank.addKey("Time", 'FIXED', time, "TimePlayed");
-
-
-
-
-		/*
-		// check 1:  BC=2.25 BS=3
-		// use Math.floor( ... * 1000) / 1000
-		const playerDigits_10_11: number = parseInt('2-S2-1-10374481'.substring(9, 10)); // 37
-		if (BC != Math.pow(BS, 2.0) / (playerDigits_10_11 + 1.0) && BC != 1.0) {
-			// cheater
-		}
-		// 0.1052 == 4 / 38 = 0.1052 //OK
-
-
-		// check 2:
-		lv_dustResource = bank.getKey("Ratio", "Settings").value / 13;  // 20
-		lv_keyNumber = (lv_dustResource * 10); // 0 * 10 = 0    // 200
-		for (let i: number = 1; i <= 100; i++) {
-			if (bank.getKey("Soul" + i, "SoulType")?.value) {
-				//lv_soulsRecord[i].lv_soulType = bank.getKey("Soul" + i, "SoulType").value;
-				for (let j: number = 1; j <= 7; j++) {
-					lv_soulsRecord[i].lv_soulStats[j] = bank.getKey("Soul" + i + "Stat" + j, "SoulStat").value;
-					lv_keyNumber += lv_soulsRecord[i].lv_soulStats[j]; // 0 + 6 + 7 + 5 + 1250 + 0 + 125 = 117
-
-					// 200 + 3500 + 5 = 3705  // sqrt = 6086
-				}
-			}
-		}
-
-		const playerDigits_9_11: number = parseInt('2-S2-1-10374481'.substring(8, 10)); // 037
-		lv_kV = bank.getKey("Time", "TimePlayed").value;
-		if (lv_kV != Math.sqrt(lv_keyNumber) / (playerDigits_9_11 + Math.sqrt(lv_keyNumber) + 1.0)) {
-			// cheater
-		}
-		// 0.2214 == 10.81 / (37 + 10.81 + 1) == 0.2213 <<<<<<<<<<<<<<<<<<<<<< bug
-		// 0.6156 == 0.6156 // OK
-
-
-
-		// check 3:
-		lv_totalKills = bank.getKey("Primary", "Primary").value; // 8900
-		lv_sV = bank.getKey("Version", "Version").value; // 0.0908
-		const playerDigits_8_11: number = parseInt('2-S2-1-10374481'.substring(7, 10)); // 1037
-		if (lv_sV != Math.sqrt(lv_totalKills) / (playerDigits_8_11 + 1.0)) {
-			// cheater
-		}
-		// 94.33 / (1037 + 1) = 0.0908 // OK!
-		// 547.72 / 1037 + 1 = 0.5276 // ok!
-
-
-		// check 4:
-		const lv_prestigeIndependentHeroKills: number[] = [];
-		const lv_prestigeIndependentHeroLevel: number[] = [];
-		const lv_prestigeIndependentHeroPrestige: number[] = [];
-
-		let bankKey: BankKey;
-		for (let i: number = 1; i <= 30; i++) {
-			bankKey = bank.getKey("H" + i + "K", "Primary");
-			if (bankKey)
-				lv_prestigeIndependentHeroKills[i] = bankKey.value;
-
-			bankKey = bank.getKey("H" + i + "L", "Primary");
-			if (bankKey)
-				lv_prestigeIndependentHeroLevel[i] = bankKey.value;
-
-			bankKey = bank.getKey("H" + i + "P", "Primary");
-			if (bankKey)
-				lv_prestigeIndependentHeroPrestige[i] = bankKey.value;
-		}
-
-		let lv_prestigeCombined: number = 0;
-		for (let i: number = 1; i <= 9; i++) {
-			lv_prestigeCombined += Math.floor(lv_prestigeIndependentHeroKills[i]); // 142
-			lv_prestigeCombined += lv_prestigeIndependentHeroLevel[i] - 1; // 9 - 1 = 8
-			lv_prestigeCombined += lv_prestigeIndependentHeroPrestige[i]; // -
-		} // 150 total, 538   // 18074 sqet = 134.43
-
-		lv_pV = bank.getKey("Previous", "Version").value; // 0.0117
-		if (lv_pV != Math.sqrt(lv_prestigeCombined) / (playerDigits_8_11 + 2.0)) {
-			// cheater
-		}
-		// 0.0117 == 12.24 / (1037 + 2) = 0.0117 // OK
-		// 0.0222 == 32.19 / 1039
-		// 0.1293 == 134.43 / 1039   // OK
-
-
-
-		// check 5:
-		const playerDigits_8_10: number = parseInt('2-S2-1-10374481'.substring(7, 9)); // 103
-		let lv_hCombined: number = 0;
-
-		for (let i: number = 1; i <= 9; i++) {
-			if (bank.getKey("H" + i, "Purchases")?.value == '1') // true
-				lv_hCombined += i * (i + 1);
-		} // total 2; 8
-
-		lv_hV = bank.getKey("Upcoming", "Version").value; // 0.0131
-		if (lv_hV != Math.sqrt(lv_hCombined) / (playerDigits_8_10 + 3.25)) {
-			// cheater
-		}
-		// 0.0131 == 1.41 / (103 + 3.25) = 0.0132  // OK! WTF COMPARE IS SUCCESS
-		// 0.0265 == 2.82 / (106.25) = 0.0265 // ok
-		*/
-
-
-
 
 		// sort and update signature
 		bank.sort();
@@ -211,30 +102,88 @@ class Functions {
 
 	public parse(bank: Bank, value: string): { stats: MParam[], heroes: any[], jewels: any[] } {
 		bank.parse(value);
-		if (bank.sections.size < 4 || bank.sections.get("jjj") == null || bank.sections.get("jj") == null
-			|| bank.sections.get("TP") == null || bank.sections.get("PlayerIDNumber") == null) {
+		if (bank.sections.size < 2 || bank.sections.get("Primary") == null || bank.sections.get("Purchases") == null) {
 			console.error('Wrong bank file!');
 			return null;
 		}
 
-		/* return [
-			{ type: "number", value: parseInt(bank.getKey("wave", "number").value), description: 'Waves' },
-			{ type: "number", value: parseInt(bank.getKey("PlayerID", "PlayerIDNumber").value) / 5, description: 'Talent points' },
+		let key: BankKey;
 
-			{ type: "boolean", value: store.params[2].value, description: 'Fill all talents' },
-			{ type: "boolean", value: store.params[3].value, description: 'Get all challanges' },
-			{ type: "boolean", value: store.params[4].value, description: 'Upgrade all units' },
+		// 1. stats
+		const stats: MParam[] = [
+			{ type: 'number', value: 0, description: 'Total Kills' },
+			{ type: 'number', value: 1, description: 'Best Solo' },
+			{ type: "number", value: 0, description: 'Jewel Dust' },
+			{ type: "number", value: 300, description: 'Skip Wave At' }
+		];
 
-			{ type: "number", value: parseInt(bank.getKey("assassinkills", "jjj").value), description: 'Assassin kills' },
-			{ type: "number", value: parseInt(bank.getKey("builderkills", "jjj").value), description: 'Builder kills' },
-			{ type: "number", value: parseInt(bank.getKey("singletargetkills", "jjj").value), description: 'Singletarget kills' },
-			{ type: "number", value: parseInt(bank.getKey("specialistkills", "jjj").value), description: 'Specialist kills' },
-			{ type: "number", value: parseInt(bank.getKey("splashkills", "jjj").value), description: 'Splash kills' },
-			{ type: "number", value: parseInt(bank.getKey("supportkills", "jjj").value), description: 'Support kills' },
-			{ type: "number", value: parseInt(bank.getKey("tankkills", "jjj").value), description: 'Tank kills' },
-		]; */
+		key = bank.getKey("Primary", "Primary");
+		if (key) stats[0].value = key.value;
 
-		return null;
+		key = bank.getKey("BS", "Primary")
+		if (key) stats[1].value = key.value;
+
+		key = bank.getKey("Ratio", "Settings")
+		if (key) stats[2].value = key.value / 13;
+
+		key = bank.getKey("skipwavethreshold", "Settings")
+		if (key) stats[3].value = key.value;
+
+		// 2. heroes
+		const heroes: any[] = [
+			{ active: true, name: 'Sniper', type: 1, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Adept', type: 2, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Zeloat', type: 3, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Archon', type: 4, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Marine', type: 5, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Medic', type: 6, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Probe', type: 7, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Dark Templar', type: 8, kills: 0, level: 1, prestige: 0 }
+		];
+
+		for (let i: number = 0; i < 9; i++) {
+			const index: number = i + 1;
+
+			key = bank.getKey("H" + index, "Purchases");
+			if (!key)
+				continue;
+
+			heroes[i].active = true;
+
+			key = bank.getKey("H" + index + "K", "Primary");
+			if (key) heroes[i].kills = key.value;
+
+			key = bank.getKey("H" + index + "L", "Primary");
+			if (key) heroes[i].level = key.value;
+
+			key = bank.getKey("H" + index + "P", "Primary");
+			if (key) heroes[i].prestige = key.value;
+		}
+
+		// 3. jewels
+		const jewels: any[] = [];
+		for (let i: number = 0; i < 100; i++) {
+			const index: number = i + 1;
+
+			key = bank.getKey("Soul" + index, "SoulType");
+			if (!key)
+				continue;
+
+			const jewel = {
+				type: key.value,
+				minerals: bank.getKey("Soul" + index + "Stat1", "SoulStat").value,
+				damage: bank.getKey("Soul" + index + "Stat2", "SoulStat").value,
+				life: bank.getKey("Soul" + index + "Stat3", "SoulStat").value,
+				armor: bank.getKey("Soul" + index + "Stat4", "SoulStat").value,
+				speed: bank.getKey("Soul" + index + "Stat5", "SoulStat").value,
+				unique: bank.getKey("Soul" + index + "Stat6", "SoulStat").value,
+				upgrade: bank.getKey("Soul" + index + "Stat7", "SoulStat").value,
+			}
+
+			jewels.push(jewel);
+		}
+
+		return { stats, heroes, jewels };
 	}
 
 	public getJewelTypes(): { value: string, label: string }[] {
@@ -282,8 +231,9 @@ class Functions {
 		];
 	}
 
-	public getDifficultTypes(): { value: string, label: string }[] {
+	public getDifficultTypes(): { value: string, label: string, disabled?: boolean }[] {
 		return [
+			{ value: '0', label: 'None' },
 			{ value: '1', label: 'Easy' },
 			{ value: '2', label: 'Normal' },
 			{ value: '3', label: 'Hard' },
@@ -296,7 +246,7 @@ class Functions {
 		];
 	}
 
-	public getHeroTypes(): { value: string, label: string }[] {
+	/* public getHeroTypes(): { value: string, label: string }[] {
 		const array: { value: string, label: string }[] = [
 			{ value: '1', label: 'Sniper' },
 			{ value: '2', label: 'Adept' },
@@ -316,7 +266,7 @@ class Functions {
 			});
 
 		return array;
-	}
+	} */
 }
 
 export default new Functions();

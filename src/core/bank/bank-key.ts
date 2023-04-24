@@ -22,23 +22,6 @@ export class BankKey {
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public getTypedValue(): any {
-		switch (this._type) {
-			case BankKeyType.STRING:
-			case BankKeyType.TEXT: // uses in SC2 Campaign banks
-				return this._value;
-				break;
-			case BankKeyType.INT:
-			case BankKeyType.FLAG: // bool, but no true/false in banks
-				return parseInt(this._value);
-				break;
-			case BankKeyType.FIXED:
-				return parseFloat(this._value);
-				break;
-		}
-		return null;
-	}
-
 	public update(value: string): void {
 		this._value = value;
 	}
@@ -51,8 +34,15 @@ export class BankKey {
 		return this._type;
 	}
 
-	public get value(): string {
-		return this._value;
+	public get value(): any {
+		switch (this._type) {
+			case BankKeyType.STRING: return this._value; break;
+			case BankKeyType.TEXT: return this._value; break;
+			case BankKeyType.INT: return parseInt(this._value); break;
+			case BankKeyType.FLAG: return this._value == '1' ? true : false; break;
+			case BankKeyType.FIXED: return parseFloat(this._value); break;
+		}
+		return null;
 	}
 
 	//-------------------------------------------------- PRIVATE --------------------------------------------------

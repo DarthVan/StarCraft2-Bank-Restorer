@@ -60,14 +60,21 @@ class Store extends BasicStore {
 	}
 
 	public removeJewel(index: number): void {
-		/* const jewels: Jewel[] = [...this.jewels];
-		jewels.splice(index, 1);
-		this.jewels = [...jewels]; */
 		this.jewels = [...this.jewels.filter((jewel: Jewel, i: number): boolean => { return i == index ? false : true })];
 	}
 
 	public clearJewels(): void {
 		this.jewels = [];
+	}
+
+	public selectAllHero(): void {
+		const active: boolean = this.heroes[1].active;
+		const heroes: Hero[] = [...this.heroes];
+		heroes.forEach((hero: Hero, index: number): void => {
+			heroes[index] = { ...hero };
+			heroes[index].active = !active;
+		});
+		this.heroes = [...heroes];
 	}
 
 	// Есть возможность мутации - лучий оптимизон, но не забывать про flushSync с занулением поля в ключевых местах
@@ -115,21 +122,21 @@ class Store extends BasicStore {
 
 	protected override init(): void {
 		this.stats = [
-			{ type: "number", value: 1000000, description: 'Total Kills' },
+			{ type: "number", value: 1500000000, description: 'Total Kills' },
 			{ type: "number", value: 8, description: 'Best Solo' },
 			{ type: "number", value: 1000, description: 'Jewel Dust' },
 			{ type: "number", value: 300, description: 'Skip Wave At' }
 		];
 
 		this.heroes = [
-			{ active: true, name: 'Sniper', type: 1, kills: 10000, level: 20, prestige: 16 },
-			{ active: true, name: 'Adept', type: 2, kills: 10000, level: 20, prestige: 16 },
-			{ active: false, name: 'Zeloat', type: 3, kills: 10000, level: 20, prestige: 16 },
-			{ active: false, name: 'Archon', type: 4, kills: 10000, level: 20, prestige: 16 },
-			{ active: false, name: 'Marine', type: 5, kills: 10000, level: 20, prestige: 16 },
-			{ active: false, name: 'Medic', type: 6, kills: 10000, level: 20, prestige: 16 },
-			{ active: false, name: 'Probe', type: 7, kills: 10000, level: 20, prestige: 16 },
-			{ active: false, name: 'Dark Templar', type: 8, kills: 10000, level: 20, prestige: 16 }
+			{ active: true, name: 'Sniper', type: 1, kills: 5000, level: 20, prestige: 16 },
+			{ active: true, name: 'Adept', type: 2, kills: 5000, level: 20, prestige: 16 },
+			{ active: false, name: 'Zeloat', type: 3, kills: 5000, level: 20, prestige: 16 },
+			{ active: false, name: 'Archon', type: 4, kills: 5000, level: 20, prestige: 16 },
+			{ active: false, name: 'Marine', type: 5, kills: 5000, level: 20, prestige: 16 },
+			{ active: false, name: 'Medic', type: 6, kills: 5000, level: 20, prestige: 16 },
+			{ active: false, name: 'Probe', type: 7, kills: 5000, level: 20, prestige: 16 },
+			{ active: false, name: 'Dark Templar', type: 8, kills: 5000, level: 20, prestige: 16 }
 		];
 
 		this.jewels = [
@@ -182,6 +189,26 @@ class Store extends BasicStore {
 				speed: 125,
 				unique: 5, // Damage from your Dark Templars main weapon applies an extra stack of Ambush on hit.
 				upgrade: 0
+			},
+			{
+				type: 11, // bugged
+				minerals: 1250,
+				damage: -5000,
+				life: 125,
+				armor: 125,
+				speed: -1000,
+				unique: 0,
+				upgrade: -200
+			},
+			{
+				type: 11, // bugged
+				minerals: 1250,
+				damage: -5000,
+				life: 125,
+				armor: 125,
+				speed: -1000,
+				unique: 0,
+				upgrade: -200
 			}
 		];
 	}
