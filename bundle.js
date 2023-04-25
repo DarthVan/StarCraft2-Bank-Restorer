@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Fri, 21 Apr 2023 22:28:27 UTC
+ * Compiled Tue, 25 Apr 2023 17:18:43 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -891,18 +891,18 @@
 	    const maxWidth = (props.maxWidth || 500) + 'px';
 	    const maxHeight = (props.maxHeight || 200) + 'px';
 	    const header = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', height: 'min-content', minWidth }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { fontSize: '20px' }, children: props.label }), jsxRuntimeExports.jsx(Button$1, { onClick: props.onClose, children: "Close" })] }), jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } })] }));
+	        return (jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '10px', height: 'min-content' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', justifyContent: 'space-between' }, children: [jsxRuntimeExports.jsx(Label$1, { style: { fontSize: '20px' }, children: props.label }), jsxRuntimeExports.jsx(Button$1, { onClick: props.onClose, children: "Close" })] }), jsxRuntimeExports.jsx(Line$1, { style: { margin: '10px 0 0 0' } })] }));
 	    }, []);
-	    return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntimeExports.jsx(GlassWrapper$1, { border: true, children: jsxRuntimeExports.jsxs(Flex, { style: {
-	                    overflowX: 'auto',
-	                    flexDirection: 'column',
-	                    width: 'calc(100vw - 40px)',
-	                    maxWidth,
-	                    height: 'calc(100vh - 40px)',
-	                    maxHeight,
-	                    minWidth: '100%',
-	                    minHeight: 'max-content'
-	                }, children: [header, jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', padding: '0 0 10px 10px', minWidth }, children: props.children })] }) }) }));
+	    return (jsxRuntimeExports.jsx(Flex, { style: { flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }, children: jsxRuntimeExports.jsx(GlassWrapper$1, { border: true, children: jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [header, jsxRuntimeExports.jsx(Flex, { style: {
+	                            overflowX: 'auto',
+	                            flexDirection: 'column',
+	                            width: 'calc(100vw - 40px)',
+	                            maxWidth,
+	                            height: 'calc(100vh - 80px)',
+	                            maxHeight,
+	                            minWidth: '100%',
+	                            minHeight: 'max-content'
+	                        }, children: jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', padding: '0 0 10px 10px', minWidth }, children: props.children }) })] }) }) }));
 	};
 	var Popup$1 = React.memo(Popup);
 
@@ -1059,7 +1059,7 @@
 	            modalStore.setModal('NONE');
 	        }, [])
 	    };
-	    return (jsxRuntimeExports.jsxs(Popup$1, { label: 'What is this?¿', maxWidth: 900, minWidth: 900, maxHeight: 600, onClose: callbacks.onCloseClick, children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Hi!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntimeExports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntimeExports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntimeExports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx("img", { src: "./assets/images/help.png", alt: "help.png", width: 629, height: 191, style: { alignSelf: 'center' } }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: ["Variables for Generator", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntimeExports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntimeExports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntimeExports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "gg hf!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] })] }));
+	    return (jsxRuntimeExports.jsx(Popup$1, { label: 'What is this?¿', maxWidth: 1200, minWidth: 700, maxHeight: 600, onClose: callbacks.onCloseClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '20px', minWidth: '100%' }, children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Hi!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntimeExports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. StarCraft2 banks (save files) are in You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntimeExports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntimeExports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx("img", { src: "./assets/images/help.png", alt: "help.png", width: 629, height: 191, style: { alignSelf: 'center' } }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: ["Variables for Generator", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntimeExports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntimeExports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntimeExports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "gg hf!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] })] }) }));
 	});
 	var Help$1 = React.memo(Help);
 
@@ -1260,19 +1260,6 @@
 	        this._type = type;
 	        this._value = value;
 	    }
-	    getTypedValue() {
-	        switch (this._type) {
-	            case BankKeyType.STRING:
-	            case BankKeyType.TEXT:
-	                return this._value;
-	            case BankKeyType.INT:
-	            case BankKeyType.FLAG:
-	                return parseInt(this._value);
-	            case BankKeyType.FIXED:
-	                return parseFloat(this._value);
-	        }
-	        return null;
-	    }
 	    update(value) {
 	        this._value = value;
 	    }
@@ -1283,7 +1270,19 @@
 	        return this._type;
 	    }
 	    get value() {
-	        return this._value;
+	        switch (this._type) {
+	            case BankKeyType.STRING:
+	                return this._value;
+	            case BankKeyType.TEXT:
+	                return this._value;
+	            case BankKeyType.INT:
+	                return parseInt(this._value);
+	            case BankKeyType.FLAG:
+	                return this._value == '1' ? true : false;
+	            case BankKeyType.FIXED:
+	                return parseFloat(this._value);
+	        }
+	        return null;
 	    }
 	}
 
@@ -1938,9 +1937,6 @@
 	    update(current) {
 	        this._current = current;
 	        return this;
-	    }
-	    writeTo(starCode) {
-	        starCode.setInt(this._current, this._max);
 	    }
 	    get current() {
 	        return this._current;
@@ -3382,20 +3378,26 @@
 	});
 	var ZombieCity = React.memo(ZombieCityForm);
 
-	function gsSqrt(value, type) {
-	    if (type == 'int') {
-	        return Math.ceil(Math.sqrt(value));
-	    }
-	    else {
-	        value = value % 1048576.2;
-	        return Math.floor(Math.sqrt(value) * 100) / 100;
-	    }
+	function sc2_pow(a, b) {
+	    return toFixed(Math.pow(a, b));
 	}
-	function gsPow(a, b) {
-	    return Math.floor(Math.pow(a, b) * 100) / 100;
+	function sc2_sqrt(value) {
+	    return toFixed(Math.pow(toFixed(value % 1048576), 0.5));
 	}
-	function gsDivide(a, b) {
-	    return Math.floor((a / b) * 10000) / 10000;
+	function sc2_div(a, b) {
+	    return toFixed(a / b);
+	}
+	function sc2_fstr(value, afterDot = 4) {
+	    let d = 1;
+	    while (afterDot-- > 0)
+	        d *= 10;
+	    return (Math.floor(value * d + 0.1) / d).toString();
+	}
+	function toFixed(value) {
+	    return frac(value, 4096);
+	}
+	function frac(value, size = 4096) {
+	    return Math.floor(value * size) / size;
 	}
 
 	let Store$1 = class Store extends BasicStore {
@@ -3572,12 +3574,12 @@
 	        const killz = store$1.stats[0].value;
 	        bank.addKey("Primary", 'INT', killz, "Primary");
 	        const pd_8_11 = parseInt(bank.info.playerID.substring(7, 11));
-	        bank.addKey("Version", 'FIXED', gsDivide(gsSqrt(killz, 'fixed'), pd_8_11 + 1), "Version");
+	        bank.addKey("Version", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(killz), pd_8_11 + 1)), "Version");
 	        if (store$1.stats[1].value > 0) {
 	            const bestSolo = store$1.stats[1].value;
 	            bank.addKey("BS", 'INT', bestSolo, "Primary");
 	            const pd_10_11 = parseInt(bank.info.playerID.substring(9, 11));
-	            bank.addKey("BC", 'FIXED', gsDivide(gsPow(bestSolo, 2), pd_10_11 + 1), "Primary");
+	            bank.addKey("BC", 'FIXED', sc2_fstr(sc2_div(sc2_pow(bestSolo, 2), pd_10_11 + 1)), "Primary");
 	        }
 	        const dust = store$1.stats[2].value;
 	        bank.addKey("Ratio", 'INT', dust * 13, "Settings");
@@ -3600,9 +3602,9 @@
 	            combined += hero.level - 1;
 	            combined += hero.prestige;
 	        }
-	        bank.addKey("Previous", 'FIXED', gsDivide(gsSqrt(combined, 'fixed'), pd_8_11 + 2), "Version");
+	        bank.addKey("Previous", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(combined), pd_8_11 + 2)), "Version");
 	        const pd_8_10 = parseInt(bank.info.playerID.substring(7, 10));
-	        bank.addKey("Upcoming", 'FIXED', gsDivide(gsSqrt(intComb, 'int'), pd_8_10 + 3.25), "Version");
+	        bank.addKey("Upcoming", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(intComb), pd_8_10 + 3.25)), "Version");
 	        const totalJewels = store$1.jewels.length;
 	        for (let i = 0; i < totalJewels; i++) {
 	            const jewel = store$1.jewels[i];
@@ -3617,7 +3619,7 @@
 	            dustSoulsSum += jewel.minerals + jewel.damage + jewel.life + jewel.armor + jewel.speed + jewel.unique + jewel.upgrade;
 	        }
 	        const pd_9_11 = parseInt(bank.info.playerID.substring(8, 11));
-	        const time = gsDivide(gsSqrt(dustSoulsSum, 'fixed'), pd_9_11 + gsSqrt(dustSoulsSum, 'fixed') + 1);
+	        const time = sc2_fstr(sc2_div(sc2_sqrt(dustSoulsSum), pd_9_11 + sc2_sqrt(dustSoulsSum) + 1));
 	        bank.addKey("Time", 'FIXED', time, "TimePlayed");
 	        bank.sort();
 	        bank.updateSignature();
@@ -3625,12 +3627,74 @@
 	    }
 	    parse(bank, value) {
 	        bank.parse(value);
-	        if (bank.sections.size < 4 || bank.sections.get("jjj") == null || bank.sections.get("jj") == null
-	            || bank.sections.get("TP") == null || bank.sections.get("PlayerIDNumber") == null) {
+	        if (bank.sections.size < 2 || bank.sections.get("Primary") == null || bank.sections.get("Purchases") == null) {
 	            console.error('Wrong bank file!');
 	            return null;
 	        }
-	        return null;
+	        let key;
+	        const stats = [
+	            { type: 'number', value: 0, description: 'Total Kills' },
+	            { type: 'number', value: 1, description: 'Best Solo' },
+	            { type: "number", value: 0, description: 'Jewel Dust' },
+	            { type: "number", value: 300, description: 'Skip Wave At' }
+	        ];
+	        key = bank.getKey("Primary", "Primary");
+	        if (key)
+	            stats[0].value = key.value;
+	        key = bank.getKey("BS", "Primary");
+	        if (key)
+	            stats[1].value = key.value;
+	        key = bank.getKey("Ratio", "Settings");
+	        if (key)
+	            stats[2].value = key.value / 13;
+	        key = bank.getKey("skipwavethreshold", "Settings");
+	        if (key)
+	            stats[3].value = key.value;
+	        const heroes = [
+	            { active: true, name: 'Sniper', type: 1, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Adept', type: 2, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Zeloat', type: 3, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Archon', type: 4, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Marine', type: 5, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Medic', type: 6, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Probe', type: 7, kills: 0, level: 1, prestige: 0 },
+	            { active: false, name: 'Dark Templar', type: 8, kills: 0, level: 1, prestige: 0 }
+	        ];
+	        for (let i = 0; i < 9; i++) {
+	            const index = i + 1;
+	            key = bank.getKey("H" + index, "Purchases");
+	            if (!key)
+	                continue;
+	            heroes[i].active = true;
+	            key = bank.getKey("H" + index + "K", "Primary");
+	            if (key)
+	                heroes[i].kills = key.value;
+	            key = bank.getKey("H" + index + "L", "Primary");
+	            if (key)
+	                heroes[i].level = key.value;
+	            key = bank.getKey("H" + index + "P", "Primary");
+	            if (key)
+	                heroes[i].prestige = key.value;
+	        }
+	        const jewels = [];
+	        for (let i = 0; i < 100; i++) {
+	            const index = i + 1;
+	            key = bank.getKey("Soul" + index, "SoulType");
+	            if (!key)
+	                continue;
+	            const jewel = {
+	                type: key.value,
+	                minerals: bank.getKey("Soul" + index + "Stat1", "SoulStat").value,
+	                damage: bank.getKey("Soul" + index + "Stat2", "SoulStat").value,
+	                life: bank.getKey("Soul" + index + "Stat3", "SoulStat").value,
+	                armor: bank.getKey("Soul" + index + "Stat4", "SoulStat").value,
+	                speed: bank.getKey("Soul" + index + "Stat5", "SoulStat").value,
+	                unique: bank.getKey("Soul" + index + "Stat6", "SoulStat").value,
+	                upgrade: bank.getKey("Soul" + index + "Stat7", "SoulStat").value,
+	            };
+	            jewels.push(jewel);
+	        }
+	        return { stats, heroes, jewels };
 	    }
 	    getJewelTypes() {
 	        return [
@@ -3820,7 +3884,7 @@
 	                    }) })] }));
 	    }, [store$1.stats]);
 	    const heroes = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center', paddingTop: '24px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Heroes:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onAllHeroSelect, children: "Select all" }) })] }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }, children: store$1.heroes.map((hero, index) => {
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row', alignItems: 'center', paddingTop: '20px' }, children: [jsxRuntimeExports.jsx(Label$1, { children: "Heroes:" }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'row', justifyContent: 'flex-end' }, children: jsxRuntimeExports.jsx(Button$1, { onClick: callbacks.onAllHeroSelect, children: "Select all" }) })] }), jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }, children: store$1.heroes.map((hero, index) => {
 	                        return jsxRuntimeExports.jsx(Hero, { hero: hero, onChange: callbacks.onHeroChange, index: index });
 	                    }) })] }));
 	    }, [store$1.heroes]);
@@ -3829,7 +3893,7 @@
 	                        return jsxRuntimeExports.jsx(Jewel, { jewel: jewel, index: index, onChange: callbacks.onJewelChange, onRemove: callbacks.onJewelRemove });
 	                    }) })] }));
 	    }, [store$1.jewels]);
-	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Note: avoid to set Inferno for BestSolo, it can be bugged.", jsxRuntimeExports.jsx("br", {}), "Also try different combinations if your stats reset."] }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [stats, heroes] }), Jewels] })] }) }));
+	    return (jsxRuntimeExports.jsx(Editor$1, { bankName: bankName, authorID: authorID, onBankNameChange: callbacks.onBankNameChange, onAuthorIdChange: callbacks.onAuthorIdChange, onFileDrop: callbacks.onFileDrop, onDownload: callbacks.onDownloadClick, onCopy: callbacks.onCopyCodeClick, onReset: callbacks.onResetClick, children: jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Text$1, { children: "Note: The map is still in beta. Some combinations can be bugged!" }), jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'row' }, children: [jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column' }, children: [stats, heroes] }), Jewels] })] }) }));
 	});
 	var ZombieWorldLiberty = React.memo(ZWLForm);
 
@@ -4098,7 +4162,7 @@
 	    [Maps.NONE, {
 	            title: 'None',
 	            authorID: '',
-	            forms: [jsxRuntimeExports.jsx(Text$1, { style: { display: "block", fontSize: '80px', margin: '60px 100px', fontStyle: 'italic', color: '#CCCCFF77' }, children: "Select map" })]
+	            forms: [jsxRuntimeExports.jsx(Text$1, { style: { display: "block", fontSize: '60px', margin: '40px 60px', fontWeight: 'bold', color: '#CCCCFF77' }, children: "Select map" })]
 	        }],
 	    [Maps.ANY_SIMPLE, {
 	            title: 'Any Simple Map',
