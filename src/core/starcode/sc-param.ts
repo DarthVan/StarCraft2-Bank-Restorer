@@ -1,7 +1,5 @@
 /* Generated with TypeScript snippets */
 
-import { StarCode } from "./starcode";
-
 /** SCParam **
 * ...
 * @Author Star Noob
@@ -23,10 +21,6 @@ export class SCParam {
 	public update(current: number): SCParam {
 		this._current = current;
 		return this;
-	}
-
-	public writeTo(starCode: StarCode): void {
-		starCode.setInt(this._current, this._max);
 	}
 
 	public get current(): number {

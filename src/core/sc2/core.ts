@@ -21,12 +21,12 @@ export function sc2_fstr(value: number, afterDot: number = 4): string {
 	return (Math.floor(value * d + 0.1) / d).toString();
 }
 
-function frac(value: number, size: number = 4096): number {
-	return Math.floor(value * size) / size;
-}
-
 function toFixed(value: number): number {
 	return frac(value, 4096);
+}
+
+function frac(value: number, size: number = 4096): number {
+	return Math.floor(value * size) / size;
 }
 
 

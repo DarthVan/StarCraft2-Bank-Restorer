@@ -35,7 +35,7 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 		[Maps.NONE, {
 			title: 'None',
 			authorID: '',
-			forms: [<Text style={{ display: "block", fontSize: '80px', margin: '60px 100px', fontStyle: 'italic', color: '#CCCCFF77' }}>Select map</Text>]
+			forms: [<Text style={{ display: "block", fontSize: '60px', margin: '40px 60px', fontWeight: 'bold', color: '#CCCCFF77' }}>Select map</Text>]
 		}],
 
 		[Maps.ANY_SIMPLE, {

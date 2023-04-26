@@ -6,7 +6,7 @@
 * @Created 2022-09-24
 */
 
-export class StarCode { //TODO: no need to export this class, instance only
+class StarCode {
 
 	public code: string;
 

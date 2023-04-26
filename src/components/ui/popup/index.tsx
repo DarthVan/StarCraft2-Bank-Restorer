@@ -31,7 +31,7 @@ const Popup: FC<Props> = (props: Props): JSX.Element => {
 
 	const header: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Container style={{ flexDirection: 'column', padding: '10px', height: 'min-content', minWidth }}>
+			<Container style={{ flexDirection: 'column', padding: '10px', height: 'min-content' }}>
 				<Container style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 					<Label style={{ fontSize: '20px' }}>{props.label}</Label>
 					<Button onClick={props.onClose} >Close</Button>
@@ -44,26 +44,26 @@ const Popup: FC<Props> = (props: Props): JSX.Element => {
 	return (
 		<Container style={{ flexFlow: 'row wrap', width: '100vw', height: '100vh', zIndex: '9999', position: 'fixed', left: '0', top: '0', background: '#000000AA', alignItems: 'center', justifyContent: 'center', padding: '5px' }}>
 			<GlassWrapper border={true} >
-
-				<Container style={{
-					overflowX: 'auto',
-					flexDirection: 'column',
-					width: 'calc(100vw - 40px)',
-					maxWidth,
-					height: 'calc(100vh - 40px)',
-					maxHeight,
-					minWidth: '100%',
-					minHeight: 'max-content'
-				}}>
-
+				<>
 					{header}
 
-					<Container style={{ flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', padding: '0 0 10px 10px', minWidth }}>
-						{props.children}
+					<Container style={{
+						overflowX: 'auto',
+						flexDirection: 'column',
+						width: 'calc(100vw - 40px)',
+						maxWidth,
+						height: 'calc(100vh - 80px)',
+						maxHeight,
+						minWidth: '100%',
+						minHeight: 'max-content'
+					}}>
+
+						<Container style={{ flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', padding: '0 0 10px 10px', minWidth }}>
+							{props.children}
+						</Container>
+
 					</Container>
-
-				</Container>
-
+				</>
 			</GlassWrapper>
 		</Container>
 	);

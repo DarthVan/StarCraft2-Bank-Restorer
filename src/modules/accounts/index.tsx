@@ -3,6 +3,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useMemo } from 'react';
 import Button from 'src/components/ui/button';
+import Container from 'src/components/ui/container';
 import Text from 'src/components/ui/text';
 import { useStore } from 'src/hooks/use-store';
 import { gaEvent } from 'src/utils/ga4';
@@ -65,21 +66,23 @@ const Accounts: FC<Props> = observer((props: Props): JSX.Element => {
 	return (
 		<Popup label={'Accounts'} minWidth={800} maxWidth={800} maxHeight={400} onClose={callbacks.onCloseClick}>
 			{header}
-			<>{
-				accountStore.list.map((account: { id: string, name: string, playerID: string }): JSX.Element => {
-					return (
-						<AccountItem key={account.id} id={account.id}
-							name={account.name}
-							playerID={account.playerID}
-							selected={accountStore.current == account.id}
-							onSelect={callbacks.onAccountSelect}
-							onNameChange={callbacks.onNameChange}
-							onPlayerIDChange={callbacks.onPlayerIDChange}
-							onRemove={callbacks.onRemoveAccount}
-						/>
-					)
-				})
-			}</>
+			<Container style={{ flexDirection: 'column', overflowY: 'auto' }}>
+				{
+					accountStore.list.map((account: { id: string, name: string, playerID: string }): JSX.Element => {
+						return (
+							<AccountItem key={account.id} id={account.id}
+								name={account.name}
+								playerID={account.playerID}
+								selected={accountStore.current == account.id}
+								onSelect={callbacks.onAccountSelect}
+								onNameChange={callbacks.onNameChange}
+								onPlayerIDChange={callbacks.onPlayerIDChange}
+								onRemove={callbacks.onRemoveAccount}
+							/>
+						)
+					})
+				}
+			</Container>
 		</Popup>
 	);
 })
