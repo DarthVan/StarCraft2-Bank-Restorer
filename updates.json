@@ -1,6 +1,10 @@
 {
 	"updates": [
 		{
+			"version": "1.05 (26.04.2023)",
+			"description": "Zombie World Liberty: fixed bank reader (drop area)\nZombie World Liberty: checksum improvements, now more combinations are valid\nPopups improvement\nUpdated help window\nAccounts UI improvement"
+		},
+		{
 			"version": "1.04 (20.04.2023)",
 			"description": "Added map - Zombie World Liberty\nFixed player id input field for NA and Asian regions\nPlayer improvements"
 		},
