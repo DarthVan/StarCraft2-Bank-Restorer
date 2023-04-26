@@ -1,6 +1,6 @@
 /*!
  * sc2-bank-generator - v1.0.0
- * Compiled Tue, 25 Apr 2023 17:18:43 UTC
+ * Compiled Wed, 26 Apr 2023 12:10:17 UTC
  */
 (function (React, mobxReactLite, require$$0, filesaver, mobx, mui) {
 	'use strict';
@@ -47,7 +47,7 @@
 	  m.hydrateRoot;
 	}
 
-	const APP_VERSION = '1.04 (20.04.2023)';
+	const APP_VERSION = '1.05 (26.04.2023)';
 	const CHECK_UPDATES_DELAY = 3600000;
 	const TOTAL_BG_PICTURES = 4;
 	const CHANGE_BG_DELAY = 120000;
@@ -286,6 +286,26 @@
 	    return (jsxRuntimeExports.jsx("button", { className: 'Button', style: props.style, onClick: (e) => { e.stopPropagation(); e.preventDefault(); props.onClick(); }, children: props.children }));
 	};
 	var Button$1 = React.memo(Button);
+
+	const FlexContainer = (props) => {
+	    const className = React.useMemo(() => {
+	        let str = 'Container';
+	        if (props.style?.overflow == 'auto' || props.style?.overflowX == 'auto' || props.style?.overflowY == 'auto')
+	            str += ' ScrollContainer';
+	        else {
+	            if ((!props.style?.flexWrap || props.style?.flexWrap == 'nowrap') &&
+	                (!props.style?.flexFlow || props.style?.flexFlow?.split(' ')[1] == 'nowrap'))
+	                str += (props.style?.flexDirection == 'column' || props.style?.flexFlow?.split(' ')[0] == 'column')
+	                    ? ' ColumnContainer' : ' RowContainer';
+	            else
+	                str += ' WrapContainer';
+	            str += props.alignInputs ? ' TextFieldsContainer' : '';
+	        }
+	        return str;
+	    }, []);
+	    return (jsxRuntimeExports.jsx("div", { className: className, style: props.style, children: props.children }));
+	};
+	var Flex = React.memo(FlexContainer);
 
 	const Text = (props) => {
 	    return (jsxRuntimeExports.jsx("span", { className: 'Text', style: props.style, children: props.children }));
@@ -848,26 +868,6 @@
 	    });
 	}
 
-	const FlexContainer = (props) => {
-	    const className = React.useMemo(() => {
-	        let str = 'Container';
-	        if (props.style?.overflow == 'auto' || props.style?.overflowX == 'auto' || props.style?.overflowY == 'auto')
-	            str += ' ScrollContainer';
-	        else {
-	            if ((!props.style?.flexWrap || props.style?.flexWrap == 'nowrap') &&
-	                (!props.style?.flexFlow || props.style?.flexFlow?.split(' ')[1] == 'nowrap'))
-	                str += (props.style?.flexDirection == 'column' || props.style?.flexFlow?.split(' ')[0] == 'column')
-	                    ? ' ColumnContainer' : ' RowContainer';
-	            else
-	                str += ' WrapContainer';
-	            str += props.alignInputs ? ' TextFieldsContainer' : '';
-	        }
-	        return str;
-	    }, []);
-	    return (jsxRuntimeExports.jsx("div", { className: className, style: props.style, children: props.children }));
-	};
-	var Flex = React.memo(FlexContainer);
-
 	const GlassWrapper = (props) => {
 	    return (jsxRuntimeExports.jsx("div", { className: 'GlassWrapper' + (props.border ? ' GlassWrapperBordered' : ''), style: props.style, children: jsxRuntimeExports.jsx("div", { className: 'GlassWrapper-content', children: props.children }) }));
 	};
@@ -986,7 +986,7 @@
 	        return style;
 	    };
 	    const elements = React.useMemo(() => {
-	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx("img", { src: 'assets/images/noob.png', width: '59', height: '59' }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onNameChange(props.id, value), label: 'Name:', placeholder: 'Noob', value: props.name, tip: "Any nick name" }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onPlayerIDChange(props.id, value), label: 'Palyer ID:', tip: "Player ID from account path", placeholder: 'X-S2-X-XXXXXXX', value: props.playerID }), jsxRuntimeExports.jsx(Button$1, { onClick: () => props.onRemove(props.id), style: { width: '100px' }, children: "Remove" })] }));
+	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx("img", { src: 'assets/images/noob.png', width: '59', height: '59' }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onNameChange(props.id, value), label: 'Name:', placeholder: 'Noob', value: props.name, tip: "Any nick name" }), jsxRuntimeExports.jsx(Input$1, { onChange: (value) => props.onPlayerIDChange(props.id, value), label: 'Palyer ID:', tip: "Player ID from account path", placeholder: 'X-SX-X-XXXXXXX', value: props.playerID }), jsxRuntimeExports.jsx(Button$1, { onClick: () => props.onRemove(props.id), style: { width: '100px' }, children: "Remove" })] }));
 	    }, []);
 	    return (jsxRuntimeExports.jsx("div", { onMouseEnter: callbacks.onMouseEnter, onMouseLeave: callbacks.onMouseLeave, onClick: e => props.onSelect(props.id, props.playerID), children: jsxRuntimeExports.jsx(Flex, { style: getStyle(), children: elements }) }));
 	};
@@ -1027,7 +1027,7 @@
 	    const header = React.useMemo(() => {
 	        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Text$1, { style: { textAlign: 'center', marginTop: '10px' }, children: ["If you have more accounts, you can add them here for quick switching. ", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Button$1, { style: { width: '200px', alignSelf: 'center', marginBottom: '20px' }, onClick: callbacks.onAddNewAccount, children: "Add new account" })] }));
 	    }, []);
-	    return (jsxRuntimeExports.jsxs(Popup$1, { label: 'Accounts', minWidth: 800, maxWidth: 800, maxHeight: 400, onClose: callbacks.onCloseClick, children: [header, jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: accountStore.list.map((account) => {
+	    return (jsxRuntimeExports.jsxs(Popup$1, { label: 'Accounts', minWidth: 800, maxWidth: 800, maxHeight: 400, onClose: callbacks.onCloseClick, children: [header, jsxRuntimeExports.jsx(Flex, { style: { flexDirection: 'column', overflowY: 'auto' }, children: accountStore.list.map((account) => {
 	                    return (jsxRuntimeExports.jsx(AccountItem$1, { id: account.id, name: account.name, playerID: account.playerID, selected: accountStore.current == account.id, onSelect: callbacks.onAccountSelect, onNameChange: callbacks.onNameChange, onPlayerIDChange: callbacks.onPlayerIDChange, onRemove: callbacks.onRemoveAccount }, account.id));
 	                }) })] }));
 	});
@@ -1059,7 +1059,7 @@
 	            modalStore.setModal('NONE');
 	        }, [])
 	    };
-	    return (jsxRuntimeExports.jsx(Popup$1, { label: 'What is this?¿', maxWidth: 1200, minWidth: 700, maxHeight: 600, onClose: callbacks.onCloseClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '20px', minWidth: '100%' }, children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Hi!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntimeExports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists. StarCraft2 banks (save files) are in You don't have to be in the game, be offline, or go to the menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntimeExports.jsx("b", { children: " Dont forget to make backup of your original bank file!!11" }), jsxRuntimeExports.jsx("br", {}), "Some banks are verified with a signature that requires the player id and map author id to generate. They are in the path to the file:", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx("img", { src: "./assets/images/help.png", alt: "help.png", width: 629, height: 191, style: { alignSelf: 'center' } }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: ["Variables for Generator", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to.", jsxRuntimeExports.jsx("br", {}), "Just set other bank's options or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntimeExports.jsx("br", {}), "And pick 'Download bank' or 'Copy code'.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntimeExports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "gg hf!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] })] }) }));
+	    return (jsxRuntimeExports.jsx(Popup$1, { label: 'What is this?¿', maxWidth: 1200, minWidth: 700, maxHeight: 600, onClose: callbacks.onCloseClick, children: jsxRuntimeExports.jsxs(Flex, { style: { flexDirection: 'column', padding: '20px', minWidth: '100%' }, children: [jsxRuntimeExports.jsxs(Text$1, { children: ["Hi!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?", jsxRuntimeExports.jsx("br", {}), "This service can restore some top-secured SC2 banks (Starcode + signature + anticheats).", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "1. What bank can be restored here?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["All available maps can be selected in the menu selector. If your map is not there, then you can't :(", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "2. I found my map, how to restore the bank?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["First make sure you have played this map and that the bank file folder exists.", jsxRuntimeExports.jsx("br", {}), "StarCraft2 stores banks (save files) in C:/Users/UserName/Documents/StarCraft II/Accounts/.../.../Banks/... . You have to find the bank file there. When you select map here, you also can copy bank fileName to use it in search:", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx("img", { src: "./assets/images/help1.png", alt: "help1.png", width: 281, height: 52, style: { alignSelf: 'center', border: '3px double #ffffff40' } }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: ["Bank file name for search (Example for map \"Zombie World Unity\")", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: [jsxRuntimeExports.jsx("b", { children: " Dont forget to make backup of your original bank file!" }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "3. Found the bank file, what next?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Most of banks are verified with a signature that requires the playerID and map authorID to generate. They are in the path to the file:", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx("img", { src: "./assets/images/help2.png", alt: "help2.png", width: 629, height: 191, style: { alignSelf: 'center', border: '3px double #ffffff40' } }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: ["Variables for Generator", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsxs(Text$1, { children: ["Usually the file name and author id are entered automatically, you don't need to change them unless you have to. But some regions (NA, Asian) can have different autor IDs, so u have to be sure that autorID in the editor is correct.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx("img", { src: "./assets/images/help3.png", alt: "help3.png", width: 700, height: 240, style: { alignSelf: 'center', border: '3px double #ffffff40' } }), jsxRuntimeExports.jsxs(Text$1, { style: { alignSelf: 'center' }, children: ["Where to put IDs", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "4. Edit your stats" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Now you enter any values for new stats, or drop your bank file to the rect \"Drop file here\" to read and edit it.", jsxRuntimeExports.jsx("br", {}), "Please note that not all file parameters will be read when you drop the bank, but only the most important.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "5. Replace or update the bank file" }), jsxRuntimeExports.jsxs(Text$1, { children: ["You don't have to be in the game, be offline, or go to the main menu. Otherwise the game will overwrite the bank and you will not see any changes.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Click ", jsxRuntimeExports.jsx("b", { children: "Download bank" }), " or ", jsxRuntimeExports.jsx("b", { children: "Copy code" }), " to copy the contents of a bank file to clipboard.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "If you have downloaded the file several times, then the file names can be like ", jsxRuntimeExports.jsx("b", { children: "myBank" }), ", ", jsxRuntimeExports.jsx("b", { children: "myBank(1)" }), ", ", jsxRuntimeExports.jsx("b", { children: "myBank(2)" }), "... In this case, rename the desired file to remove the numbers and the file name was the same as the original bank file.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "Or you can copy the contents to the clipboard, open the bank file in any text editor and do ", jsxRuntimeExports.jsx("b", { children: "Ctrl + A" }), " (select all), ", jsxRuntimeExports.jsx("b", { children: "Ctrl + V" }), " (paste), ", jsxRuntimeExports.jsx("b", { children: "Ctrl + S" }), " (save) there. So you don't have to deal with downloaded files.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Can I get banned for this?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["No, custom maps are not official, they are created by other players with different skills, they can have various bugs, exploits, and other things that players can use. Blizzard is not responsible for this and does not take any action for these cases.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "In addition, it is well known that player statistics are sometimes reset/change spontaneously due to bugs in progress saving algorithms.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Whats \"Accounts\" for?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["The account manager is intended for those who have multiple accounts and are going to make stats for each one. Nicknames can be anything for convenience, and the player id is substituted from the path to the banks folder, as in paragraph 3.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "A separate pool of maps will be created for each account and stored in the browser cache, so you can switch between entries and not enter PlayerID and stats every time.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Whats \"Auto Save\" for?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["This option is just to save the current bank's stats in the cache.", jsxRuntimeExports.jsx("br", {}), "If it is active, then saving occurs every time you change any value or option.", jsxRuntimeExports.jsx("br", {}), "If disabled, the stats is saved only when downloading or copying a bank file.", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }), jsxRuntimeExports.jsx(Label$1, { children: "Found a bug or wanna add new map?" }), jsxRuntimeExports.jsxs(Text$1, { children: ["Post issues or pull requests ", jsxRuntimeExports.jsx("a", { href: "https://github.com/DarthVan/StarCraft2-Bank-Restorer", target: '_blank', children: "here" }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {}), "gg hf!", jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] })] }) }));
 	});
 	var Help$1 = React.memo(Help);
 
