@@ -43,7 +43,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 				<Label>2. I found my map, how to restore the bank?</Label>
 				<Text>
 					First make sure you have played this map and that the bank file folder exists.<br />
-					StarCraft2 stores banks (save files) in C:/Users/UserName/Documents/StarCraft II/Accounts/.../.../Banks/... . You have to find the bank file there.
+					In Windows, StarCraft2 stores banks (save files) in C:/Users/UserName/Documents/StarCraft II/Accounts/.../.../Banks/... . You have to find the bank file there.
 					When you select map here, you also can copy bank fileName to use it in search:<br /><br />
 				</Text>
 				<img src="./assets/images/help1.png" alt="help1.png" width={281} height={52} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
@@ -59,7 +59,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 				<Text style={{ alignSelf: 'center' }}>Variables for Generator<br /><br /><br /></Text>
 				<Text>
 					Usually the file name and author id are entered automatically, you don't need to change them unless you have to.
-					But some regions (NA, Asian) can have different autor IDs, so u have to be sure that autorID in the editor is correct.<br /><br />
+					But some regions (NA, Asian) can have different author IDs, so u have to be sure that authorID in the editor is correct.<br /><br />
 				</Text>
 				<img src="./assets/images/help3.png" alt="help3.png" width={700} height={240} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
 				<Text style={{ alignSelf: 'center' }}>Where to put IDs<br /><br /><br /></Text>
@@ -101,7 +101,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 
 				<Label>Found a bug or wanna add new map?</Label>
 				<Text>
-					Post issues or pull requests <a href="https://github.com/DarthVan/StarCraft2-Bank-Restorer" target={'_blank'}>here</a>
+					Post issues or pull requests <a href="https://github.com/DarthVan/StarCraft2-Bank-Restorer" target={'_blank'} style={{ color: '#7777FF' }}>here</a>
 					<br /><br />gg hf!<br /><br />
 				</Text>
 			</Container>
