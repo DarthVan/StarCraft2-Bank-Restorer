@@ -55,3 +55,22 @@ body {
 	opacity: 1;
 	top: 2em;
 }
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #101020;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #606090;
+	/* box-shadow: none; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #CCCCFF;
+	/* box-shadow: 0 0 4px #7777FF; */
+}

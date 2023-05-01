@@ -47,6 +47,21 @@
 	scrollbar-color: #606090 #101020;
 }
 
+/* .ScrollContainer ::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.ScrollContainer ::-webkit-scrollbar-track {
+	background: #101020;
+}
+
+.ScrollContainer ::-webkit-scrollbar-thumb {
+	background-color: #606090;
+	border-radius: 10px;
+	border: transparent;
+} */
+
 /* Fix */
 .TextFieldsContainer>* {
 	align-items: flex-start;

@@ -77,7 +77,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 	const logo: JSX.Element = useMemo((): JSX.Element => {
 		return (
 			<Flex style={{ flexDirection: 'row', alignItems: 'center' }}>
-				<img src='assets/icons/sc2.ico' width='30' height='30' />
+				<img src='assets/icons/favicon-32x32.png' width='30' height='30' />
 				<Label style={{ fontSize: '20px' }}>Bank Generator</Label>
 			</Flex>
 		);
@@ -88,7 +88,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 			<Flex style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 				{logo}
 				<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-					<Input label="Player id:" placeholder="X-S2-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
+					<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
 					<Button style={btnAccountsStyle} onClick={callbacks.onAccountClick}>Accounts</Button>
 					<Button style={btnHelpStyle} onClick={callbacks.onHelpClick}>Help</Button>
 					<AudioLoop />

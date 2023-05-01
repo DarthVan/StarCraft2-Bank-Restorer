@@ -31,11 +31,18 @@ const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 		const playlist: string[] = [
 			'Motherchip & Malmen - A Thousand Sunflowers.mp3',
 			'ko0x - Galaxy Guppy.mp3',
+			'DDRKirby(ISQ) - Underwater Aquarium.mp3',
 			'DDRKirby(ISQ) - Starlight Festival.mp3',
+			'Sugar flow.mp3',
+			'Xemogasa - sapphire eyes.mp3',
 			'Toni Leys - Through A Cardboard World.mp3',
 			'laamaa - nuri brut.mp3',
+			'DDRKirby(ISQ) - Gentle Fluttering Spirit.mp3',
 			'Funky Fish - Shadow of my Angel.mp3',
-			'Vince Kaichan - the Zubmarine Zone.mp3'
+			'Vince Kaichan - the Zubmarine Zone.mp3',
+			'DDRKirby(ISQ) - Two Sketches Mix.mp3',
+			'Kenet & Rez - Unreal Superhero 3.mp3',
+			'DDRKirby(ISQ) - Take to the Skies.mp3'
 		]; // 𝄞
 		let index: number = r(0, playlist.length - 1);
 		return (): void => {
