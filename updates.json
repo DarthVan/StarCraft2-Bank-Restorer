@@ -1,6 +1,10 @@
 {
 	"updates": [
 		{
+			"version": "1.06 (1.05.2023)",
+			"description": "Design fixes\nAdded some new sounds"
+		},
+		{
 			"version": "1.05 (26.04.2023)",
 			"description": "Zombie World Liberty: fixed bank reader (drop area)\nZombie World Liberty: checksum improvements, now more combinations are valid\nPopups improvement\nUpdated help window\nAccounts UI improvement"
 		},
