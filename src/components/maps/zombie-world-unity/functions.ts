@@ -112,13 +112,12 @@ class Functions {
 			this.setTPKey("BuildPoints", 25, points, bank);
 			this.setTPKey("DamageReductionPoints", 10, points, bank);
 
-			this.setTPKey("MineralStartPoints", 5000, points, bank);
-			this.setTPKey("VespeneStartPoints", 500, points, bank);
+			this.setTPKey("MineralStartPoints", 5000, points, bank); // 5000
+			this.setTPKey("VespeneStartPoints", 500, points, bank); // 500
 			this.setTPKey("RespawnSpeedPoints", 20, points, bank);
-			this.setTPKey("ExpPoints", 100, points, bank); // ?
-			this.setTPKey("MasteryPoints", 100, points, bank); // ?
-
-			const plays: number = 10;
+			this.setTPKey("ExpPoints", 100, points, bank); // 100 default
+			this.setTPKey("MasteryPoints", 15, points, bank); // 15 default
+			const plays: number = 10; // prestige 10 max
 			bank.addKey("Plays", 'INT', plays * (505 - (16 + points)), "TP");
 		} else
 			bank.removeSection('TP');
