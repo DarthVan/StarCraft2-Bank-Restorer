@@ -41,8 +41,16 @@ export class BankKey {
 			case BankKeyType.INT: return parseInt(this._value); break;
 			case BankKeyType.FLAG: return this._value == '1' ? true : false; break;
 			case BankKeyType.FIXED: return parseFloat(this._value); break;
+			case BankKeyType.POINT:
+				const strArray: string[] = this._value.split(',');
+				return { x: parseFloat(strArray[0]), y: parseFloat(strArray[1]) };
+				break;
 		}
 		return null;
+	}
+
+	public get stringValue(): string {
+		return this._value;
 	}
 
 	//-------------------------------------------------- PRIVATE --------------------------------------------------

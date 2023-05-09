@@ -12,6 +12,7 @@ export enum BankKeyType {
 	FIXED = 'fixed',
 	STRING = 'string',
 	FLAG = 'flag',
-	TEXT = 'text'
+	TEXT = 'text',
+	POINT = 'point'
 
 }

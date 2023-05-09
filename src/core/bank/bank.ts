@@ -1,6 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import { hashSHA1 } from "src/utils/sha1";
+import { sc2_fstr } from "../sc2/core";
 import { BankInfo } from "./bank-info";
 import { BankKey } from "./bank-key";
 import { BankKeyType } from "./bank-key-type";
@@ -88,12 +89,16 @@ export class Bank {
 	}
 
 	/** Add key to the section, if exist, updating it */
-	public addKey(key: string, type: keyof typeof BankKeyType, value: string | number | boolean, section: string): BankKey {
+	public addKey(key: string, type: keyof typeof BankKeyType, value: any, section: string): BankKey {
 		const s: BankMap<BankKey> = this.addSection(section);
 		switch (typeof value) {
 			case 'boolean': value = value ? '1' : '0'; break;
 			case 'number': value = value.toString(); break;
 			case 'string': break;
+			case 'object':
+				if (type == 'POINT')
+					value = sc2_fstr((value as any).x) + ',' + sc2_fstr((value as any).y);
+				break;
 		}
 		if (!s.has(key))
 			s.set(key, new BankKey(key, BankKeyType[type], value));
@@ -135,7 +140,7 @@ export class Bank {
 			s += '\t<Section name="' + section.name + '">\n';
 			section.forEach((key: BankKey): void => {
 				s += '\t\t<Key name="' + key.name + '">\n';
-				s += '\t\t\t<Value ' + key.type + '="' + key.value + '"/>\n';
+				s += '\t\t\t<Value ' + key.type + '="' + key.stringValue + '"/>\n';
 				s += '\t\t</Key>\n';
 			});
 			s += '\t</Section>\n';
@@ -164,7 +169,7 @@ export class Bank {
 				s += 'Value';
 				s += key.type;
 				if (key.type != BankKeyType.TEXT)
-					s += key.value;
+					s += key.stringValue;
 			});
 		});
 

@@ -68,15 +68,19 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 			setSXML(bank.getAsString());
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (menuStore.playerID.split('-').length != 4 || authorID.split('-').length != 4 || bankName.length < 1)
+			if (menuStore.playerID.split('-').length != 4 || authorID.split('-').length != 4 || bankName.length < 1) {
 				modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
+				return;
+			}
 			downloadTextAsFile(sxml, bankName + '.SC2Bank', true)
 			if (!menuStore.autoSave)
 				save();
 		}, [bank, sxml]),
 		onCopyCodeClick: useCallback((): void => {
-			if (menuStore.playerID.split('-').length != 4 || authorID.split('-').length != 4 || bankName.length < 1)
+			if (menuStore.playerID.split('-').length != 4 || authorID.split('-').length != 4 || bankName.length < 1) {
 				modalStore.setModal('WARN', 'This map need a BankName, AuthorID and PlayerID to generate valid signature! Read Help for details.');
+				return;
+			}
 			copyTextToClipboard(sxml, true);
 			if (!menuStore.autoSave)
 				save();
