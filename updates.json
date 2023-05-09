@@ -1,6 +1,10 @@
 {
 	"updates": [
 		{
+			"version": "1.07 (9.05.2023)",
+			"description": "Editor: fixed bankName and Author ID inputs\nCore: added 'point' key type and some improvements\nDesign: fixed invalid default background path"
+		},
+		{
 			"version": "1.06 (1.05.2023)",
 			"description": "Design fixes\nAdded some new sounds"
 		},
