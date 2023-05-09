@@ -44,15 +44,15 @@ const Editor: FC<Props> = observer((props: Props): JSX.Element => {
 		onDownload: useCallback((): void => {
 			props.onDownload();
 			gaEvent("Editor", "Download bank", mapTitle);
-		}, []),
+		}, [props.onDownload]),
 		onCopy: useCallback((): void => {
 			props.onCopy();
 			gaEvent("Editor", "Copy code", mapTitle);
-		}, []),
+		}, [props.onCopy]),
 		onReset: useCallback((): void => {
 			props.onReset();
 			gaEvent("Editor", "Reset", mapTitle);
-		}, []),
+		}, [props.onReset]),
 	};
 
 	const header: JSX.Element = useMemo((): JSX.Element => {
