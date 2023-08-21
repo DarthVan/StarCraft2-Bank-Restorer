@@ -7,6 +7,7 @@ const date: string = (new Date()).toUTCString().replace(/GMT/g, 'UTC');
 
 export default defineConfig((params: ConfigEnv) => {
 	return {
+		base: './',
 		root: 'src',
 		publicDir: '../public',
 		cacheDir: 'A:/vite-cache',
