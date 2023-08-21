@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
-import { BasicStore } from "src/store/BasicStore";
-import { MParam } from "../MParam";
+import { makeAutoObservable } from 'mobx';
+import { MParam } from '../MParam';
 
 /** Store **
 * ...
@@ -9,13 +9,18 @@ import { MParam } from "../MParam";
 * @Created 2023-02-02
 */
 
-class Store extends BasicStore {
+class Store {
 
 	public light: MParam[];
 	public heavy: MParam[];
 	public speed: MParam[][][];
 	public options: MParam[];
 	public bools: any[];
+
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
@@ -64,13 +69,13 @@ class Store extends BasicStore {
 		}
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.init();
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 		this.light = [];
 		this.heavy = [];
 		this.speed = [];

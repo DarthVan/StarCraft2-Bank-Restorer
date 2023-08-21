@@ -1,16 +1,12 @@
 /* Generated with TypeScript React snippets */
 
-import mui from '@mui/material';
-import filesaver from "file-saver";
-import { observer } from "mobx-react-lite";
+import { Button, Container, Label, TextArea } from '@src/components/ui';
+import { Bank } from '@src/core/bank';
+import { useStore } from '@src/hooks/use-store';
+import Editor from '@src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
+import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import Button from 'src/components/ui/button';
-import Container from "src/components/ui/container";
-import Label from 'src/components/ui/label';
-import { Bank } from "src/core/bank/bank";
-import { useStore } from 'src/hooks/use-store';
-import Editor from 'src/modules/editor';
-import { copyTextToClipboard, downloadTextAsFile } from 'src/utils/utils';
 import { Maps, mapProps } from '../Maps';
 
 /** AnySimple **
@@ -46,6 +42,8 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 	}, [accountStore.current]);
 
 	const save: () => void = (): void => {
+		if (!sxml || !sxml.length)
+			return;
 		mapStore.setMapData(accountStore.current, mapTitle, { bankName, authorID, xml: sxml });
 	};
 
@@ -105,34 +103,7 @@ const AnySimple: FC<Props> = observer((props: Props): JSX.Element => {
 		return (
 			<Container style={{ flexDirection: 'column' }}>
 				<Label>Simple text editor for any banks, that protected with signature only. Drop file to edit it.</Label>
-				<mui.TextField
-					sx={{
-						width: '900px',
-						"& .MuiInputBase-root": {
-							color: '#CCCCFF',
-							fontFamily: 'Consolas',
-							fontSize: '12px'
-						},
-						"& .MuiFormLabel-root": {
-							color: '#7777FF',
-							fontFamily: 'Consolas'
-						},
-						"& .MuiFormLabel-root.Mui-focused": {
-							color: '#CCCCFF',
-							fontFamily: 'Consolas'
-						}
-					}}
-					id="standard-multiline-flexible"
-					label="XML Bank Data"
-					multiline
-					minRows={10}
-					maxRows={30}
-					value={sxml}
-					onChange={(e): void => callbacks.onFieldChange(e.target.value)}
-					variant="standard"
-					InputProps={{ disableUnderline: true, spellCheck: 'false' }}
-				>
-				</mui.TextField>
+				<TextArea text={sxml} onChange={callbacks.onFieldChange} />
 				<Button onClick={callbacks.updateSignature} style={{ width: '150px' }}>Update Signature</Button>
 			</Container>
 		);

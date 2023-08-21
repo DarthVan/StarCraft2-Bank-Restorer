@@ -1,6 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { BasicStore } from "src/store/BasicStore";
+import { makeAutoObservable } from 'mobx';
 
 /** Store **
 * ...
@@ -8,10 +8,15 @@ import { BasicStore } from "src/store/BasicStore";
 * @Created 2023-02-05
 */
 
-class Store extends BasicStore {
+class Store {
 
 	public active: boolean;
 	public hide: boolean;
+
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
@@ -24,13 +29,13 @@ class Store extends BasicStore {
 		this[field] = value;
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.init();
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 		this.active = false;
 		this.hide = false;
 	}

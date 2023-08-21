@@ -1,7 +1,7 @@
-import { AccountStore } from './AccountStore';
-import { MapStore } from './MapStore';
-import { MenuStore } from './MenuStore';
-import { ModalStore } from './ModalStore';
+import AccountStore from './AccountStore';
+import MapStore from './MapStore';
+import MenuStore from './MenuStore';
+import ModalStore from './ModalStore';
 
 export type RootStore = {
 	accountStore: AccountStore,

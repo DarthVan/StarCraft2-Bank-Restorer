@@ -1,14 +1,11 @@
 /* Generated with TypeScript React snippets */
 
+import { APP_VERSION, CHECK_UPDATES_DELAY } from '@src/Globals';
+import { Container, Glass, Label, Text } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
+import { gaEvent } from '@src/utils/ga4';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect } from 'react';
-import { APP_VERSION, CHECK_UPDATES_DELAY } from 'src/Globals';
-import Text from 'src/components/ui/text';
-import { useStore } from 'src/hooks/use-store';
-import { gaEvent } from 'src/utils/ga4';
-import Flex from '../../components/ui/container';
-import GlassWrapper from '../../components/ui/glass-wrapper';
-import Label from '../../components/ui/label';
 
 /** Info **
 * ...
@@ -59,21 +56,21 @@ const Info: FC<Props> = observer((): JSX.Element => {
 	const callbacks = {
 		onVersionClick: useCallback((): void => {
 			loadUpdatesList(true);
-			gaEvent("Info", "Version", APP_VERSION);
+			gaEvent('Info', 'Version', APP_VERSION);
 		}, [])
 	};
 
 	return (
-		<GlassWrapper>
-			<Flex style={{ overflow: 'auto' }}>
-				<Flex style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px', minWidth: 'max-content' }}>
+		<Glass>
+			<Container style={{ overflow: 'auto' }}>
+				<Container style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px', minWidth: 'max-content' }}>
 					<Label>Powered by React 18</Label>
 					<div onClick={callbacks.onVersionClick} style={{ cursor: 'pointer' }}>
 						<Text style={{ textDecoration: 'underline', fontSize: '12px' }}>Version {APP_VERSION}</Text>
 					</div>
-				</Flex>
-			</Flex>
-		</GlassWrapper>
+				</Container>
+			</Container>
+		</Glass>
 	);
 });
 

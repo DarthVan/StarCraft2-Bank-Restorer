@@ -6,7 +6,7 @@
 * @Created 2022-09-26
 */
 
-export class BankMap<T extends { name: string }> extends Map<string, T>{
+export default class BankMap<T extends { name: string }> extends Map<string, T>{
 
 	private _name: string;
 

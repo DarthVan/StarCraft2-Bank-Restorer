@@ -1,7 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { SCParam } from "./sc-param";
-import starcode from "./starcode";
+import { SCParam, starcode } from '.';
 
 /** SCService **
 * ...

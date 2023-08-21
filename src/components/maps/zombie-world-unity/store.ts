@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
-import { BasicStore } from "src/store/BasicStore";
-import { MParam } from "../MParam";
+import { makeAutoObservable } from 'mobx';
+import { MParam } from '../MParam';
 
 /** Store **
 * ...
@@ -9,9 +9,14 @@ import { MParam } from "../MParam";
 * @Created 2023-02-02
 */
 
-class Store extends BasicStore {
+class Store {
 
 	public params: MParam[];
+
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
@@ -30,28 +35,28 @@ class Store extends BasicStore {
 		this.params = p;
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.init();
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 		this.params = [
-			{ type: "number", value: 16999, description: 'Waves' },
-			{ type: "number", value: 45000, description: 'Talent points' },
+			{ type: 'number', value: 16999, description: 'Waves' },
+			{ type: 'number', value: 45000, description: 'Talent points' },
 
-			{ type: "boolean", value: true, description: 'Fill all talents' },
-			{ type: "boolean", value: true, description: 'Get all challenges' },
-			{ type: "boolean", value: true, description: 'Upgrade all units' },
+			{ type: 'boolean', value: true, description: 'Fill all talents' },
+			{ type: 'boolean', value: true, description: 'Get all challenges' },
+			{ type: 'boolean', value: true, description: 'Upgrade all units' },
 
-			{ type: "number", value: 1500000000, description: 'Assassin' },
-			{ type: "number", value: 1500000000, description: 'Builder' },
-			{ type: "number", value: 1500000000, description: 'Singletarget' },
-			{ type: "number", value: 1500000000, description: 'Specialist' },
-			{ type: "number", value: 1500000000, description: 'Splash' },
-			{ type: "number", value: 1500000000, description: 'Support' },
-			{ type: "number", value: 1500000000, description: 'Tank' },
+			{ type: 'number', value: 1500000000, description: 'Assassin' },
+			{ type: 'number', value: 1500000000, description: 'Builder' },
+			{ type: 'number', value: 1500000000, description: 'Singletarget' },
+			{ type: 'number', value: 1500000000, description: 'Specialist' },
+			{ type: 'number', value: 1500000000, description: 'Splash' },
+			{ type: 'number', value: 1500000000, description: 'Support' },
+			{ type: 'number', value: 1500000000, description: 'Tank' },
 		];
 	}
 

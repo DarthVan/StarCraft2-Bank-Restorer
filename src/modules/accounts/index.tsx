@@ -1,13 +1,10 @@
 /* Generated with TypeScript React snippets */
 
+import { Button, Container, Popup, Text } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
+import { gaEvent } from '@src/utils/ga4';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useMemo } from 'react';
-import Button from 'src/components/ui/button';
-import Container from 'src/components/ui/container';
-import Text from 'src/components/ui/text';
-import { useStore } from 'src/hooks/use-store';
-import { gaEvent } from 'src/utils/ga4';
-import Popup from '../../components/ui/popup';
 import AccountItem from './item';
 
 /** Accounts **
@@ -27,20 +24,20 @@ const Accounts: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onAddNewAccount: useCallback((): void => {
 			accountStore.add('Nick Name');
-			gaEvent("Accounts", "Added new account", '', accountStore.list.length);
+			gaEvent('Accounts', 'Added new account', '', accountStore.list.length);
 		}, []),
 		onRemoveAccount: useCallback((id: string): void => {
 			mapStore.clearMapData(id);
 			accountStore.remove(id);
 			menuStore.setPlayerID(accountStore.currentAccount.playerID);
-			gaEvent("Accounts", "Remove account");
+			gaEvent('Accounts', 'Remove account');
 		}, []),
 		onAccountSelect: useCallback((id: string, playerID: string): void => {
 			if (accountStore.current == id)
 				return;
 			accountStore.setSelected(id);
 			menuStore.setPlayerID(playerID);
-			gaEvent("Accounts", "Select account", playerID);
+			gaEvent('Accounts', 'Select account', playerID);
 		}, []),
 		onNameChange: useCallback((id: string, name: string): void => {
 			accountStore.change(id, { name });

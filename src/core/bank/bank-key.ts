@@ -1,6 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { BankKeyType } from "./bank-key-type";
+import { BankKeyType } from '.';
 
 /** BankKey **
 * ...
@@ -8,7 +8,7 @@ import { BankKeyType } from "./bank-key-type";
 * @Created 2022-09-25
 */
 
-export class BankKey {
+export default class BankKey {
 
 	private _name: string;
 	private _type: string;
@@ -52,6 +52,4 @@ export class BankKey {
 	public get stringValue(): string {
 		return this._value;
 	}
-
-	//-------------------------------------------------- PRIVATE --------------------------------------------------
 }

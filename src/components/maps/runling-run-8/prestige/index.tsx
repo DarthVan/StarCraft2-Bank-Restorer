@@ -1,17 +1,15 @@
 /* Generated with TypeScript React snippets */
 
+import { Checkbox, Container, Text } from '@src/components/ui';
+import { Bank } from '@src/core/bank';
+import { useStore } from '@src/hooks/use-store';
+import Editor from '@src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import Checkbox from "src/components/ui/checkbox";
-import Container from 'src/components/ui/container';
-import Text from "src/components/ui/text";
-import { Bank } from 'src/core/bank/bank';
-import { useStore } from 'src/hooks/use-store';
-import Editor from 'src/modules/editor';
-import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
-import { mapProps, Maps } from '../../Maps';
-import functions from "./functions";
-import store from "./store";
+import { Maps, mapProps } from '../../Maps';
+import functions from './functions';
+import store from './store';
 
 /** RunLingRun8Prestige **
 * ...

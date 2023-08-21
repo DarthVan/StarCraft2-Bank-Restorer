@@ -6,7 +6,7 @@
 * @Created 2022-09-25
 */
 
-export class BankInfo {
+export default class BankInfo {
 
 	private _bankName: string;
 	private _authorID: string;

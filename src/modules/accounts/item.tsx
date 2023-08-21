@@ -1,9 +1,7 @@
 /* Generated with TypeScript React snippets */
 
+import { Button, Container, Input } from '@src/components/ui';
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import Button from 'src/components/ui/button';
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
 
 /** AccountItem **
 * ...
@@ -59,8 +57,8 @@ const AccountItem: FC<Props> = (props: Props): JSX.Element => {
 		return (
 			<>
 				<img src='assets/images/noob.png' width='59' height='59' />
-				<Input onChange={(value: string): void => props.onNameChange(props.id, value)} label={'Name:'} placeholder={'Noob'} value={props.name} tip="Any nick name" />
-				<Input onChange={(value: string): void => props.onPlayerIDChange(props.id, value)} label={'Palyer ID:'} tip="Player ID from account path" placeholder={'X-SX-X-XXXXXXX'} value={props.playerID} />
+				<Input onChange={(value: string): void => props.onNameChange(props.id, value)} label={'Name:'} placeholder={'Noob'} value={props.name} tip='Any nick name' />
+				<Input onChange={(value: string): void => props.onPlayerIDChange(props.id, value)} label={'Palyer ID:'} tip='Player ID from account path' placeholder={'X-SX-X-XXXXXXX'} value={props.playerID} />
 				<Button onClick={(): void => props.onRemove(props.id)} style={{ width: '100px' }}>Remove</Button>
 			</>
 		);

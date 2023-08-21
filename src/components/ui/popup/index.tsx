@@ -1,11 +1,11 @@
 /* Generated with TypeScript React snippets */
 
+import Button from '@src/components/ui/button';
+import Container from '@src/components/ui/container';
+import GlassWrapper from '@src/components/ui/glass-wrapper';
+import Label from '@src/components/ui/label';
+import Line from '@src/components/ui/line';
 import React, { FC, useMemo } from 'react';
-import Button from 'src/components/ui/button';
-import Container from 'src/components/ui/container';
-import GlassWrapper from 'src/components/ui/glass-wrapper';
-import Label from 'src/components/ui/label';
-import Line from 'src/components/ui/line';
 
 /** Popup **
 * ...

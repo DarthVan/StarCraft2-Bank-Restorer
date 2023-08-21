@@ -1,18 +1,11 @@
 /* Generated with TypeScript React snippets */
 
+import { mapProps } from '@src/components/maps/Maps';
+import { Button, Checkbox, Container, Glass, Input, Label, Line, Select } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
+import { gaEvent } from '@src/utils/ga4';
 import { observer } from 'mobx-react-lite';
-import React, { CSSProperties, FC, useCallback, useMemo } from "react";
-import { mapProps } from 'src/components/maps/Maps';
-import Button from 'src/components/ui/button';
-import Checkbox from 'src/components/ui/checkbox';
-import Flex from 'src/components/ui/container';
-import GlassWrapper from 'src/components/ui/glass-wrapper';
-import Input from 'src/components/ui/input';
-import Label from 'src/components/ui/label';
-import Line from 'src/components/ui/line';
-import Select from 'src/components/ui/select';
-import { useStore } from 'src/hooks/use-store';
-import { gaEvent } from 'src/utils/ga4';
+import React, { CSSProperties, FC, useCallback, useMemo } from 'react';
 import AudioLoop from '../audio';
 
 /** Menu **
@@ -35,15 +28,15 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 		}, []),
 		onHelpClick: useCallback((): void => {
 			modalStore.setModal('HELP');
-			gaEvent("Menu", "Help");
+			gaEvent('Menu', 'Help');
 		}, []),
 		onMapSelect: useCallback((value: string): void => {
 			menuStore.setSelectedMap(parseInt(value));
-			gaEvent("Menu", "Select Map", mapProps.get(parseInt(value)).title);
+			gaEvent('Menu', 'Select Map', mapProps.get(parseInt(value)).title);
 		}, []),
 		onAutoSaveChange: useCallback((value: boolean): void => {
 			menuStore.setAutoSave(value);
-			gaEvent("Menu", "Autosave Changed");
+			gaEvent('Menu', 'Autosave Changed');
 		}, []),
 		onFullReset: useCallback((): void => {
 			modalStore.setModal('CONFIRM', 'Are you sure you want to delete all accounts and saved banks from here?', [
@@ -54,7 +47,7 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 					modalStore.reset();
 				}
 			]);
-			gaEvent("Menu", "Full Reset");
+			gaEvent('Menu', 'Full Reset');
 		}, [])
 	}
 
@@ -76,24 +69,24 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 
 	const logo: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Flex style={{ flexDirection: 'row', alignItems: 'center' }}>
+			<Container style={{ flexDirection: 'row', alignItems: 'center' }}>
 				<img src='assets/icons/favicon-32x32.png' width='30' height='30' />
 				<Label style={{ fontSize: '20px' }}>Bank Generator</Label>
-			</Flex>
+			</Container>
 		);
 	}, []);
 
 	const top: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Flex style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+			<Container style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 				{logo}
-				<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-					<Input label="Player id:" placeholder="X-SX-X-XXXXXXX" onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
+				<Container style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+					<Input label='Player id:' placeholder='X-SX-X-XXXXXXX' onChange={callbacks.onPlayerIdChange} tip="Player ID from bank's path" value={menuStore.playerID} />
 					<Button style={btnAccountsStyle} onClick={callbacks.onAccountClick}>Accounts</Button>
 					<Button style={btnHelpStyle} onClick={callbacks.onHelpClick}>Help</Button>
 					<AudioLoop />
-				</Flex>
-			</Flex>
+				</Container>
+			</Container>
 		);
 	}, [menuStore.playerID]);
 
@@ -105,24 +98,24 @@ const Menu: FC<Props> = observer((props: Props): JSX.Element => {
 
 	const bottom: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Flex style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-				<Select onChange={callbacks.onMapSelect} label={"Select map:"} selected={menuStore.selectedMap.toString()}>{mapList}</Select>
+			<Container style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+				<Select onChange={callbacks.onMapSelect} label={'Select map:'} selected={menuStore.selectedMap.toString()}>{mapList}</Select>
 				<Checkbox label='Auto Save' onChange={callbacks.onAutoSaveChange} value={menuStore.autoSave} />
 				<Button onClick={callbacks.onFullReset}>Clear Cache</Button>
-			</Flex>
+			</Container>
 		);
 	}, [menuStore.selectedMap, menuStore.autoSave]);
 
 	return (
-		<GlassWrapper>
-			<Flex style={{ overflow: 'auto' }}>
-				<Flex style={{ flexDirection: 'column', padding: '10px' }}>
+		<Glass>
+			<Container style={{ overflow: 'auto' }}>
+				<Container style={{ flexDirection: 'column', padding: '10px' }}>
 					{top}
 					{line}
 					{bottom}
-				</Flex>
-			</Flex>
-		</GlassWrapper>
+				</Container>
+			</Container>
+		</Glass>
 	);
 });
 

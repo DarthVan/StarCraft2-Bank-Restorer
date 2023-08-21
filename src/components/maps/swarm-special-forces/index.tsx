@@ -1,24 +1,19 @@
 /* Generated with TypeScript React snippets */
 
+import { Checkbox, Container, Input, Label, Text } from '@src/components/ui';
+import { Bank } from '@src/core/bank';
+import { useStore } from '@src/hooks/use-store';
+import Editor from '@src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { flushSync } from "react-dom";
-import Checkbox from "src/components/ui/checkbox";
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
-import Label from "src/components/ui/label";
-import Text from "src/components/ui/text";
-import { Bank } from "src/core/bank/bank";
-import { useStore } from "src/hooks/use-store";
-import Editor from 'src/modules/editor';
-import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
-import { MParam } from "../MParam";
-import { Maps, mapProps } from "../Maps";
-import functions from "./functions";
-import SsfSixBoolsItem from "./ssf-6b";
-import SsfDiff from "./ssf-diff";
-
-import store from "./store";
+import { flushSync } from 'react-dom';
+import { MParam } from '../MParam';
+import { Maps, mapProps } from '../Maps';
+import functions from './functions';
+import SsfSixBoolsItem from './ssf-6b';
+import SsfDiff from './ssf-diff';
+import store from './store';
 
 /** SwarmSpecialForcesForm **
 * ...
@@ -46,7 +41,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 
 	useEffect((): void => {
 		const fields: any = mapStore.list[accountStore.current]?.[mapTitle];
-		flushSync((): void => store.setFields());
+		//flushSync((): void => store.setFields());
 		if (fields)
 			setTimeout((): void => store.setFields(fields));
 		else
@@ -161,7 +156,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 							if (param.hidden)
 								return null;
 							return (
-								<Input label={param.description + ':'} index={index} group='lightData' type='number' min='0'
+								<Input key={index} label={param.description + ':'} index={index} group='lightData' type='number' min='0'
 									style={{ width: '75px' }}
 									onChange={callbacks.onFieldChange}
 									max={'999999999'}
@@ -176,7 +171,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 								return null;
 							if (param.type == 'number')
 								return (
-									<Input label={param.description + ':'} index={index} group='heavyData' type='number' min='0'
+									<Input key={index} label={param.description + ':'} index={index} group='heavyData' type='number' min='0'
 										style={{ width: '75px' }}
 										onChange={callbacks.onFieldChange}
 										max={'999999999'}
@@ -185,7 +180,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 								);
 							else
 								return (
-									<Checkbox label={param.description + ':'} index={index} group='heavyData'
+									<Checkbox key={index} label={param.description + ':'} index={index} group='heavyData'
 										onChange={callbacks.onFieldChange}
 										value={param.value as boolean}
 									/>
@@ -207,7 +202,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 							return null;
 						if (param.type == 'number')
 							return (
-								<Input label={param.description + ':'} index={index} group='options' type='number' min='0'
+								<Input key={index} label={param.description + ':'} index={index} group='options' type='number' min='0'
 									style={{ width: '30px' }}
 									onChange={callbacks.onFieldChange}
 									max={'999'}
@@ -216,7 +211,7 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 							);
 						else
 							return (
-								<Checkbox label={param.description + ':'} index={index} group='options'
+								<Checkbox key={index} label={param.description + ':'} index={index} group='options'
 									onChange={callbacks.onFieldChange}
 									value={param.value as boolean}
 								/>
@@ -233,22 +228,22 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 				<Label>Speedruns:</Label>
 				<Container style={{ flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px' }}>
 					<Container style={{ flexDirection: 'column', marginTop: '5px' }}>
-						<Label style={{ marginTop: '45px' }}>Terran:</Label>
-						<Label style={{ marginTop: '45px' }}>Protoss:</Label>
-						<Label style={{ marginTop: '45px' }}>Mecha:</Label>
+						<Label style={{ marginTop: '40px' }}>Terran:</Label>
+						<Label style={{ marginTop: '57px' }}>Protoss:</Label>
+						<Label style={{ marginTop: '57px' }}>Mecha:</Label>
 					</Container>
 					<Container style={{ flexDirection: 'column', margin: '32px 0 0 20px' }}>
 						<Label>Solo:</Label>
 						<Label>Team:</Label>
-						<Label style={{ marginTop: '20px' }}>Solo:</Label>
+						<Label style={{ marginTop: '28px' }}>Solo:</Label>
 						<Label>Team:</Label>
-						<Label style={{ marginTop: '20px' }}>Solo:</Label>
+						<Label style={{ marginTop: '30px' }}>Solo:</Label>
 						<Label>Team:</Label>
 					</Container>
 					<>
 						{store.speed.map((params: MParam[][], index: number): JSX.Element => {
 							return (
-								<SsfDiff onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
+								<SsfDiff key={index} onChange={callbacks.onSpeedrunsChange} array={params} i={index} />
 							);
 						})}
 					</>
@@ -261,13 +256,13 @@ const SwarmSpecialForcesForm: FC<Props> = observer((props: Props): JSX.Element =
 		return (
 			<>
 				<Label>Achives (Easy, Normal, Hard, Brutal, Insane, Hardcore):</Label>
-				<Container style={{ flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }}>
-					{store.bools.map((params: { flags: MParam[] }, index: number): JSX.Element => {
+				<Container style={{ flexFlow: 'column wrap', justifyContent: 'space-around', border: '1px solid #ffffff40', maxHeight: '200px' }}>{
+					store.bools.map((params: { flags: MParam[] }, index: number): JSX.Element => {
 						return (
-							params.flags?.length ? <SsfSixBoolsItem onChange={callbacks.onBoolsChange} array={params.flags} i={index} /> : null
+							params.flags?.length ? <SsfSixBoolsItem key={index} onChange={callbacks.onBoolsChange} array={params.flags} i={index} /> : null
 						)
-					})}
-				</Container>
+					})
+				}</Container>
 			</>
 		);
 	}, [store.bools]);

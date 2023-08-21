@@ -1,20 +1,20 @@
 .Label {
-	font-family: Consolas;
-	font-size: 16px;
-	display: flex;
-	flex-direction: row;
 	user-select: none;
 	cursor: default;
-	margin-right: 5px;
-}
 
-.Label-start {
-	color: yellow;
-	text-shadow: 0 0 5px #FFFF77;
-}
-
-.Label-other {
+	font-family: Consolas;
+	font-size: 16px;
+	background-color: transparent;
 	color: white;
+	caret-color: white;
+
+	margin-right: 5px;
+
 	text-shadow: 0 0 5px #CCCCFF;
 	white-space: nowrap;
+}
+
+.Label::first-letter {
+	color: yellow;
+	text-shadow: 0 0 5px #FFFF77;
 }

@@ -1,10 +1,9 @@
 /* Generated with TypeScript snippets */
 
-import { Bank } from "src/core/bank/bank";
-import { BankKey } from "src/core/bank/bank-key";
-import { sc2_div, sc2_fstr, sc2_pow, sc2_sqrt } from "src/core/sc2/core";
-import { MParam } from "../MParam";
-import store from "./store";
+import { Bank, BankKey } from '@src/core/bank';
+import { sc2_div, sc2_fstr, sc2_pow, sc2_sqrt } from '@src/core/sc2';
+import { MParam } from '../MParam';
+import store from './store';
 
 /** Functions **
 * ...
@@ -17,31 +16,31 @@ class Functions {
 	public generateXML(bank: Bank): string {
 
 		// reset from old keys
-		bank.removeSection("Purchases");
-		bank.removeSection("Primary");
-		bank.removeSection("SoulStat");
-		bank.removeSection("SoulType");
+		bank.removeSection('Purchases');
+		bank.removeSection('Primary');
+		bank.removeSection('SoulStat');
+		bank.removeSection('SoulType');
 
 		// 1. stats:
 		const killz: number = store.stats[0].value as number;
-		bank.addKey("Primary", 'INT', killz, "Primary");
+		bank.addKey('Primary', 'INT', killz, 'Primary');
 
 		const pd_8_11: number = parseInt(bank.info.playerID.substring(7, 11));
-		bank.addKey("Version", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(killz), pd_8_11 + 1)), "Version");
+		bank.addKey('Version', 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(killz), pd_8_11 + 1)), 'Version');
 
 		if (store.stats[1].value as number > 0) {
 			const bestSolo: number = store.stats[1].value as number;
-			bank.addKey("BS", 'INT', bestSolo, "Primary");
+			bank.addKey('BS', 'INT', bestSolo, 'Primary');
 
 			const pd_10_11: number = parseInt(bank.info.playerID.substring(9, 11));
-			bank.addKey("BC", 'FIXED', sc2_fstr(sc2_div(sc2_pow(bestSolo, 2), pd_10_11 + 1)), "Primary");
+			bank.addKey('BC', 'FIXED', sc2_fstr(sc2_div(sc2_pow(bestSolo, 2), pd_10_11 + 1)), 'Primary');
 		}
 
 		const dust: number = store.stats[2].value as number;
-		bank.addKey("Ratio", 'INT', dust * 13, "Settings");
+		bank.addKey('Ratio', 'INT', dust * 13, 'Settings');
 		let dustSoulsSum: number = dust * 10;
 
-		bank.addKey("skipwavethreshold", 'INT', store.stats[3].value, "Settings");
+		bank.addKey('skipwavethreshold', 'INT', store.stats[3].value, 'Settings');
 
 		// 2. heroes:
 		let combined: number = 0;
@@ -54,11 +53,11 @@ class Functions {
 
 			const index: number = hero.type; // 1,2,3...8
 
-			bank.addKey("H" + index, 'FLAG', true, "Purchases");
+			bank.addKey('H' + index, 'FLAG', true, 'Purchases');
 
-			bank.addKey("H" + index + "K", 'INT', hero.kills, "Primary");
-			bank.addKey("H" + index + "L", 'INT', hero.level, "Primary");
-			bank.addKey("H" + index + "P", 'INT', hero.prestige, "Primary");
+			bank.addKey('H' + index + 'K', 'INT', hero.kills, 'Primary');
+			bank.addKey('H' + index + 'L', 'INT', hero.level, 'Primary');
+			bank.addKey('H' + index + 'P', 'INT', hero.prestige, 'Primary');
 
 			intComb += (index * (index + 1));
 			combined += hero.kills;
@@ -66,43 +65,43 @@ class Functions {
 			combined += hero.prestige;
 		}
 
-		bank.addKey("Previous", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(combined), pd_8_11 + 2)), "Version");
+		bank.addKey('Previous', 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(combined), pd_8_11 + 2)), 'Version');
 
 		const pd_8_10: number = parseInt(bank.info.playerID.substring(7, 10));
-		bank.addKey("Upcoming", 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(intComb), pd_8_10 + 3.25)), "Version");
+		bank.addKey('Upcoming', 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(intComb), pd_8_10 + 3.25)), 'Version');
 
 		// 3. jewels
 		const totalJewels: number = store.jewels.length; // 100 max
 		for (let i: number = 0; i < totalJewels; i++) {
 			const jewel = store.jewels[i];
 
-			bank.addKey("Soul" + (i + 1), 'INT', jewel.type, "SoulType"); // 1 - 12
+			bank.addKey('Soul' + (i + 1), 'INT', jewel.type, 'SoulType'); // 1 - 12
 
-			bank.addKey("Soul" + (i + 1) + "Stat1", 'FIXED', jewel.minerals, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat2", 'FIXED', jewel.damage, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat3", 'FIXED', jewel.life, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat4", 'FIXED', jewel.armor, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat5", 'FIXED', jewel.speed, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat6", 'FIXED', jewel.unique, "SoulStat");
-			bank.addKey("Soul" + (i + 1) + "Stat7", 'FIXED', jewel.upgrade, "SoulStat");
+			bank.addKey('Soul' + (i + 1) + 'Stat1', 'FIXED', jewel.minerals, 'SoulStat');
+			bank.addKey('Soul' + (i + 1) + 'Stat2', 'FIXED', jewel.damage, 'SoulStat');
+			bank.addKey('Soul' + (i + 1) + 'Stat3', 'FIXED', jewel.life, 'SoulStat');
+			bank.addKey('Soul' + (i + 1) + 'Stat4', 'FIXED', jewel.armor, 'SoulStat');
+			bank.addKey('Soul' + (i + 1) + 'Stat5', 'FIXED', jewel.speed, 'SoulStat');
+			bank.addKey('Soul' + (i + 1) + 'Stat6', 'FIXED', jewel.unique, 'SoulStat');
+			bank.addKey('Soul' + (i + 1) + 'Stat7', 'FIXED', jewel.upgrade, 'SoulStat');
 
 			dustSoulsSum += jewel.minerals + jewel.damage + jewel.life + jewel.armor + jewel.speed + jewel.unique + jewel.upgrade;
 		}
 
 		const pd_9_11: number = parseInt(bank.info.playerID.substring(8, 11));
 		const time: string = sc2_fstr(sc2_div(sc2_sqrt(dustSoulsSum), pd_9_11 + sc2_sqrt(dustSoulsSum) + 1));
-		bank.addKey("Time", 'FIXED', time, "TimePlayed");
+		bank.addKey('Time', 'FIXED', time, 'TimePlayed');
 
 		// sort and update signature
 		bank.sort();
 		bank.updateSignature();
-		//console.log("bank const updated:", bank.signature);
+		//console.log('bank const updated:', bank.signature);
 		return bank.getAsString();
 	}
 
 	public parse(bank: Bank, value: string): { stats: MParam[], heroes: any[], jewels: any[] } {
 		bank.parse(value);
-		if (bank.sections.size < 2 || bank.sections.get("Primary") == null || bank.sections.get("Purchases") == null) {
+		if (bank.sections.size < 2 || bank.sections.get('Primary') == null || bank.sections.get('Purchases') == null) {
 			console.error('Wrong bank file!');
 			return null;
 		}
@@ -113,20 +112,20 @@ class Functions {
 		const stats: MParam[] = [
 			{ type: 'number', value: 0, description: 'Total Kills' },
 			{ type: 'number', value: 1, description: 'Best Solo' },
-			{ type: "number", value: 0, description: 'Jewel Dust' },
-			{ type: "number", value: 300, description: 'Skip Wave At' }
+			{ type: 'number', value: 0, description: 'Jewel Dust' },
+			{ type: 'number', value: 300, description: 'Skip Wave At' }
 		];
 
-		key = bank.getKey("Primary", "Primary");
+		key = bank.getKey('Primary', 'Primary');
 		if (key) stats[0].value = key.value;
 
-		key = bank.getKey("BS", "Primary")
+		key = bank.getKey('BS', 'Primary')
 		if (key) stats[1].value = key.value;
 
-		key = bank.getKey("Ratio", "Settings")
+		key = bank.getKey('Ratio', 'Settings')
 		if (key) stats[2].value = key.value / 13;
 
-		key = bank.getKey("skipwavethreshold", "Settings")
+		key = bank.getKey('skipwavethreshold', 'Settings')
 		if (key) stats[3].value = key.value;
 
 		// 2. heroes
@@ -144,19 +143,19 @@ class Functions {
 		for (let i: number = 0; i < 9; i++) {
 			const index: number = i + 1;
 
-			key = bank.getKey("H" + index, "Purchases");
+			key = bank.getKey('H' + index, 'Purchases');
 			if (!key)
 				continue;
 
 			heroes[i].active = true;
 
-			key = bank.getKey("H" + index + "K", "Primary");
+			key = bank.getKey('H' + index + 'K', 'Primary');
 			if (key) heroes[i].kills = key.value;
 
-			key = bank.getKey("H" + index + "L", "Primary");
+			key = bank.getKey('H' + index + 'L', 'Primary');
 			if (key) heroes[i].level = key.value;
 
-			key = bank.getKey("H" + index + "P", "Primary");
+			key = bank.getKey('H' + index + 'P', 'Primary');
 			if (key) heroes[i].prestige = key.value;
 		}
 
@@ -165,19 +164,19 @@ class Functions {
 		for (let i: number = 0; i < 100; i++) {
 			const index: number = i + 1;
 
-			key = bank.getKey("Soul" + index, "SoulType");
+			key = bank.getKey('Soul' + index, 'SoulType');
 			if (!key)
 				continue;
 
 			const jewel = {
 				type: key.value,
-				minerals: bank.getKey("Soul" + index + "Stat1", "SoulStat").value,
-				damage: bank.getKey("Soul" + index + "Stat2", "SoulStat").value,
-				life: bank.getKey("Soul" + index + "Stat3", "SoulStat").value,
-				armor: bank.getKey("Soul" + index + "Stat4", "SoulStat").value,
-				speed: bank.getKey("Soul" + index + "Stat5", "SoulStat").value,
-				unique: bank.getKey("Soul" + index + "Stat6", "SoulStat").value,
-				upgrade: bank.getKey("Soul" + index + "Stat7", "SoulStat").value,
+				minerals: bank.getKey('Soul' + index + 'Stat1', 'SoulStat').value,
+				damage: bank.getKey('Soul' + index + 'Stat2', 'SoulStat').value,
+				life: bank.getKey('Soul' + index + 'Stat3', 'SoulStat').value,
+				armor: bank.getKey('Soul' + index + 'Stat4', 'SoulStat').value,
+				speed: bank.getKey('Soul' + index + 'Stat5', 'SoulStat').value,
+				unique: bank.getKey('Soul' + index + 'Stat6', 'SoulStat').value,
+				upgrade: bank.getKey('Soul' + index + 'Stat7', 'SoulStat').value,
 			}
 
 			jewels.push(jewel);

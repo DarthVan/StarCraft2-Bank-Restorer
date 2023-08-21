@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
-import { SCParam } from "src/core/starcode/sc-param";
-import { BasicStore } from "src/store/BasicStore";
+import { SCParam } from '@src/core/starcode';
+import { makeAutoObservable } from 'mobx';
 
 /** Store **
 * ...
@@ -9,7 +9,7 @@ import { BasicStore } from "src/store/BasicStore";
 * @Created 2023-02-05
 */
 
-class Store extends BasicStore {
+class Store {
 
 	public camera: SCParam[]; // checksums
 	public info: SCParam[]; // stats and settings
@@ -17,6 +17,11 @@ class Store extends BasicStore {
 	public units: SCParam[][];
 
 	private _exp: number[]; // levels exps (0-74 → 1-75)
+
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
@@ -111,7 +116,7 @@ class Store extends BasicStore {
 		this.updateAt('camera', 1, this.sumOfUnits + paylerNumber, mutation);
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.init();
 	}
 
@@ -136,7 +141,7 @@ class Store extends BasicStore {
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 
 		this.camera = [ // checksums
 			new SCParam(0, 99000000, 'Sum of all stats'),

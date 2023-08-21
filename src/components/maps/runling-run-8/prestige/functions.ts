@@ -1,9 +1,7 @@
 /* Generated with TypeScript snippets */
 
-import { Bank } from "src/core/bank/bank";
-import { SCParam } from "src/core/starcode/sc-param";
-import sc from 'src/core/starcode/sc-service';
-import store from "./store";
+import { Bank } from '@src/core/bank';
+import store from './store';
 
 /** Functions **
 * ...
@@ -21,7 +19,7 @@ class Functions {
 		//bank.sort();
 		//bank.updateSignature();
 
-		//console.log("bank const updated:", bank.getAsString());
+		//console.log('bank const updated:', bank.getAsString());
 		return bank.getAsString();
 	}
 

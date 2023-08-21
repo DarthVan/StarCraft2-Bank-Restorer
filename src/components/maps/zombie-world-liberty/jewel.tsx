@@ -1,10 +1,7 @@
 /* Generated with TypeScript React snippets */
 
-import React, { FC, useEffect, useState } from 'react';
-import Button from 'src/components/ui/button';
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
-import Select from 'src/components/ui/select';
+import { Button, Container, Input, Select } from '@src/components/ui';
+import React, { FC } from 'react';
 import functions from './functions';
 
 /** ZWLJewel **

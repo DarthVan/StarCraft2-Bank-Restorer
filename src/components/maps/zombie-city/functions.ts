@@ -1,9 +1,9 @@
 /* Generated with TypeScript snippets */
 
-import { Bank } from "src/core/bank/bank";
-import { SCParam } from "src/core/starcode/sc-param";
-import sc from "src/core/starcode/sc-service";
-import store from "./store";
+
+import { Bank } from '@src/core/bank';
+import { SCParam, sc } from '@src/core/starcode';
+import store from './store';
 
 /** Functions **
 * ...
@@ -22,7 +22,7 @@ class Functions {
 	public generateXML(bank: Bank): string {
 		bank.addKey(this.KEY, 'STRING', sc.write(store.queue, this.STARCODE_KEY), this.SECTION);
 		bank.updateSignature();
-		//console.log("bank const updated:", bank.signature);
+		//console.log('bank const updated:', bank.signature);
 		return bank.getAsString();
 	}
 

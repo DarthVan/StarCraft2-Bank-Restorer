@@ -1,0 +1,30 @@
+{
+	"name": "sc2-bank-generator",
+	"version": "1.0.8",
+	"description": "Simple online StarCraft 2 bank editor for people who lost their save from a custom map",
+	"main": "App.tsx",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DarthVan/StarCraft2-Bank-Restorer.git"
+	},
+	"scripts": {
+		"compile": "rollup -c",
+		"compile_release": "SET NODE_ENV=production&&rollup --config rollup.config.js",
+		"watch": "rollup -cw",
+		"test": "jest",
+		"start": "vite serve",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"@types/react": "18.0.23",
+		"@types/react-dom": "18.0.7",
+		"mobx": "^6.6.2",
+		"mobx-react-lite": "^3.4.0"
+	},
+	"author": "Star Noob",
+	"license": "MIT"
+}

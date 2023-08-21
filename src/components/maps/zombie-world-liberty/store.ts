@@ -1,9 +1,9 @@
 /* Generated with TypeScript snippets */
 
-import { BasicStore } from "src/store/BasicStore";
-import { r } from "src/utils/utils";
-import { MParam } from "../MParam";
-import functions from "./functions";
+import { r } from '@src/utils/utils';
+import { makeAutoObservable } from 'mobx';
+import { MParam } from '../MParam';
+import functions from './functions';
 
 /** Store **
 * ...
@@ -31,7 +31,12 @@ type Jewel = {
 	upgrade: number;
 };
 
-class Store extends BasicStore {
+class Store {
+
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
 
 	public stats: MParam[]; // killz, bestSolo, dust, skipwave
 	public heroes: Hero[]; // 9 max
@@ -114,18 +119,18 @@ class Store extends BasicStore {
 		}
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.init();
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 		this.stats = [
-			{ type: "number", value: 1500000000, description: 'Total Kills' },
-			{ type: "number", value: 8, description: 'Best Solo' },
-			{ type: "number", value: 1000, description: 'Jewel Dust' },
-			{ type: "number", value: 300, description: 'Skip Wave At' }
+			{ type: 'number', value: 1500000000, description: 'Total Kills' },
+			{ type: 'number', value: 8, description: 'Best Solo' },
+			{ type: 'number', value: 1000, description: 'Jewel Dust' },
+			{ type: 'number', value: 300, description: 'Skip Wave At' }
 		];
 
 		this.heroes = [

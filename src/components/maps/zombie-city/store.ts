@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
-import { SCParam } from "src/core/starcode/sc-param";
-import { BasicStore } from "src/store/BasicStore";
+import { SCParam } from '@src/core/starcode';
+import { makeAutoObservable } from 'mobx';
 
 /** Store **
 * ...
@@ -9,9 +9,14 @@ import { BasicStore } from "src/store/BasicStore";
 * @Created 2023-02-02
 */
 
-class Store extends BasicStore {
+class Store {
 
 	public queue: SCParam[];
+
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
@@ -40,13 +45,13 @@ class Store extends BasicStore {
 		this.queue = q;
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.init();
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 		this.queue = [
 			new SCParam(666, 1000, 'Waves'),
 			new SCParam(66666666, 99000000, 'Kills'),

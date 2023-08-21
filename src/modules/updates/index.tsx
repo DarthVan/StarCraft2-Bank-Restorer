@@ -1,11 +1,9 @@
 /* Generated with TypeScript React snippets */
 
+import { Container, Popup, Text } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback } from 'react';
-import Container from 'src/components/ui/container';
-import Popup from 'src/components/ui/popup';
-import Text from 'src/components/ui/text';
-import { useStore } from 'src/hooks/use-store';
 
 /** VersionChecker **
 * ...
@@ -36,9 +34,9 @@ const Updates: FC<Props> = observer((props: Props): JSX.Element => {
 
 			<Container style={{ flexDirection: 'column' }}>
 				{
-					list.map((note: { version: string, description: string }): JSX.Element => {
+					list.map((note: { version: string, description: string }, index: number): JSX.Element => {
 						return (
-							<Container style={{ flexDirection: 'column', width: '780px', minWidth: '780px', height: 'auto', marginBottom: '20px' }}>
+							<Container key={index} style={{ flexDirection: 'column', width: '780px', minWidth: '780px', height: 'auto', marginBottom: '20px' }}>
 								<Text style={{ textAlign: 'left', fontSize: '20px', textDecoration: 'underline' }}>{note.version}</Text>
 								<Text style={{ textAlign: 'left', fontSize: '14px' }}>{note.description}</Text>
 							</Container>

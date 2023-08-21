@@ -1,6 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { BasicStore } from "./BasicStore";
+import { makeAutoObservable } from 'mobx';
 
 /** MapStore **
 * ...
@@ -8,20 +8,25 @@ import { BasicStore } from "./BasicStore";
 * @Created 2022-10-24
 */
 
-export class MapStore extends BasicStore {
+export default class MapStore {
 
 	public list: any;
 
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
+
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public override reset(): void {
+	public reset(): void {
 		this.list = {};
-		localStorage.removeItem("MapsData");
+		localStorage.removeItem('MapsData');
 	}
 
 	public setMapData(accountID: string, mapID: string, data: {}): void {
 		this.list[accountID] = { ...this.list[accountID], [mapID]: data };
-		localStorage.setItem("MapsData", JSON.stringify(this.list));
+		localStorage.setItem('MapsData', JSON.stringify(this.list));
 	}
 
 	public clearMapData(accountID: string, mapID?: string): void {
@@ -34,13 +39,13 @@ export class MapStore extends BasicStore {
 			this.list[accountID] = null;
 			delete (this.list[accountID]);
 		}
-		localStorage.setItem("MapsData", JSON.stringify(this.list));
+		localStorage.setItem('MapsData', JSON.stringify(this.list));
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
-		this.list = JSON.parse(localStorage.getItem("MapsData")) || {};
+	private init(): void {
+		this.list = JSON.parse(localStorage.getItem('MapsData')) || {};
 	}
 
 }

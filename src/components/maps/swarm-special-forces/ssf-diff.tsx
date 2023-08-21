@@ -1,8 +1,7 @@
 /* Generated with TypeScript React snippets */
 
+import { Container, Label } from '@src/components/ui';
 import React, { FC } from 'react';
-import Container from 'src/components/ui/container';
-import Label from 'src/components/ui/label';
 import { MParam } from '../MParam';
 import SSFPartElement from './ssf-part';
 
@@ -34,7 +33,7 @@ const SSFDiffElement: FC<Props> = (props: Props): JSX.Element => {
 			<Container style={{ flexDirection: 'column' }}>
 				{props.array.map((params: MParam[], index: number): JSX.Element => {
 					return (
-						<SSFPartElement onChange={props.onChange} array={params} i={props.i} j={index} />
+						<SSFPartElement key={index} onChange={props.onChange} array={params} i={props.i} j={index} />
 					)
 				})}
 			</Container>

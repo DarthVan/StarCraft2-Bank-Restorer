@@ -1,10 +1,7 @@
 /* Generated with TypeScript React snippets */
 
+import { Checkbox, Container, Input, Label } from '@src/components/ui';
 import React, { FC } from 'react';
-import Checkbox from 'src/components/ui/checkbox';
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
-import Label from 'src/components/ui/label';
 
 /** ZWLHero **
 * ...

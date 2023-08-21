@@ -1,9 +1,7 @@
 /* Generated with TypeScript React snippets */
 
+import { Checkbox, Container, Label } from '@src/components/ui';
 import React, { FC, useCallback } from 'react';
-import Checkbox from 'src/components/ui/checkbox';
-import Container from 'src/components/ui/container';
-import Label from 'src/components/ui/label';
 import { MParam } from '../MParam';
 
 /** SSFSixBoolsItem **
@@ -33,7 +31,7 @@ const SSFSixBoolsItem: FC<Props> = (props: Props): JSX.Element => {
 			<Container style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
 				{props.array.map((param: MParam, index: number): JSX.Element => {
 					return (
-						<Checkbox index={index} onChange={callbacks.onChange}
+						<Checkbox key={index} index={index} onChange={callbacks.onChange}
 							value={param.value as boolean}
 							style={{ margin: '4px -3px -4px -3px' }}
 						/>

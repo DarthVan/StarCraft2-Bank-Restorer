@@ -1,10 +1,9 @@
 /* Generated with TypeScript React snippets */
 
+import { Popup, Text } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback } from 'react';
-import Text from 'src/components/ui/text';
-import { useStore } from 'src/hooks/use-store';
-import Popup from '../../components/ui/popup';
 
 /** Warn **
 * ...

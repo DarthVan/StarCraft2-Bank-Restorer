@@ -33,7 +33,6 @@ const Select: FC<Props> = (props: Props): JSX.Element => {
 				return <option
 					key={index} // для статических списков норм, но для динамических - хз.
 					value={item.value}
-					selected={props.selected == item.value}
 					className={"Select-option"}
 				>{item.label}</option>;
 			})}
@@ -46,6 +45,7 @@ const Select: FC<Props> = (props: Props): JSX.Element => {
 			<select
 				id={id}
 				className='Select-box'
+				value={props.selected}
 				style={props.style}
 				placeholder={props.placeholder}
 				onChange={(e: React.ChangeEvent<HTMLSelectElement>): void => props.onChange(e.target.value, props.index, props.group)}

@@ -1,6 +1,7 @@
 /* Generated with TypeScript React snippets */
 
-import { Checkbox, Container, Input, Label } from '@src/components/ui';
+import { Container, Input, Text } from '@src/components/ui';
+import Label from '@src/components/ui/label';
 import { Bank } from '@src/core/bank';
 import { useStore } from '@src/hooks/use-store';
 import Editor from '@src/modules/editor';
@@ -13,21 +14,21 @@ import { Maps, mapProps } from '../Maps';
 import functions from './functions';
 import store from './store';
 
-/** ZWUForm **
+/** MineralzEvolutionForm **
 * ...
 * @Author Star Noob
-* @Created 2023-03-15
+* @Created 2022-09-28
 */
 
 interface Props {
 	bankName?: string;
 }
 
-const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
-	const { accountStore, menuStore, mapStore, modalStore } = useStore();
+const MineralzEvolutionForm: FC<Props> = observer((props: Props): JSX.Element => {
+	const { accountStore, menuStore, mapStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
-	const [authorID, setAuthorID] = useState(mapProps.get(Maps.ZOMBIE_WORLD_UNITY).authorID);
-	const mapTitle: string = mapProps.get(Maps.ZOMBIE_WORLD_UNITY).title;
+	const [authorID, setAuthorID] = useState(mapProps.get(Maps.MINERALZ_EVOLUTION).authorID);
+	const mapTitle: string = mapProps.get(Maps.MINERALZ_EVOLUTION).title;
 
 	const bank: Bank = useMemo((): Bank => {
 		return new Bank(bankName, authorID, menuStore.playerID, '1');
@@ -39,10 +40,9 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 
 	useEffect((): void => {
 		const fields: MParam[] = mapStore.list[accountStore.current]?.[mapTitle];
-		if (fields) {
-			//flushSync((): void => store.setFields());
-			setTimeout((): void => store.setFields(fields));
-		} else
+		if (fields)
+			store.setFields(fields);
+		else
 			setTimeout(callbacks.onResetClick);
 	}, [accountStore.current]);
 
@@ -61,31 +61,23 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
-			if (menuStore.playerID.split('-').length != 4) {
-				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
-				return;
-			}
 			downloadTextAsFile(functions.generateXML(bank), bankName + '.SC2Bank', true);
 			if (!menuStore.autoSave)
 				save();
 		}, [bank]),
 		onCopyCodeClick: useCallback((): void => {
-			if (menuStore.playerID.split('-').length != 4) {
-				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
-				return;
-			}
 			copyTextToClipboard(functions.generateXML(bank), true);
 			if (!menuStore.autoSave)
 				save();
 		}, [bank]),
 		onResetClick: useCallback((): void => {
 			setBankName(props.bankName);
-			setAuthorID(mapProps.get(Maps.ZOMBIE_WORLD_UNITY).authorID);
+			setAuthorID(mapProps.get(Maps.MINERALZ_EVOLUTION).authorID);
 			flushSync((): void => store.setFields());
 			store.reset();
 		}, []),
-		onFieldChange: useCallback((value: string | boolean, index?: number): void => {
-			store.updateAt(index, store.params[index].type == 'number' ? parseInt(value as string) : value as boolean, true);
+		onFieldChange: useCallback((value: string, index: number): void => {
+			store.updateAt(index, parseInt(value), true); // мутация включена!
 			if (menuStore.autoSave)
 				save();
 		}, [])
@@ -94,63 +86,71 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 	// Форму обновляем только если ее данные изменились
 	const form: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Container style={{ flexDirection: 'row' }}>
+			<Container style={{ flexDirection: 'column' }}>
 
-				<Container style={{ flexDirection: 'column' }}>
-					<Label>Stats:</Label>
+				<Text style={{ width: '500px' }}>
+					Note: this map has a votekick system!<br />
+					Avoid using unrealistic values in public lobbies.<br />
+				</Text>
+
+				<Label>Main stats:</Label>
+				<Container style={{ flexDirection: 'row', border: '1px solid #ffffff40', padding: '10px', justifyContent: 'space-around' }} alignInputs={true}>
+					{store.params.map((param: MParam, index: number): any => {
+						if (index < 3)
+							return (
+								<Input key={index} index={index} type='number'
+									style={{ width: '50px' }}
+									label={param.description + ':'}
+									onChange={callbacks.onFieldChange}
+									min={param.min.toString()}
+									max={param.max.toString()}
+									value={param.value.toString()}
+									tip={param.tip ? param.tip : null}
+								/>
+							);
+						else return null;
+					})}
+				</Container >
+
+				<Label>Survived nights and roles:</Label>
+				<Container style={{ flexDirection: 'row' }}>
+
 					<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
-						{store.params.map((param: MParam, index: number): JSX.Element => {
-							if (param.hidden)
-								return null;
-							if (index < 2)
+						{store.params.map((param: MParam, index: number): any => {
+							if (index >= 3 && index < 8)
 								return (
-									<Input key={index} label={param.description + ':'} index={index} type='number' min='0'
-										style={{ width: '40px' }}
+									<Input key={index} index={index} type='number'
+										style={{ width: '30px' }}
+										label={param.description + ':'}
 										onChange={callbacks.onFieldChange}
-										max={index == 0 ? '16999' : '45000'}
+										min={param.min.toString()}
+										max={param.max.toString()}
 										value={param.value.toString()}
+										tip={param.tip ? param.tip : null}
 									/>
 								);
 							else return null;
 						})}
 					</Container>
 
-					<Label style={{ paddingTop: '24px' }}>Options:</Label>
 					<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
-						{store.params.map((param: MParam, index: number): JSX.Element => {
-							if (param.hidden)
-								return null;
-							if (index > 1 && index < 5)
+						{store.params.map((param: MParam, index: number): any => {
+							if (index >= 8)
 								return (
-									<Checkbox key={index} label={param.description + ':'} index={index}
+									<Input key={index} index={index} type='number'
+										style={{ width: '50px' }}
+										label={param.description + ':'}
 										onChange={callbacks.onFieldChange}
-										value={param.value as boolean}
-									/>
-								);
-							else return null;
-						})}
-					</Container>
-
-				</Container>
-
-				<Container style={{ flexDirection: 'column' }}>
-					<Label>Kills:</Label>
-					<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
-						{store.params.map((param: MParam, index: number): JSX.Element => {
-							if (param.hidden)
-								return null;
-							if (index > 4)
-								return (
-									<Input key={index} label={param.description + ':'} index={index} type='number' min='0'
-										style={{ width: '80px' }}
-										onChange={callbacks.onFieldChange}
-										max={'1500000000'}
+										min={param.min.toString()}
+										max={param.max.toString()}
 										value={param.value.toString()}
+										tip={param.tip ? param.tip : null}
 									/>
 								);
 							else return null;
 						})}
 					</Container>
+
 				</Container>
 
 			</Container>
@@ -173,4 +173,4 @@ const ZWUForm: FC<Props> = observer((props: Props): JSX.Element => {
 	);
 });
 
-export default React.memo(ZWUForm);
+export default React.memo(MineralzEvolutionForm);

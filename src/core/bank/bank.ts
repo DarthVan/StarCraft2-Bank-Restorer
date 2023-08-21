@@ -1,11 +1,8 @@
 /* Generated with TypeScript snippets */
 
-import { hashSHA1 } from "src/utils/sha1";
-import { sc2_fstr } from "../sc2/core";
-import { BankInfo } from "./bank-info";
-import { BankKey } from "./bank-key";
-import { BankKeyType } from "./bank-key-type";
-import { BankMap } from "./bank-map";
+import { sc2_fstr } from '@src/core/sc2';
+import { hashSHA1 } from '@src/utils/sha1';
+import { BankInfo, BankKey, BankKeyType, BankMap } from '.';
 
 /** Bank **
 * ...
@@ -13,7 +10,7 @@ import { BankMap } from "./bank-map";
 * @Created 2022-09-24
 */
 
-export class Bank {
+export default class Bank {
 
 	public _signature: string;
 	public _version: string;
@@ -36,8 +33,8 @@ export class Bank {
 		let xml: Element = null;
 		const parser: DOMParser = new DOMParser();
 		try {
-			if (typeof data == "string")
-				xml = parser.parseFromString(data, "text/xml").firstElementChild;
+			if (typeof data == 'string')
+				xml = parser.parseFromString(data, 'text/xml').firstElementChild;
 			else
 				throw new Error('Received data is not valid xml!');
 		}
@@ -188,7 +185,7 @@ export class Bank {
 					onReady();
 			}
 		};
-		xmlhttp.open("GET", url, true);
+		xmlhttp.open('GET', url, true);
 		xmlhttp.send();
 	}
 
@@ -211,6 +208,6 @@ export class Bank {
 	//-------------------------------------------------- PRIVATE --------------------------------------------------
 
 	private init(): void {
-		this._sections = new BankMap<BankMap<BankKey>>("Sections");
+		this._sections = new BankMap<BankMap<BankKey>>('Sections');
 	}
 }

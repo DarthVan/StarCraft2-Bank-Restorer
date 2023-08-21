@@ -6,7 +6,7 @@
 * @Created 2022-09-24
 */
 
-export class SCParam {
+export default class SCParam {
 
 	private _current: number;
 	private _max: number;

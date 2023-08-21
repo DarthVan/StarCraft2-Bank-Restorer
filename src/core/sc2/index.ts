@@ -13,6 +13,15 @@ export function sc2_div(a: number, b: number): number {
 	return toFixed(a / b);
 }
 
+/** Galaxy Script 'a % b' */
+export function sc2_modf(a: number, b: number): number {
+	return toFixed(a % b);
+}
+
+// StringReplace replaces the indexed character range in the string with the replacement string
+// and returns the result.
+//native string   StringReplace (string s, string replace, int start, int end);
+
 /** Galaxy Script 'fixedToString(x, digitsAfterDot = 4)' */
 export function sc2_fstr(value: number, afterDot: number = 4): string {
 	let d: number = 1;

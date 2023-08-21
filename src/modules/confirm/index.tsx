@@ -1,12 +1,9 @@
 /* Generated with TypeScript React snippets */
 
+import { Button, Container, Popup, Text } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback } from 'react';
-import Button from 'src/components/ui/button';
-import Container from 'src/components/ui/container';
-import Text from 'src/components/ui/text';
-import { useStore } from 'src/hooks/use-store';
-import Popup from '../../components/ui/popup';
 
 /** Confirm **
 * ...

@@ -1,0 +1,21 @@
+.TextArea {
+  font-size: 12px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  tab-size: 4;
+
+  color: azure;
+  background-color: #00000050;
+  text-shadow: 0 0 5px #CCCCFF;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* border-top-left-radius: 8px; */
+
+  min-width: 800px;
+  min-height: 200px;
+
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+
+  padding: 10px;
+}

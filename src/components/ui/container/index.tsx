@@ -31,7 +31,7 @@ const FlexContainer: FC<Props> = (props: Props): JSX.Element => {
 			str += props.alignInputs ? ' TextFieldsContainer' : '';
 		}
 		return str;
-	}, []); // выполнится всего 1 раз, чтоб не гонять эти условия
+	}, []);
 
 	return (
 		<div className={className} style={props.style}>

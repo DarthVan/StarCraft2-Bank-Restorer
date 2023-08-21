@@ -1,18 +1,13 @@
 /* Generated with TypeScript React snippets */
 
+import { Button, Container, Input, Label, Select, Text } from '@src/components/ui';
+import { Bank } from '@src/core/bank';
+import { useStore } from '@src/hooks/use-store';
+import Editor from '@src/modules/editor';
+import { copyTextToClipboard, dateID, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
-import Button from 'src/components/ui/button';
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
-import Label from 'src/components/ui/label';
-import Select from 'src/components/ui/select';
-import Text from 'src/components/ui/text';
-import { Bank } from 'src/core/bank/bank';
-import { useStore } from 'src/hooks/use-store';
-import Editor from 'src/modules/editor';
-import { copyTextToClipboard, downloadTextAsFile } from 'src/utils/utils';
 import { MParam } from '../MParam';
 import { Maps, mapProps } from '../Maps';
 import functions from './functions';
@@ -134,14 +129,14 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '145px' }} alignInputs={true}>
 					{store.stats.map((param: MParam, index: number): JSX.Element => {
 						if (index == 1)
-							return <Select
+							return <Select key={index}
 								label='Best Solo:'
 								onChange={callbacks.onFieldChange}
 								selected={store.stats[1].value.toString()}
 								index={index}
 								style={{ width: '100px' }}
 							>{functions.getDifficultTypes()}</Select>
-						return <Input label={param.description + ':'} index={index} type='number'
+						return <Input key={index} label={param.description + ':'} index={index} type='number'
 							style={index == 0 ? { width: '80px' } : { width: '50px' }}
 							onChange={callbacks.onFieldChange}
 							min={index < 3 ? '0' : '100'}
@@ -166,7 +161,7 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }}>
 					{store.heroes.map((hero, index: number): JSX.Element => {
-						return <Hero hero={hero} onChange={callbacks.onHeroChange} index={index} />
+						return <Hero key={index} hero={hero} onChange={callbacks.onHeroChange} index={index} />
 					})}
 				</Container>
 			</>
@@ -187,7 +182,7 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 
 				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '600px', height: '508px', overflowY: 'auto' }}>
 					{store.jewels.map((jewel, index: number): JSX.Element => {
-						return <Jewel jewel={jewel} index={index} onChange={callbacks.onJewelChange} onRemove={callbacks.onJewelRemove} />
+						return <Jewel key={dateID()} jewel={jewel} index={index} onChange={callbacks.onJewelChange} onRemove={callbacks.onJewelRemove} />
 					})}
 				</Container>
 

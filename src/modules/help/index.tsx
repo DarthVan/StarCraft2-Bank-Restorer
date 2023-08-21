@@ -1,12 +1,9 @@
 /* Generated with TypeScript React snippets */
 
+import { Container, Label, Popup, Text } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback } from 'react';
-import Container from 'src/components/ui/container';
-import Label from 'src/components/ui/label';
-import Text from 'src/components/ui/text';
-import { useStore } from 'src/hooks/use-store';
-import Popup from '../../components/ui/popup';
 
 /** Help **
 * ...
@@ -28,7 +25,7 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 	};
 
 	return (
-		<Popup label={'What is this?¿'} maxWidth={1200} minWidth={700} maxHeight={600} onClose={callbacks.onCloseClick}>
+		<Popup label={'What is this?¿'} maxWidth={1200} minWidth={880} maxHeight={600} onClose={callbacks.onCloseClick}>
 			<Container style={{ flexDirection: 'column', padding: '20px', minWidth: '100%' }}>
 				<Text>
 					Hi!<br /><br />Reinstalled Windows? Playing Starcraft2 from another PC? Lost your save?<br />
@@ -46,8 +43,8 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 					In Windows, StarCraft2 stores banks (save files) in C:/Users/UserName/Documents/StarCraft II/Accounts/.../.../Banks/... . You have to find the bank file there.
 					When you select map here, you also can copy bank fileName to use it in search:<br /><br />
 				</Text>
-				<img src="./assets/images/help1.png" alt="help1.png" width={281} height={52} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
-				<Text style={{ alignSelf: 'center' }}>Bank file name for search (Example for map "Zombie World Unity")<br /><br /></Text>
+				<img src='./assets/images/help1.png' alt='help1.png' width={281} height={52} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
+				<Text style={{ alignSelf: 'center' }}>Bank file name for search (Example for map 'Zombie World Unity')<br /><br /></Text>
 				<Text style={{ alignSelf: 'center' }}><b> Dont forget to make backup of your original bank file!</b><br /><br /><br /></Text>
 
 				<Label>3. Found the bank file, what next?</Label>
@@ -55,18 +52,18 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 					Most of banks are verified with a signature that requires the playerID and map authorID to generate.
 					They are in the path to the file:<br /><br />
 				</Text>
-				<img src="./assets/images/help2.png" alt="help2.png" width={629} height={191} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
+				<img src='./assets/images/help2.png' alt='help2.png' width={690} height={128} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
 				<Text style={{ alignSelf: 'center' }}>Variables for Generator<br /><br /><br /></Text>
 				<Text>
 					Usually the file name and author id are entered automatically, you don't need to change them unless you have to.
 					But some regions (NA, Asian) can have different author IDs, so u have to be sure that authorID in the editor is correct.<br /><br />
 				</Text>
-				<img src="./assets/images/help3.png" alt="help3.png" width={700} height={240} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
+				<img src='./assets/images/help3.png' alt='help3.png' width={640} height={220} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
 				<Text style={{ alignSelf: 'center' }}>Where to put IDs<br /><br /><br /></Text>
 
 				<Label>4. Edit your stats</Label>
 				<Text>
-					Now you enter any values for new stats, or drop your bank file to the rect "Drop file here" to read and edit it.<br />
+					Now you enter any values for new stats, or drop your bank file to the rect 'Drop file here' to read and edit it.<br />
 					Please note that not all file parameters will be read when you drop the bank, but only the most important.<br /><br /><br />
 				</Text>
 
@@ -86,22 +83,30 @@ const Help: FC<Props> = observer((props: Props): JSX.Element => {
 					In addition, it is well known that player statistics are sometimes reset/change spontaneously due to bugs in progress saving algorithms.<br /><br /><br />
 				</Text>
 
-				<Label>Whats "Accounts" for?</Label>
+				<Label>Whats 'Accounts' for?</Label>
 				<Text>
 					The account manager is intended for those who have multiple accounts and are going to make stats for each one. Nicknames can be anything for convenience, and the player id is substituted from the path to the banks folder, as in paragraph 3.<br /><br />
 					A separate pool of maps will be created for each account and stored in the browser cache, so you can switch between entries and not enter PlayerID and stats every time.<br /><br /><br />
 				</Text>
 
-				<Label>Whats "Auto Save" for?</Label>
+				<Label>Whats 'Auto Save' for?</Label>
 				<Text>
 					This option is just to save the current bank's stats in the cache.<br />
 					If it is active, then saving occurs every time you change any value or option.<br />
 					If disabled, the stats is saved only when downloading or copying a bank file.<br /><br /><br />
 				</Text>
 
+				<Label>What is "Any Simple Map" ?</Label>
+				<Text>
+					This is a text editor (web version of <b>"BankSigner.exe"</b>), that understands the SC2 bank format and calculates a new signature for it.<br />
+					Here you can edit a lot of simple banks if they only have signature verification (also without it).<br /><br /><br />
+				</Text>
+				<img src='./assets/images/help4.png' alt='help4.png' width={880} height={450} style={{ alignSelf: 'center', border: '3px double #ffffff40' }} />
+				<Text style={{ alignSelf: 'center' }}>Any Simple Map example<br /><br /><br /></Text>
+
 				<Label>Found a bug or wanna add new map?</Label>
 				<Text>
-					Post issues or pull requests <a href="https://github.com/DarthVan/StarCraft2-Bank-Restorer" target={'_blank'} style={{ color: '#7777FF' }}>here</a>
+					Post issues or pull requests <a href='https://github.com/DarthVan/StarCraft2-Bank-Restorer' target={'_blank'} style={{ color: '#7777FF' }}>here</a>
 					<br /><br />gg hf!<br /><br />
 				</Text>
 			</Container>

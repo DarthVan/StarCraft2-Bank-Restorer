@@ -1,20 +1,17 @@
 /* Generated with TypeScript React snippets */
 
+import { Checkbox, Container, Input, Select } from '@src/components/ui';
+import { Bank } from '@src/core/bank';
+import { SCParam } from '@src/core/starcode';
+import { useStore } from '@src/hooks/use-store';
+import Editor from '@src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { flushSync } from "react-dom";
-import Checkbox from 'src/components/ui/checkbox';
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
-import Select from 'src/components/ui/select';
-import { Bank } from 'src/core/bank/bank';
-import { SCParam } from 'src/core/starcode/sc-param';
-import { useStore } from 'src/hooks/use-store';
-import Editor from 'src/modules/editor';
-import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
+import { flushSync } from 'react-dom';
 import { Maps, mapProps } from '../../Maps';
-import functions from "./functions";
-import store from "./store";
+import functions from './functions';
+import store from './store';
 
 /** RunlingRun8ILovePie **
 * ...
@@ -141,7 +138,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 			<Container style={{ flexFlow: 'column', padding: '0', justifyContent: 'space-around', border: '1px solid #ffffff40' }}>
 				{store.units.map((unit: SCParam[], index: number): JSX.Element => {
 					return (
-						<Container style={unitsStyle}>
+						<Container key={index} style={unitsStyle}>
 							<Select label={'Slot ' + (index + 1) + ':'}
 								index={index}
 								style={unitTypeStlye}
@@ -169,7 +166,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 					{store.info.map((param: SCParam, index: number): JSX.Element => {
 						if (index != 12 && index < 16)
 							return (
-								<Input label={param.description + ':'} index={index} type='number' min='0'
+								<Input key={index} label={param.description + ':'} index={index} type='number' min='0'
 									style={statInputStyle}
 									onChange={callbacks.onStatChange}
 									max={param.max.toString()}
@@ -186,7 +183,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 							return null;
 						if (index < 19)
 							return (
-								<Input label={param.description + ':'} index={index} type='number' min='1'
+								<Input key={index} label={param.description + ':'} index={index} type='number' min='1'
 									style={statInputStyle}
 									onChange={callbacks.onSettingChange}
 									max={param.max.toString()}
@@ -195,7 +192,7 @@ const RunlingRun8ILovePie: FC<Props> = observer((props: Props): JSX.Element => {
 							);
 						else
 							return (
-								<Checkbox label={param.description + ':'} index={index}
+								<Checkbox key={index} label={param.description + ':'} index={index}
 									onChange={callbacks.onSettingChange}
 									value={param.current == 1}
 								/>

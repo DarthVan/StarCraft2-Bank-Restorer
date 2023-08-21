@@ -1,6 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { BasicStore } from "./BasicStore";
+import { makeAutoObservable } from 'mobx';
 
 /** ModalStore **
 * ...
@@ -19,19 +19,24 @@ export enum Modals {
 
 }
 
-export class ModalStore extends BasicStore {
+export default class ModalStore {
 
 	public current: number;
 	public message: string;
 	public actions: (() => void)[];
 	public data: any;
 
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
+
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
 	public setModal(id: keyof typeof Modals, message?: string, actions?: (() => void)[], data?: any): void {
 		this.current = Modals[id];
 		this.message = message;
-		if (id == "NONE") {
+		if (id == 'NONE') {
 			this.actions = []; // на всякий случай сразу потрем их
 			this.data = null;
 			return;
@@ -40,20 +45,20 @@ export class ModalStore extends BasicStore {
 		this.data = data;
 	}
 
-	public override reset(): void {
+	public reset(): void {
 		this.current = 0;
-		localStorage.removeItem("FirstHelp");
+		localStorage.removeItem('FirstHelp');
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
-		if (localStorage.getItem("FirstHelp") == 'true') {
+	private init(): void {
+		if (localStorage.getItem('FirstHelp') == 'true') {
 			this.current = Modals.NONE;
 			return;
 		}
 		this.current = Modals.HELP;
-		localStorage.setItem("FirstHelp", 'true');
+		localStorage.setItem('FirstHelp', 'true');
 	}
 
 }

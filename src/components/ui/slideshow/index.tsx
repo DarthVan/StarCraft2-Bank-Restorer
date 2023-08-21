@@ -1,8 +1,8 @@
 /* Generated with TypeScript React snippets */
 
+import { CHANGE_BG_DELAY, TOTAL_BG_PICTURES } from '@src/Globals';
+import { r } from '@src/utils/utils';
 import React, { FC, useEffect, useRef } from 'react';
-import { CHANGE_BG_DELAY, TOTAL_BG_PICTURES } from 'src/Globals';
-import { r } from 'src/utils/utils';
 import './style.css';
 
 /** Slideshow **

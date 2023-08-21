@@ -1,4 +1,4 @@
-import filesaver from "file-saver";
+import filesaver from 'file-saver';
 
 /** random value from min...max */
 export function r(min: number, max: number): number {

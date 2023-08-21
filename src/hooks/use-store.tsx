@@ -15,6 +15,11 @@ import rootStore, { RootStore } from '../store';
 	}, 100);
 };
 configureMobX(); */
+/* configure({
+	enforceActions: 'never', // Этот параметр отключает проверку изменений только в экшенах
+	disableErrorBoundaries: true, // Этот параметр отключает ошибки внутри MobX-объектов
+	reactionRequiresObservable: false, // Этот параметр отключает проверку наблюдаемости для реакций
+}); */
 
 const storeContext: Context<RootStore> = React.createContext<RootStore | null>(null);
 

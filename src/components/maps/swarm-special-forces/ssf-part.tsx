@@ -1,8 +1,7 @@
 /* Generated with TypeScript React snippets */
 
+import { Container, Input } from '@src/components/ui';
 import React, { FC, useCallback } from 'react';
-import Container from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
 import { MParam } from '../MParam';
 
 /** SSFPartElement **
@@ -34,13 +33,13 @@ const SSFPartElement: FC<Props> = (props: Props): JSX.Element => {
 
 	return (
 		<Container style={{ flexDirection: 'column' }}>
-			{props.j > 0 ? <br /> : null}
+			{props.j > 0 ? <div style={{ height: '1px' }} /> : null}
 			<Container style={{ flexDirection: 'column' }}>
 				{props.array.map((param: MParam, index: number): JSX.Element => {
 					if (param.hidden)
 						return null;
 					return (
-						<Input index={index} type='text' style={{ width: '70px' }}
+						<Input key={index} index={index} type='text' style={{ width: '70px' }}
 							/* label={index == 0 ? 'Solo' : 'Team'} */
 							onChange={callbacks.onFieldChange}
 							value={param.value.toString()}

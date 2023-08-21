@@ -4,19 +4,12 @@ import { observer } from 'mobx-react-lite';
 import React, { FC, useEffect } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 
+import { Slides } from '@src/components/ui';
+import { StoreProvider, useStore } from '@src/hooks/use-store';
+import { Accounts, Confirm, Help, Info, Menu, Updates, Warn, Workspace } from '@src/modules';
+import { Modals } from '@src/store/ModalStore';
+import { gaInit } from '@src/utils/ga4';
 import './App.css';
-import Slideshow from './components/ui/slideshow';
-import { StoreProvider, useStore } from './hooks/use-store';
-import Accounts from './modules/accounts';
-import Confirm from './modules/confirm';
-import Help from './modules/help';
-import Info from './modules/info';
-import Menu from './modules/menu';
-import Updates from './modules/updates';
-import Warn from './modules/warn';
-import Workspace from './modules/workspace';
-import { Modals } from './store/ModalStore';
-import { gaInit } from './utils/ga4';
 
 /** App **
 * ...
@@ -32,7 +25,7 @@ const App: FC = observer((): JSX.Element => {
 	}, []);
 
 	return (
-		<div className="App">
+		<div className='App'>
 			<Menu />
 			<Workspace />
 			<Info />
@@ -48,10 +41,10 @@ const App: FC = observer((): JSX.Element => {
 const root: Root = createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
-		<Slideshow type='random'>
+		<Slides type='random'>
 			<StoreProvider>
 				<App />
 			</StoreProvider >
-		</Slideshow >
+		</Slides >
 	</React.StrictMode >
 );

@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
-import { dateID } from "src/utils/utils";
-import { BasicStore } from "./BasicStore";
+import { dateID } from '@src/utils/utils';
+import { makeAutoObservable } from 'mobx';
 
 /** AccountStore **
 * ...
@@ -9,23 +9,28 @@ import { BasicStore } from "./BasicStore";
 * @Created 2023-01-16
 */
 
-export class AccountStore extends BasicStore {
+export default class AccountStore {
 
 	public list: { id: string, name: string, playerID: string }[];
 	public current: string;
 
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
+
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
 
-	public override reset(): void {
+	public reset(): void {
 		this.list = [{ id: 'DEFAULT', name: 'Noob', playerID: '' }];
 		this.current = 'DEFAULT';
-		localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+		localStorage.setItem('AccountData', JSON.stringify({ list: this.list, selected: this.current }));
 	}
 
 	public add(name: string = '', playerID: string = ''): { id: string, name: string, playerID: string } {
 		const account: { id: string, name: string, playerID: string } = { id: dateID(), name, playerID };
 		this.list = [...this.list, account];
-		localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+		localStorage.setItem('AccountData', JSON.stringify({ list: this.list, selected: this.current }));
 		return account;
 	}
 
@@ -41,7 +46,7 @@ export class AccountStore extends BasicStore {
 			}
 		}
 		this.list = [...this.list];
-		localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+		localStorage.setItem('AccountData', JSON.stringify({ list: this.list, selected: this.current }));
 	}
 
 	public remove(id: string): void {
@@ -50,12 +55,12 @@ export class AccountStore extends BasicStore {
 		this.list = this.list.filter((account: { id: string }): boolean => account.id != id);
 		if (this.current == id) // если удаляем активную учетку, то переключаемся на первую в списке
 			this.current = this.list[0].id;
-		localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+		localStorage.setItem('AccountData', JSON.stringify({ list: this.list, selected: this.current }));
 	}
 
 	public setSelected(value: string): void {
 		this.current = value;
-		localStorage.setItem("AccountData", JSON.stringify({ list: this.list, selected: this.current }));
+		localStorage.setItem('AccountData', JSON.stringify({ list: this.list, selected: this.current }));
 	}
 
 	public get currentAccount(): { id: string, name: string, playerID: string } {
@@ -67,8 +72,8 @@ export class AccountStore extends BasicStore {
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
-		const json: any = JSON.parse(localStorage.getItem("AccountData"));
+	private init(): void {
+		const json: any = JSON.parse(localStorage.getItem('AccountData'));
 		this.list = json?.list;
 		if (!this.list || !this.list.length)
 			this.reset();

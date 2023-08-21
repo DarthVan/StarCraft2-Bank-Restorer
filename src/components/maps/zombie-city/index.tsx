@@ -1,18 +1,17 @@
 /* Generated with TypeScript React snippets */
 
+import { Container, Input, Label, Text } from '@src/components/ui';
+import { Bank } from '@src/core/bank';
+import { SCParam } from '@src/core/starcode';
+import { useStore } from '@src/hooks/use-store';
+import Editor from '@src/modules/editor';
+import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { flushSync } from "react-dom";
-import Flex from 'src/components/ui/container';
-import Input from 'src/components/ui/input';
-import { Bank } from 'src/core/bank/bank';
-import { SCParam } from 'src/core/starcode/sc-param';
-import { useStore } from 'src/hooks/use-store';
-import Editor from 'src/modules/editor';
-import { copyTextToClipboard, downloadTextAsFile } from "src/utils/utils";
+import { flushSync } from 'react-dom';
 import { Maps, mapProps } from '../Maps';
-import functions from "./functions";
-import store from "./store";
+import functions from './functions';
+import store from './store';
 
 /** ZombieCityForm **
 * ...
@@ -86,20 +85,25 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 	// Форму обновляем только если ее данные изменились
 	const form: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Flex style={{ flexDirection: 'column' }} alignInputs={true}>
-				{store.queue.map((param: SCParam, index: number): any => {
-					return (
-						<Input index={index} type='number'
-							style={{ width: '80px' }}
-							label={param.description + ':'}
-							onChange={callbacks.onFieldChange}
-							min='0'
-							max={param.max.toString()}
-							value={param.current.toString()}
-						/>
-					);
-				})}
-			</Flex>
+			<Container style={{ flexDirection: 'column' }} alignInputs={true}>
+				<Text>
+					This map don't have any validation, so<br /> you can skip <b>Player id</b> or <b>Author id</b> here.
+				</Text>
+				<>
+					{store.queue.map((param: SCParam, index: number): any => {
+						return (
+							<Input key={index} index={index} type='number'
+								style={{ width: '80px' }}
+								label={param.description + ':'}
+								onChange={callbacks.onFieldChange}
+								min='0'
+								max={param.max.toString()}
+								value={param.current.toString()}
+							/>
+						);
+					})}
+				</>
+			</Container>
 		);
 	}, [store.queue]);
 

@@ -1,11 +1,11 @@
 /* Generated with TypeScript snippets */
 
-import { Bank } from "src/core/bank/bank";
-import starcode from "src/core/starcode/starcode";
-import { n2t, r, t2n } from "src/utils/utils";
-import { MParam } from "../MParam";
-import storage from "./SSFStorage";
-import store from "./store";
+import { Bank } from '@src/core/bank';
+import { starcode } from '@src/core/starcode';
+import { n2t, r, t2n } from '@src/utils/utils';
+import { MParam } from '../MParam';
+import storage from './SSFStorage';
+import store from './store';
 
 /** Functions **
 * ...
@@ -66,6 +66,8 @@ class Functions {
 			for (let j: number = 0; j < 3; j++) { // 3 parts
 				speed[i].push([]);
 				for (let k: number = 0; k < 2; k++) { // solo / team values
+					//if (k == 0 && j == 0 && i == 5) // hardcore solo terran can't be passed 
+					//	speed[i][j].push({ type: 'string', value: '-', description: 'time ' });
 					speed[i][j].push(
 						{ type: 'string', value: n2t(r(250, 500) * Math.pow((i + 1), 1.5) / (k + 1)), description: 'time ' }
 					);
@@ -220,6 +222,8 @@ class Functions {
 		for (let i: number = 0; i < 6; i++) // difficults
 			for (let j: number = 0; j < 3; j++) // parts
 				for (let k: number = 0; k < 6; k++) // players
+					// TODO: check this
+					//if (store.speed[i][j][0].value)
 					storage.addInt(t2n(
 						k < 4 ? store.speed[i][j][0].value as string : store.speed[i][j][1].value as string
 					));

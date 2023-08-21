@@ -1,11 +1,10 @@
 /* Generated with TypeScript React snippets */
 
+import { mapProps } from '@src/components/maps/Maps';
+import { Container, Glass } from '@src/components/ui';
+import { useStore } from '@src/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useMemo } from 'react';
-import { mapProps } from "src/components/maps/Maps";
-import Flex from 'src/components/ui/container';
-import GlassWrapper from 'src/components/ui/glass-wrapper';
-import { useStore } from 'src/hooks/use-store';
 
 /** Workspace **
 * ...
@@ -21,17 +20,17 @@ const Workspace: FC<Props> = observer((props: Props): JSX.Element => {
 	// Заворачиваем формы в мутное стекло здесь, чтоб избавиться от лишнего рендера с блюром при редактировании
 	const editors: JSX.Element[] | JSX.Element = useMemo((): JSX.Element[] | JSX.Element => {
 		const mapData = mapProps.get(menuStore.selectedMap);
-		return mapData?.forms ? mapData.forms.map((form: JSX.Element): JSX.Element => {
-			return (<GlassWrapper border={true} style={{ minWidth: 'max-content', minHeight: 'max-content' }}>{form}</GlassWrapper>);
+		return mapData?.forms ? mapData.forms.map((form: JSX.Element, index: number): JSX.Element => {
+			return (<Glass key={index} border={true} style={{ minWidth: 'max-content', minHeight: 'max-content' }}>{form}</Glass>);
 		}) : [];
 	}, [menuStore.selectedMap]);
 
 	return (
-		<Flex style={{ overflow: 'auto' }}>
-			<Flex style={{ flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'space-around' }}>
+		<Container style={{ overflow: 'auto' }}>
+			<Container style={{ flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'space-around' }}>
 				{editors}
-			</Flex>
-		</Flex>
+			</Container>
+		</Container>
 	);
 });
 

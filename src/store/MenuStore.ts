@@ -1,7 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { action, makeAutoObservable, makeObservable, observable } from 'mobx';
-import { BasicStore } from './BasicStore';
+import { makeAutoObservable } from 'mobx';
 
 /** MenuStore **
 * ...
@@ -9,58 +8,63 @@ import { BasicStore } from './BasicStore';
 * @Created 2022-10-24
 */
 
-export class MenuStore extends BasicStore {
+export default class MenuStore {
 
-	public playerID: string;
-	public selectedMap: number;
-	public autoSave: boolean;
-	public sounds: boolean;
+	public playerID: string = '';
+	public selectedMap: number = 0;
+	public autoSave: boolean = true;
+	public sounds: boolean = true;
 
-	public override reset(): void {
-		localStorage.removeItem("PlayerID");
+	constructor() {
+		this.init();
+		makeAutoObservable(this);
+	}
+
+	public reset(): void {
+		localStorage.removeItem('PlayerID');
 		this.playerID = '';
 
-		localStorage.removeItem("SelectedMap");
+		localStorage.removeItem('SelectedMap');
 		this.selectedMap = 0;
 
-		localStorage.removeItem("AutoSave");
+		localStorage.removeItem('AutoSave');
 		this.autoSave = true;
 
-		localStorage.removeItem("Sounds");
+		localStorage.removeItem('Sounds');
 		this.sounds = true;
 	}
 
 	public setPlayerID(value: string): void {
 		this.playerID = value;
-		localStorage.setItem("PlayerID", value);
+		localStorage.setItem('PlayerID', value);
 	}
 
 	public setSelectedMap(value: number): void {
 		//console.log('set selected map:', value.toString());
 		this.selectedMap = value;
-		localStorage.setItem("SelectedMap", value.toString());
+		localStorage.setItem('SelectedMap', value.toString());
 	}
 
 	public setAutoSave(value: boolean): void {
 		this.autoSave = value;
-		localStorage.setItem("AutoSave", value ? 'true' : 'false');
+		localStorage.setItem('AutoSave', value ? 'true' : 'false');
 	}
 
 	public setSounds(value: boolean): void {
 		this.sounds = value;
-		localStorage.setItem("Sounds", value ? 'true' : 'false');
+		localStorage.setItem('Sounds', value ? 'true' : 'false');
 	}
 
 	//------------------------------------------------- PROTECTED -------------------------------------------------
 
-	protected override init(): void {
+	private init(): void {
 
-		this.playerID = localStorage.getItem("PlayerID") || '';
-		this.selectedMap = parseInt(localStorage.getItem("SelectedMap")) || 0;
+		this.playerID = localStorage.getItem('PlayerID') || '';
+		this.selectedMap = parseInt(localStorage.getItem('SelectedMap')) || 0;
 
 		// Enabled by default
-		this.autoSave = localStorage.getItem("AutoSave") == 'false' ? false : true;
-		this.sounds = localStorage.getItem("Sounds") == 'false' ? false : true;
+		this.autoSave = localStorage.getItem('AutoSave') == 'false' ? false : true;
+		this.sounds = localStorage.getItem('Sounds') == 'false' ? false : true;
 
 	}
 }
