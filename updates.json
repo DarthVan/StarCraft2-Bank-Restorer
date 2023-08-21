@@ -1,6 +1,10 @@
 {
 	"updates": [
 		{
+			"version": "1.08 (22.08.2023)",
+			"description": "New map - MineralZ Evolution [Updated]\nOptimizations: esm format, dynamic module loading\nCore: added SC2 ModF() implementation\nSmall fixes/improvements\nSome new music ♪"
+		},
+		{
 			"version": "1.07 (9.05.2023)",
 			"description": "Editor: fixed bankName and Author ID inputs\nCore: added 'point' key type and some improvements\nDesign: fixed invalid default background path"
 		},
