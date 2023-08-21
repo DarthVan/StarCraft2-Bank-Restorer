@@ -1,9 +1,0 @@
-.vscode/
-bin/
-haxe src/
-node_modules
-lib
-
-package.json
-rollup.config.js
-tsconfig.json
