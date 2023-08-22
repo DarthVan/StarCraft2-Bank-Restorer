@@ -1,3 +1,8 @@
+/**
+ * sc2 natives (interface):
+ * https://github.com/grum/sc2-dev/blob/master/Mods/Core.SC2Mod/Base.SC2Data/TriggerLibs/natives.galaxy
+ */
+
 /** Galaxy Script 'Pow(a, b)' */
 export function sc2_pow(a: number, b: number): number {
 	return toFixed(Math.pow(a, b));
