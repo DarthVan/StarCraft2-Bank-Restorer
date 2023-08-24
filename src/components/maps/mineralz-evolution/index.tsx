@@ -89,8 +89,8 @@ const MineralzEvolutionForm: FC<Props> = observer((props: Props): JSX.Element =>
 			<Container style={{ flexDirection: 'column' }}>
 
 				<Text style={{ width: '500px' }}>
-					Note: this map has a votekick system!<br />
-					Avoid using unrealistic values in public lobbies.<br />
+					Note: the community of this map closely monitors the statistics of the players and their skills.<br /><br />
+					<b>Use the hack wisely, be prepared for a skill test!</b><br />
 				</Text>
 
 				<Label>Main stats:</Label>

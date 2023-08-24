@@ -195,7 +195,7 @@ class Functions {
 		}
 
 		return [
-			{ type: 'number', value: this.getKey(bank, 'PHR'), description: 'Prestige', min: 0, max: 12, tip: '0 - 12' },
+			{ type: 'number', value: this.getKey(bank, 'PHR'), description: 'Prestige', min: 0, max: 40, tip: '0 - 40' },
 			{ type: 'number', value: this.getKey(bank, 'NIVO'), description: 'Level', min: 1, max: 200, tip: '1 - 200' },
 			{ type: 'number', value: this.getKey(bank, 'WINS'), description: 'Wins', min: 0, max: 999999 },
 

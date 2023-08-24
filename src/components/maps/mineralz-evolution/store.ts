@@ -1,5 +1,6 @@
 /* Generated with TypeScript snippets */
 
+import { r } from '@src/utils/utils';
 import { makeAutoObservable } from 'mobx';
 import { MParam } from '../MParam';
 
@@ -43,9 +44,9 @@ class Store {
 
 	private init(): void {
 		this.params = [
-			{ type: 'number', value: 12, description: 'Prestige', min: 0, max: 12, tip: '0 - 12' },
-			{ type: 'number', value: 200, description: 'Level', min: 1, max: 200, tip: '1 - 200' },
-			{ type: 'number', value: 125, description: 'Wins', min: 0, max: 999999 },
+			{ type: 'number', value: r(1, 40), description: 'Prestige', min: 0, max: 40, tip: '0 - 40' },
+			{ type: 'number', value: r(100, 200), description: 'Level', min: 1, max: 200, tip: '1 - 200' },
+			{ type: 'number', value: r(50, 100), description: 'Wins', min: 0, max: 999999 },
 
 			{ type: 'number', value: 35, description: 'Nights', min: 0, max: 35, tip: '0 - 35' },
 			{ type: 'number', value: 35, description: 'Elite', min: 0, max: 35, tip: '0 - 35' },
@@ -53,11 +54,11 @@ class Store {
 			{ type: 'number', value: 35, description: 'Hell', min: 0, max: 35, tip: '0 - 35' },
 			{ type: 'number', value: 35, description: 'Impossible', min: 0, max: 35, tip: '0 - 35' },
 
-			{ type: 'number', value: 125, description: 'Wall', min: 0, max: 999999 }, // 8
-			{ type: 'number', value: 125, description: 'Cannons', min: 0, max: 999999 },
-			{ type: 'number', value: 125, description: 'Healer', min: 0, max: 999999 },
-			{ type: 'number', value: 125, description: 'Generator', min: 0, max: 999999 },
-			{ type: 'number', value: 125, description: 'Economy', min: 0, max: 999999 }
+			{ type: 'number', value: r(25, 125), description: 'Wall', min: 0, max: 999999 }, // 8
+			{ type: 'number', value: r(25, 125), description: 'Cannons', min: 0, max: 999999 },
+			{ type: 'number', value: r(25, 125), description: 'Healer', min: 0, max: 999999 },
+			{ type: 'number', value: r(25, 125), description: 'Generator', min: 0, max: 999999 },
+			{ type: 'number', value: r(25, 125), description: 'Economy', min: 0, max: 999999 }
 		];
 	}
 
