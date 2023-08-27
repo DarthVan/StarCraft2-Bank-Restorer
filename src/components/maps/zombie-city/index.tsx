@@ -87,7 +87,7 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 		return (
 			<Container style={{ flexDirection: 'column' }} alignInputs={true}>
 				<Text>
-					This map don't have any validation, so<br /> you can skip <b>Player id</b> or <b>Author id</b> here.
+					Note: this map has no validation, so<br /> you can skip <b>Player id</b> or <b>Author id</b> here.
 				</Text>
 				<>
 					{store.queue.map((param: SCParam, index: number): any => {

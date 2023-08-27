@@ -1,9 +1,13 @@
 import reactPlugin from '@vitejs/plugin-react';
-import { fileURLToPath } from 'url';
-import { BuildOptions, ConfigEnv, defineConfig } from 'vite';
-import pkg from "./package.json" assert { type: "json" };
+import fs from 'fs';
+import path from 'path';
 
-const date: string = (new Date()).toUTCString().replace(/GMT/g, 'UTC');
+import { fileURLToPath } from 'url';
+import { BuildOptions, ConfigEnv, defineConfig, PluginOption } from 'vite';
+import pkg from './package.json' assert { type: 'json' };
+
+const buildDir: string = 'A:/' + pkg.name;
+const date: string = new Date().toUTCString().replace(/GMT/g, 'UTC');
 
 export default defineConfig((params: ConfigEnv) => {
 	return {
@@ -20,7 +24,8 @@ export default defineConfig((params: ConfigEnv) => {
 		plugins: [
 			reactPlugin({
 				include: '**/*.{jsx,tsx}',
-			})
+			}),
+			updateSitemap(),
 		],
 		server: {
 			port: 8080,
@@ -42,8 +47,7 @@ export default defineConfig((params: ConfigEnv) => {
 // Making good file structure
 function getBuildOptions(): BuildOptions {
 	return {
-		outDir: 'A:/' + pkg.name,
-		//assetsDir: 'scripts',
+		outDir: buildDir,
 		emptyOutDir: true,
 		sourcemap: false,
 		rollupOptions: {
@@ -52,10 +56,7 @@ function getBuildOptions(): BuildOptions {
 				entryFileNames: 'js/[name]-[hash].js',
 
 				assetFileNames: ({ name }) => {
-					/* if (/\.(gif|jpe?g|png|svg)$/.test(name ?? ''))
-						return 'assets/images/[name]-[hash][extname]'; */
-
-					if (/\.css$/.test(name ?? ''))
+					if (/\.(css|s?css|less)$/.test(name ?? '')) // scss and less for exapmle only
 						return 'css/[name]-[hash][extname]';
 
 					return 'assets/[name]-[hash][extname]';
@@ -80,4 +81,18 @@ function getBuildOptions(): BuildOptions {
 			},
 		}
 	}
+}
+
+// Plugin for updating sitemap.xml
+function updateSitemap(): PluginOption {
+	const yymmdd: string = new Date().toISOString().slice(0, 10);
+	return {
+		name: 'generateSitemap',
+		apply: 'build',
+		writeBundle(): void {
+			let sitemap: string = fs.readFileSync('./public/sitemap.xml', 'utf-8');
+			sitemap = sitemap.replace(/<lastmod>[^<]+<\/lastmod>/, `<lastmod>${yymmdd}</lastmod>`);
+			fs.writeFileSync(buildDir + '/sitemap.xml', sitemap);
+		},
+	};
 }

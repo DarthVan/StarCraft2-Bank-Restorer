@@ -13,7 +13,7 @@ export type MParam = {
 	description: string;
 	min?: number;
 	max?: number;
-	hidden?: boolean; // ignore by UI form
 	tip?: string;
+	hidden?: boolean; // ignore by UI form
 
 }

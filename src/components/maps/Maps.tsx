@@ -3,16 +3,6 @@
 import { Text } from '@src/components/ui';
 import { lazy, Suspense } from 'react';
 
-/* import AnySimple from './any-simple';
-import MineralzEvolution from './mineralz-evolution';
-import RunlingRun4 from './runling-run-4';
-import RunlingRun8ilovePie from './runling-run-8/i-love-pie';
-import RunlingRun8Prestige from './runling-run-8/prestige';
-import SwarmSpecialForces from './swarm-special-forces';
-import ZombieCity from './zombie-city';
-import ZombieWorldLiberty from './zombie-world-liberty';
-import ZombieWorldUnity from './zombie-world-unity'; */
-
 const AnySimple = lazy(() => import('./any-simple'));
 const MineralzEvolution = lazy(() => import('./mineralz-evolution'));
 const RunlingRun4 = lazy(() => import('./runling-run-4'));
