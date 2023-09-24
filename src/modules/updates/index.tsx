@@ -38,7 +38,7 @@ const Updates: FC<Props> = observer((props: Props): JSX.Element => {
 						return (
 							<Container key={index} style={{ flexDirection: 'column', width: '780px', minWidth: '780px', height: 'auto', marginBottom: '20px' }}>
 								<Text style={{ textAlign: 'left', fontSize: '20px', textDecoration: 'underline' }}>{note.version}</Text>
-								<Text style={{ textAlign: 'left', fontSize: '14px' }}>{note.description}</Text>
+								<Text style={{ textAlign: 'left', fontSize: '14px', whiteSpace: 'pre-wrap', tabSize: '4' }}>{note.description}</Text>
 							</Container>
 						);
 					})

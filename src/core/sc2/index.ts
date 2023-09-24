@@ -4,8 +4,13 @@
  */
 
 /** Galaxy Script 'Pow(a, b)' */
+export function sc2_round(a: number): number {
+	return toFixed(Math.round(toFixed(a)));
+}
+
+/** Galaxy Script 'Pow(a, b)' */
 export function sc2_pow(a: number, b: number): number {
-	return toFixed(Math.pow(a, b));
+	return toFixed(Math.pow(toFixed(a), toFixed(b)));
 }
 
 /** Galaxy Script 'SquareRoot(x)' */
@@ -13,14 +18,24 @@ export function sc2_sqrt(value: number): number {
 	return toFixed(Math.pow(toFixed(value % 1048576), 0.5));
 }
 
+/** Galaxy Script 'a * b' */
+export function sc2_mult(...args: number[]): number {
+	let result: number = toFixed(args[0]);
+	if (args.length == 1)
+		return result;
+	for (let i: number = 1; i < args.length; i++)
+		result = toFixed(result * toFixed(args[i]));
+	return result;
+}
+
 /** Galaxy Script 'a / b' */
 export function sc2_div(a: number, b: number): number {
-	return toFixed(a / b);
+	return toFixed(toFixed(a) / toFixed(b));
 }
 
 /** Galaxy Script 'a % b' */
 export function sc2_modf(a: number, b: number): number {
-	return toFixed(a % b);
+	return toFixed(toFixed(a) % toFixed(b));
 }
 
 // StringReplace replaces the indexed character range in the string with the replacement string

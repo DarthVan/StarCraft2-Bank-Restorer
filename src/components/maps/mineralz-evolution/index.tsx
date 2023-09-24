@@ -89,9 +89,9 @@ const MineralzEvolutionForm: FC<Props> = observer((props: Props): JSX.Element =>
 			<Container style={{ flexDirection: 'column' }}>
 
 				<Text style={{ width: '500px' }}>
-					Note: the community of this map closely monitors the statistics of the players and their skills.<br /><br />
-					<b>Use the hack wisely, be prepared for a skill test!</b><br /><br />
+					Note: the community of this map closely monitors the statistics of the players, their skills and match history, so <b>use the hack wisely!</b><br /><br />
 					The <b>Reset</b> button generates random real stats, but avoid using it with more than <b>5 Prestige</b> / <b>5 Impossible</b>.<br />
+					Or add <b>+20 levels</b> / <b>+5 wins</b> / <b>+2 role wins</b> after every game to looks legit.<br />
 				</Text>
 
 				<Label>Main stats:</Label>

@@ -1,7 +1,8 @@
 /* Generated with TypeScript snippets */
 
 import { Bank, BankKey } from '@src/core/bank';
-import { sc2_modf, sc2_sqrt } from '@src/core/sc2';
+import { sc2_div, sc2_modf, sc2_mult, sc2_round, sc2_sqrt } from '@src/core/sc2';
+import { r } from '@src/utils/utils';
 import { MParam } from '../MParam';
 import store from './store';
 
@@ -18,20 +19,105 @@ class Functions {
 	public generateXML(bank: Bank): string {
 
 		// JESUS!!! GOD! WHY SO MANY STUPID OPERATIONS ??
-		/* const i1: number = sc2_modf(86.2, sc2_sqrt(5)) * 47.42;
-		const i2: number = Math.round(sc2_modf(1229.3, sc2_sqrt(i1)) * sc2_modf(1229.3, sc2_sqrt(5))) * 2;
-		const i3: number = Math.round(sc2_modf(9139.1, sc2_sqrt(i2)) * sc2_modf(9139.1, sc2_sqrt(i1)) * sc2_modf(9139.1, sc2_sqrt(5))) * 2;
-		const i4: number = Math.round(sc2_modf(12213.1, sc2_sqrt(i3)) * sc2_modf(12213.1, sc2_sqrt(i2)) * sc2_modf(12213.1, sc2_sqrt(i1)) * sc2_modf(12213.1, sc2_sqrt(5))) * 2;
-		const i5: number = Math.round(sc2_modf(113.1, sc2_sqrt(i4)) * sc2_modf(113.1, sc2_sqrt(i3)) * sc2_modf(113.1, sc2_sqrt(i2)) * sc2_modf(113.1, sc2_sqrt(i1)) * sc2_modf(113.1, sc2_sqrt(5))) * 2;
-		const i6: number = Math.round(sc2_modf(678.9, sc2_sqrt(i5)) * sc2_modf(678.9, sc2_sqrt(i4)) * sc2_modf(678.9, sc2_sqrt(i3)) * sc2_modf(678.9, sc2_sqrt(i2)) * sc2_modf(678.9, sc2_sqrt(i1)) * sc2_modf(678.9, sc2_sqrt(5))) * 2;
-		const i7: number = Math.round(sc2_modf(422.4, sc2_sqrt(i6)) * sc2_modf(422.4, sc2_sqrt(i5)) * sc2_modf(422.4, sc2_sqrt(i4)) * sc2_modf(422.4, sc2_sqrt(i3)) * sc2_modf(422.4, sc2_sqrt(i2)) * sc2_modf(422.4, sc2_sqrt(i1)) * sc2_modf(422.4, sc2_sqrt(5))) * 2;
-		const i8: number = Math.round(sc2_modf(397.4, sc2_sqrt(i7)) * sc2_modf(397.4, sc2_sqrt(i6)) * sc2_modf(397.4, sc2_sqrt(i5)) * sc2_modf(397.4, sc2_sqrt(i4)) * sc2_modf(397.4, sc2_sqrt(i3)) * sc2_modf(397.4, sc2_sqrt(i2)) * sc2_modf(397.4, sc2_sqrt(i1)) * sc2_modf(397.4, sc2_sqrt(5))) * 2;
-		const i9: number = Math.round(sc2_modf(333.22, sc2_sqrt(i7)) * sc2_modf(333.22, sc2_sqrt(i6)) * sc2_modf(333.22, sc2_sqrt(i5)) * sc2_modf(333.22, sc2_sqrt(i4)) * sc2_modf(333.22, sc2_sqrt(i3)) * sc2_modf(333.22, sc2_sqrt(i2)) * sc2_modf(333.22, sc2_sqrt(i1)) * sc2_modf(333.22, sc2_sqrt(5)));
-		 */
-		// console.log(i1, i2, i3, i4, i5, i6, i7, i8, i9);
-		// 58.7077197265625 12 22 2 26 18 40 662 1
+		/* const i1: number = sc2_mult(sc2_modf(86.2, sc2_sqrt(5)), 47.42);
 
-		const i1: number = 58.7077197265625;
+		const i2: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(
+						1229.3,
+						sc2_sqrt(i1)
+					),
+					sc2_modf(1229.3, sc2_sqrt(5))
+				)
+			), 2);
+
+		const i3: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(9139.1, sc2_sqrt(i2)),
+					sc2_modf(9139.1, sc2_sqrt(i1)),
+					sc2_modf(9139.1, sc2_sqrt(5)),
+				)
+			), 2);
+
+		const i4: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(12213.1, sc2_sqrt(i3)),
+					sc2_modf(12213.1, sc2_sqrt(i2)),
+					sc2_modf(12213.1, sc2_sqrt(i1)),
+					sc2_modf(12213.1, sc2_sqrt(5)),
+				)
+			), 2);
+
+		const i5: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(113.1, sc2_sqrt(i4)),
+					sc2_modf(113.1, sc2_sqrt(i3)),
+					sc2_modf(113.1, sc2_sqrt(i2)),
+					sc2_modf(113.1, sc2_sqrt(i1)),
+					sc2_modf(113.1, sc2_sqrt(5)),
+				)
+			), 2);
+
+		const i6: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(678.9, sc2_sqrt(i5)),
+					sc2_modf(678.9, sc2_sqrt(i4)),
+					sc2_modf(678.9, sc2_sqrt(i3)),
+					sc2_modf(678.9, sc2_sqrt(i2)),
+					sc2_modf(678.9, sc2_sqrt(i1)),
+					sc2_modf(678.9, sc2_sqrt(5))
+				)
+			), 2);
+
+		const i7: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(422.4, sc2_sqrt(i6)),
+					sc2_modf(422.4, sc2_sqrt(i5)),
+					sc2_modf(422.4, sc2_sqrt(i4)),
+					sc2_modf(422.4, sc2_sqrt(i3)),
+					sc2_modf(422.4, sc2_sqrt(i2)),
+					sc2_modf(422.4, sc2_sqrt(i1)),
+					sc2_modf(422.4, sc2_sqrt(5))
+				)
+			), 2);
+
+		const i8: number = sc2_mult(
+			sc2_round(
+				sc2_mult(
+					sc2_modf(397.4, sc2_sqrt(i7)),
+					sc2_modf(397.4, sc2_sqrt(i6)),
+					sc2_modf(397.4, sc2_sqrt(i5)),
+					sc2_modf(397.4, sc2_sqrt(i4)),
+					sc2_modf(397.4, sc2_sqrt(i3)),
+					sc2_modf(397.4, sc2_sqrt(i2)),
+					sc2_modf(397.4, sc2_sqrt(i1)),
+					sc2_modf(397.4, sc2_sqrt(5))
+				)
+			), 2);
+
+		const i9: number = sc2_round(
+			sc2_mult(
+				sc2_modf(333.22, sc2_sqrt(i7)),
+				sc2_modf(333.22, sc2_sqrt(i6)),
+				sc2_modf(333.22, sc2_sqrt(i5)),
+				sc2_modf(333.22, sc2_sqrt(i4)),
+				sc2_modf(333.22, sc2_sqrt(i3)),
+				sc2_modf(333.22, sc2_sqrt(i2)),
+				sc2_modf(333.22, sc2_sqrt(i1)),
+				sc2_modf(333.22, sc2_sqrt(5))
+			)
+		); */
+
+		//console.log('calcs:', i1, i2, i3, i4, i5, i6, i7, i8, i9);
+		// 58.70751953125 12 22 2 26 18 40 662 1
+
+		const i1: number = 58.70751953125;
 		const i2: number = 12;
 		const i3: number = 22;
 		const i4: number = 2;
@@ -41,7 +127,8 @@ class Functions {
 		const i8: number = 662;
 		const i9: number = 1;
 
-		const handle: number = parseInt(bank.info.playerID.substring(7));
+		//handle = StringToInt(StringReplace('2-S2-1-10376898', "0", 1, 8));
+		const handle: number = parseInt(bank.info.playerID.substring(8)); // apha :D
 
 		// 1. Prestige:
 		const prestige: number = store.params[0].value as number;
@@ -126,22 +213,100 @@ class Functions {
 		if (impossible > 0) {
 			bank.addKey('ims', 'INT', impossible, 'Sec');
 
-			const shield: number = Math.abs(sc2_modf(impossible * 10.0, Math.abs(sc2_modf((Math.round((sc2_modf((sc2_modf(i1, sc2_sqrt(5.0)) * sc2_modf(86, sc2_sqrt(8.0)) * sc2_modf(i2, sc2_sqrt(3.0)) * sc2_modf(i3, sc2_sqrt(2.0)) * sc2_modf(i4, sc2_sqrt(7.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(6.0)) * sc2_modf(i7, sc2_sqrt(7.0)) * sc2_modf(i8, sc2_sqrt(5.0)) * sc2_modf(i9, sc2_sqrt(3.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(3.0)) * 10000.0)) / 1000.0), 10.0))));
+			//const shield: number = Math.abs(sc2_modf(impossible * 10.0, Math.abs(sc2_modf(sc2_div(sc2_round((sc2_modf((sc2_modf(i1, sc2_sqrt(5.0)) * sc2_modf(86, sc2_sqrt(8.0)) * sc2_modf(i2, sc2_sqrt(3.0)) * sc2_modf(i3, sc2_sqrt(2.0)) * sc2_modf(i4, sc2_sqrt(7.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(6.0)) * sc2_modf(i7, sc2_sqrt(7.0)) * sc2_modf(i8, sc2_sqrt(5.0)) * sc2_modf(i9, sc2_sqrt(3.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(3.0)) * 10000.0)), 1000.0), 10.0))));
+			const shield: number = Math.abs(
+				sc2_modf(
+					sc2_mult(impossible, 10.0),
+					Math.abs(
+						sc2_modf(
+							sc2_div(
+								sc2_round(
+									sc2_mult(
+										sc2_modf(
+											sc2_mult(
+												sc2_modf(i1, sc2_sqrt(5.0)),
+												sc2_modf(86, sc2_sqrt(8.0)),
+												sc2_modf(i2, sc2_sqrt(3.0)),
+												sc2_modf(i3, sc2_sqrt(2.0)),
+												sc2_modf(i4, sc2_sqrt(7.0)),
+												sc2_modf(i5, sc2_sqrt(3.0)),
+												sc2_modf(i6, sc2_sqrt(6.0)),
+												sc2_modf(i7, sc2_sqrt(7.0)),
+												sc2_modf(i8, sc2_sqrt(5.0)),
+												sc2_modf(i9, sc2_sqrt(3.0)),
+												sc2_modf(handle, 65537.0)
+											),
+											sc2_sqrt(3.0)
+										), 10000.0
+									)
+								), 1000.0
+							), 10.0
+						)
+					)
+				)
+			);
 
-			bank.addKey('im', 'FIXED', shield + impossible * 10, 'Sec'); //(lv_shield+IntToFixed(lv_nim*10))); // "im"
+			bank.addKey('im', 'FIXED', sc2_mult(shield + impossible, 10), 'Sec'); //(lv_shield+IntToFixed(lv_nim*10))); // "im"
 			if (impossible >= 35) {
-				const heal: number = (Math.round((sc2_modf((sc2_modf(i1, sc2_sqrt(3.0)) * sc2_modf(86, sc2_sqrt(2.0)) * sc2_modf(i2, sc2_sqrt(7.0)) * sc2_modf(i3, sc2_sqrt(8.0)) * sc2_modf(i4, sc2_sqrt(17.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(2.0)) * sc2_modf(i7, sc2_sqrt(5.0)) * sc2_modf(i8, sc2_sqrt(11.0)) * sc2_modf(i9, sc2_sqrt(5.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(10.0)) * 10000.0)) / 1000.0);
-				bank.addKey('is', 'FIXED', (shield / heal) * 3.4, 'Sec');
+				//const heal: number = sc2_div(sc2_round((sc2_modf((sc2_modf(i1, sc2_sqrt(3.0)) * sc2_modf(86, sc2_sqrt(2.0)) * sc2_modf(i2, sc2_sqrt(7.0)) * sc2_modf(i3, sc2_sqrt(8.0)) * sc2_modf(i4, sc2_sqrt(17.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(2.0)) * sc2_modf(i7, sc2_sqrt(5.0)) * sc2_modf(i8, sc2_sqrt(11.0)) * sc2_modf(i9, sc2_sqrt(5.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(10.0)) * 10000.0)), 1000.0);
+				const heal: number = sc2_div(
+					sc2_round(
+						sc2_mult(
+							sc2_modf(
+								sc2_mult(
+									sc2_modf(i1, sc2_sqrt(3.0)),
+									sc2_modf(86, sc2_sqrt(2.0)),
+									sc2_modf(i2, sc2_sqrt(7.0)),
+									sc2_modf(i3, sc2_sqrt(8.0)),
+									sc2_modf(i4, sc2_sqrt(17.0)),
+									sc2_modf(i5, sc2_sqrt(3.0)),
+									sc2_modf(i6, sc2_sqrt(2.0)),
+									sc2_modf(i7, sc2_sqrt(5.0)),
+									sc2_modf(i8, sc2_sqrt(11.0)),
+									sc2_modf(i9, sc2_sqrt(5.0)),
+									sc2_modf(handle, 65537.0)
+								),
+								sc2_sqrt(10.0)
+							), 10000.0
+						)
+					),
+					1000.0
+				);
+
+
+				bank.addKey('is', 'FIXED', sc2_mult(sc2_div(shield, heal), 3.4), 'Sec');
 
 				// Impossible done key
-				const healval: number = (Math.round((sc2_modf((sc2_modf(i1, sc2_sqrt(2.0)) * sc2_modf(86, sc2_sqrt(3.0)) * sc2_modf(i2, sc2_sqrt(6.0)) * sc2_modf(i3, sc2_sqrt(5.0)) * sc2_modf(i4, sc2_sqrt(7.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(2.0)) * sc2_modf(i7, sc2_sqrt(5.0)) * sc2_modf(i8, sc2_sqrt(11.0)) * sc2_modf(i9, sc2_sqrt(5.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(10.0)) * 10000.0)) / 1000.0);
+				//const healval: number = sc2_div(sc2_round((sc2_modf((sc2_modf(i1, sc2_sqrt(2.0)) * sc2_modf(86, sc2_sqrt(3.0)) * sc2_modf(i2, sc2_sqrt(6.0)) * sc2_modf(i3, sc2_sqrt(5.0)) * sc2_modf(i4, sc2_sqrt(7.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(2.0)) * sc2_modf(i7, sc2_sqrt(5.0)) * sc2_modf(i8, sc2_sqrt(11.0)) * sc2_modf(i9, sc2_sqrt(5.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(10.0)) * 10000.0)), 1000.0);
+				const healval: number = sc2_div(
+					sc2_round(
+						sc2_mult(
+							sc2_modf(
+								sc2_mult(
+									sc2_modf(i1, sc2_sqrt(2.0)),
+									sc2_modf(86, sc2_sqrt(3.0)),
+									sc2_modf(i2, sc2_sqrt(6.0)),
+									sc2_modf(i3, sc2_sqrt(5.0)),
+									sc2_modf(i4, sc2_sqrt(7.0)),
+									sc2_modf(i5, sc2_sqrt(3.0)),
+									sc2_modf(i6, sc2_sqrt(2.0)),
+									sc2_modf(i7, sc2_sqrt(5.0)),
+									sc2_modf(i8, sc2_sqrt(11.0)),
+									sc2_modf(i9, sc2_sqrt(5.0)),
+									sc2_modf(handle, 65537.0)
+								), sc2_sqrt(10.0)
+							), 10000.0
+						)
+					), 1000.0);
+
+
 				bank.addKey('imval', 'FIXED', healval, 'Sec');
 			} else
 				bank.removeKey('imval', 'Sec');
 		} else {
-			bank.removeKey('HL', 'Sec');
-			bank.removeKey('HAL', 'Sec');
-			bank.removeKey('HLO', 'Sec');
+			bank.removeKey('ims', 'Sec');
+			bank.removeKey('im', 'Sec');
+			bank.removeKey('is', 'Sec');
 			bank.removeKey('imval', 'Sec');
 		}
 
@@ -181,6 +346,14 @@ class Functions {
 
 		// Version:
 		bank.addKey('VERSION', 'FIXED', 6.0, 'Sec');
+
+		// ???
+		const codid: number = r(100000, 500000);
+		bank.addKey('CODID', 'FIXED', codid, 'Sec');
+		bank.addKey('DMGX', 'FIXED', codid - 44444, 'Sec');
+		bank.addKey('NRJY', 'FIXED', codid - 79999, 'Sec');
+
+		bank.addKey('EXPP', 'FIXED', 100, 'Sec');
 
 		bank.updateSignature();
 		//console.log('bank const updated:', bank.signature);
