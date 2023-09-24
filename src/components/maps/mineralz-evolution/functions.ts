@@ -299,10 +299,11 @@ class Functions {
 						)
 					), 1000.0);
 
-
 				bank.addKey('imval', 'FIXED', healval, 'Sec');
-			} else
+			} else {
+				bank.removeKey('is', 'Sec');
 				bank.removeKey('imval', 'Sec');
+			}
 		} else {
 			bank.removeKey('ims', 'Sec');
 			bank.removeKey('im', 'Sec');
