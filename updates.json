@@ -1,8 +1,8 @@
 {
 	"updates": [
 		{
-			"version": "1.09 (24.09.2023)",
-			"description": "Fixed: MineralZ Evolution [Updated] - now you can get the last probe\nCore: updaated some SC2 math functions"
+			"version": "1.09 (25.09.2023)",
+			"description": "Fixed: MineralZ Evolution [Updated]\n\t- now you can get the last probe\n\t- Hell nights will not removed, if no impossible nights\nCore: updaated some SC2 math functions"
 		},
 		{
 			"version": "1.08 (22.08.2023)",
