@@ -273,7 +273,6 @@ class Functions {
 					1000.0
 				);
 
-
 				bank.addKey('is', 'FIXED', sc2_mult(sc2_div(shield, heal), 3.4), 'Sec');
 
 				// Impossible done key

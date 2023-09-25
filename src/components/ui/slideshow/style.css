@@ -1,7 +1,16 @@
 .Slideshow {
+	position: absolute;
+
 	background-image: url('../assets/images/backgrounds/bg1.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-attachment: fixed;
+
+	width: 100vw;
+	height: 100vh;
+
+	z-index: -1;
+
+	transition: opacity 3s;
 }

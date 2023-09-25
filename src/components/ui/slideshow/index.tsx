@@ -17,31 +17,53 @@ interface Props {
 }
 
 const Slideshow: FC<Props> = (props: Props): JSX.Element => {
-	const ref = useRef<null | HTMLDivElement>(null);
-	let { type } = props;
-	if (!type)
-		type = 'random';
+	const type: 'random' | 'queue' = props.type || 'random';
 
+	const ref1: React.MutableRefObject<HTMLDivElement> = useRef<null | HTMLDivElement>(null);
+	const ref2: React.MutableRefObject<HTMLDivElement> = useRef<null | HTMLDivElement>(null);
+
+	let tick: boolean = true;
 	let n: number = 0;
-	const nextBG: (n: number, ref: any, type: string) => number = (n: number, ref: any, type: string): number => {
-		n = type == 'random' ? r(1, TOTAL_BG_PICTURES) : n > TOTAL_BG_PICTURES ? 1 : n + 1;
-		ref.current.style.backgroundImage = "url('./assets/images/backgrounds/bg" + n + ".jpg')";
-		return n;
+
+	const nextBG: () => void = (): void => {
+		n = type == 'queue' ? n >= TOTAL_BG_PICTURES ? 1 : n + 1 : r(1, TOTAL_BG_PICTURES);
+		tick = !tick;
+
+		//console.log(tick);
+
+		if (tick) {
+			ref1.current.style.backgroundImage = `url('./assets/images/backgrounds/bg${n}.jpg')`;
+			ref1.current.style.opacity = '1';
+			ref2.current.style.opacity = '0';
+		} else {
+			ref2.current.style.backgroundImage = `url('./assets/images/backgrounds/bg${n}.jpg')`;
+			ref2.current.style.opacity = '1';
+			ref1.current.style.opacity = '0';
+		}
 	};
 
 	useEffect((): () => void => {
-		n = nextBG(n, ref, type);
+		if (!ref1.current || !ref2.current)
+			return null;
+
+		ref2.current.style.opacity = '0';
+
 		const interval: number = window.setInterval((): void => {
-			n = nextBG(n, ref, type);
-		}, CHANGE_BG_DELAY); // 10 mins
-		return (): void => window.clearInterval(interval);
+			nextBG();
+		}, CHANGE_BG_DELAY);
+
+		return (): void => {
+			window.clearInterval(interval);
+		};
 	}, []);
 
 	return (
-		<div className='Slideshow' ref={ref}>
+		<>
+			<div className='Slideshow' ref={ref1} />
+			<div className='Slideshow' ref={ref2} />
 			{props.children}
-		</div>
+		</>
 	);
-}
+};
 
 export default React.memo(Slideshow);
