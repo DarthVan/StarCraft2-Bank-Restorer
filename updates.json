@@ -1,43 +1,43 @@
 {
 	"updates": [
 		{
-			"version": "1.09 (25.09.2023)",
+			"version": "1.0.9 (25.09.2023)",
 			"description": "Fixed: MineralZ Evolution [Updated]\n\t- now you can get the last probe\n\t- Hell nights will not removed, if no impossible nights\nCore: updaated some SC2 math functions"
 		},
 		{
-			"version": "1.08 (22.08.2023)",
+			"version": "1.0.8 (22.08.2023)",
 			"description": "New map - MineralZ Evolution [Updated]\nOptimizations: esm format, dynamic module loading\nCore: added SC2 ModF() implementation\nSmall fixes/improvements\nSome new music ♪"
 		},
 		{
-			"version": "1.07 (9.05.2023)",
+			"version": "1.0.7 (9.05.2023)",
 			"description": "Editor: fixed bankName and Author ID inputs\nCore: added 'point' key type and some improvements\nDesign: fixed invalid default background path"
 		},
 		{
-			"version": "1.06 (1.05.2023)",
+			"version": "1.0.6 (1.05.2023)",
 			"description": "Design fixes\nAdded some new sounds"
 		},
 		{
-			"version": "1.05 (26.04.2023)",
+			"version": "1.0.5 (26.04.2023)",
 			"description": "Zombie World Liberty: fixed bank reader (drop area)\nZombie World Liberty: checksum improvements, now more combinations are valid\nPopups improvement\nUpdated help window\nAccounts UI improvement"
 		},
 		{
-			"version": "1.04 (20.04.2023)",
+			"version": "1.0.4 (20.04.2023)",
 			"description": "Added map - Zombie World Liberty\nFixed player id input field for NA and Asian regions\nPlayer improvements"
 		},
 		{
-			"version": "1.03 (22.03.2023)",
+			"version": "1.0.3 (22.03.2023)",
 			"description": "Zombie World Unity: increased max values for killz\nSome design improvements"
 		},
 		{
-			"version": "1.02 (15.03.2023)",
+			"version": "1.0.2 (15.03.2023)",
 			"description": "Added Zombie World Unity\nSome code improvements"
 		},
 		{
-			"version": "1.01 (26.10.2022)",
+			"version": "1.0.1 (26.10.2022)",
 			"description": "Added Swarm Special Forces\nAdded account switcher\nBank cache improvements\nFixes, optimizations, sounds"
 		},
 		{
-			"version": "1.00 (10.10.2022)",
+			"version": "1.0.0 (10.10.2022)",
 			"description": "First release"
 		}
 	]
