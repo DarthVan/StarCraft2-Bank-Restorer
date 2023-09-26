@@ -33,12 +33,16 @@ const Slideshow: FC<Props> = (props: Props): JSX.Element => {
 
 		if (tick) {
 			ref1.current.style.backgroundImage = `url('./assets/images/backgrounds/bg${n}.jpg')`;
-			ref1.current.style.opacity = '1';
-			ref2.current.style.opacity = '0';
+			setTimeout((): void => { // need some time to load picture
+				ref1.current.style.opacity = '1';
+				ref2.current.style.opacity = '0';
+			}, 3000);
 		} else {
 			ref2.current.style.backgroundImage = `url('./assets/images/backgrounds/bg${n}.jpg')`;
-			ref2.current.style.opacity = '1';
-			ref1.current.style.opacity = '0';
+			setTimeout((): void => { // need some time to load picture
+				ref2.current.style.opacity = '1';
+				ref1.current.style.opacity = '0';
+			}, 3000);
 		}
 	};
 
@@ -46,7 +50,7 @@ const Slideshow: FC<Props> = (props: Props): JSX.Element => {
 		if (!ref1.current || !ref2.current)
 			return null;
 
-		ref2.current.style.opacity = '0';
+		nextBG();
 
 		const interval: number = window.setInterval((): void => {
 			nextBG();
@@ -59,8 +63,8 @@ const Slideshow: FC<Props> = (props: Props): JSX.Element => {
 
 	return (
 		<>
-			<div className='Slideshow' ref={ref1} />
-			<div className='Slideshow' ref={ref2} />
+			<div key='1' className='Slideshow' ref={ref1} />
+			<div key='2' className='Slideshow' ref={ref2} />
 			{props.children}
 		</>
 	);
