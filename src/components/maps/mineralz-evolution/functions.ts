@@ -145,10 +145,11 @@ class Functions {
 			bank.removeKey('PHR', 'Sec');
 		}
 
-		// 2. level:
+		// 2. level and exp:
 		const level: number = store.params[1].value as number;
 		bank.addKey('NIVO', 'FIXED', level, 'Sec');
 		bank.addKey('NIVEXP', 'FIXED', level * 1224.0, 'Sec');
+		bank.addKey('EXPP', 'FIXED', r(1, 25) * level, 'Sec'); // ?
 
 		// 3. Wins:
 		const wins: number = store.params[2].value as number;
@@ -348,12 +349,10 @@ class Functions {
 		bank.addKey('VERSION', 'FIXED', 6.0, 'Sec');
 
 		// ???
-		const codid: number = r(100000, 500000);
+		/* const codid: number = r(100000, 500000);
 		bank.addKey('CODID', 'FIXED', codid, 'Sec');
 		bank.addKey('DMGX', 'FIXED', codid - 44444, 'Sec');
-		bank.addKey('NRJY', 'FIXED', codid - 79999, 'Sec');
-
-		bank.addKey('EXPP', 'FIXED', 100, 'Sec');
+		bank.addKey('NRJY', 'FIXED', codid - 79999, 'Sec'); */
 
 		bank.updateSignature();
 		//console.log('bank const updated:', bank.signature);

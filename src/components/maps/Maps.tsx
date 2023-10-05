@@ -9,6 +9,7 @@ const RunlingRun4 = lazy(() => import('./runling-run-4'));
 const RunlingRun8ilovePie = lazy(() => import('./runling-run-8/i-love-pie'));
 const RunlingRun8Prestige = lazy(() => import('./runling-run-8/prestige'));
 const SwarmSpecialForces = lazy(() => import('./swarm-special-forces'));
+const TrancespaceFortress3 = lazy(() => import('./trancespace-fortress-3'));
 const ZombieCity = lazy(() => import('./zombie-city'));
 const ZombieWorldLiberty = lazy(() => import('./zombie-world-liberty'));
 const ZombieWorldUnity = lazy(() => import('./zombie-world-unity'));
@@ -27,6 +28,7 @@ export enum Maps {
 	RUNLING_RUN_4,
 	RUNLING_RUN_8,
 	SWARM_SCPECIAL_FORCES,
+	TRANCESPACE_FORTRESS_3,
 	ZOMBIE_CITY,
 	ZOMBIE_WORLD_LIBERTY,
 	ZOMBIE_WORLD_UNITY,
@@ -76,6 +78,12 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 			title: 'Swarm Special Forces',
 			authorID: '2-S2-1-1066242',
 			forms: [wait(<SwarmSpecialForces bankName='SwarmSpecialForces' />)]
+		}],
+
+		[Maps.TRANCESPACE_FORTRESS_3, {
+			title: 'Trancespace Fortress 3',
+			authorID: '2-S2-1-7311408',
+			forms: [wait(<TrancespaceFortress3 bankName='trancespacefortressiiibankfile' />)]
 		}],
 
 		[Maps.ZOMBIE_CITY, {

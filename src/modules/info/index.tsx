@@ -34,12 +34,12 @@ const Info: FC<Props> = observer((): JSX.Element => {
 				}
 
 				if (list[0].version != APP_VERSION) {
-					modalStore.setModal('UPDATES', 'There is a new update! Refresh your tab.', null, list);
+					modalStore.setModal('UPDATES', 'There is a new update! Refresh your tab.', null, { list });
 					return;
 				}
 
 				if (forceShow) {
-					modalStore.setModal('UPDATES', 'Your tab is up to date!', null, list);
+					modalStore.setModal('UPDATES', 'Your tab is up to date!', null, { list, lastVersion: true });
 				}
 
 				/* for (let i: number = 0; i < list.length; i++)

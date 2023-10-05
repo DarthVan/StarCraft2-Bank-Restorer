@@ -2,6 +2,7 @@
 
 import { Button, Container } from '@src/components/ui';
 import { useStore } from '@src/hooks/use-store';
+import { Modals } from '@src/store/ModalStore';
 import { gaEvent } from '@src/utils/ga4';
 import { r } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
@@ -16,7 +17,7 @@ import React, { FC, useCallback, useEffect } from 'react';
 interface Props { }
 
 const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
-	const { menuStore } = useStore();
+	const { menuStore, modalStore } = useStore();
 	const audio: HTMLAudioElement = new Audio();
 	const interactionType: string = 'mousedown';
 	let volumeInterval: number = 0;
@@ -72,7 +73,7 @@ const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 
 	const onInteraction: () => void = (): void => {
 		setTimeout((): void => {
-			if (menuStore.sounds) {
+			if (menuStore.sounds && modalStore.current == Modals.NONE) {
 				audio.play();
 				volumeUp();
 			} else

@@ -63,7 +63,7 @@ class Store {
 		this.params = [
 			{ type: 'number', value: prestige, description: 'Prestige', min: 0, max: 40, tip: '0 - 40' },
 			{ type: 'number', value: r(25, 175), description: 'Level', min: 1, max: 200, tip: '1 - 200' },
-			{ type: 'number', value: r(25, 125), description: 'Wins', min: 0, max: 999999 },
+			{ type: 'number', value: r(25, 125), description: 'Wins', min: 0, max: 419, tip: '0 - 419' }, // 419 max
 
 			{ type: 'number', value: 35, description: 'Nights', min: 0, max: 35, tip: '0 - 35' },
 			{ type: 'number', value: 35, description: 'Elite', min: 0, max: 35, tip: '0 - 35' },
