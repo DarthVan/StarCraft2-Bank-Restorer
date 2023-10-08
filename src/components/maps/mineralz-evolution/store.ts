@@ -60,6 +60,8 @@ class Store {
 
 		const generator: number = totalRoleWins;
 
+		const impossible: number = prestige > 0 ? (prestige > 5 ? 35 : r(0, 35)) : 0;
+
 		this.params = [
 			{ type: 'number', value: prestige, description: 'Prestige', min: 0, max: 40, tip: '0 - 40' },
 			{ type: 'number', value: r(25, 175), description: 'Level', min: 1, max: 200, tip: '1 - 200' },
@@ -69,7 +71,7 @@ class Store {
 			{ type: 'number', value: 35, description: 'Elite', min: 0, max: 35, tip: '0 - 35' },
 			{ type: 'number', value: 35, description: 'Nightmare', min: 0, max: 35, tip: '0 - 35' },
 			{ type: 'number', value: 35, description: 'Hell', min: 0, max: 35, tip: '0 - 35' },
-			{ type: 'number', value: r(0, 35), description: 'Impossible', min: 0, max: 35, tip: '0 - 35' },
+			{ type: 'number', value: impossible, description: 'Impossible', min: 0, max: 35, tip: '0 - 35' },
 
 			{ type: 'number', value: wall, description: 'Wall', min: 0, max: 999999 }, // 8
 			{ type: 'number', value: cannons, description: 'Cannons', min: 0, max: 999999 },
