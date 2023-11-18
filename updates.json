@@ -1,16 +1,20 @@
 {
 	"updates": [
 		{
+			"version": "1.1.0 (18.11.2023)",
+			"description": "MineralZ Evolution [Updated] fixes:\n\t- Wins param is limited from 0 to 419\n\t- random stats generator improvement\n\t- removed unused keys from bank generator\n\nZombie World Liberty:\n\t- updated to version from 2th November 2023\n\t- fixed Best Solo selector bug\n\nRunling Run 4 and 8:\n\t- fixed Unit selectors bug\n\nPlayer:\n\t- music doesn't play on first visit, when help modal is active\n\t- added more musics\n\nDesign:\n\t- Updates window improvements"
+		},
+		{
 			"version": "1.0.9 (25.09.2023)",
-			"description": "Fixed: MineralZ Evolution [Updated]\n\t- now you can get the last probe\n\t- Hell nights will not removed, if no impossible nights\nCore: updaated some SC2 math functions"
+			"description": "MineralZ Evolution [Updated] fixes:\n\t- now you can get the last probe\n\t- Hell nights will not removed, if no impossible nights\n\nCore:\n\t- updated some SC2 math functions\n\nDesign:\n\t- background slides now change smoothly"
 		},
 		{
 			"version": "1.0.8 (22.08.2023)",
-			"description": "New map - MineralZ Evolution [Updated]\nOptimizations: esm format, dynamic module loading\nCore: added SC2 ModF() implementation\nSmall fixes/improvements\nSome new music ♪"
+			"description": "Added map:\n\t- MineralZ Evolution [Updated]\n\nGeneral improvements:\n\t- esm format\n\t- dynamic module loading\n\nCore:\n\t- added SC2 ModF() implementation\n\nSmall fixes/improvements\nSome new music ♪"
 		},
 		{
 			"version": "1.0.7 (9.05.2023)",
-			"description": "Editor: fixed bankName and Author ID inputs\nCore: added 'point' key type and some improvements\nDesign: fixed invalid default background path"
+			"description": "Editor:\n\t- fixed bankName and Author ID inputs\n\nCore:\n\t- added 'point' key type and some improvements\n\nDesign:\n\t- fixed invalid default background path"
 		},
 		{
 			"version": "1.0.6 (1.05.2023)",
@@ -18,27 +22,27 @@
 		},
 		{
 			"version": "1.0.5 (26.04.2023)",
-			"description": "Zombie World Liberty: fixed bank reader (drop area)\nZombie World Liberty: checksum improvements, now more combinations are valid\nPopups improvement\nUpdated help window\nAccounts UI improvement"
+			"description": "Zombie World Liberty:\n\t- fixed bank reader (drop area)\n\t- checksum improvements, now more combinations are valid\n\nDesign:\n\t- popups improvement\n\t- updated help window\n\t- Accounts ui improvements"
 		},
 		{
 			"version": "1.0.4 (20.04.2023)",
-			"description": "Added map - Zombie World Liberty\nFixed player id input field for NA and Asian regions\nPlayer improvements"
+			"description": "Added map:\n\t- Zombie World Liberty\n\nEditor:\n\t- fixed player id input field for NA and Asian regions\n\nPlayer improvements"
 		},
 		{
 			"version": "1.0.3 (22.03.2023)",
-			"description": "Zombie World Unity: increased max values for killz\nSome design improvements"
+			"description": "Zombie World Unity:\n\t- increased max values for killz\n\nSome design improvements"
 		},
 		{
 			"version": "1.0.2 (15.03.2023)",
-			"description": "Added Zombie World Unity\nSome code improvements"
+			"description": "Added maps:\n\t- Zombie World Unity\n\t- Any Simple (Web version of BankSigner.exe)\n\nFeatures:\n\t- account manager (quick change Player id and load all saved banks for this account)\n\t- update checker (shows a notification when a new version is released)\n\nSome code improvements"
 		},
 		{
 			"version": "1.0.1 (26.10.2022)",
-			"description": "Added Swarm Special Forces\nAdded account switcher\nBank cache improvements\nFixes, optimizations, sounds"
+			"description": "Added map:\n\t- Swarm Special Forces\n\nFeature:\n\t- 8bit Player\n\nBank cache improvements\nFixes, optimizations, sounds"
 		},
 		{
 			"version": "1.0.0 (10.10.2022)",
-			"description": "First release"
+			"description": "First release\n\nAdded maps:\n\t- Runling Run 4\n\t- Runling Run 8\n\t- Zombie City\n\nFeature:\n\t- saving edited bank in local storage"
 		}
 	]
 }
