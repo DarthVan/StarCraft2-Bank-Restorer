@@ -16,52 +16,60 @@ import React, { FC, useCallback, useEffect } from 'react';
 
 interface Props { }
 
+const soundPath: string = 'assets/sound/';
+const playlist: string[] = [
+	'Motherchip & Malmen - A Thousand Sunflowers.mp3',
+	'DDRKirby_ISQ - Across_the_Sky.mp3',
+	'DDRKirby ISQ - Ghostly Maze.mp3',
+	'ko0x - Galaxy Guppy.mp3',
+	'DDRKirby ISQ - Winter Fox Spirit.mp3',
+	'DDRKirby_ISQ - Balloon_Fighter_20XX.mp3',
+	'DDRKirby(ISQ) - Underwater Aquarium.mp3',
+	'DDRKirby(ISQ) - Starlight Festival.mp3',
+	'Sugar flow.mp3',
+	'DDRKirby_ISQ - Digital_Aliasing.mp3',
+	'Xemogasa - sapphire eyes.mp3',
+	'DDRKirby_ISQ - Dolphins.mp3',
+	'Toni Leys - Through A Cardboard World.mp3',
+	'laamaa - nuri brut.mp3',
+	'DDRKirby_ISQ - Shining_in_the_Sky.mp3',
+	'DDRKirby(ISQ) - Gentle Fluttering Spirit.mp3',
+	'Funky Fish - Shadow of my Angel.mp3',
+	'DDRKirby ISQ - Magma Mountain.mp3',
+	'Vince Kaichan - the Zubmarine Zone.mp3',
+	'DDRKirby ISQ - Spectre.mp3',
+	'DDRKirby_ISQ - Song_of_the_Sea__WIP.mp3',
+	'DDRKirby(ISQ) - Two Sketches Mix.mp3',
+	'Kenet & Rez - Unreal Superhero 3.mp3',
+	'DDRKirby_ISQ - Zion.mp3',
+	'DDRKirby(ISQ) - Take to the Skies.mp3',
+	'DDRKirby(ISQ) - A Life of Ecstasy.mp3',
+	'DDRKirby ISQ - Take the Shot.mp3',
+]; // 𝄞
+
 const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 	const { menuStore, modalStore } = useStore();
 	const audio: HTMLAudioElement = new Audio();
 	const interactionType: string = 'mousedown';
 	let volumeInterval: number = 0;
+	let queue: string[] = [];
 
 	audio.volume = 0;
 	if (menuStore.sounds)
 		audio.autoplay = true;
 
 	const nextTrack: () => void = (function (): () => void {
-		const soundPath: string = 'assets/sound/';
-		const playlist: string[] = [
-			'Motherchip & Malmen - A Thousand Sunflowers.mp3',
-			'DDRKirby_ISQ - Across_the_Sky.mp3',
-			'DDRKirby ISQ - Ghostly Maze.mp3',
-			'ko0x - Galaxy Guppy.mp3',
-			'DDRKirby ISQ - Winter Fox Spirit.mp3',
-			'DDRKirby_ISQ - Balloon_Fighter_20XX.mp3',
-			'DDRKirby(ISQ) - Underwater Aquarium.mp3',
-			'DDRKirby(ISQ) - Starlight Festival.mp3',
-			'Sugar flow.mp3',
-			'DDRKirby_ISQ - Digital_Aliasing.mp3',
-			'Xemogasa - sapphire eyes.mp3',
-			'DDRKirby_ISQ - Dolphins.mp3',
-			'Toni Leys - Through A Cardboard World.mp3',
-			'laamaa - nuri brut.mp3',
-			'DDRKirby_ISQ - Shining_in_the_Sky.mp3',
-			'DDRKirby(ISQ) - Gentle Fluttering Spirit.mp3',
-			'Funky Fish - Shadow of my Angel.mp3',
-			'DDRKirby ISQ - Magma Mountain.mp3',
-			'Vince Kaichan - the Zubmarine Zone.mp3',
-			'DDRKirby ISQ - Spectre.mp3',
-			'DDRKirby_ISQ - Song_of_the_Sea__WIP.mp3',
-			'DDRKirby(ISQ) - Two Sketches Mix.mp3',
-			'Kenet & Rez - Unreal Superhero 3.mp3',
-			'DDRKirby_ISQ - Zion.mp3',
-			'DDRKirby(ISQ) - Take to the Skies.mp3',
-			'DDRKirby(ISQ) - A Life of Ecstasy.mp3',
-			'DDRKirby ISQ - Take the Shot.mp3',
-		]; // 𝄞
-		let index: number = r(0, playlist.length - 1);
 		return (): void => {
-			audio.src = soundPath + playlist[index];
-			audio.title = playlist[index];
-			index = index < playlist.length - 1 ? ++index : 0;
+			if (!queue.length)
+				queue = [...playlist];
+
+			const index: number = r(0, queue.length - 1);
+			const track: string = queue.splice(index, 1)[0];
+
+			audio.src = soundPath + track;
+			audio.title = track;
+
+			console.log('current playing:', audio.title, '\nqueue:', queue);
 		};
 	}());
 
@@ -77,13 +85,12 @@ const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 	};
 
 	const onInteraction: () => void = (): void => {
-		setTimeout((): void => {
-			if (menuStore.sounds && modalStore.current == Modals.NONE) {
-				audio.play();
-				volumeUp();
-			} else
-				audio.pause();
-		}, 500);
+		if (!menuStore.sounds || modalStore.current != Modals.NONE)
+			return;
+
+		nextTrack();
+		audio.play();
+		volumeUp();
 		window.removeEventListener(interactionType, onInteraction);
 	};
 
@@ -111,7 +118,7 @@ const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 		audio.addEventListener('ended', onTrackEnded);
 		window.addEventListener(interactionType, onInteraction);
 
-		nextTrack();
+		//nextTrack();
 		return (): void => {
 			audio.removeEventListener('ended', onTrackEnded);
 			window.removeEventListener(interactionType, onInteraction);
