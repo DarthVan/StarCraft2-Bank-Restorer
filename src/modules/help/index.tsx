@@ -1,7 +1,7 @@
 /* Generated with TypeScript React snippets */
 
 import { Container, Label, Popup, Text } from '@src/components/ui';
-import { useStore } from '@src/hooks/use-store';
+import { useStore } from '@src/store/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { CSSProperties, FC, useCallback } from 'react';
 

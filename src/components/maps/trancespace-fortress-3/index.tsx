@@ -3,8 +3,8 @@
 import { Container, Input, Text } from '@src/components/ui';
 import Label from '@src/components/ui/label';
 import { Bank } from '@src/core/bank';
-import { useStore } from '@src/hooks/use-store';
 import Editor from '@src/modules/editor';
+import { useStore } from '@src/store/use-store';
 import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';

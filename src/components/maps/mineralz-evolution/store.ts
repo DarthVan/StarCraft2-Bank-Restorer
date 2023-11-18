@@ -60,7 +60,7 @@ class Store {
 
 		const generator: number = totalRoleWins;
 
-		const impossible: number = prestige > 0 ? (prestige > 5 ? 35 : r(0, 35)) : 0;
+		const impossible: number = prestige > 0 ? (prestige > 5 ? 35 : r(0, 15)) : 0;
 
 		this.params = [
 			{ type: 'number', value: prestige, description: 'Prestige', min: 0, max: 40, tip: '0 - 40' },

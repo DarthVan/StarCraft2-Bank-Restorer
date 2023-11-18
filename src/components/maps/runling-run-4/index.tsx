@@ -3,8 +3,8 @@
 import { Checkbox, Container, Input, Select } from '@src/components/ui';
 import { Bank } from '@src/core/bank';
 import { SCParam } from '@src/core/starcode';
-import { useStore } from '@src/hooks/use-store';
 import Editor from '@src/modules/editor';
+import { useStore } from '@src/store/use-store';
 import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
@@ -100,7 +100,7 @@ const RunlingRun4Form: FC<Props> = observer((props: Props): JSX.Element => {
 			store.reset();
 		}, []),
 		onUnitTypeChange: useCallback((value: string, index?: number): void => {
-			store.setUnit(index, { type: parseInt(value) }, true);
+			store.setUnit(index, { type: parseInt(value) }, false);
 			if (menuStore.autoSave)
 				save();
 		}, []),

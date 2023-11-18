@@ -5,9 +5,9 @@ import React, { FC, useEffect } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 
 import { Slides } from '@src/components/ui';
-import { StoreProvider, useStore } from '@src/hooks/use-store';
 import { Accounts, Confirm, Help, Info, Menu, Updates, Warn, Workspace } from '@src/modules';
 import { Modals } from '@src/store/ModalStore';
+import { StoreProvider, useStore } from '@src/store/use-store';
 import { gaInit } from '@src/utils/ga4';
 import './App.css';
 

@@ -1,7 +1,7 @@
 /* Generated with TypeScript React snippets */
 
 import { Button, Container, Popup, Text } from '@src/components/ui';
-import { useStore } from '@src/hooks/use-store';
+import { useStore } from '@src/store/use-store';
 import { gaEvent } from '@src/utils/ga4';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useMemo } from 'react';

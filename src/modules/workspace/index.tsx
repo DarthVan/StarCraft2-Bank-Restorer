@@ -2,7 +2,7 @@
 
 import { mapProps } from '@src/components/maps/Maps';
 import { Container, Glass } from '@src/components/ui';
-import { useStore } from '@src/hooks/use-store';
+import { useStore } from '@src/store/use-store';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useMemo } from 'react';
 

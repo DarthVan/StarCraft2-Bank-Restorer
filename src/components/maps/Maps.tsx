@@ -28,7 +28,7 @@ export enum Maps {
 	RUNLING_RUN_4,
 	RUNLING_RUN_8,
 	SWARM_SCPECIAL_FORCES,
-	TRANCESPACE_FORTRESS_3,
+	/* TRANCESPACE_FORTRESS_3, */
 	ZOMBIE_CITY,
 	ZOMBIE_WORLD_LIBERTY,
 	ZOMBIE_WORLD_UNITY,
@@ -80,11 +80,11 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 			forms: [wait(<SwarmSpecialForces bankName='SwarmSpecialForces' />)]
 		}],
 
-		[Maps.TRANCESPACE_FORTRESS_3, {
+		/* [Maps.TRANCESPACE_FORTRESS_3, {
 			title: 'Trancespace Fortress 3',
 			authorID: '2-S2-1-7311408',
 			forms: [wait(<TrancespaceFortress3 bankName='trancespacefortressiiibankfile' />)]
-		}],
+		}], */
 
 		[Maps.ZOMBIE_CITY, {
 			title: 'Zombie City',

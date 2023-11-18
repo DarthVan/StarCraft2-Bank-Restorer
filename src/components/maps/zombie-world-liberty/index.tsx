@@ -1,9 +1,10 @@
 /* Generated with TypeScript React snippets */
 
 import { Button, Container, Input, Label, Select, Text } from '@src/components/ui';
+import Checkbox from '@src/components/ui/checkbox';
 import { Bank } from '@src/core/bank';
-import { useStore } from '@src/hooks/use-store';
 import Editor from '@src/modules/editor';
+import { useStore } from '@src/store/use-store';
 import { copyTextToClipboard, dateID, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
@@ -42,7 +43,7 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 	useEffect((): void => {
 		const fields: { stats: MParam[], heroes: any[], jewels: any[] } = mapStore.list[accountStore.current]?.[mapTitle];
 		if (fields) {
-			flushSync((): void => store.setFields());
+			/* flushSync((): void => store.setFields()); */
 			setTimeout((): void => store.setFields(fields));
 		} else
 			setTimeout(callbacks.onResetClick);
@@ -83,11 +84,14 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 		onResetClick: useCallback((): void => {
 			setBankName(props.bankName);
 			setAuthorID(mapProps.get(Maps.ZOMBIE_WORLD_LIBERTY).authorID);
-			flushSync((): void => store.setFields());
+			/* flushSync((): void => store.setFields()); */
 			store.reset();
 		}, []),
-		onFieldChange: useCallback((value: string, index?: number): void => {
-			store.updateAt('stats', index, parseInt(value), true);
+		onFieldChange: useCallback((value: string | boolean, index?: number): void => {
+			if (index < 4)
+				store.updateAt('stats', index, parseInt(value as string), index != 1);
+			else
+				store.updateAt('stats', index, value as boolean, false);
 			if (menuStore.autoSave)
 				save();
 		}, []),
@@ -126,16 +130,24 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 		return (
 			<>
 				<Label style={{ paddingTop: '5px' }}>Stats:</Label>
-				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '145px' }} alignInputs={true}>
+				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '180px' }} alignInputs={true}>
 					{store.stats.map((param: MParam, index: number): JSX.Element => {
 						if (index == 1)
 							return <Select key={index}
-								label='Best Solo:'
+								label={param.description + ':'}
 								onChange={callbacks.onFieldChange}
 								selected={store.stats[1].value.toString()}
 								index={index}
 								style={{ width: '100px' }}
 							>{functions.getDifficultTypes()}</Select>
+						if (index == 4)
+							return <Checkbox key={index}
+								label={param.description + ':'}
+								onChange={callbacks.onFieldChange}
+								value={store.stats[4].value as boolean}
+								index={index}
+								style={{ width: '100px' }}
+							/>
 						return <Input key={index} label={param.description + ':'} index={index} type='number'
 							style={index == 0 ? { width: '80px' } : { width: '50px' }}
 							onChange={callbacks.onFieldChange}
@@ -159,7 +171,7 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 					</Container>
 				</Container>
 
-				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '300px', overflowY: 'auto' }}>
+				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px', width: '230px', height: '265px', overflowY: 'auto' }}>
 					{store.heroes.map((hero, index: number): JSX.Element => {
 						return <Hero key={index} hero={hero} onChange={callbacks.onHeroChange} index={index} />
 					})}

@@ -39,7 +39,7 @@ class Store {
 	}
 
 	public stats: MParam[]; // killz, bestSolo, dust, skipwave
-	public heroes: Hero[]; // 9 max
+	public heroes: Hero[]; // 10 max
 	public jewels: Jewel[]; // 100 max
 
 	//-------------------------------------------------- PUBLIC ---------------------------------------------------
@@ -128,20 +128,22 @@ class Store {
 	private init(): void {
 		this.stats = [
 			{ type: 'number', value: 1500000000, description: 'Total Kills' },
-			{ type: 'number', value: 8, description: 'Best Solo' },
+			{ type: 'number', value: 9, description: 'Best Solo' },
 			{ type: 'number', value: 1000, description: 'Jewel Dust' },
-			{ type: 'number', value: 300, description: 'Skip Wave At' }
+			{ type: 'number', value: 250, description: 'Skip Wave At' },
+			{ type: 'boolean', value: true, description: 'Challenges' },
 		];
 
 		this.heroes = [
 			{ active: true, name: 'Sniper', type: 1, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Adept', type: 2, kills: 5000, level: 20, prestige: 16 },
-			{ active: false, name: 'Zeloat', type: 3, kills: 5000, level: 20, prestige: 16 },
-			{ active: false, name: 'Archon', type: 4, kills: 5000, level: 20, prestige: 16 },
-			{ active: false, name: 'Marine', type: 5, kills: 5000, level: 20, prestige: 16 },
-			{ active: false, name: 'Medic', type: 6, kills: 5000, level: 20, prestige: 16 },
-			{ active: false, name: 'Probe', type: 7, kills: 5000, level: 20, prestige: 16 },
-			{ active: false, name: 'Dark Templar', type: 8, kills: 5000, level: 20, prestige: 16 }
+			{ active: true, name: 'Adept', type: 2, kills: 5000, level: 20, prestige: 19 },
+			{ active: true, name: 'Zeloat', type: 3, kills: 5000, level: 20, prestige: 18 },
+			{ active: true, name: 'Archon', type: 4, kills: 5000, level: 20, prestige: 16 },
+			{ active: true, name: 'Marine', type: 5, kills: 5000, level: 20, prestige: 16 },
+			{ active: true, name: 'Medic', type: 6, kills: 5000, level: 20, prestige: 16 },
+			{ active: true, name: 'Probe', type: 7, kills: 5000, level: 20, prestige: 16 },
+			{ active: true, name: 'Dark Templar', type: 8, kills: 5000, level: 20, prestige: 16 },
+			{ active: true, name: 'Firebat', type: 9, kills: 5000, level: 20, prestige: 9 }
 		];
 
 		this.jewels = [

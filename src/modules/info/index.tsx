@@ -2,7 +2,7 @@
 
 import { APP_VERSION, CHECK_UPDATES_DELAY } from '@src/Globals';
 import { Container, Glass, Label, Text } from '@src/components/ui';
-import { useStore } from '@src/hooks/use-store';
+import { useStore } from '@src/store/use-store';
 import { gaEvent } from '@src/utils/ga4';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect } from 'react';

@@ -1,8 +1,8 @@
 /* Generated with TypeScript React snippets */
 
 import { Button, Container } from '@src/components/ui';
-import { useStore } from '@src/hooks/use-store';
 import { Modals } from '@src/store/ModalStore';
+import { useStore } from '@src/store/use-store';
 import { gaEvent } from '@src/utils/ga4';
 import { r } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
@@ -31,7 +31,9 @@ const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 		const playlist: string[] = [
 			'Motherchip & Malmen - A Thousand Sunflowers.mp3',
 			'DDRKirby_ISQ - Across_the_Sky.mp3',
+			'DDRKirby ISQ - Ghostly Maze.mp3',
 			'ko0x - Galaxy Guppy.mp3',
+			'DDRKirby ISQ - Winter Fox Spirit.mp3',
 			'DDRKirby_ISQ - Balloon_Fighter_20XX.mp3',
 			'DDRKirby(ISQ) - Underwater Aquarium.mp3',
 			'DDRKirby(ISQ) - Starlight Festival.mp3',
@@ -44,13 +46,16 @@ const AudioLoop: FC<Props> = observer((props: Props): JSX.Element => {
 			'DDRKirby_ISQ - Shining_in_the_Sky.mp3',
 			'DDRKirby(ISQ) - Gentle Fluttering Spirit.mp3',
 			'Funky Fish - Shadow of my Angel.mp3',
+			'DDRKirby ISQ - Magma Mountain.mp3',
 			'Vince Kaichan - the Zubmarine Zone.mp3',
+			'DDRKirby ISQ - Spectre.mp3',
 			'DDRKirby_ISQ - Song_of_the_Sea__WIP.mp3',
 			'DDRKirby(ISQ) - Two Sketches Mix.mp3',
 			'Kenet & Rez - Unreal Superhero 3.mp3',
 			'DDRKirby_ISQ - Zion.mp3',
 			'DDRKirby(ISQ) - Take to the Skies.mp3',
-			'DDRKirby(ISQ) - A Life of Ecstasy.mp3'
+			'DDRKirby(ISQ) - A Life of Ecstasy.mp3',
+			'DDRKirby ISQ - Take the Shot.mp3',
 		]; // 𝄞
 		let index: number = r(0, playlist.length - 1);
 		return (): void => {

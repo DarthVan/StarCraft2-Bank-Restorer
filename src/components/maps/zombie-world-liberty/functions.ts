@@ -20,6 +20,7 @@ class Functions {
 		bank.removeSection('Primary');
 		bank.removeSection('SoulStat');
 		bank.removeSection('SoulType');
+		bank.removeSection('CLHistory');
 
 		// 1. stats:
 		const killz: number = store.stats[0].value as number;
@@ -87,6 +88,19 @@ class Functions {
 
 			dustSoulsSum += jewel.minerals + jewel.damage + jewel.life + jewel.armor + jewel.speed + jewel.unique + jewel.upgrade;
 		}
+
+		// Challenges:
+		if (store.stats[4]) {
+
+			const pd_9_10: number = parseInt(bank.info.playerID.substring(8, 10));
+			const afterDot: number = 4;
+
+			for (let i: number = 0; i < 30; i++) {
+				const key: string = "C" + sc2_fstr(sc2_pow(((i + 1) * pd_9_10), 2.0), afterDot);
+				bank.addKey(key, 'FLAG', true, 'CLHistory');
+			}
+		}
+
 
 		const pd_9_11: number = parseInt(bank.info.playerID.substring(8, 11));
 		const time: string = sc2_fstr(sc2_div(sc2_sqrt(dustSoulsSum), pd_9_11 + sc2_sqrt(dustSoulsSum) + 1));

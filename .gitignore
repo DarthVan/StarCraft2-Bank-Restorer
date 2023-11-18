@@ -1,6 +1,7 @@
 .vscode/
 bin/
 public/
+misc/
 dist/
 node_modules
 lib

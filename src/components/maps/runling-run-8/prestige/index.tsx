@@ -2,8 +2,8 @@
 
 import { Checkbox, Container, Text } from '@src/components/ui';
 import { Bank } from '@src/core/bank';
-import { useStore } from '@src/hooks/use-store';
 import Editor from '@src/modules/editor';
+import { useStore } from '@src/store/use-store';
 import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';

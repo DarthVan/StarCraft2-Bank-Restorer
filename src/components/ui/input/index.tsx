@@ -45,7 +45,7 @@ const Input: FC<Props> = (props: Props): JSX.Element => {
 		const value: string = type == 'text' ? e.target.value : checkOnRange(e.target.value);
 		setValue(value);
 		props.onChange(value, props.index, props.group);
-	}, [props.min, props.max]); // needs for update 'checkOnRange' method
+	}, [props.min, props.max, props.index, props.group]); // needs for update 'checkOnRange' method
 
 	const checkOnRange: (value: string) => string = (value: string): string => {
 		if (!value)
