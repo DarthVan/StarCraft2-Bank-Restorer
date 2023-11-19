@@ -3,7 +3,7 @@
 import { Container, Popup, Text } from '@src/components/ui';
 import { useStore } from '@src/store/use-store';
 import { observer } from 'mobx-react-lite';
-import React, { CSSProperties, FC, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 
 /** VersionChecker **
 * ...
