@@ -22,6 +22,7 @@ type Hero = {
 	kills: number;
 	level: number;
 	prestige: number;
+	pMax: number;
 };
 
 const ZWLHero: FC<Props> = (props: Props): JSX.Element => {
@@ -51,7 +52,7 @@ const ZWLHero: FC<Props> = (props: Props): JSX.Element => {
 					value={props.hero.level.toString()}
 				/>
 
-				<Input type='number' min='0' max='16' style={{ width: '20px' }} tip='Prestige'
+				<Input type='number' min='0' max={props.hero.pMax?.toString() || '16'} style={{ width: '20px' }} tip='Prestige'
 					onChange={(value: string): void => props.onChange(value, props.index, 'prestige')}
 					value={props.hero.prestige.toString()}
 				/>

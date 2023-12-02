@@ -152,7 +152,7 @@ const ZWLForm: FC<Props> = observer((props: Props): JSX.Element => {
 							style={index == 0 ? { width: '80px' } : { width: '50px' }}
 							onChange={callbacks.onFieldChange}
 							min={index < 3 ? '0' : '100'}
-							max={index == 0 ? '1500000000' : (index == 2 ? '500000' : '300')}
+							max={index == 0 ? '2000000000' : (index == 2 ? '500000' : '300')}
 							value={param.value.toString()}
 						/>
 					})}

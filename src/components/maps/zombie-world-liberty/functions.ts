@@ -151,7 +151,9 @@ class Functions {
 			{ active: false, name: 'Marine', type: 5, kills: 0, level: 1, prestige: 0 },
 			{ active: false, name: 'Medic', type: 6, kills: 0, level: 1, prestige: 0 },
 			{ active: false, name: 'Probe', type: 7, kills: 0, level: 1, prestige: 0 },
-			{ active: false, name: 'Dark Templar', type: 8, kills: 0, level: 1, prestige: 0 }
+			{ active: false, name: 'Dark Templar', type: 8, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Firebat', type: 9, kills: 0, level: 1, prestige: 0 },
+			{ active: false, name: 'Siege Tank', type: 10, kills: 0, level: 1, prestige: 0 }
 		];
 
 		for (let i: number = 0; i < 9; i++) {
@@ -255,7 +257,9 @@ class Functions {
 			{ value: '6', label: 'Nightmare' },
 			{ value: '7', label: 'Chaotic' },
 			{ value: '8', label: 'Torture' },
-			{ value: '9', label: 'Inferno' }
+			{ value: '9', label: 'Inferno' },
+			{ value: '10', label: 'Torment' },
+			{ value: '11', label: 'Death' },
 		];
 	}
 

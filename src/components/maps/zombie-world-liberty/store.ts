@@ -18,6 +18,7 @@ type Hero = {
 	kills: number;
 	level: number;
 	prestige: number;
+	pMax: number;
 };
 
 type Jewel = {
@@ -127,23 +128,24 @@ class Store {
 
 	private init(): void {
 		this.stats = [
-			{ type: 'number', value: 1500000000, description: 'Total Kills' },
-			{ type: 'number', value: 9, description: 'Best Solo' },
+			{ type: 'number', value: 2000000000, description: 'Total Kills' },
+			{ type: 'number', value: 11, description: 'Best Solo' },
 			{ type: 'number', value: 1000, description: 'Jewel Dust' },
 			{ type: 'number', value: 250, description: 'Skip Wave At' },
 			{ type: 'boolean', value: true, description: 'Challenges' },
 		];
 
 		this.heroes = [
-			{ active: true, name: 'Sniper', type: 1, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Adept', type: 2, kills: 5000, level: 20, prestige: 19 },
-			{ active: true, name: 'Zeloat', type: 3, kills: 5000, level: 20, prestige: 18 },
-			{ active: true, name: 'Archon', type: 4, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Marine', type: 5, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Medic', type: 6, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Probe', type: 7, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Dark Templar', type: 8, kills: 5000, level: 20, prestige: 16 },
-			{ active: true, name: 'Firebat', type: 9, kills: 5000, level: 20, prestige: 9 }
+			{ active: true, name: 'Sniper', type: 1, kills: 5000, level: 20, prestige: 16, pMax: 16 },
+			{ active: true, name: 'Adept', type: 2, kills: 5000, level: 20, prestige: 19, pMax: 19 },
+			{ active: true, name: 'Zeloat', type: 3, kills: 5000, level: 20, prestige: 18, pMax: 18 },
+			{ active: true, name: 'Archon', type: 4, kills: 5000, level: 20, prestige: 16, pMax: 16 },
+			{ active: true, name: 'Marine', type: 5, kills: 5000, level: 20, prestige: 16, pMax: 16 },
+			{ active: true, name: 'Medic', type: 6, kills: 5000, level: 20, prestige: 16, pMax: 16 },
+			{ active: true, name: 'Probe', type: 7, kills: 5000, level: 20, prestige: 16, pMax: 16 },
+			{ active: true, name: 'Dark Templar', type: 8, kills: 5000, level: 20, prestige: 17, pMax: 17 },
+			{ active: true, name: 'Firebat', type: 9, kills: 5000, level: 20, prestige: 9, pMax: 9 },
+			{ active: true, name: 'Siege Tank', type: 10, kills: 5000, level: 20, prestige: 5, pMax: 5 },
 		];
 
 		this.jewels = [
@@ -201,8 +203,8 @@ class Store {
 				type: 11, // bugged
 				minerals: 1250,
 				damage: -5000,
-				life: 125,
-				armor: 125,
+				life: -1000,
+				armor: -1000,
 				speed: -1000,
 				unique: 0,
 				upgrade: -200
@@ -211,12 +213,42 @@ class Store {
 				type: 11, // bugged
 				minerals: 1250,
 				damage: -5000,
-				life: 125,
-				armor: 125,
+				life: -1000,
+				armor: -1000,
 				speed: -1000,
 				unique: 0,
 				upgrade: -200
-			}
+			},
+			{
+				type: 12, // unique
+				minerals: 1250,
+				damage: 125,
+				life: 125,
+				armor: 125,
+				speed: 125,
+				unique: 2, // Cooldowns are 10% faster
+				upgrade: 0
+			},
+			{
+				type: 12, // unique
+				minerals: 1250,
+				damage: 125,
+				life: 125,
+				armor: 125,
+				speed: 125,
+				unique: 2, // Cooldowns are 10% faster
+				upgrade: 0
+			},
+			{
+				type: 12, // unique
+				minerals: 1250,
+				damage: 125,
+				life: 125,
+				armor: 125,
+				speed: 125,
+				unique: 2, // Cooldowns are 10% faster
+				upgrade: 0
+			},
 		];
 	}
 

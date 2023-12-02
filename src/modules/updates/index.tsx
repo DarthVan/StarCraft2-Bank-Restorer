@@ -44,7 +44,7 @@ const Updates: FC<Props> = observer((props: Props): JSX.Element => {
 					{
 						list.map((note: { version: string, description: string }, index: number): JSX.Element => {
 							return (
-								<Container key={index} style={{ flexDirection: 'column', width: '780px', minWidth: '780px', height: 'auto', marginBottom: '20px' }}>
+								<Container key={index} style={{ flexDirection: 'column', width: '780px', minWidth: '780px', height: 'auto', marginBottom: '20px', padding: '0 40px' }}>
 									<Text style={{ textAlign: 'left', fontSize: '18px', textDecoration: 'underline', color: '#BBBBFF', fontWeight: '700' }}>{note.version}</Text>
 									<Text style={{ textAlign: 'left', fontSize: '14px', whiteSpace: 'pre-wrap', tabSize: '4' }}>{note.description}</Text>
 								</Container>

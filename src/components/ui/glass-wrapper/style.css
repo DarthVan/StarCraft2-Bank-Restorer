@@ -3,8 +3,8 @@
 	overflow: hidden;
 	flex-shrink: 0;
 	background-color: rgba(0, 0, 20, 0.6);
-	-webkit-backdrop-filter: blur(12px);
-	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(24px);
+	backdrop-filter: blur(24px);
 }
 
 .GlassWrapperBordered {
