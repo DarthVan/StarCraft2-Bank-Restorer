@@ -1,8 +1,12 @@
 {
 	"updates": [
 		{
+			"version": "1.1.1 (02.12.2023)",
+			"description": "Zombie World Liberty:\n\t- updated to version 0.121 (19 November 2023)."
+		},
+		{
 			"version": "1.1.0 (18.11.2023)",
-			"description": "MineralZ Evolution [Updated] fixes:\n\t- Wins param is limited from 0 to 419\n\t- random stats generator improvement\n\t- removed unused keys from bank generator\n\nZombie World Liberty:\n\t- updated to version from 2th November 2023\n\t- fixed Best Solo selector bug\n\nRunling Run 4 and 8:\n\t- fixed Unit selectors bug\n\nPlayer:\n\t- music doesn't play on first visit, when help modal is active\n\t- added more musics\n\nDesign:\n\t- Updates window improvements"
+			"description": "MineralZ Evolution [Updated] fixes:\n\t- Wins param is limited from 0 to 419\n\t- random stats generator improvement\n\t- removed unused keys from bank generator\n\nZombie World Liberty:\n\t- updated to version 0.112 (2 November 2023)\n\t- fixed Best Solo selector bug\n\nRunling Run 4 and 8:\n\t- fixed Unit selectors bug\n\nPlayer:\n\t- music doesn't play on first visit, when help modal is active\n\t- added more musics\n\nDesign:\n\t- Updates window improvements"
 		},
 		{
 			"version": "1.0.9 (25.09.2023)",
