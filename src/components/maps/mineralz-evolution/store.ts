@@ -63,7 +63,7 @@ class Store {
 		const impossible: number = prestige > 0 ? (prestige > 5 ? 35 : r(0, 15)) : 0;
 
 		this.params = [
-			{ type: 'number', value: prestige, description: 'Prestige', min: 0, max: 40, tip: '0 - 40' },
+			{ type: 'number', value: prestige, description: 'Prestige', min: 0, max: 100, tip: '0 - 100' },
 			{ type: 'number', value: r(25, 175), description: 'Level', min: 1, max: 200, tip: '1 - 200' },
 			{ type: 'number', value: r(25, 125), description: 'Wins', min: 0, max: 419, tip: '0 - 419' }, // 419 max
 

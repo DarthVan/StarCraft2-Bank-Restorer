@@ -134,10 +134,17 @@ class Functions {
 		const prestige: number = store.params[0].value as number;
 		if (prestige > 0) {
 			bank.addKey('PHR', 'INT', prestige, 'Sec');
+
 			let comp: number = 0;
 
-			for (let i: number = 0; i < prestige; i++)
-				comp = (comp + 39.0) * 1.2;
+			if (prestige > 42) {
+				for (let i: number = 0; i < 42; i++)
+					comp = (comp + 39.0) * 1.2;
+				bank.addKey('PHR2', 'INT', prestige - 42, 'Sec');
+			} else {
+				for (let i: number = 0; i < prestige; i++)
+					comp = (comp + 39.0) * 1.2;
+			}
 
 			bank.addKey('PR', 'FIXED', comp, 'Sec');
 		} else {

@@ -4,6 +4,7 @@ import { Text } from '@src/components/ui';
 import { lazy, Suspense } from 'react';
 
 const AnySimple = lazy(() => import('./any-simple'));
+const EndOfDreams = lazy(() => import('./end-of-dreams'));
 const MineralzEvolution = lazy(() => import('./mineralz-evolution'));
 const RunlingRun4 = lazy(() => import('./runling-run-4'));
 const RunlingRun8ilovePie = lazy(() => import('./runling-run-8/i-love-pie'));
@@ -24,6 +25,7 @@ export enum Maps {
 
 	NONE,
 	ANY_SIMPLE,
+	END_OF_DREAMS,
 	MINERALZ_EVOLUTION,
 	RUNLING_RUN_4,
 	RUNLING_RUN_8,
@@ -54,6 +56,12 @@ export const mapProps: Map<number, { title: string, authorID: string, forms: JSX
 			title: 'Any Simple Map',
 			authorID: '',
 			forms: [wait(<AnySimple />)]
+		}],
+
+		[Maps.END_OF_DREAMS, {
+			title: 'End of Dreams',
+			authorID: '2-S2-1-2355723',
+			forms: [wait(<EndOfDreams bankName='endofdreamsbank2' />)]
 		}],
 
 		[Maps.MINERALZ_EVOLUTION, {
