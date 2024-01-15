@@ -10,7 +10,8 @@ Simple online StarCraft 2 bank editor for people who lost their save from a cust
 ## List of available maps :video_game: 
 
 * Any Simple - text editor for ***any simple banks***, that protected with signature only
-* End of Dreams (fixed)
+* End of Dreams (Fixed)
+* Exodus 3
 * Mineralz Evolution (Updated)
 * Runling Run 4
 * Runling Run 8
