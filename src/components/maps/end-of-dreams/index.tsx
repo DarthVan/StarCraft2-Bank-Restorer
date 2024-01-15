@@ -107,7 +107,7 @@ const EndOfDreamsForm: FC<Props> = observer((props: Props): JSX.Element => {
 			store.reset();
 		}, []),
 		onFieldChange: useCallback((value: string, index: number): void => {
-			store.updateAt(index, parseInt(value), true); // на списке мутацию нельзя
+			store.updateAt(index, parseInt(value), true);
 			if (menuStore.autoSave)
 				save();
 		}, []),
@@ -124,7 +124,7 @@ const EndOfDreamsForm: FC<Props> = observer((props: Props): JSX.Element => {
 			<Container style={{ flexDirection: 'column' }}>
 
 				<Text>
-					Note: this map has no validation, so<br /> you can skip <b>Player id</b> or <b>Author id</b> here.
+					Note: this map has no validation, so you<br /> can skip <b>Player id</b> or <b>Author id</b> here.
 				</Text>
 
 				<Label>Stats:</Label>

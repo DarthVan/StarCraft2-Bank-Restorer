@@ -1,6 +1,6 @@
 /* Generated with TypeScript snippets */
 
-import { sc2_fstr } from '@src/core/sc2';
+import { sc2_FixedToString } from '@src/core/sc2';
 import { hashSHA1 } from '@src/utils/sha1';
 import { BankInfo, BankKey, BankKeyType, BankMap } from '.';
 
@@ -94,7 +94,7 @@ export default class Bank {
 			case 'string': break;
 			case 'object':
 				if (type == 'POINT')
-					value = sc2_fstr((value as any).x) + ',' + sc2_fstr((value as any).y);
+					value = sc2_FixedToString((value as any).x) + ',' + sc2_FixedToString((value as any).y);
 				break;
 		}
 		if (!s.has(key))

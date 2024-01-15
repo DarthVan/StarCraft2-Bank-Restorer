@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import { Bank, BankKey } from '@src/core/bank';
-import { sc2_div, sc2_modf, sc2_mult, sc2_round, sc2_sqrt } from '@src/core/sc2';
+import { sc2_ModF, sc2_SquareRoot, sc2_div, sc2_mult, sc2_round } from '@src/core/sc2';
 import { r } from '@src/utils/utils';
 import { MParam } from '../MParam';
 import store from './store';
@@ -223,28 +223,28 @@ class Functions {
 
 			//const shield: number = Math.abs(sc2_modf(impossible * 10.0, Math.abs(sc2_modf(sc2_div(sc2_round((sc2_modf((sc2_modf(i1, sc2_sqrt(5.0)) * sc2_modf(86, sc2_sqrt(8.0)) * sc2_modf(i2, sc2_sqrt(3.0)) * sc2_modf(i3, sc2_sqrt(2.0)) * sc2_modf(i4, sc2_sqrt(7.0)) * sc2_modf(i5, sc2_sqrt(3.0)) * sc2_modf(i6, sc2_sqrt(6.0)) * sc2_modf(i7, sc2_sqrt(7.0)) * sc2_modf(i8, sc2_sqrt(5.0)) * sc2_modf(i9, sc2_sqrt(3.0)) * sc2_modf(handle, 65537.0)), sc2_sqrt(3.0)) * 10000.0)), 1000.0), 10.0))));
 			const shield: number = Math.abs(
-				sc2_modf(
+				sc2_ModF(
 					sc2_mult(impossible, 10.0),
 					Math.abs(
-						sc2_modf(
+						sc2_ModF(
 							sc2_div(
 								sc2_round(
 									sc2_mult(
-										sc2_modf(
+										sc2_ModF(
 											sc2_mult(
-												sc2_modf(i1, sc2_sqrt(5.0)),
-												sc2_modf(86, sc2_sqrt(8.0)),
-												sc2_modf(i2, sc2_sqrt(3.0)),
-												sc2_modf(i3, sc2_sqrt(2.0)),
-												sc2_modf(i4, sc2_sqrt(7.0)),
-												sc2_modf(i5, sc2_sqrt(3.0)),
-												sc2_modf(i6, sc2_sqrt(6.0)),
-												sc2_modf(i7, sc2_sqrt(7.0)),
-												sc2_modf(i8, sc2_sqrt(5.0)),
-												sc2_modf(i9, sc2_sqrt(3.0)),
-												sc2_modf(handle, 65537.0)
+												sc2_ModF(i1, sc2_SquareRoot(5.0)),
+												sc2_ModF(86, sc2_SquareRoot(8.0)),
+												sc2_ModF(i2, sc2_SquareRoot(3.0)),
+												sc2_ModF(i3, sc2_SquareRoot(2.0)),
+												sc2_ModF(i4, sc2_SquareRoot(7.0)),
+												sc2_ModF(i5, sc2_SquareRoot(3.0)),
+												sc2_ModF(i6, sc2_SquareRoot(6.0)),
+												sc2_ModF(i7, sc2_SquareRoot(7.0)),
+												sc2_ModF(i8, sc2_SquareRoot(5.0)),
+												sc2_ModF(i9, sc2_SquareRoot(3.0)),
+												sc2_ModF(handle, 65537.0)
 											),
-											sc2_sqrt(3.0)
+											sc2_SquareRoot(3.0)
 										), 10000.0
 									)
 								), 1000.0
@@ -260,21 +260,21 @@ class Functions {
 				const heal: number = sc2_div(
 					sc2_round(
 						sc2_mult(
-							sc2_modf(
+							sc2_ModF(
 								sc2_mult(
-									sc2_modf(i1, sc2_sqrt(3.0)),
-									sc2_modf(86, sc2_sqrt(2.0)),
-									sc2_modf(i2, sc2_sqrt(7.0)),
-									sc2_modf(i3, sc2_sqrt(8.0)),
-									sc2_modf(i4, sc2_sqrt(17.0)),
-									sc2_modf(i5, sc2_sqrt(3.0)),
-									sc2_modf(i6, sc2_sqrt(2.0)),
-									sc2_modf(i7, sc2_sqrt(5.0)),
-									sc2_modf(i8, sc2_sqrt(11.0)),
-									sc2_modf(i9, sc2_sqrt(5.0)),
-									sc2_modf(handle, 65537.0)
+									sc2_ModF(i1, sc2_SquareRoot(3.0)),
+									sc2_ModF(86, sc2_SquareRoot(2.0)),
+									sc2_ModF(i2, sc2_SquareRoot(7.0)),
+									sc2_ModF(i3, sc2_SquareRoot(8.0)),
+									sc2_ModF(i4, sc2_SquareRoot(17.0)),
+									sc2_ModF(i5, sc2_SquareRoot(3.0)),
+									sc2_ModF(i6, sc2_SquareRoot(2.0)),
+									sc2_ModF(i7, sc2_SquareRoot(5.0)),
+									sc2_ModF(i8, sc2_SquareRoot(11.0)),
+									sc2_ModF(i9, sc2_SquareRoot(5.0)),
+									sc2_ModF(handle, 65537.0)
 								),
-								sc2_sqrt(10.0)
+								sc2_SquareRoot(10.0)
 							), 10000.0
 						)
 					),
@@ -288,20 +288,20 @@ class Functions {
 				const healval: number = sc2_div(
 					sc2_round(
 						sc2_mult(
-							sc2_modf(
+							sc2_ModF(
 								sc2_mult(
-									sc2_modf(i1, sc2_sqrt(2.0)),
-									sc2_modf(86, sc2_sqrt(3.0)),
-									sc2_modf(i2, sc2_sqrt(6.0)),
-									sc2_modf(i3, sc2_sqrt(5.0)),
-									sc2_modf(i4, sc2_sqrt(7.0)),
-									sc2_modf(i5, sc2_sqrt(3.0)),
-									sc2_modf(i6, sc2_sqrt(2.0)),
-									sc2_modf(i7, sc2_sqrt(5.0)),
-									sc2_modf(i8, sc2_sqrt(11.0)),
-									sc2_modf(i9, sc2_sqrt(5.0)),
-									sc2_modf(handle, 65537.0)
-								), sc2_sqrt(10.0)
+									sc2_ModF(i1, sc2_SquareRoot(2.0)),
+									sc2_ModF(86, sc2_SquareRoot(3.0)),
+									sc2_ModF(i2, sc2_SquareRoot(6.0)),
+									sc2_ModF(i3, sc2_SquareRoot(5.0)),
+									sc2_ModF(i4, sc2_SquareRoot(7.0)),
+									sc2_ModF(i5, sc2_SquareRoot(3.0)),
+									sc2_ModF(i6, sc2_SquareRoot(2.0)),
+									sc2_ModF(i7, sc2_SquareRoot(5.0)),
+									sc2_ModF(i8, sc2_SquareRoot(11.0)),
+									sc2_ModF(i9, sc2_SquareRoot(5.0)),
+									sc2_ModF(handle, 65537.0)
+								), sc2_SquareRoot(10.0)
 							), 10000.0
 						)
 					), 1000.0);

@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import { Bank, BankKey } from '@src/core/bank';
-import { sc2_div, sc2_fstr, sc2_pow, sc2_sqrt } from '@src/core/sc2';
+import { sc2_FixedToString, sc2_Pow, sc2_SquareRoot, sc2_div } from '@src/core/sc2';
 import { MParam } from '../MParam';
 import store from './store';
 
@@ -27,14 +27,14 @@ class Functions {
 		bank.addKey('Primary', 'INT', killz, 'Primary');
 
 		const pd_8_11: number = parseInt(bank.info.playerID.substring(7, 11));
-		bank.addKey('Version', 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(killz), pd_8_11 + 1)), 'Version');
+		bank.addKey('Version', 'FIXED', sc2_FixedToString(sc2_div(sc2_SquareRoot(killz), pd_8_11 + 1)), 'Version');
 
 		if (store.stats[1].value as number > 0) {
 			const bestSolo: number = store.stats[1].value as number;
 			bank.addKey('BS', 'INT', bestSolo, 'Primary');
 
 			const pd_10_11: number = parseInt(bank.info.playerID.substring(9, 11));
-			bank.addKey('BC', 'FIXED', sc2_fstr(sc2_div(sc2_pow(bestSolo, 2), pd_10_11 + 1)), 'Primary');
+			bank.addKey('BC', 'FIXED', sc2_FixedToString(sc2_div(sc2_Pow(bestSolo, 2), pd_10_11 + 1)), 'Primary');
 		}
 
 		const dust: number = store.stats[2].value as number;
@@ -66,10 +66,10 @@ class Functions {
 			combined += hero.prestige;
 		}
 
-		bank.addKey('Previous', 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(combined), pd_8_11 + 2)), 'Version');
+		bank.addKey('Previous', 'FIXED', sc2_FixedToString(sc2_div(sc2_SquareRoot(combined), pd_8_11 + 2)), 'Version');
 
 		const pd_8_10: number = parseInt(bank.info.playerID.substring(7, 10));
-		bank.addKey('Upcoming', 'FIXED', sc2_fstr(sc2_div(sc2_sqrt(intComb), pd_8_10 + 3.25)), 'Version');
+		bank.addKey('Upcoming', 'FIXED', sc2_FixedToString(sc2_div(sc2_SquareRoot(intComb), pd_8_10 + 3.25)), 'Version');
 
 		// 3. jewels
 		const totalJewels: number = store.jewels.length; // 100 max
@@ -96,14 +96,14 @@ class Functions {
 			const afterDot: number = 4;
 
 			for (let i: number = 0; i < 30; i++) {
-				const key: string = "C" + sc2_fstr(sc2_pow(((i + 1) * pd_9_10), 2.0), afterDot);
+				const key: string = "C" + sc2_FixedToString(sc2_Pow(((i + 1) * pd_9_10), 2.0), afterDot);
 				bank.addKey(key, 'FLAG', true, 'CLHistory');
 			}
 		}
 
 
 		const pd_9_11: number = parseInt(bank.info.playerID.substring(8, 11));
-		const time: string = sc2_fstr(sc2_div(sc2_sqrt(dustSoulsSum), pd_9_11 + sc2_sqrt(dustSoulsSum) + 1));
+		const time: string = sc2_FixedToString(sc2_div(sc2_SquareRoot(dustSoulsSum), pd_9_11 + sc2_SquareRoot(dustSoulsSum) + 1));
 		bank.addKey('Time', 'FIXED', time, 'TimePlayed');
 
 		// sort and update signature

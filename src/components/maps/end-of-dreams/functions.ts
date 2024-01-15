@@ -1,7 +1,7 @@
 /* Generated with TypeScript snippets */
 
 import { Bank, BankKey } from '@src/core/bank';
-import { sc2_div, sc2_modf, sc2_mult, sc2_round, sc2_sqrt } from '@src/core/sc2';
+import { sc2_ModF, sc2_SquareRoot, sc2_div, sc2_mult, sc2_round } from '@src/core/sc2';
 import { r } from '@src/utils/utils';
 import { MParam } from '../MParam';
 import store from './store';

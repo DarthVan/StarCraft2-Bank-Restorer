@@ -25,7 +25,7 @@ interface Props {
 }
 
 const MineralzEvolutionForm: FC<Props> = observer((props: Props): JSX.Element => {
-	const { accountStore, menuStore, mapStore } = useStore();
+	const { accountStore, menuStore, mapStore, modalStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
 	const [authorID, setAuthorID] = useState(mapProps.get(Maps.MINERALZ_EVOLUTION).authorID);
 	const mapTitle: string = mapProps.get(Maps.MINERALZ_EVOLUTION).title;
@@ -61,11 +61,19 @@ const MineralzEvolutionForm: FC<Props> = observer((props: Props): JSX.Element =>
 			store.setFields(fields);
 		}, []),
 		onDownloadClick: useCallback((): void => {
+			if (menuStore.playerID.split('-').length != 4) {
+				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+				return;
+			}
 			downloadTextAsFile(functions.generateXML(bank), bankName + '.SC2Bank', true);
 			if (!menuStore.autoSave)
 				save();
 		}, [bank]),
 		onCopyCodeClick: useCallback((): void => {
+			if (menuStore.playerID.split('-').length != 4) {
+				modalStore.setModal('WARN', 'This map requires a player id to generate valid bank! Use Help for details.');
+				return;
+			}
 			copyTextToClipboard(functions.generateXML(bank), true);
 			if (!menuStore.autoSave)
 				save();

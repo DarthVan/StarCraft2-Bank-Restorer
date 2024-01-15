@@ -1,46 +1,48 @@
 /* Generated with TypeScript React snippets */
 
-import { Container, Input, Label, Text } from '@src/components/ui';
+import { Container, Input, Text } from '@src/components/ui';
+import Label from '@src/components/ui/label';
 import { Bank } from '@src/core/bank';
-import { SCParam } from '@src/core/starcode';
 import Editor from '@src/modules/editor';
 import { useStore } from '@src/store/use-store';
 import { copyTextToClipboard, downloadTextAsFile } from '@src/utils/utils';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
+import { MParam } from '../MParam';
 import { Maps, mapProps } from '../Maps';
 import functions from './functions';
 import store from './store';
 
-/** ZombieCityForm **
+/** Exodus3Form **
 * ...
 * @Author Star Noob
-* @Created 2022-09-28
+* @Created 2024-01-14
 */
 
 interface Props {
 	bankName?: string;
 }
 
-const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
+const Exodus3Form: FC<Props> = observer((props: Props): JSX.Element => {
 	const { accountStore, menuStore, mapStore } = useStore();
 	const [bankName, setBankName] = useState(props.bankName);
-	const [authorID, setAuthorID] = useState(mapProps.get(Maps.ZOMBIE_CITY).authorID);
-	const mapTitle: string = mapProps.get(Maps.ZOMBIE_CITY).title;
+	const [authorID, setAuthorID] = useState(mapProps.get(Maps.EXODUS_3).authorID);
+	const mapTitle: string = mapProps.get(Maps.EXODUS_3).title;
 
 	const bank: Bank = useMemo((): Bank => {
 		return new Bank(bankName, authorID, menuStore.playerID, '1');
 	}, [accountStore.current, menuStore.playerID, bankName, authorID]);
 
-	const save: () => void = (): void => { // а вот надо ли стор для этого хз...
-		mapStore.setMapData(accountStore.current, mapTitle, store.queue);
+	const save: () => void = (): void => {
+		mapStore.setMapData(accountStore.current, mapTitle, { resources: store.resources });
 	};
 
 	useEffect((): void => {
-		const fields: any = mapStore.list[accountStore.current]?.[mapTitle];
+		const data: any = mapStore.list[accountStore.current]?.[mapTitle]; // {}
+		const fields: MParam[] = data?.resources;
 		if (fields)
-			store.fromLocalStorage(fields);
+			store.setFields(fields);
 		else
 			setTimeout(callbacks.onResetClick);
 	}, [accountStore.current]);
@@ -53,7 +55,7 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 			setAuthorID(value);
 		}, []),
 		onFileDrop: useCallback((name: string, value: string): void => {
-			const fields: SCParam[] = functions.parse(bank, value);
+			const fields: MParam[] = functions.parse(bank, value);
 			if (!fields)
 				return;
 			flushSync((): void => store.setFields()); // unmutate
@@ -71,41 +73,45 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 		}, [bank]),
 		onResetClick: useCallback((): void => {
 			setBankName(props.bankName);
-			setAuthorID(mapProps.get(Maps.ZOMBIE_CITY).authorID);
+			setAuthorID(mapProps.get(Maps.EXODUS_3).authorID);
 			flushSync((): void => store.setFields());
 			store.reset();
 		}, []),
 		onFieldChange: useCallback((value: string, index: number): void => {
-			store.updateAt(index, parseInt(value), true); // мутация включена!
+			store.updateAt(index, parseInt(value), true);
 			if (menuStore.autoSave)
 				save();
-		}, [])
+		}, []),
 	}
 
-	// Форму обновляем только если ее данные изменились
 	const form: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Container style={{ flexDirection: 'column' }} alignInputs={true}>
+			<Container style={{ flexDirection: 'column' }}>
+
 				<Text>
 					Note: this map has no validation, so you<br /> can skip <b>Player id</b> or <b>Author id</b> here.
+					<br /><br />
+					While the map in beta, I'm too lazy to add<br /> inputs for each game param :P<br />Hacking resources allows you to get<br /> anything in the game.
 				</Text>
-				<>
-					{store.queue.map((param: SCParam, index: number): any => {
-						return (
-							<Input key={index} index={index} type='number'
-								style={{ width: '80px' }}
-								label={param.description + ':'}
-								onChange={callbacks.onFieldChange}
-								min='0'
-								max={param.max.toString()}
-								value={param.current.toString()}
-							/>
-						);
+
+				<Label>Resources:</Label>
+				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
+					{store.resources.map((param: MParam, index: number): any => {
+						return <Input key={index} index={index} type='number'
+							style={{ width: '88px' }}
+							label={param.description + ':'}
+							onChange={callbacks.onFieldChange}
+							min={param.min.toString()}
+							max={param.max.toString()}
+							value={param.value.toString()}
+							tip={param.tip ? param.tip : null}
+						/>
 					})}
-				</>
+				</Container>
+
 			</Container>
 		);
-	}, [store.queue]);
+	}, [store.resources]);
 
 	return (
 		<Editor
@@ -123,4 +129,4 @@ const ZombieCityForm: FC<Props> = observer((props: Props): JSX.Element => {
 	);
 });
 
-export default React.memo(ZombieCityForm);
+export default React.memo(Exodus3Form);
