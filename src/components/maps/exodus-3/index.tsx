@@ -1,6 +1,7 @@
 /* Generated with TypeScript React snippets */
 
 import { Container, Input, Text } from '@src/components/ui';
+import Checkbox from '@src/components/ui/checkbox';
 import Label from '@src/components/ui/label';
 import { Bank } from '@src/core/bank';
 import Editor from '@src/modules/editor';
@@ -82,36 +83,61 @@ const Exodus3Form: FC<Props> = observer((props: Props): JSX.Element => {
 			if (menuStore.autoSave)
 				save();
 		}, []),
+		onOptionChange: useCallback((value: boolean, index: number): void => {
+			store.updateOption(index, value, true);
+			/* if (menuStore.autoSave)
+				save(); */
+		}, []),
 	}
 
 	const form: JSX.Element = useMemo((): JSX.Element => {
 		return (
-			<Container style={{ flexDirection: 'column' }}>
+			<Container style={{ flexDirection: 'row' }}>
 
-				<Text>
-					Note: this map has no validation, so you<br /> can skip <b>Player id</b> or <b>Author id</b> here.
-					<br /><br />
-					While the map in beta, I'm too lazy to add<br /> inputs for each game param :P<br />Hacking resources allows you to get<br /> anything in the game.
-				</Text>
 
-				<Label>Resources:</Label>
-				<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
-					{store.resources.map((param: MParam, index: number): any => {
-						return <Input key={index} index={index} type='number'
-							style={{ width: '88px' }}
-							label={param.description + ':'}
-							onChange={callbacks.onFieldChange}
-							min={param.min.toString()}
-							max={param.max.toString()}
-							value={param.value.toString()}
-							tip={param.tip ? param.tip : null}
-						/>
-					})}
+				<Container style={{ flexDirection: 'column', height: '100%' }}>
+
+					<Text>
+						Note: this map has no validation, so you<br /> can skip <b>Player id</b> or <b>Author id</b> here.
+						<br /><br />
+						While the map in beta, I'm too lazy to add<br /> inputs for each game param :P<br />Hacking resources allows you to get<br /> anything in the game.
+					</Text>
+
+					<Label style={{ marginTop: '74px' }}>Options:</Label>
+					<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
+						{store.options.map((param: MParam, index: number): any => {
+							return <Checkbox key={index} label={param.description + ':'} index={index}
+								onChange={callbacks.onOptionChange}
+								value={param.value == 1}
+								tip={param.tip ? param.tip : null}
+							/>
+						})}
+					</Container>
+
+				</Container>
+
+				<Container style={{ flexDirection: 'column' }}>
+
+					<Label>Resources:</Label>
+					<Container style={{ flexDirection: 'column', border: '1px solid #ffffff40', padding: '10px' }} alignInputs={true}>
+						{store.resources.map((param: MParam, index: number): any => {
+							return <Input key={index} index={index} type='number'
+								style={{ width: '88px' }}
+								label={param.description + ':'}
+								onChange={callbacks.onFieldChange}
+								min={param.min.toString()}
+								max={param.max.toString()}
+								value={param.value.toString()}
+								tip={param.tip ? param.tip : null}
+							/>
+						})}
+					</Container>
+
 				</Container>
 
 			</Container>
 		);
-	}, [store.resources]);
+	}, [store.resources, store.options]);
 
 	return (
 		<Editor
