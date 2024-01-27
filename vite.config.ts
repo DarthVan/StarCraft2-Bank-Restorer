@@ -11,15 +11,14 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	//console.log(env.BUILD_LOCAL, env.BUILD_DIR);
 
-	const isLocalBuild: boolean = env.BUILD_LOCAL == 'true' || !env.BUILD_LOCAL;
-	const envBuildDir: string = env.BUILD_DIR || 'dist'
-	const buildDir: string = isLocalBuild ? 'A:/' + pkg.name : '/' + envBuildDir;
+	const isLocal: boolean = env.IS_LOCAL == 'true';
+	const buildDir: string = isLocal ? 'A:/' + pkg.name : '/dist';
 
 	return {
 		base: './',
 		root: 'src',
 		publicDir: '../public',
-		cacheDir: isLocalBuild ? 'A:/vite-cache' : undefined,
+		cacheDir: isLocal ? 'A:/vite-cache' : undefined,
 		build: getBuildOptions(buildDir),
 		define: {
 			'process.env': env,
