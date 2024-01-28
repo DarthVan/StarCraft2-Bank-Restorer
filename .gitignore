@@ -6,6 +6,8 @@ dist/
 node_modules
 lib
 
+.env
+
 # Configs
 # package.json
 # tsconfig.json

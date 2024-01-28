@@ -2,19 +2,27 @@ import reactPlugin from '@vitejs/plugin-react';
 import fs from 'fs';
 
 import { fileURLToPath } from 'url';
-import { BuildOptions, ConfigEnv, defineConfig, PluginOption } from 'vite';
+import { BuildOptions, ConfigEnv, PluginOption, defineConfig, loadEnv } from 'vite';
 import pkg from './package.json' assert { type: 'json' };
 
-const buildDir: string = 'A:/' + pkg.name;
 const date: string = new Date().toUTCString().replace(/GMT/g, 'UTC');
 
-export default defineConfig((params: ConfigEnv) => {
+export default defineConfig(({ command, mode }: ConfigEnv) => {
+	const env = loadEnv(mode, process.cwd(), '');
+	//console.log(env.BUILD_LOCAL, env.BUILD_DIR);
+
+	const isLocal: boolean = env.IS_LOCAL == 'true';
+	const buildDir: string = isLocal ? 'A:/' + pkg.name : 'dist';
+
 	return {
-		base: './',
+		base: '/',
 		root: 'src',
 		publicDir: '../public',
-		cacheDir: 'A:/vite-cache',
-		build: getBuildOptions(),
+		cacheDir: isLocal ? 'A:/vite-cache' : undefined,
+		build: getBuildOptions(buildDir),
+		define: {
+			'process.env': env,
+		},
 		resolve: {
 			alias: [
 				{ find: '@src', replacement: fileURLToPath(new URL('./src', import.meta.url)) }
@@ -24,7 +32,7 @@ export default defineConfig((params: ConfigEnv) => {
 			reactPlugin({
 				include: '**/*.{jsx,tsx}',
 			}),
-			updateSitemap(),
+			updateSitemap(buildDir),
 		],
 		server: {
 			port: 8080,
@@ -44,7 +52,7 @@ export default defineConfig((params: ConfigEnv) => {
 });
 
 // Making good file structure
-function getBuildOptions(): BuildOptions {
+function getBuildOptions(buildDir: string): BuildOptions {
 	return {
 		outDir: buildDir,
 		emptyOutDir: true,
@@ -83,7 +91,7 @@ function getBuildOptions(): BuildOptions {
 }
 
 // Plugin for updating sitemap.xml
-function updateSitemap(): PluginOption {
+function updateSitemap(buildDir: string): PluginOption {
 	const yymmdd: string = new Date().toISOString().slice(0, 10);
 	return {
 		name: 'generateSitemap',

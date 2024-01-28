@@ -47,7 +47,7 @@ class Functions {
     }
 
     if (unlockAll) {
-      cryptedString = lib1_gf_ECBEncrypt(String(15)) + ' '; // Equipped type
+      cryptedString = lib1_gf_ECBEncrypt(String(0)) + ' '; // Equipped type (15)
       bank.addKey('E', 'STRING', cryptedString, 'W');
     }
 
@@ -65,16 +65,16 @@ class Functions {
       }
 
       // overload stats
-      if (overloadAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(30)) + ' '; // Damage points
-        cryptedString += lib1_gf_ECBEncrypt(String(30)) + ' '; // vs Light points
-        cryptedString += lib1_gf_ECBEncrypt(String(30)) + ' '; // vs Armored points
-        cryptedString += lib1_gf_ECBEncrypt(String(30)) + ' '; // vs Massive points
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Period points
-        cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Range points
+      if (overloadAll && i == 0) {
+        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // Damage points
+        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Light points
+        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Armored points
+        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Massive points
+        cryptedString += lib1_gf_ECBEncrypt(String(30)) + ' '; // Period points
+        cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Range points
         cryptedString += lib1_gf_ECBEncrypt(String(3)) + ' '; // Burst points
         cryptedString += lib1_gf_ECBEncrypt(String(5)) + ' '; // Burst period points
-        cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Move speed points
+        cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Move speed points
       } else {
         for (let j: number = 0; j < 9; j++)
           cryptedString += lib1_gf_ECBEncrypt(String(0)) + ' '; // other points
@@ -94,7 +94,7 @@ class Functions {
     }
 
     if (unlockAll) {
-      cryptedString = lib1_gf_ECBEncrypt(String(10)) + ' '; // Equipped type
+      cryptedString = lib1_gf_ECBEncrypt(String(0)) + ' '; // Equipped type (10)
       bank.addKey('E', 'STRING', cryptedString, 'PA');
     }
 
@@ -112,16 +112,16 @@ class Functions {
       }
 
       // overload stats
-      if (overloadAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Life points
-        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Armor points
-        cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Regeneration points
+      if (overloadAll && i == 0) {
+        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Life points
+        cryptedString += lib1_gf_ECBEncrypt(String(998)) + ' '; // Armor points
+        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Regeneration points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Shield points
         cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Shield regeneration points
-        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Energy points
-        cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Energu regen points
-        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Ability power points
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Move speed points
+        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Energy points
+        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Energy regen points
+        cryptedString += lib1_gf_ECBEncrypt(String(200)) + ' '; // Ability power points
+        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Move speed points
       } else {
         for (let j: number = 0; j < 9; j++)
           cryptedString += lib1_gf_ECBEncrypt(String(0)) + ' '; // other points
@@ -141,7 +141,7 @@ class Functions {
     }
 
     if (unlockAll) {
-      cryptedString = lib1_gf_ECBEncrypt(String(4)) + ' '; // Equipped type
+      cryptedString = lib1_gf_ECBEncrypt(String(0)) + ' '; // Equipped type
       bank.addKey('E', 'STRING', cryptedString, 'TO');
     }
 
@@ -159,11 +159,11 @@ class Functions {
       }
 
       // overload stats
-      if (overloadAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Damage points
+      if (overloadAll && i == 0) {
+        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Damage points
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Period points
         cryptedString += lib1_gf_ECBEncrypt(String(12)) + ' '; // Range points
-        cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Repair speed points
+        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Repair speed points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Repair range points
         cryptedString += lib1_gf_ECBEncrypt(String(7)) + ' '; // repair cost points
       } else {
@@ -176,7 +176,7 @@ class Functions {
 
     // Turrets:
     cryptedString = '';
-    count = 17;
+    count = 18;
     if (unlockAll) {
       for (i = 0; i < count; i++)
         cryptedString += lib1_gf_ECBEncrypt(String(i + 1)) + ' ';
@@ -186,11 +186,11 @@ class Functions {
 
     if (unlockAll) {
       cryptedString = '';
-      cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Equipped 1
+      cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Equipped 1  (15)
       cryptedString += lib1_gf_ECBEncrypt(String(14)) + ' '; // Equipped 2
       cryptedString += lib1_gf_ECBEncrypt(String(16)) + ' '; // Equipped 3
       cryptedString += lib1_gf_ECBEncrypt(String(7)) + ' '; // Equipped 4
-      cryptedString += lib1_gf_ECBEncrypt(String(3)) + ' '; // Equipped 5
+      cryptedString += lib1_gf_ECBEncrypt(String(0)) + ' '; // Equipped 5
       bank.addKey('E', 'STRING', cryptedString, 'T');
     }
 
@@ -208,14 +208,14 @@ class Functions {
       }
 
       // overload stats
-      if (overloadAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Life points
-        cryptedString += lib1_gf_ECBEncrypt(String(9)) + ' '; // Armor points
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Damage points
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // vs Light points
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // vs Armored points
-        cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // vs Massive points
-        if (i == 3 || i == 7 || i == 11) { // fire turrets
+      if (overloadAll && i == 0) {
+        cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Life points
+        cryptedString += lib1_gf_ECBEncrypt(String(99)) + ' '; // Armor points
+        cryptedString += lib1_gf_ECBEncrypt(String(900)) + ' '; // Damage points
+        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Light points
+        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Armored points
+        cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Massive points
+        /* if (i == 3 || i == 7 || i == 11) { // fire turrets
           cryptedString += lib1_gf_ECBEncrypt(String(30)) + ' '; // Period points
           cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Range points
         } else if (i == 13 || i == 14 || i == 15) { // gun turrets
@@ -224,7 +224,9 @@ class Functions {
         } else {
           cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Period points
           cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Range points
-        }
+        } */
+        cryptedString += lib1_gf_ECBEncrypt(String(32)) + ' '; // Period points
+        cryptedString += lib1_gf_ECBEncrypt(String(22)) + ' '; // Range points
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Costs points
       } else {
         for (let j: number = 0; j < 9; j++)
@@ -255,7 +257,7 @@ class Functions {
       bank.addKey('E', 'STRING', cryptedString, 'S');
     }
 
-    cryptedString = lib1_gf_ECBEncrypt(String(14)) + ' '; // Supply equipped
+    cryptedString = lib1_gf_ECBEncrypt(String(0)) + ' '; // Supply equipped
     bank.addKey('SE', 'STRING', cryptedString, 'S');
 
     for (i = 0; i < count; i++) {
@@ -272,15 +274,15 @@ class Functions {
       }
 
       // overload stats (3 - 9)
-      if (overloadAll) {
+      if (overloadAll && i == 0) {
         for (let j: number = 0; j < 9; j++) {
-          let value: number = 20;
-          if (j == 1) value = 19; // armor
+          let value: number = 300;
+          /*if (j == 1) value = 19; // armor
           if (j == 4) value = 30;
           if (j == 6) value = 7;
-          if (i == 5 && (j == 3 || j == 4)) value = 60; // repair tower regen and healing
+           if (i == 5 && (j == 3 || j == 4)) value = 60; // repair tower regen and healing
           if (i == 14 && j == 2) value = 30; // supplyNode capacity
-          if (i == 21 && j == 2) value = 18; // deep mine harvest time
+          if (i == 21 && j == 2) value = 18; // deep mine harvest time */
           cryptedString += lib1_gf_ECBEncrypt(String(value)) + ' '; // other points
         }
       } else {
