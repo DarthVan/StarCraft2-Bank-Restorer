@@ -12,10 +12,10 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
 	//console.log(env.BUILD_LOCAL, env.BUILD_DIR);
 
 	const isLocal: boolean = env.IS_LOCAL == 'true';
-	const buildDir: string = isLocal ? 'A:/' + pkg.name : '/dist';
+	const buildDir: string = isLocal ? 'A:/' + pkg.name : 'dist';
 
 	return {
-		base: './',
+		base: '/',
 		root: 'src',
 		publicDir: '../public',
 		cacheDir: isLocal ? 'A:/vite-cache' : undefined,
