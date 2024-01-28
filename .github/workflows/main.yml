@@ -1,0 +1,79 @@
+name: Build and Deploy
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+# concurrency:
+#   group: 'pages'
+#   cancel-in-progress: true
+
+jobs:
+  build:
+
+    #environment:
+    #  name: github-pages
+    #  url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: ./package.json
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Check if dist folder exists
+      #   run: |
+      #     if [ ! -d "dist" ]; then
+      #       mkdir dist
+      #     fi
+      
+      # - name: Set permissions for dist
+      #   run: chmod -R 777 dist
+      
+      - name: Build
+        run: npm run build
+
+      # - name: Deploy to bin branch
+      #   run: |
+      #     cp -r ./dist/* ./
+      #     git config --global user.email "you@example.com"
+      #     git config --global user.name "Your Name"
+      #     git add .
+      #     git commit -m "Deploy to bin branch"
+      #     git push origin main:bin
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload dist repository
+          path: './dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
