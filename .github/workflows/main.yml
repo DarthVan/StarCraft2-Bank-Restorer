@@ -43,8 +43,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Create dist folder
-        run: mkdir dist
+      - name: Check if dist folder exists
+        run: |
+          if [ ! -d "dist" ]; then
+            mkdir dist
+          fi
       
       - name: Set permissions for dist
         run: chmod -R 777 dist
