@@ -20,7 +20,7 @@ Simple online StarCraft 2 bank editor for people who lost their save from a cust
 * Zombie World Liberty
 * Zombie World Unity
 
-More maps will come later.
+More maps will come later. 
 
 ## Features :balloon:
 
