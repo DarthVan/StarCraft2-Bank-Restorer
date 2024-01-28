@@ -55,14 +55,25 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to bin branch
-        run: |
-          cp -r ./dist/* ./
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          git add .
-          git commit -m "Deploy to bin branch"
-          git push origin main:bin
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Deploy to bin branch
+      #   run: |
+      #     cp -r ./dist/* ./
+      #     git config --global user.email "you@example.com"
+      #     git config --global user.name "Your Name"
+      #     git add .
+      #     git commit -m "Deploy to bin branch"
+      #     git push origin main:bin
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload dist repository
+          path: './dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
 
