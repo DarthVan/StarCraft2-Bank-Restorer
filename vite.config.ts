@@ -32,7 +32,7 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
 			reactPlugin({
 				include: '**/*.{jsx,tsx}',
 			}),
-			updateSitemap(buildDir),
+			isLocal ? updateSitemap(buildDir) : null,
 		],
 		server: {
 			port: 8080,
