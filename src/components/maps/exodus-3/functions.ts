@@ -55,7 +55,7 @@ class Functions {
       cryptedString = '';
 
       if (prestigeAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // ModPoints
+        cryptedString += lib1_gf_ECBEncrypt(String(550)) + ' '; // ModPoints
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Level
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Prestige
       } else {
@@ -66,7 +66,7 @@ class Functions {
 
       // overload stats
       if (overloadAll && i == 0) {
-        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // Damage points
+        cryptedString += lib1_gf_ECBEncrypt(String(550)) + ' '; // Damage points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Light points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Armored points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Massive points
@@ -102,7 +102,7 @@ class Functions {
       cryptedString = '';
 
       if (prestigeAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // ModPoints
+        cryptedString += lib1_gf_ECBEncrypt(String(550)) + ' '; // ModPoints
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Level
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Prestige
       } else {
@@ -120,7 +120,7 @@ class Functions {
         cryptedString += lib1_gf_ECBEncrypt(String(50)) + ' '; // Shield regeneration points
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Energy points
         cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Energy regen points
-        cryptedString += lib1_gf_ECBEncrypt(String(200)) + ' '; // Ability power points
+        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // Ability power points
         cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Move speed points
       } else {
         for (let j: number = 0; j < 9; j++)
@@ -149,7 +149,7 @@ class Functions {
       cryptedString = '';
 
       if (prestigeAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // ModPoints
+        cryptedString += lib1_gf_ECBEncrypt(String(550)) + ' '; // ModPoints
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Level
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Prestige
       } else {
@@ -160,10 +160,10 @@ class Functions {
 
       // overload stats
       if (overloadAll && i == 0) {
-        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Damage points
+        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // Damage points
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Period points
-        cryptedString += lib1_gf_ECBEncrypt(String(12)) + ' '; // Range points
-        cryptedString += lib1_gf_ECBEncrypt(String(100)) + ' '; // Repair speed points
+        cryptedString += lib1_gf_ECBEncrypt(String(40)) + ' '; // Range points
+        cryptedString += lib1_gf_ECBEncrypt(String(200)) + ' '; // Repair speed points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Repair range points
         cryptedString += lib1_gf_ECBEncrypt(String(7)) + ' '; // repair cost points
       } else {
@@ -198,7 +198,7 @@ class Functions {
       cryptedString = '';
 
       if (prestigeAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // ModPoints
+        cryptedString += lib1_gf_ECBEncrypt(String(550)) + ' '; // ModPoints
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Level
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Prestige
       } else {
@@ -211,7 +211,7 @@ class Functions {
       if (overloadAll && i == 0) {
         cryptedString += lib1_gf_ECBEncrypt(String(15)) + ' '; // Life points
         cryptedString += lib1_gf_ECBEncrypt(String(99)) + ' '; // Armor points
-        cryptedString += lib1_gf_ECBEncrypt(String(900)) + ' '; // Damage points
+        cryptedString += lib1_gf_ECBEncrypt(String(990)) + ' '; // Damage points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Light points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Armored points
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // vs Massive points
@@ -225,7 +225,7 @@ class Functions {
           cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Period points
           cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Range points
         } */
-        cryptedString += lib1_gf_ECBEncrypt(String(32)) + ' '; // Period points
+        cryptedString += lib1_gf_ECBEncrypt(String(33)) + ' '; // Period points
         cryptedString += lib1_gf_ECBEncrypt(String(22)) + ' '; // Range points
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Costs points
       } else {
@@ -264,7 +264,7 @@ class Functions {
       cryptedString = '';
 
       if (prestigeAll) {
-        cryptedString += lib1_gf_ECBEncrypt(String(500)) + ' '; // ModPoints
+        cryptedString += lib1_gf_ECBEncrypt(String(550)) + ' '; // ModPoints
         cryptedString += lib1_gf_ECBEncrypt(String(20)) + ' '; // Level
         cryptedString += lib1_gf_ECBEncrypt(String(10)) + ' '; // Prestige
       } else {
@@ -276,7 +276,7 @@ class Functions {
       // overload stats (3 - 9)
       if (overloadAll && i == 0) {
         for (let j: number = 0; j < 9; j++) {
-          let value: number = 300;
+          let value: number = 15;
           /*if (j == 1) value = 19; // armor
           if (j == 4) value = 30;
           if (j == 6) value = 7;
