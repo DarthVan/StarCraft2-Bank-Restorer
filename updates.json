@@ -1,6 +1,10 @@
 {
 	"updates": [
 		{
+			"version": "1.1.5 (01.03.2024)",
+			"description": "Core:\n\t- fixed signature calculation (some sections and keys were sorted incorrectly)\n\nExodus 3:\n\t- updated to 1.10 (29.02.2024)\n\t"
+		},
+		{
 			"version": "1.1.4 (15.02.2024)",
 			"description": "Exodus 3:\n\t- updated to 1.9 (15.02.2024)\n\t- small fixes"
 		},
